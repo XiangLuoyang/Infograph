@@ -70,7 +70,7 @@ npx playwright install chromium
 node tests/golden-six.browser.mjs
 ```
 
-CI definition: [`.github/workflows/golden-six.yml`](../../.github/workflows/golden-six.yml). **Last confirmed full CI run:** [#45039975281 · PASS](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281), including six Chromium screenshots. Professional accuracy and accessibility expert audit remain separate.
+CI definition: [`.github/workflows/golden-six.yml`](../../.github/workflows/golden-six.yml). **Last confirmed full CI run:** [#45040682399 · PASS](https://github.com/XiangLuoyang/Infograph/actions/runs/45040682399), including six Chromium screenshots. Professional accuracy and accessibility expert audit remain separate.
 
 ### What is currently checked
 

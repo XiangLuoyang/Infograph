@@ -9,7 +9,7 @@
 
 | Section | What is inside |
 |---|---|
-| **[Visual Atlas / 全领域图型目录](catalog/README.md)** | [Searchable HTML](catalog/visual_representation_atlas.html), [630-item JSON](catalog/visual_representation_atlas.json), Excel-friendly CSV exports |
+| **[Interactive preview / 交互作品展厅](index.html)** | One-page, offline-first gallery of 15 HTML experiments |\n| **[Visual Atlas / 全领域图型目录](catalog/README.md)** | [Searchable HTML](catalog/visual_representation_atlas.html), [630-item JSON](catalog/visual_representation_atlas.json), Excel-friendly CSV exports |
 | **[Design & research / 方法论](docs/INDEX.md)** | Five dimensions, visual grammar, domain coverage, use cases, design experiments |
 | **[HTML examples / 可运行原型](examples/README.md)** | 15 standalone HTML files: dashboards, 3D maps, variants, interactive storytelling |
 | **[SVG & PNG assets / 视觉素材](assets/README.md)** | 8 SVG diagrams and 4 PNG style studies |
@@ -38,7 +38,7 @@ Semantic QA + Visual QA + Interaction QA + Evidence audit
 ## Current inventory
 
 - **17** adapted research and methodology documents
-- **15** byte-identical HTML demos
+- **15** byte-identical HTML demos plus **1** newly authored offline prototype gallery (`index.html`)
 - **8** byte-identical SVG diagrams
 - **4** byte-identical PNG style studies
 - **630** cataloged visual types across **24** provisional families, with JSON, HTML and CSV exports

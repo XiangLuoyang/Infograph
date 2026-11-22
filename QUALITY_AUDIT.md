@@ -37,3 +37,10 @@
 4. Repeat open-source/license and publication safety audit before adding new binary images, real datasets, or external model assets.
 
 **Interpretation:** Copy integrity and static navigation checks passed. Cross-domain completeness, production readiness, visual runtime QA and public data clearance remain open.
+
+## 2026-11-22 Second-round research addendum
+
+- Added `catalog/extensions/discipline-seeds-2026-11-22.json` and CSV: 18 domains, 155 named seeds; 21 exact-match baseline entries and 134 not exact-matching the baseline. Only 12 source-name observations; 143 domain-level candidates.
+- Added a searchable offline professional-domain index and 20 linked Agent Skills. Neither the types nor the skill implementations have undergone complete independent runtime testing.
+- Added cross-domain research matrix and semantic-first HTML routing design contract; neither is a certified graphic standard.
+- Original copied artifacts remain unchanged, preserving the 27/27 baseline hash-match finding.

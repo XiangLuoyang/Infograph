@@ -2,11 +2,15 @@ name: Golden Six SVG quality gates
 on:
   push:
     paths:
-      - "examples/golden-six/**"
+      - "examples/golden-six/index.html"
+      - "examples/golden-six/infograph-gold.js"
       - "tests/golden-six.*"
       - "catalog/verified/golden-six.json"
       - ".github/workflows/golden-six.yml"
   workflow_dispatch:
+concurrency:
+  group: golden-six-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: ubuntu-24.04

@@ -39,7 +39,7 @@ ATT&CK® is a registered trademark of The MITRE Corporation. **© 2026 The MITRE
 
 ## 三、验收与后续欠账
 
-**当前已执行：** JS模块语法解析通过；在研究会话里调用6个渲染器，并运行内建14条语义检查，14/14通过。仓库同时提供 `node tests/golden-six.test.mjs` 和 `tests/golden-six.browser.mjs`，CI通过才能称自动化浏览器烟测通过。
+**当前已执行：** JS模块语法解析通过；在研究会话里调用6个渲染器，并运行内建14条语义检查，14/14通过。仓库同时提供 `node tests/golden-six.test.mjs` 和 `tests/golden-six.browser.mjs`，CI已在最终代码提交 `f744811` 上通过：参见 [GitHub Actions 45039975281](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281)；Chromium含六种SVG渲染、点击、电容命中区、爆炸滑块和移动端视口烟测。与专业合规审查仍是两回事。
 
 **待继续：** 每个专业图型必须再补真实数据适配器与标准规则校验；当前仍是**纯示意SVG**，不能以”能点击、能导出SVG“替代真实专业绘图。
 

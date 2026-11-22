@@ -56,9 +56,13 @@
 
 ### Confirmed Chromium acceptance — 2026-11-22
 
-The final reassembly-layout revision `f74481128190b1f6dd9a149bcbe58239a7690b5b` passed the entire CI workflow at [GitHub Actions run #45039975281](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281).
+The final reassembly-layout revision `f74481128190b1f6dd9a149bcbe58239a7690b5b` passed the entire CI workflow at [GitHub Actions run #45040682399](https://github.com/XiangLuoyang/Infograph/actions/runs/45040682399).
 
 - `node --check` and Node smoke tests: **PASS (14/14 semantic invariants, 6 renderer outputs, registry consistency)**.
 - Playwright Chromium: **PASS** across all 6 visual types, type-switching, selecting the exploded rotor and capacitor, slider extremes, and representative mobile viewport checks.
 - Screenshot ZIP stored as run artifact `infograph-golden-six-chromium` (artifact ID `14761531011`, limited retention).
 - Test passing does **not** imply industry-standard correctness or expert review of symbol conventions, accessibility or scientific calibration.
+
+### Final Golden Six lifecycle & accessibility smoke gates
+
+[GitHub Actions run #45040682399](https://github.com/XiangLuoyang/Infograph/actions/runs/45040682399) **passed** the current renderer revision (commit `29732dd216fa3ef0b343ee280aedb458b9aaf112`). In addition to 14 semantic invariants and 6 Chromium screenshots, it checked **stale event listeners removed on renderer destroy**, selecting components after type switching, keyboard `Enter` selection, actual SVG download, and mobile viewport overflow. Screenshots are available in run artifact `14761836410` for the Actions retention period. Human expert sign-off and professional compliance remain open.

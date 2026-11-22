@@ -44,11 +44,12 @@ Semantic QA + Visual QA + Interaction QA + Evidence audit
 ## Current inventory
 
 - **17** adapted research and methodology documents
-- **15** byte-identical HTML demos plus **1** newly authored offline prototype gallery (`index.html`)
+- **15** byte-identical migrated HTML demos plus **2** new directory viewers (`index.html`, `catalog/extensions/index.html`)
 - **8** byte-identical SVG diagrams
 - **4** byte-identical PNG style studies
 - **630** named V0.1 baseline entries across **24** provisional families; **155** second-round discipline seeds across 18 domains (**134** do not exact-match the baseline; **not** 134 verified independent new graph grammars)
 - **20** linked Agent Skills with maturity/use-case notes and a proposed HTML visual-routing contract
+- **107** registered research domains in 10 clusters; 18 seeded, 12 legacy-partial, and 77 not yet audited
 - **1** brand-specific original HTML intentionally withheld from this public repo pending content review
 
 ## Quality / publication boundaries

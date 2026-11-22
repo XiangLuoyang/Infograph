@@ -68,7 +68,7 @@
   const svg=(content,defs="")=>'<svg xmlns="'+NS+'" viewBox="0 0 980 550" role="img" aria-label="Infograph visual representation example" preserveAspectRatio="xMidYMid meet"><defs>'+defs+'</defs>'+rect(0,0,980,550,C.paper)+content+'</svg>';
   const section=(n,subtitle)=>txt(46,42,n,23,C.ink,'font-weight="600"')+txt(46,66,subtitle,12,C.muted);
   const hit=(key,body)=>'<g data-key="'+esc(key)+'" class="hot" role="button" tabindex="0" aria-label="'+esc(key)+'">'+body+'</g>';
-  const dimText=(t)=>txt(45,526,t,11,C.muted);
+  const dimText=(t)=>txt(45,542,t,11,C.muted);
   function iso(x,y,w,h,d,fill){
     const top=x+','+y+' '+(x+38)+','+(y-22)+' '+(x+w+38)+','+(y-22)+' '+(x+w)+','+y;
     const right=(x+w)+','+y+' '+(x+w+38)+','+(y-22)+' '+(x+w+38)+','+(y-22+d)+' '+(x+w)+','+(y+d);
@@ -109,7 +109,7 @@
     out+=hit("C1",rect(700,270,95,62,"transparent",3,'pointer-events="all"')+line(704,281,790,281,incolor("C1"),4)+line(704,321,790,321,incolor("C1"),4)+txt(802,305,"C1 · 10 µF",13,C.ink));
     out+=hit("V1",'<circle cx="220" cy="311.5" r="37.5" fill="#eaf0ed" stroke="'+incolor("V1")+'" stroke-width="2.5"/>'+txt(212,303,"+",22,C.ink)+txt(212,331,"−",22,C.ink)+txt(276,319,"V1 · 5 V",13,C.ink));
     for(const [x,y,label] of [[220,160,"N1"],[747,160,"N2"],[747,434,"N3"]])out+='<circle cx="'+x+'" cy="'+y+'" r="4.6" fill="'+C.teal+'"/>'+txt(x+12,y+22,label,11,C.muted);
-    out+=txt(52,315,"原理图不代表物理元件位置",14,C.muted)+txt(52,341,"本例只验证连通性与符号说明。",13,C.muted);
+    out+=txt(52,238,"原理图不代表物理元件位置",13,C.muted)+txt(52,260,"本例只验证连通性与符号说明。",12,C.muted);
     out+=dimText("KiCad ERC and physical electrical correctness are NOT claimed.");
     return svg(out);
   }
@@ -139,7 +139,7 @@
     const xx=[40000,20000,10000,5800,3000],yy=[1e-4,1e-2,1,1e2,1e4,1e6];
     for(const l of yy){const y=hrY(l);out+=line(148,y,878,y,C.grid,1)+(txt(132,y+4,l===1?"1":l<1?"10^"+Math.log10(l):"10^"+Math.log10(l),11,C.muted,'text-anchor="end"'));}
     for(const t of xx){const x=hrX(t);out+=line(x,126,x,476,C.grid,1)+txt(x,499,String(t),12,C.muted,'text-anchor="middle"')}
-    out+=txt(490,530,"Effective temperature (K) · decreases →",14,C.ink,'text-anchor="middle"');
+    out+=txt(490,521,"Effective temperature (K) · decreases →",14,C.ink,'text-anchor="middle"');
     out+=txt(29,287,"Luminosity / L☉",13,C.ink,'transform="rotate(-90 29 287)" text-anchor="middle"');
     const pts=[[30000,40000],[10000,120],[5800,1],[3200,.025]].map(p=>hrX(p[0])+","+hrY(p[1])).join(" ");
     out+='<polyline points="'+pts+'" stroke="'+C.teal+'" fill="none" stroke-width="11" opacity=".13" stroke-linejoin="round"/>';
@@ -176,7 +176,7 @@
       t.path.map(q=>'<circle cx="'+xpos(q.m)+'" cy="'+ypos(q.km)+'" r="'+(chosen?5:3.6)+'" fill="'+t.color+'"/>').join(""));
       const p=t.path[t.path.length-1];out+=txt(xpos(p.m)-6,ypos(p.km)-13,t.id,13,t.color,'text-anchor="end" font-weight="600"');
     }
-    out+=txt(506,535,"Time of day · 09:00–10:30",13,C.ink,'text-anchor="middle"');
+    out+=txt(506,520,"Time of day · 09:00–10:30",13,C.ink,'text-anchor="middle"');
     out+=dimText("Timetable movements are synthetic; station spacing is proportional to route kilometres.");
     return svg(out);
   }

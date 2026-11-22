@@ -6,7 +6,7 @@ A **research catalog, not a verified 630-component renderer**. The goal is a cro
 
 - [Searchable offline expansion HTML](extensions/index.html) — 18 domains, 155 names, status and evidence filters.
 - [Extension JSON + CSV](extensions/README.md) — 21 names matched old catalog, 134 new candidates by normalized English name only; **semantic uniqueness remains unverified**.
-- [Cross-domain research matrix](../docs/research/cross-domain-expansion-2026-11-22.md) and [Agent Skills matrix](../docs/engineering/agent-skills-and-renderers.md).
+- [Cross-domain research matrix](../docs/research/cross-domain-expansion-2026-11-22.md), [Agent Skills matrix](../docs/engineering/agent-skills-and-renderers.md), and [per-domain skill routing](../docs/engineering/domain-to-skill-routing.md).
 - The tentative **764 names** (630+134) are **not** 764 confirmed independent visual grammars, and neither taxonomy nor web components are complete.
 
 ## Available artifacts

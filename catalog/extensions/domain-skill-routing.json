@@ -1,0 +1,151 @@
+{
+  "as_of": "2026-11-22",
+  "scope": "18 domains of 155 visual type-name seed candidates",
+  "warning": "Links verified for existence and general capability; not a claim of professional domain-specific competence, runtime tests or safe installation",
+  "domains": [
+    {
+      "id": "electrical-electronics",
+      "zh": "电气电子与工业控制",
+      "readiness": "无成熟专用Skill经本轮验证",
+      "primary_transferable_skill": "drawio",
+      "skill_url": "https://www.skills.sh/jgraph/drawio-mcp/drawio",
+      "domain_gap": "IEC原理图与符号需领域校验；Draw.io仅辅助布局，不能自动保证工程电气正确性"
+    },
+    {
+      "id": "rf-telecommunications",
+      "zh": "通信与射频",
+      "readiness": "无成熟专用Skill经本轮验证",
+      "primary_transferable_skill": "d3-data-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/d3-data-visualization",
+      "domain_gap": "史密斯圆图/射频方向图需要正确数学变换和专业算法"
+    },
+    {
+      "id": "chemical-process",
+      "zh": "化学与化工",
+      "readiness": "专业规范须外部验证",
+      "primary_transferable_skill": "scientific-visualization",
+      "skill_url": "https://www.skills.sh/k-dense-ai/scientific-agent-skills/scientific-visualization",
+      "domain_gap": "ISO10628与IUPAC约定不能仅由统计绘图Skill完成"
+    },
+    {
+      "id": "geology-geophysics",
+      "zh": "地质与地球物理",
+      "readiness": "通用Skill可辅助",
+      "primary_transferable_skill": "geospatial-and-cartographic-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/geospatial-and-cartographic-visualization",
+      "domain_gap": "地层、测井与地震剖面需行业数据格式和符号校验"
+    },
+    {
+      "id": "astronomy",
+      "zh": "天文与天体物理",
+      "readiness": "通用Skill可辅助",
+      "primary_transferable_skill": "scientific-visualization",
+      "skill_url": "https://www.skills.sh/k-dense-ai/scientific-agent-skills/scientific-visualization",
+      "domain_gap": "H-R图坐标方向、光变曲线与FITS数据需天文专用约束"
+    },
+    {
+      "id": "cybersecurity",
+      "zh": "网络安全与威胁建模",
+      "readiness": "通用Skill可辅助",
+      "primary_transferable_skill": "uml-and-software-architecture-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/uml-and-software-architecture-visualization",
+      "domain_gap": "ATT&CK技术矩阵和攻击路径的本体语义需MITRE数据适配"
+    },
+    {
+      "id": "rail-transport",
+      "zh": "铁路与交通工程",
+      "readiness": "无成熟专用Skill经本轮验证",
+      "primary_transferable_skill": "d3-data-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/d3-data-visualization",
+      "domain_gap": "运行图时距坐标与时刻表约束需专用校验"
+    },
+    {
+      "id": "archaeology-heritage",
+      "zh": "考古与遗产记录",
+      "readiness": "通用Skill可辅助",
+      "primary_transferable_skill": "node-link-and-diagram-layout",
+      "skill_url": "https://www.skills.sh/openai/plugins/node-link-and-diagram-layout",
+      "domain_gap": "Harris矩阵的地层先后关系不能凭自动布局推断"
+    },
+    {
+      "id": "user-service-design",
+      "zh": "用户体验与服务设计",
+      "readiness": "通用图解Skill可用",
+      "primary_transferable_skill": "diagram-design",
+      "skill_url": "https://www.skills.sh/cathrynlavery/diagram-design/diagram-design",
+      "domain_gap": "服务蓝图等需保留frontstage/backstage和touchpoint语义"
+    },
+    {
+      "id": "mechanical-manufacturing",
+      "zh": "机械制造与工业设计",
+      "readiness": "专用Skill可试点，成熟度待证",
+      "primary_transferable_skill": "exploded-view",
+      "skill_url": "https://www.skills.sh/moh4696/open-3d-skills/exploded-view",
+      "domain_gap": "提供拆解交互与剖切，真实尺寸/装配顺序仍须GLB/CAD验证"
+    },
+    {
+      "id": "bioinformatics",
+      "zh": "基因组学与生物信息学",
+      "readiness": "通用Skill可辅助",
+      "primary_transferable_skill": "scientific-visualization",
+      "skill_url": "https://www.skills.sh/k-dense-ai/scientific-agent-skills/scientific-visualization",
+      "domain_gap": "基因组轨道/染色体可视化需专门数据模型和坐标语义"
+    },
+    {
+      "id": "clinical-medical",
+      "zh": "临床医学与生命科学",
+      "readiness": "通用科研Skill可用",
+      "primary_transferable_skill": "scientific-visualization",
+      "skill_url": "https://www.skills.sh/k-dense-ai/scientific-agent-skills/scientific-visualization",
+      "domain_gap": "医学图像方向、DICOM数据权限和推断边界应额外审核"
+    },
+    {
+      "id": "music-audio",
+      "zh": "音乐与音频工程",
+      "readiness": "无成熟专用Skill经本轮验证",
+      "primary_transferable_skill": "d3-data-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/d3-data-visualization",
+      "domain_gap": "乐谱格式、谱号与节拍需music21/VexFlow类专业引擎"
+    },
+    {
+      "id": "sports-analysis",
+      "zh": "体育运动可视化",
+      "readiness": "通用Skill可辅助",
+      "primary_transferable_skill": "d3-data-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/d3-data-visualization",
+      "domain_gap": "球场坐标、投篮区域、轨迹事件需专用变换与定义"
+    },
+    {
+      "id": "scientific-fields",
+      "zh": "科学计算与多维场",
+      "readiness": "通用3D与科研Skill组合",
+      "primary_transferable_skill": "threejs-data-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/threejs-data-visualization",
+      "domain_gap": "体渲染建议VTK.js/Three.js；对数值场、采样与传递函数需专门QA"
+    },
+    {
+      "id": "urban-geospatial",
+      "zh": "城市规划与三维地理空间",
+      "readiness": "通用地图Skill可用",
+      "primary_transferable_skill": "geospatial-and-cartographic-visualization",
+      "skill_url": "https://www.skills.sh/openai/plugins/geospatial-and-cartographic-visualization",
+      "domain_gap": "OGC/3DTiles和真实地图数据不能被程序化纹理替代"
+    },
+    {
+      "id": "ecology-environment",
+      "zh": "生态与环境科学",
+      "readiness": "通用科研+地理Skill",
+      "primary_transferable_skill": "scientific-visualization",
+      "skill_url": "https://www.skills.sh/k-dense-ai/scientific-agent-skills/scientific-visualization",
+      "domain_gap": "物候、物种丰度、环境统计需学科定义与数据完整性"
+    },
+    {
+      "id": "linguistics-language",
+      "zh": "语言学与语音学",
+      "readiness": "通用图解Skill可辅助",
+      "primary_transferable_skill": "diagram-design",
+      "skill_url": "https://www.skills.sh/cathrynlavery/diagram-design/diagram-design",
+      "domain_gap": "句法树/IPA元音图等语法和音标精度需专业规范"
+    }
+  ]
+}

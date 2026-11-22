@@ -36,6 +36,13 @@ try {
   await page.locator('.tab[data-type="circuit"]').click();
   await page.locator('#scene [data-key="C1"]').click();
   assert.equal(await page.locator("#scene").getAttribute("data-selected"),"C1");
+  await page.locator('#scene [data-key="R1"]').focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await page.locator("#scene").getAttribute("data-selected"),"R1","SVG keyboard selection");
+  const downloadEvent=page.waitForEvent("download");
+  await page.locator("#export").click();
+  const download=await downloadEvent;
+  assert.equal(download.suggestedFilename(),"infograph-circuit.svg","SVG export file name");
 
   await page.setViewportSize({width:390,height:844});
   for(const type of ["exploded","hr","rail"]){

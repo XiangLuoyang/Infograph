@@ -11,6 +11,7 @@
 
 - [Full-spectrum breadth audit](research/full-spectrum-breadth-audit.md) — critical research boundary.
 - [Second-round 18-domain expansion](research/cross-domain-expansion-2026-11-22.md) — 155 domain seeds; 134 exact-name candidates absent from baseline, evidence levels retained.
+- [107-domain open-world coverage map](research/open-domain-coverage-map.md) — research denominator and 77 unaudited disciplines.
 - [Research map](research/research-map.md) — lineage and relationships among visual experiments.
 - [Enterprise decision narratives](research/enterprise-dashboard-narrative.md) — reporting and evidence.
 - [Three business visual paradigms](research/business-channel-process-visual-paradigms.md) — operations, network, process.

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><title>Infograph / Six Golden Visual Types</title>
+<style>
+:root{--bg:#111b1e;--panel:#1b292d;--line:#35484b;--text:#e9eee9;--muted:#9cafaa;--accent:#bbcfbd;--gold:#ceac7f}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
+main{width:min(1520px,100%);margin:auto;padding:29px 31px 55px}
+header{display:flex;gap:24px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.kicker{letter-spacing:.22em;color:var(--gold);text-transform:uppercase;font-size:11px}
+h1{font-size:clamp(30px,4vw,54px);font-weight:540;letter-spacing:-.05em;margin:9px 0 4px;line-height:1.1}
+p{margin:0}
+.lede{color:var(--muted);max-width:880px;font-size:13px;margin-top:12px;line-height:1.7}
+.toplinks{display:flex;flex-wrap:wrap;gap:10px}.toplinks a,.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);background:#202f32;color:var(--text);padding:10px 14px;border-radius:8px;text-decoration:none;font:inherit;font-size:12px;cursor:pointer;min-height:38px}
+.toplinks a:hover,.btn:hover{background:#2c403f;border-color:#688a7f}
+.tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:28px 0 14px}
+.tab{text-align:left;background:#182529;border:1px solid var(--line);border-radius:10px;padding:14px 12px;cursor:pointer;color:var(--text);min-height:88px;font:inherit}
+.tab .n{color:var(--gold);font-size:10px;letter-spacing:.1em;display:block;margin-bottom:7px}.tab strong{font-size:14px;line-height:1.3;font-weight:570}.tab small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.tab[aria-selected="true"]{background:#2b3f39;border-color:#709c87}.tab:focus-visible,.btn:focus-visible,input:focus-visible{outline:2px solid #d1c1a3;outline-offset:2px}
+.workspace{display:grid;grid-template-columns:minmax(0,2.25fr) minmax(280px,.82fr);gap:13px}
+.viewport{background:#f8faf8;border:1px solid #c7d5d0;border-radius:12px;min-width:0;overflow:hidden;box-shadow:0 18px 44px #0002}
+.viewport svg{width:100%;height:auto;display:block;min-height:410px}
+.viewport .hot{cursor:pointer;outline:none}.viewport .hot:hover{filter:drop-shadow(0 0 4px #aa8a57)}.viewport .hot:focus-visible{filter:drop-shadow(0 0 7px #ce9f62)}
+.sidebar{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-size:11px;color:var(--accent);letter-spacing:.09em;text-transform:uppercase}
+.sidebar h2{font-weight:590;letter-spacing:-.03em;font-size:25px;line-height:1.16;margin:3px 0 8px}.sub{font-size:12px;color:var(--muted);line-height:1.7}
+.callout{padding:13px 14px;border:1px solid #405551;border-radius:9px;background:#202f32}
+.callout strong{display:block;font-size:12px;color:var(--accent);margin-bottom:5px}.callout p{color:#bed0c9;font-size:12px}
+.selectinfo{min-height:81px;border-left:2px solid var(--gold);padding-left:11px}.selectinfo strong{display:block;margin-bottom:4px;font-size:14px}.selectinfo span{font-size:12px;color:var(--muted)}
+.controls{display:flex;flex-direction:column;gap:10px}
+.controls label{display:flex;justify-content:space-between;font-size:12px;color:var(--accent);gap:8px}
+input[type="range"]{accent-color:#91b39c;width:100%}
+.control-buttons{display:flex;gap:9px;flex-wrap:wrap}.control-buttons .btn{flex:1}
+.testing{margin-top:auto;display:flex;justify-content:space-between;gap:15px;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:12px}
+.status{color:#b9d8be}.status.bad{color:#e7aba2}
+.lower{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--muted);padding-top:21px}
+.lower a{color:var(--accent)}
+@media(max-width:1100px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.workspace{grid-template-columns:1fr}.viewport svg{min-height:0}.sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.testing{grid-column:1/-1}}
+@media(max-width:590px){main{padding:20px 12px 40px}.tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.tab{padding:12px;min-height:78px}.sidebar{display:flex}.viewport svg{min-height:0}.toplinks{width:100%}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header><div><div class="kicker">Infograph / Golden Types / 2026·11·22</div><h1>Six Visual Languages.</h1><p class="lede">从“名称目录”进入“可复现的结构化 HTML 图形”。六个跨领域的 SVG 图型共享选择交互、数据验证与独立渲染接口。所有示例数据及机械部件几何均为合成，专业定义依据在研究文档中说明。</p></div><nav class="toplinks" aria-label="资料"><a href="../../docs/research/golden-six-evidence.md">图型定义与证据</a><a href="../../docs/engineering/golden-six-api.md">组件API</a><a href="../../catalog/README.md">完整类型目录</a></nav></header>
+<div class="tabs" id="tabs" role="tablist" aria-label="选择专业图型"></div>
+<section class="workspace">
+  <div id="scene" class="viewport" role="region" aria-label="可交互 SVG 示范"></div>
+  <aside class="sidebar">
+    <div><div class="eyebrow" id="domain">机械与工业设计</div><h2 id="title">装配爆炸视图</h2><p class="sub" id="purpose"></p></div>
+    <div class="callout"><strong>Semantic contract / 表达约束</strong><p id="rule"></p></div>
+    <div class="selectinfo" aria-live="polite"><strong id="selected-title">选择图中的对象</strong><span id="selected-details">单击可选部件、符号、图层或数据对象。也支持Tab + Enter。</span></div>
+    <div class="controls">
+      <div id="explode-control"><label for="explode">Explode · 拆解进度 <b id="percent">75%</b></label><input id="explode" type="range" min="0" max="100" value="75" step="1" aria-label="爆炸图分离比例"></div>
+      <div class="control-buttons"><button class="btn" id="reset">重置当前视图</button><button class="btn" id="export">导出 SVG</button></div>
+    </div>
+    <div class="testing"><span id="checks" class="status">检查中…</span><button class="btn" id="test" aria-label="运行数据语义测试">重新检查</button></div>
+  </aside>
+</section>
+<div class="lower"><span>Self-contained on local filesystem · SVG / No CDN · synthetic fixture data · Not a CAD, EDA, GIS or security operations product</span><span><a href="../../docs/engineering/agent-skills-and-renderers.md">Skills & tools</a> · <a href="../../README.md">Infograph</a></span></div>
+</main>
+<script src="./infograph-gold.js"></script>
+<script>
+(function(){
+ const API=window.InfographGold;
+ if(!API){document.getElementById("scene").textContent="Unable to load infograph-gold.js";return;}
+ const $=id=>document.getElementById(id),tabs=$("tabs");let instance=null,selectedType="exploded";
+ const labelOf=item=>item?(item.label||item.name||item.id||"对象"):"选择图中的对象";
+ const detailOf=item=>item?(item.desc||item.en||item.cls||((item.t&&item.l)?"T="+item.t+" K / L="+item.l+" L☉":null)||((item.top!==undefined)?"深度 "+item.top+"–"+item.bottom+"m":null)||((item.path)?"运行站点 "+item.path.length+" 处":null)||item.id||"当前对象"):"单击图上的高亮对象查看说明";
+ function onSelected(item){$("selected-title").textContent=labelOf(item);$("selected-details").textContent=detailOf(item);}
+ function choose(id){
+  selectedType=id;
+  if(instance)instance.destroy();
+  const meta=API.info.find(i=>i.id===id);if(!meta)return;
+  $("title").textContent=meta.zh;$("domain").textContent=meta.domain;$("purpose").textContent=meta.purpose;$("rule").textContent=meta.rule;
+  $("explode-control").hidden=id!=="exploded";
+  $("explode").value="75";$("percent").textContent="75%";
+  instance=API.mount($("scene"),id,{progress:.75,onSelect:onSelected});
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.type===id)));
+  try{history.replaceState(null,"","#"+id)}catch(e){}
+ }
+ API.info.forEach((t,i)=>{const b=document.createElement("button");b.type="button";b.className="tab";b.setAttribute("role","tab");b.dataset.type=t.id;b.setAttribute("aria-selected","false");const a=document.createElement("span");a.className="n";a.textContent=String(i+1).padStart(2,"0")+" / "+t.title;const strong=document.createElement("strong");strong.textContent=t.zh;const small=document.createElement("small");small.textContent=t.domain;b.append(a,strong,small);b.onclick=()=>choose(t.id);tabs.append(b)});
+ $("explode").addEventListener("input",()=>{const p=Number($("explode").value)/100;$("percent").textContent=Math.round(p*100)+"%";instance.setProgress(p)});
+ $("reset").onclick=()=>choose(selectedType);
+ $("export").onclick=()=>{
+  const svg=$("scene").querySelector("svg");if(!svg)return;
+  const content='<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(svg);
+  const url=URL.createObjectURL(new Blob([content],{type:"image/svg+xml;charset=utf-8"}));
+  const a=document.createElement("a");a.href=url;a.download="infograph-"+selectedType+".svg";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),250);
+ };
+ function checks(){const r=API.verify();$("checks").textContent=(r.pass?"✓ ":"⚠ ")+r.tests.filter(x=>x.pass).length+" / "+r.checked+" semantic checks";$("checks").classList.toggle("bad",!r.pass);$("test").title=r.tests.filter(x=>!x.pass).map(x=>x.name).join(", ")||"Semantic smoke checks passed"}
+ $("test").onclick=checks;checks();choose(API.info.some(x=>x.id===location.hash.slice(1))?location.hash.slice(1):"exploded");
+})();
+</script>
+</body></html>

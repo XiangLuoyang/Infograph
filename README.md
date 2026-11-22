@@ -1,44 +1,60 @@
 # Infograph
+### Full-spectrum visual representation research & HTML gallery · 全领域可视化图形语言研究
 
-**Visual Representation Library · 可视化图形语言、设计系统与 HTML 原型**
+**Infograph** consolidates reusable knowledge, design principles, chart/diagram vocabulary, interactive HTML demos and visual assets. It is **not limited to statistical charts**: industrial exploded views, engineering drawings, flow/systems modeling, geospatial views and scientific imagery all belong to its intended research scope.
 
-一个跨学科的可视化研究与实现仓库：不仅收录统计图表，也覆盖结构爆炸图、工程制图、流程与网络、地理空间、科学可视化、业务叙事等图形语言。
+> **Current maturity: research baseline / 研究性资源库。** 24 families and 630 named catalog entries are searchable, but domain breadth remains **incomplete** and only 185 entries have direct name evidence from consulted source directories. This is not a 630-component rendering library.
 
-> **状态：研究性资源库。** 图表目录是可扩展的候选清单，不代表所有条目都已逐型核验或完成 HTML 组件化。
+## Browse / 快速入口
 
-## 从哪里开始
-
-| 目录 | 内容 |
+| Section | What is inside |
 |---|---|
-| `docs/foundations/` | 信息意图、五维视觉设计语法、图型选择原则 |
-| `docs/research/` | 全领域覆盖审计、案例研究、比较与评估 |
-| `docs/engineering/` | HTML 生成、流程图编译、可视化 QA |
-| `catalog/` | 图形类别索引与验证边界 |
-| `examples/` | 独立可打开的 HTML 交互原型（使用合成示例数据） |
-| `assets/` | SVG / PNG 图形素材与风格样张 |
-| `MIGRATION_MANIFEST.md` | 从 Nebula 提炼的来源、范围及已知缺口 |
+| **[Visual Atlas / 全领域图型目录](catalog/README.md)** | [Searchable HTML](catalog/visual_representation_atlas.html), [630-item JSON](catalog/visual_representation_atlas.json), Excel-friendly CSV exports |
+| **[Design & research / 方法论](docs/INDEX.md)** | Five dimensions, visual grammar, domain coverage, use cases, design experiments |
+| **[HTML examples / 可运行原型](examples/README.md)** | 15 standalone HTML files: dashboards, 3D maps, variants, interactive storytelling |
+| **[SVG & PNG assets / 视觉素材](assets/README.md)** | 8 SVG diagrams and 4 PNG style studies |
+| **[Migration & provenance](MIGRATION_MANIFEST.md)** | Original source mapping, exact-copy evidence, adaptation rules, excluded sensitive assets |
 
-## 设计逻辑
+![Six map style overview](assets/diagrams/sea-six-style-overview.svg)
+
+## Core design workflow
 
 ```text
-意图与读者 → 对象/关系/任务 → 专业图型与基础编码
-                                 ↓
-                   布局/材质/配色/交互/动画
-                                 ↓
-                     SVG/Canvas/WebGL/Three.js
-                                 ↓
-                        视觉、语义与交互验收
+Audience + Information Intent + Domain
+         ↓
+Objects / Relationships / Tasks / Evidence
+         ↓
+Basic visual encoding + domain-specific representation
+         ↓
+Layout / Material / Color / Projection / Interaction
+         ↓
+SVG | Canvas | D3 | ECharts | WebGL | Three.js
+         ↓
+Semantic QA + Visual QA + Interaction QA + Evidence audit
 ```
 
-## 原则
+**Important distinction:** exploded view is a structural representation, isometric projection is a camera/projection convention, glass material is a rendering choice, and expand/explode animation is an interaction mode. They can be combined, but should not be counted as four independent chart types.
 
-1. **全领域**：图形表达不局限于统计关系。
-2. **语义优先**：按任务选择图型，投影、材质和交互是独立修饰维度。
-3. **可证据审计**：区分候选图名、来源列名、专业定义、图例和可运行组件。
-4. **以 HTML 为落点**：所有工程化图型最终应具备可复现浏览器输出。
-5. **尊重数据与隐私**：公开例子使用合成数据；不从私人知识库搬运商业敏感信息。
-6. **来源透明**：迁移而来的成果在清单中保留原始路径与研究状态。
+## Current inventory
 
-本仓库从私人 Obsidian Nebula 的可视化研究中**选择性整理**而来，不是源库完整镜像。相关的第三方 Skill 仅引用与研究，不默认再发布其全部代码或素材。
+- **17** adapted research and methodology documents
+- **15** byte-identical HTML demos
+- **8** byte-identical SVG diagrams
+- **4** byte-identical PNG style studies
+- **630** cataloged visual types across **24** provisional families, with JSON, HTML and CSV exports
+- **1** brand-specific original HTML intentionally withheld from this public repo pending content review
 
-_Initial curation: 2026-11-22_
+## Quality / publication boundaries
+
+- No false completeness claims: see [coverage audit](docs/research/full-spectrum-breadth-audit.md).
+- All dashboard metrics and operating examples are illustrative/synthetic; *do not infer actual company performance*.
+- 3D renderers may use approximate geometry, procedural textures, or simplified territory shapes rather than real DEM/satellite assets.
+- Demos may be exploratory and have **not been individually browser-regression-tested after migration**.
+- Source Nebula knowledge base is private and was **not modified or deleted** during this extraction.
+- No third-party installed Skills are bundled without license review. This repo currently does **not specify a license**; confirm rights before further reuse/distribution.
+
+## Next steps
+
+Complete missing discipline coverage → normalize canonical graph types vs. variants/modifiers → add authoritative examples and verification levels → create portable reusable HTML components → run browser QA and maintain a tested gallery.
+
+Created from a curated extraction on **2026-11-22**.

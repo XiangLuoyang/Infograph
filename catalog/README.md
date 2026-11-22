@@ -1,0 +1,33 @@
+# Visual Representation Atlas · V0.1
+
+A **research catalog, not a verified 630-component renderer**. The goal is a cross-disciplinary library for HTML visualization, including charts, diagrams, maps, technical/engineering views and scientific displays.
+
+## Available artifacts
+
+- [Searchable offline HTML index](visual_representation_atlas.html): open locally in a browser; filters and labels are a directory, not rendered examples of every type.
+- [Full JSON catalog](visual_representation_atlas.json): **630** named candidates in **24** families, with source-category attribution.
+- [All 630 types (CSV)](types.csv) and [24 families (CSV)](families.csv): Excel-friendly UTF-8 BOM exports from the JSON source.
+- [Broad-domain coverage audit](../docs/research/full-spectrum-breadth-audit.md): what is missing and why current breadth is *not yet accepted*.
+
+## Evidence and coverage boundary
+
+| Metric | Status |
+|---|---|
+| Distinct named catalog entries | 630 |
+| Current top-level families | 24 |
+| Entries directly named in consulted source directory | 185 |
+| Entries with only family/category-level source, needing individual checks | 445 |
+| Full domain coverage | **NOT PASSED** |
+| All types implemented/tested in HTML | **NO** |
+
+The original older README text reported 619/184/435, inconsistent with the final JSON 630/185/445; this repository uses the **validated JSON as the single source for counts**. Each row's `verification` field must not be interpreted as full scientific or HTML implementation validation.
+
+## Planned maturity gates
+
+- **L0** candidate name;
+- **L1** trustworthy source directly uses the name;
+- **L2** definition, semantics and drawing conventions reviewed;
+- **L3** concrete visual example and suitability reviewed;
+- **L4** reproducible HTML implementation with semantic, interaction and visual QA.
+
+A type may also require real 3D geometry or GIS assets; generating a visually similar image is not always equivalent to a geometrically correct representation.

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Infograph · Visual Atlas & Prototype Lab</title>
+<style>
+:root{--bg:#10171c;--panel:#182127;--edge:#314049;--text:#dce4e5;--dim:#93a3a9;--accent:#b9cfbe;--lift:#25323a;--gold:#c4ae86}*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit}
+.shell{display:grid;grid-template-columns:320px minmax(0,1fr);min-height:100dvh}aside{border-right:1px solid var(--edge);padding:28px 18px 20px;background:#141d22;display:flex;flex-direction:column;gap:18px;min-height:100dvh}
+.wordmark{font-size:13px;letter-spacing:.19em;font-weight:750;text-transform:uppercase;color:var(--accent)}.wordmark small{font-size:10px;color:var(--dim);font-weight:500;letter-spacing:.08em}
+h1{font-weight:550;letter-spacing:-.05em;line-height:1.08;font-size:33px;margin:12px 0 8px}
+.dek{font-size:13px;line-height:1.6;color:var(--dim);margin:0}
+.search{width:100%;border:1px solid var(--edge);border-radius:9px;background:#10181d;padding:11px 13px;color:var(--text);outline:0;font:inherit;font-size:13px}.search:focus{border-color:var(--accent)}
+.nav{overflow-y:auto;flex:1;display:grid;align-content:start;gap:8px}
+.group{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7d9694;margin:15px 8px 6px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:1px solid transparent;background:transparent;text-align:left;color:#acbabe;border-radius:9px;padding:12px 11px;font:inherit;cursor:pointer}
+.item:hover{border-color:#354950;background:#1b282e}.item.active{background:#263833;border-color:#456358;color:#eff5f1}
+.item strong{display:block;font-weight:570;font-size:12px}.item small{display:block;font-size:10px;color:#899a9e;margin-top:4px}
+.item em{font-style:normal;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#b2bdb3}
+aside footer{border-top:1px solid var(--edge);padding-top:13px;color:var(--dim);font-size:11px;line-height:1.5}
+main{padding:28px 34px;display:flex;flex-direction:column;gap:18px;min-width:0;min-height:100dvh}
+.top{display:flex;justify-content:space-between;align-items:start;gap:20px;flex-wrap:wrap}.kicker{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}h2{font-weight:540;letter-spacing:-.03em;font-size:27px;margin:8px 0}
+.subtitle{font-size:13px;line-height:1.5;color:var(--dim);max-width:670px;margin:0}
+.actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.btn{border:1px solid #3b4b51;background:#1d292f;color:var(--text);padding:10px 12px;border-radius:7px;text-decoration:none;font-size:12px;white-space:nowrap}.btn:hover{background:#2d403d;border-color:#6b8576}
+.stage{position:relative;border:1px solid #36454c;border-radius:12px;background:#f8f9f8;overflow:hidden;flex:1;min-height:500px}
+.stage iframe{display:block;border:0;width:100%;height:100%;min-height:500px;background:white}
+.placeholder{position:absolute;inset:0;display:grid;place-items:center;color:#5e6969;font-size:14px;pointer-events:none}
+.bottom{display:flex;gap:20px;align-items:center;justify-content:space-between;color:#819397;font-size:11px;line-height:1.5;flex-wrap:wrap}.footlinks{display:flex;gap:17px}.footlinks a{text-decoration:none;color:var(--accent)}
+@media(max-width:950px){.shell{display:block}aside{min-height:0;max-height:375px;border-right:0;border-bottom:1px solid var(--edge)}main{padding:21px 14px}.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.group{grid-column:1/-1}.stage,.stage iframe{min-height:510px}}
+@media(max-width:540px){.nav{display:block}.stage,.stage iframe{min-height:500px}h2{font-size:22px}}
+@media(prefers-reduced-motion:no-preference){.btn,.item{transition:background .16s,border-color .16s}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside>
+  <header><div class="wordmark">Infograph <small>/ Visual Systems</small></div><h1>Visual<br>Prototype Lab.</h1><p class="dek">图形语言、3D 地图、业务叙事与 HTML 交互原型。<br>精选成果物统一预览。</p></header>
+  <input class="search" id="search" type="search" placeholder="搜索名称 / 场景 / 类型" aria-label="搜索案例">
+  <nav class="nav" id="nav" aria-label="原型目录"></nav>
+  <footer>Research collection · 2026-11-22<br>所有经营数据均为合成示例；地理形状和纹理并非真实测绘数据。</footer>
+</aside>
+<main>
+  <div class="top"><div><div class="kicker" id="kind">HTML Showcase / 01</div><h2 id="title">ATLAS · 东南亚经营展示</h2><p class="subtitle" id="desc">国家交互、经营信息与阶段性叙事组合。</p></div><div class="actions"><a class="btn" id="open" href="examples/dashboards/sea_business_dashboard_atlas_v1.html" target="_blank" rel="noopener">在新窗口打开 ↗</a><a class="btn" href="catalog/visual_representation_atlas.html" target="_blank" rel="noopener">630 图型目录 ↗</a></div></div>
+  <div class="stage"><iframe id="view" title="HTML 原型预览" loading="eager"></iframe></div>
+  <div class="bottom"><span id="status">离线静态展示 · 不包含真实经营数据</span><div class="footlinks"><a href="docs/INDEX.md">方法论文档</a><a href="MIGRATION_MANIFEST.md">迁移记录</a><a href="README.md">仓库介绍</a></div></div>
+</main>
+</div>
+<script>
+const items=[
+{id:"atlas",group:"Dashboard / 经营汇报",name:"ATLAS · 经营展示",sub:"Layout + Chart + Interaction",detail:"国家选择与经营结论叙事，合成指标。",src:"examples/dashboards/sea_business_dashboard_atlas_v1.html"},
+{id:"triptych",group:"Dashboard / 经营汇报",name:"三类经营可视化范式",sub:"结果 / 网络 / 流程",detail:"经营差异、渠道结构与流程治理的三种表达语法。",src:"examples/dashboards/enterprise_dashboard_triptych.html"},
+{id:"region",group:"Dashboard / 经营汇报",name:"三种汇报设计范式",sub:"区域渠道经营",detail:"多种叙事布局与业务信息表达对照。",src:"examples/dashboards/region_channel_three_paradigms.html"},
+{id:"simulation",group:"Dashboard / 经营汇报",name:"渠道机制推演 V0.1",sub:"Business mechanism model",detail:"多模块关系与条件推演原型；非真实业务因果模型。",src:"examples/dashboards/channel_atlas_simulation_v01.html"},
+{id:"atlastwo",group:"Dashboard / 经营汇报",name:"双层空间地图 V0.2",sub:"经营快照 / 机制推演",detail:"静态经营信息与情景推演的分层呈现。",src:"examples/dashboards/sea_3d_business_atlas_v02.html"},
+{id:"mapgallery",group:"Geospatial / 三维空间",name:"东南亚五风格画廊",sub:"Exploration gallery",detail:"五套真正不同的地图风格对照入口。",src:"examples/geospatial/sea_3d_design_gallery.html"},
+{id:"true3d",group:"Geospatial / 三维空间",name:"3D 地图基线",sub:"Geometry / Perspective",detail:"三维地块挤出与相机交互，不等同真实地形。",src:"examples/geospatial/sea_true_3d_map.html"},
+{id:"mapbase",group:"Geospatial / 三维空间",name:"2.5D 交互地图",sub:"Spatial interaction",detail:"地理信息卡、视角操作和国家选择。",src:"examples/geospatial/sea_3d_interactive_map.html"},
+{id:"sixstyle",group:"Geospatial / 三维空间",name:"六风格交互实验室",sub:"Camera / Narrative",detail:"同一地图表达任务的六种交互视觉方案。",src:"examples/geospatial/sea_3d_six_style_interaction_lab.html"},
+{id:"sixmat",group:"Geospatial / 三维空间",name:"六材质地图 V02",sub:"Material rendering",detail:"聚焦地图本体的材质、边框和图层表现。",src:"examples/geospatial/sea_3d_six_map_material_renderings_v02.html"},
+{id:"abyss",group:"Geospatial / 五种地图变体",name:"Abyss",sub:"Dark cinematic",detail:"深色空间地块可视化实验。",src:"examples/geospatial/sea_3d_style_01_abyss.html"},
+{id:"editorial",group:"Geospatial / 五种地图变体",name:"Editorial",sub:"Printed editorial",detail:"编辑排版式地理信息表达。",src:"examples/geospatial/sea_3d_style_02_editorial.html"},
+{id:"terrain",group:"Geospatial / 五种地图变体",name:"Terrain",sub:"Procedural terrain",detail:"程序化地形表现，非真实 DEM。",src:"examples/geospatial/sea_3d_style_03_terrain.html"},
+{id:"prism",group:"Geospatial / 五种地图变体",name:"Prism",sub:"Glass / Facets",detail:"半透明、棱面与玻璃图层。",src:"examples/geospatial/sea_3d_style_04_prism.html"},
+{id:"command",group:"Geospatial / 五种地图变体",name:"Command",sub:"Technical interface",detail:"运营蓝图与技术线框。",src:"examples/geospatial/sea_3d_style_05_command.html"}
+];
+const nav=document.getElementById("nav"),search=document.getElementById("search"),title=document.getElementById("title"),desc=document.getElementById("desc"),view=document.getElementById("view"),open=document.getElementById("open"),kind=document.getElementById("kind"),status=document.getElementById("status");
+let active="atlas";
+function renderNav(){const q=search.value.trim().toLowerCase(),a=items.filter(x=>[x.name,x.sub,x.group,x.detail].join(" ").toLowerCase().includes(q));nav.textContent="";let last="";for(const x of a){if(x.group!==last){const h=document.createElement("div");h.className="group";h.textContent=x.group;nav.append(h);last=x.group}const b=document.createElement("button");b.className="item"+(x.id===active?" active":"");b.setAttribute("aria-current",x.id===active?"page":"false");b.innerHTML="<span><strong></strong><small></small></span><em>↗</em>";b.querySelector("strong").textContent=x.name;b.querySelector("small").textContent=x.sub;b.onclick=()=>select(x.id);nav.append(b)}if(!a.length){const n=document.createElement("div");n.className="group";n.textContent="没有匹配项";nav.append(n)}}
+function select(id){const x=items.find(y=>y.id===id);if(!x)return;active=x.id;title.textContent=x.name;desc.textContent=x.detail;kind.textContent=x.group+" / "+String(items.indexOf(x)+1).padStart(2,"0");open.href=x.src;view.src=x.src;status.textContent="正在预览："+x.sub+" · Demo / Synthetic data";renderNav();try{history.replaceState(null,"","#"+x.id)}catch{}}
+search.oninput=renderNav;select(location.hash.slice(1)||"atlas");
+</script>
+</body>
+</html>

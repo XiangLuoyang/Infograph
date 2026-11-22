@@ -43,6 +43,8 @@
 | [bpmn-workflow](https://www.skills.sh/wellapp-ai/well/bpmn-workflow) | [wellapp-ai/well](https://github.com/wellapp-ai/well) | 从功能规格转换BPMN及测试场景 | BPMN 2.0 | 实验 | 有专业BPMN目标，但未核实浏览器运行与生产级校验 |
 | [camunda-dmn](https://www.skills.sh/camunda/skills/camunda-dmn) | [camunda/skills](https://github.com/camunda/skills) | 决策需求图DRD与决策表 | DMN | 领域专用 | 官方厂商技能，适合标准决策建模；非HTML可视化通用引擎 |
 
+另见 [18专业领域逐项Skill路由](domain-to-skill-routing.md)：说明哪些专业领域**没有**成熟专用Skill可直接使用。
+
 ## 三、Skill 与专业引擎不能混为一谈
 
 | 目标表达 | 推荐代码/渲染生态 | 来源 | 工程边界 |

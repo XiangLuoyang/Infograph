@@ -106,7 +106,7 @@
     out+=line(747,321,747,434,C.teal,3)+line(747,434,220,434,C.teal,3);
     out+=line(220,434,220,349,C.teal,3)+line(220,274,220,160,C.teal,3);
     out+=hit("R1",rect(405,144,100,32,"#ecdfc5",4,'stroke="'+incolor("R1")+'" stroke-width="2.5"')+txt(425,135,"R1 · 1 kΩ",13,C.ink));
-    out+=hit("C1",line(704,281,790,281,incolor("C1"),4)+line(704,321,790,321,incolor("C1"),4)+txt(802,305,"C1 · 10 µF",13,C.ink));
+    out+=hit("C1",rect(700,270,95,62,"transparent",3,'pointer-events="all"')+line(704,281,790,281,incolor("C1"),4)+line(704,321,790,321,incolor("C1"),4)+txt(802,305,"C1 · 10 µF",13,C.ink));
     out+=hit("V1",'<circle cx="220" cy="311.5" r="37.5" fill="#eaf0ed" stroke="'+incolor("V1")+'" stroke-width="2.5"/>'+txt(212,303,"+",22,C.ink)+txt(212,331,"−",22,C.ink)+txt(276,319,"V1 · 5 V",13,C.ink));
     for(const [x,y,label] of [[220,160,"N1"],[747,160,"N2"],[747,434,"N3"]])out+='<circle cx="'+x+'" cy="'+y+'" r="4.6" fill="'+C.teal+'"/>'+txt(x+12,y+22,label,11,C.muted);
     out+=txt(52,315,"原理图不代表物理元件位置",14,C.muted)+txt(52,341,"本例只验证连通性与符号说明。",13,C.muted);

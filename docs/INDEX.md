@@ -20,7 +20,8 @@
 
 ## Implementation & QA
 
-- [Agent Skills & renderers](engineering/agent-skills-and-renderers.md) — 20 verified skill URLs with adoption boundaries.
+- [Agent Skills & renderers](engineering/agent-skills-and-renderers.md) — 20 researched skill URLs with adoption boundaries.
+- [18 domains → Skills](engineering/domain-to-skill-routing.md) — specialized vs transferable capability and missing mature skills.
 - [Visual representation routing contract](engineering/visual-representation-routing-contract.md) — semantic-first type selection and HTML QA gates.
 
 - [ProcessIR layout/routing](engineering/process-ir-layout-routing.md) — graph semantics, ELK and edge geometry.

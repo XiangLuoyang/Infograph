@@ -36,6 +36,9 @@ try {
   await page.locator('.tab[data-type="circuit"]').click();
   await page.locator('#scene [data-key="C1"]').click();
   assert.equal(await page.locator("#scene").getAttribute("data-selected"),"C1");
+  const afterCapacitor=await page.locator("#scene [data-key]").evaluateAll(nodes=>nodes.map(n=>n.getAttribute("data-key")));
+  assert.ok(afterCapacitor.includes("R1"),"R1 missing after C1 selection: "+JSON.stringify(afterCapacitor));
+  await page.locator('.tab[data-type="circuit"]').click();
   await page.locator('#scene [data-key="R1"]').focus();
   await page.keyboard.press("Enter");
   assert.equal(await page.locator("#scene").getAttribute("data-selected"),"R1","SVG keyboard selection");

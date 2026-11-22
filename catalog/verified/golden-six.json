@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "name": "Infograph Golden Six — source-backed functional prototypes",
+    "version": "0.2.0-research-prototypes",
+    "date": "2026-11-22",
+    "total": 6,
+    "original_graphics": true,
+    "baseline_unchanged": true,
+    "education_only": true,
+    "types_are_not_cad_eda_or_industry_certified": true,
+    "definition_reviewed": 6,
+    "browser_qa": "pending until independent headless test evidence",
+    "special_note": "ATT&CK® is a registered trademark of The MITRE Corporation. © 2026 The MITRE Corporation. No MITRE affiliation, sponsorship, or endorsement is implied. Official terms: https://attack.mitre.org/resources/terms-of-use/."
+  },
+  "entries": [
+    {
+      "id": "exploded",
+      "chinese": "装配爆炸视图",
+      "name": "Exploded Assembly View",
+      "catalog_ref": "VIZ-0240",
+      "domain": "mechanical-manufacturing",
+      "semantics": "assembly part identities and relative placement preserved while components are separated along an explanatory trajectory",
+      "constraints": [
+        "part IDs unique",
+        "exploded progress in [0,1]",
+        "part annotations refer to same IDs",
+        "CAD geometry not inferred from abstract shapes"
+      ],
+      "definition_sources": [
+        "https://help.autodesk.com/cloudhelp/2025/ENU/Inventor-Help/files/GUID-2569BBA6-816B-4656-9AC9-ABB9E1DC43C0.htm",
+        "https://help.autodesk.com/cloudhelp/2025/ENU/Inventor-Help/files/GUID-2A480981-2E53-4408-BFA9-290C14F03C95.htm"
+      ],
+      "example_source": "original synthetic 4-part schematic",
+      "implementation_claim": "illustrative_svg_with_dynamic_part_displacement",
+      "domain_conformance": "not_checked_CAD_assembly_accuracy",
+      "skill_links": [
+        "https://www.skills.sh/moh4696/open-3d-skills/exploded-view",
+        "https://www.skills.sh/openai/plugins/threejs-data-visualization"
+      ],
+      "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
+      "example_data": "synthetic",
+      "browser_render_qa": "not_yet_confirmed",
+      "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
+      "maturity": "research_reference_prototype_not_production",
+      "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
+      "render_engine": "dependency-free JavaScript SVG",
+      "source_created_at": "2026-11-22"
+    },
+    {
+      "id": "circuit",
+      "chinese": "电路原理图",
+      "name": "Electrical Circuit Schematic",
+      "catalog_ref": "EXT-0001",
+      "domain": "electrical-electronics",
+      "semantics": "connectivity represented as component pins and named electrical nets rather than physical layout",
+      "constraints": [
+        "explicit 3-net RC series chain",
+        "no wire passes through a symbolic body",
+        "no ERC or simulation claim"
+      ],
+      "definition_sources": [
+        "https://docs.kicad.org/8.0/en/eeschema/eeschema.html",
+        "https://docs.kicad.org/9.0/en/getting_started_in_kicad/getting_started_in_kicad.html"
+      ],
+      "example_source": "original synthetic 5V RC-series concept",
+      "implementation_claim": "illustrative_svg_net_connectivity",
+      "domain_conformance": "not_checked_ERC_or_IEC_symbol_compliance",
+      "skill_links": [
+        "https://www.skills.sh/jgraph/drawio-mcp/drawio"
+      ],
+      "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
+      "example_data": "synthetic",
+      "browser_render_qa": "not_yet_confirmed",
+      "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
+      "maturity": "research_reference_prototype_not_production",
+      "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
+      "render_engine": "dependency-free JavaScript SVG",
+      "source_created_at": "2026-11-22"
+    },
+    {
+      "id": "stratigraphy",
+      "chinese": "地层柱状图",
+      "name": "Stratigraphic Column",
+      "catalog_ref": "EXT-0029",
+      "domain": "geology-geophysics",
+      "semantics": "measured vertical geological section where ordered lithologic layers occupy proportional intervals of depth and can be annotated by lithology and thickness",
+      "constraints": [
+        "depth increases downwards",
+        "intervals contiguous 0-14 m in fixture",
+        "thickness proportional to SVG height",
+        "patterns are original illustrative and not a certified FGDC library"
+      ],
+      "definition_sources": [
+        "https://www.isu.edu/digitalatlas/geology/",
+        "https://ngmdb.usgs.gov/fgdc_gds/geolsymstd.php"
+      ],
+      "example_source": "original five synthetic strata",
+      "implementation_claim": "proportional_svg_column_with_original_patterns",
+      "domain_conformance": "not_checked_field_log_or_lithologic_standard_symbolization",
+      "skill_links": [
+        "https://www.skills.sh/openai/plugins/geospatial-and-cartographic-visualization"
+      ],
+      "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
+      "example_data": "synthetic",
+      "browser_render_qa": "not_yet_confirmed",
+      "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
+      "maturity": "research_reference_prototype_not_production",
+      "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
+      "render_engine": "dependency-free JavaScript SVG",
+      "source_created_at": "2026-11-22"
+    },
+    {
+      "id": "hr",
+      "chinese": "赫罗图",
+      "name": "Hertzsprung–Russell Diagram",
+      "catalog_ref": "EXT-0039",
+      "domain": "astronomy",
+      "semantics": "stellar luminosity versus effective temperature, with temperature decreasing to the right and log luminosity scaling",
+      "constraints": [
+        "T_K > 0 and luminosity_Lsun > 0",
+        "hot left / cool right",
+        "luminosity logarithmic (solar units)",
+        "all plotted values explicitly synthetic"
+      ],
+      "definition_sources": [
+        "https://openstax.org/books/astronomy/pages/18-4-the-h-r-diagram",
+        "https://hyperphysics.phy-astr.gsu.edu/hbase/Astro/herrus.html"
+      ],
+      "example_source": "original synthetic HR points",
+      "implementation_claim": "scientifically_structured_svg_illustration",
+      "domain_conformance": "not_calibrated_to_actual_star_catalogue",
+      "skill_links": [
+        "https://www.skills.sh/k-dense-ai/scientific-agent-skills/scientific-visualization",
+        "https://www.skills.sh/openai/plugins/statistical-and-uncertainty-visualization"
+      ],
+      "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
+      "example_data": "synthetic",
+      "browser_render_qa": "not_yet_confirmed",
+      "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
+      "maturity": "research_reference_prototype_not_production",
+      "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
+      "render_engine": "dependency-free JavaScript SVG",
+      "source_created_at": "2026-11-22"
+    },
+    {
+      "id": "attack",
+      "chinese": "ATT&CK 战术矩阵（精选）",
+      "name": "Enterprise ATT&CK Tactics Matrix (selected)",
+      "catalog_ref": "EXT-0048",
+      "domain": "cybersecurity",
+      "semantics": "organization of named ATT&CK techniques into corresponding enterprise tactical objectives; sample includes five columns only",
+      "constraints": [
+        "5/15 selected tactics; not complete matrix",
+        "tactic and technique IDs sourced from MITRE",
+        "not security control coverage or threat detection result",
+        "MITRE trademark attribution required"
+      ],
+      "definition_sources": [
+        "https://attack.mitre.org/matrices/enterprise/",
+        "https://attack.mitre.org/tactics/enterprise/",
+        "https://attack.mitre.org/techniques/T1595/",
+        "https://attack.mitre.org/techniques/T1566/",
+        "https://attack.mitre.org/techniques/T1059/",
+        "https://attack.mitre.org/techniques/T1547/",
+        "https://attack.mitre.org/techniques/T1486/",
+        "https://attack.mitre.org/resources/terms-of-use/"
+      ],
+      "example_source": "original selected five-column layout using official names and IDs",
+      "implementation_claim": "selected_tactics_and_techniques_svg_layout",
+      "domain_conformance": "not_all_15_enterprise_tactics_or_live_version_data",
+      "skill_links": [
+        "https://www.skills.sh/openai/plugins/uml-and-software-architecture-visualization"
+      ],
+      "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
+      "example_data": "synthetic",
+      "browser_render_qa": "not_yet_confirmed",
+      "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
+      "maturity": "research_reference_prototype_not_production",
+      "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
+      "render_engine": "dependency-free JavaScript SVG",
+      "source_created_at": "2026-11-22"
+    },
+    {
+      "id": "rail",
+      "chinese": "列车时距运行图",
+      "name": "Train Time–Distance Diagram",
+      "catalog_ref": "EXT-0057",
+      "domain": "rail-transport",
+      "semantics": "x=time, y=distance along route in kilometres; train paths connect ordered station/time observations",
+      "constraints": [
+        "time strictly increasing per train",
+        "distance monotonic by train direction",
+        "distance axis expressed in km",
+        "synthetic sample, no railway operations or separation-safety claims"
+      ],
+      "definition_sources": [
+        "https://openjicareport.jica.go.jp/pdf/12251708_01.pdf",
+        "https://www.niti.gov.in/sites/default/files/2019-01/Report%20on%20A%20concept%20note%20for%20railway%20timetabling%20to%20rationalize%20and%20improve%20capacity%20utilization_0.pdf"
+      ],
+      "example_source": "three synthetic paths between four fictional stations",
+      "implementation_claim": "time_distance_svg_train_path_example",
+      "domain_conformance": "not_actual_timetable_or_train_dispatch_safety",
+      "skill_links": [
+        "https://www.skills.sh/openai/plugins/d3-data-visualization"
+      ],
+      "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
+      "example_data": "synthetic",
+      "browser_render_qa": "not_yet_confirmed",
+      "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
+      "maturity": "research_reference_prototype_not_production",
+      "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
+      "render_engine": "dependency-free JavaScript SVG",
+      "source_created_at": "2026-11-22"
+    }
+  ]
+}

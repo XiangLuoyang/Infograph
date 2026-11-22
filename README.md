@@ -11,6 +11,7 @@
 |---|---|
 | **[Interactive preview / 交互作品展厅](index.html)** | One-page, offline-first gallery of 15 HTML experiments |
 | **[Professional types / 专业图型增量](catalog/extensions/index.html)** | Search 155 professional candidates across 18 disciplines (134 new exact-name candidates) |
+| **[107-domain coverage map / 学科覆盖地图](docs/research/open-domain-coverage-map.md)** | 10 domain clusters; 18 seeded, 12 baseline-partial, 77 still unaudited |
 | **[Agent Skills / Skills与引擎](docs/engineering/agent-skills-and-renderers.md)** | 20 researched Skill links, maturity caveats, and renderer selection |
 | **[Domain → Skill / 领域对应技能](docs/engineering/domain-to-skill-routing.md)** | 18 domains, transferable skills and specialist gaps |
 | **[Visual Atlas / 全领域图型目录](catalog/README.md)** | [Searchable HTML](catalog/visual_representation_atlas.html), [630-item JSON](catalog/visual_representation_atlas.json), Excel-friendly CSV exports |

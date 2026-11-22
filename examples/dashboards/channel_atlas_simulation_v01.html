@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CHANNEL ATLAS — 区域渠道经营机制沙盘 | Synthetic Demonstrator</title>
+<style>
+:root{--bg:#071016;--bg2:#0a151d;--panel:#0d1a23;--panel2:#101f2a;--line:#1d3440;--text:#e8f1ef;--muted:#78929c;--low:#526e7a;--mint:#77dbc4;--mint2:#278b84;--gold:#ddbc79;--coral:#d68d82;--purple:#9d9cca;--white:#e8f1ee;--radius:13px;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint);outline-offset:2px}button:disabled{opacity:.5;cursor:not-allowed}button,select{touch-action:manipulation}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% -20%,rgba(33,83,96,.17),transparent 54%),radial-gradient(ellipse at 100% 75%,rgba(42,93,83,.09),transparent 47%);pointer-events:none}
+.shell{max-width:2400px;min-height:100vh;margin:auto;display:grid;grid-template-columns:220px minmax(600px,1fr) 338px;grid-template-rows:70px minmax(0,1fr);}
+.topbar{grid-column:1/4;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 24px;border-bottom:1px solid #1b303a;background:rgba(8,20,28,.94);position:relative;z-index:10}.top-left,.top-right{display:flex;align-items:center;gap:14px}.mark{width:38px;height:38px;border:1px solid #5c968f;border-radius:10px;display:grid;place-items:center;position:relative;background:radial-gradient(circle at 40% 35%,#28565b,#0b222a 67%)}.mark svg{width:25px;height:25px}.brand-title{font-weight:760;letter-spacing:3.3px;font-size:13px}.brand-sub{font-size:9px;letter-spacing:1.75px;color:#7099a1;margin-top:4px;font-family:var(--mono)}.vdiv{height:23px;width:1px;background:#27404b}.build-label{letter-spacing:1.4px;font-size:10px;color:var(--muted);font-family:var(--mono)}.status-pill{color:#bbd4ce;border:1px solid #284e4b;background:#102c2d;border-radius:6px;padding:7px 10px;font-size:10px;font-family:var(--mono);letter-spacing:1px;white-space:nowrap}.status-pill::before{content:"●";font-size:8px;color:#7ad9bb;margin-right:8px}.ghost-btn{border:1px solid #2b4650;color:#bbcfce;background:#0d202a;border-radius:8px;padding:9px 12px;display:inline-flex;align-items:center;gap:7px;font-size:11px;transition:.2s}.ghost-btn:hover{border-color:#74bdb1;color:white;background:#18323c}.demo-btn{color:#c4e7dc;border-color:#468174;background:#173831}.demo-btn:hover{background:#26574b}.top-time{font:11px var(--mono);color:#809da1;white-space:nowrap}
+.sidebar{grid-row:2;background:rgba(10,22,30,.92);border-right:1px solid #1b303a;padding:21px 15px 28px;min-height:calc(100vh - 70px)}.eyebrow{font:10px var(--mono);color:#63818e;letter-spacing:2px}.side-section{margin-bottom:25px}.side-title{font-weight:650;font-size:12px;margin:9px 3px 11px}.side-choice{display:flex;gap:6px;margin-top:9px}.country-btn{min-width:0;flex:1;padding:10px 4px;border:1px solid #233a46;color:#90aab2;background:transparent;border-radius:8px;font-weight:680;font-size:12px;transition:.18s}.country-btn.active{color:#dffbf0;border-color:#4b8e88;background:#153633;box-shadow:inset 0 0 0 1px #255b55}.country-btn small{display:block;font:9px var(--mono);margin-top:2px;opacity:.75}.select{border:1px solid #28414d;color:#e1f1ef;border-radius:8px;background:#101f29;padding:10px 9px;width:100%;appearance:none}.select-wrap{position:relative}.select-wrap::after{content:"⌄";position:absolute;right:12px;top:8px;color:#97c3bf;font-size:16px;pointer-events:none}.nav-header{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1f3540;padding-top:17px;margin-top:20px}.nav-count{font:10px var(--mono);color:#6b8c93}.navlist{display:flex;flex-direction:column;gap:5px;margin-top:12px}.nav-btn{width:100%;display:flex;align-items:center;text-align:left;gap:11px;background:transparent;border:1px solid transparent;color:#7d9ca4;border-radius:8px;padding:12px 10px;transition:.16s}.nav-btn:hover{background:#122630;color:#d8eee9}.nav-btn.active{background:#17343b;border-color:#32645e;color:#e5f7f3}.nav-n{font:10px var(--mono);color:#5e858f;width:20px}.nav-btn.active .nav-n{color:var(--mint)}.nav-t{font-weight:650;font-size:12px;flex:1}.nav-btn .nav-arrow{opacity:.4}.tiny-label{font:10px var(--mono);letter-spacing:1.3px;color:#6e8d94}.partner-row{border-bottom:1px solid #1c313c;padding:11px 2px 10px;cursor:pointer}.partner-row:last-child{border:0}.partner-top{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11px}.partner-top b{font:11px var(--mono);color:#b9d8d3}.partner-bar{height:3px;background:#1d343f;margin-top:9px;border-radius:3px;overflow:hidden}.partner-bar span{display:block;height:100%;background:linear-gradient(90deg,#3d7978,#84c9b3)}.left-note{border:1px solid #244049;border-radius:10px;padding:12px;margin-top:18px;background:#0e212a}.left-note .note-h{font-size:11px;color:#d2d8ce;font-weight:650}.left-note p{color:#77949c;font-size:10.5px;line-height:1.7;margin:7px 0 0}
+.main{grid-row:2;min-width:0;padding:22px 24px 22px;overflow:hidden}.main-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:4px 0 17px}.main-title{font-size:clamp(23px,2vw,33px);font-weight:610;letter-spacing:.4px;margin:8px 0 5px}.main-sub{color:#819ca3;font-size:12px;line-height:1.5}.heading-right{text-align:right}.clock-t{font:11px var(--mono);color:#b2d9ca;white-space:nowrap}.clock-s{font:9px var(--mono);letter-spacing:1px;color:#698993;margin-top:5px}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:15px}.kpi{background:linear-gradient(145deg,#0f2029,#0d1c25);border:1px solid #23404a;border-radius:11px;padding:14px 16px;min-height:97px;position:relative;overflow:hidden}.kpi::after{content:"";position:absolute;right:-8px;top:-17px;width:85px;height:85px;border:1px solid #233d45;border-radius:50%;opacity:.4;pointer-events:none}.kpi-tag{font-size:9px;letter-spacing:1.2px;color:#77959b;font-family:var(--mono)}.kpi-main{font:550 clamp(20px,1.85vw,29px)/1.2 var(--mono);letter-spacing:-1px;margin:13px 0 4px;color:#e6f1ed}.kpi-sub{font-size:10px;color:#839aa0}.diff.up{color:var(--mint)}.diff.down{color:var(--coral)}.diff.neutral{color:var(--muted)}
+.graph-panel{border:1px solid #294751;border-radius:15px;position:relative;overflow:hidden;height:min(57vw,562px);min-height:470px;background:radial-gradient(ellipse at 54% 48%,#112b35 0%,#0d2029 35%,#091a23 72%,#081720 100%)}.graph-panel::before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:37px 37px;mask-image:radial-gradient(ellipse at center,#000 22%,transparent 88%);pointer-events:none}.demo-banner{position:absolute;z-index:4;left:50%;top:52px;transform:translateX(-50%);max-width:78%;text-align:center;white-space:normal;line-height:1.4;border:1px solid #54887a;background:#143b3bdf;backdrop-filter:blur(12px);color:#dbfaf0;padding:10px 18px;border-radius:7px;font-size:11px;font-weight:650;box-shadow:0 14px 36px #0008;display:none}.demo-banner.show{display:block}.graph-hud{z-index:2;position:absolute;top:15px;left:19px;right:18px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}.graph-hud .gh-title{font:10px var(--mono);letter-spacing:2px;color:#86afa9}.graph-hud .gh-sub{font:9px var(--mono);color:#638995;margin-top:5px}.gh-controls{pointer-events:auto;display:flex;gap:7px}.chip{padding:7px 10px;border:1px solid #284954;background:#10242dcc;border-radius:6px;color:#8eaaa9;font:10px var(--mono);letter-spacing:.6px}.chip:hover,.chip.active{background:#1a3d40;border-color:#4d827e;color:#c8ebe0}.network{display:block;width:100%;height:100%;position:relative;z-index:1}.net-edge{fill:none;stroke-width:1.45;stroke-linecap:round;opacity:.43;transition:opacity .22s,stroke-width .22s,stroke .22s}.net-edge.dim{opacity:.075}.net-edge.high{opacity:.88;stroke-width:2.75;stroke-dasharray:5 9;animation:dash 8s linear infinite}.net-edge.goods{stroke:#5bbaac}.net-edge.economics{stroke:#d4b275}.net-edge.hypothesis{stroke:#a6a1ce;stroke-dasharray:4 7}.net-edge.derived{stroke:#648ba5}.net-edge.derived.high{stroke-dasharray:3 8}.net-edge.hypothesis.high{stroke-dasharray:4 9}@keyframes dash{to{stroke-dashoffset:-220}}.net-node{cursor:pointer;transition:opacity .2s,filter .2s;outline:none}.net-node.dim{opacity:.26}.net-node.active .node-border{stroke:#8ee1d0;stroke-width:2}.net-node .node-bg{fill:#0b222b;stroke:#3b6870;stroke-width:1.15}.net-node.source .node-bg{fill:#102a36}.net-node.finance .node-bg{fill:#302d2a;stroke:#766e51}.net-node.output .node-bg{fill:#133239;stroke:#518d83}.net-node.complex .node-bg{fill:#20283d;stroke:#616584}.net-node.negative .node-bg{stroke:#a36f6b}.net-node:hover .node-bg{stroke:#96d1c7;stroke-width:1.8}.node-header{fill:#93b5b3;font:9px var(--mono);letter-spacing:1px}.node-title{fill:#e0f0ea;font:600 15px var(--sans)}.node-val{fill:#a0e3ce;font:600 17px var(--mono)}.node-val.gold{fill:#e8c98d}.node-val.red{fill:#e0a4a0}.node-foot{fill:#78979d;font:10px var(--sans)}.node-dot{fill:#72d8c2}.net-node.finance .node-dot{fill:#d9b571}.net-node.complex .node-dot{fill:#a3a0d7}.node-shadow{filter:drop-shadow(0 13px 15px #02080c8a)}.orbit-label{font:9px var(--mono);letter-spacing:2px;fill:#416a78}.network-footer{position:absolute;bottom:12px;left:20px;right:19px;z-index:2;display:flex;align-items:center;justify-content:space-between;pointer-events:none}.legend{display:flex;gap:17px;flex-wrap:wrap}.legend span{color:#74949c;font-size:10px}.keyline{width:20px;height:2px;display:inline-block;vertical-align:middle;margin-right:6px;background:#62b9aa}.keyline.gold{background:#d3b77a}.keyline.purple{background:#a19ac8;border-top:1px dashed #111}.net-footer-status{font:9px var(--mono);color:#6d9398;letter-spacing:.8px}
+.undergrid{display:grid;grid-template-columns:1.17fr .83fr;gap:12px;margin-top:13px}.under-card{border:1px solid #233f4a;border-radius:12px;background:#0b1b24;padding:16px 17px;min-height:240px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}.panel-title{font-size:12px;font-weight:680}.panel-cap{font:9px var(--mono);color:#698c94;letter-spacing:.8px}.chart-switch{display:flex;gap:4px;margin-right:8px}.chart-switch button{font:10px var(--mono);padding:5px 7px;background:transparent;color:#78969c;border:1px solid #28424b;border-radius:5px}.chart-switch button.active{background:#19433f;color:#baf0db;border-color:#467e72}.mini-legend{font:10px var(--mono);color:#8baca9}.mini-legend i{width:16px;height:2px;display:inline-block;vertical-align:middle;margin:0 5px 2px 10px;background:#4a8792}.mini-legend i.alt{background:#7de0bf}.spark{width:100%;height:151px;display:block}.chart-foot{display:flex;justify-content:space-between;align-items:center;margin-top:3px;color:#73919a;font-size:10px;gap:9px}.trace-list{padding-top:8px;display:flex;flex-direction:column;gap:10px}.trace-item{display:flex;align-items:flex-start;gap:9px;cursor:pointer}.trace-item .step{width:20px;height:20px;flex-shrink:0;border-radius:5px;background:#17333b;color:#95dccd;display:grid;place-items:center;font:10px var(--mono)}.trace-item .desc{color:#9ab2b5;font-size:11px;line-height:1.5}.trace-item strong{color:#e1f0e9;font-weight:600}.trace-item:hover strong{color:var(--mint)}
+.right{grid-row:2;border-left:1px solid #1c3540;padding:20px 17px 28px;background:#0a1921;min-height:calc(100vh - 70px);max-height:calc(100vh - 70px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#284753 transparent}.right-header{display:flex;align-items:center;justify-content:space-between}.right-h{font-size:15px;font-weight:680;margin:8px 0 3px}.right-sub{font-size:10px;color:#758f98;line-height:1.5}.section-rule{height:1px;background:#213945;margin:18px 0}.ctrl-group{margin:15px 0 0}.ctrl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.ctrl-name{color:#b7cfcc;font-size:11px}.ctrl-value{font:12px var(--mono);color:#cce8dd}.muted{color:#718f95}.tabs{display:flex;gap:4px;padding:4px;border:1px solid #25434d;border-radius:9px;background:#101f28}.tabs button{flex:1;padding:8px 4px;border:0;background:none;color:#799aa3;border-radius:6px;font-size:11px}.tabs button.active{background:#275049;color:#e5fff7;box-shadow:0 2px 7px #0003}.range{appearance:none;-webkit-appearance:none;width:100%;background:linear-gradient(90deg,#568f88,#28414b);height:4px;border-radius:3px;outline:none;margin:5px 0 10px}.range::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border:3px solid #9be3d1;border-radius:50%;background:#19363b;box-shadow:0 0 0 4px #3e807344;cursor:pointer}.range::-moz-range-thumb{width:12px;height:12px;border:3px solid #9be3d1;border-radius:50%;background:#19363b;cursor:pointer}.bounds{display:flex;justify-content:space-between;color:#5f838d;font:9px var(--mono)}.ctrl-help{font-size:10px;color:#728e96;line-height:1.5;margin-top:5px}.tweak-box{border:1px solid #29434d;border-radius:10px;padding:12px;margin-top:15px;background:#10222c}.tweak-box .tweak-head{display:flex;align-items:center;justify-content:space-between}.assumption{font:9px var(--mono);color:#bbafa7;border:1px solid #574b44;border-radius:3px;padding:3px 5px}.tweak-box p{font-size:10px;color:#718f95;line-height:1.55;margin:6px 0}.timeline{padding:13px;border:1px solid #2d5157;border-radius:11px;background:linear-gradient(135deg,#122c31,#11252d);margin-top:16px}.timeline-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.time-btns{display:flex;gap:5px}.smallbtn{background:#1b3d42;color:#cef2e8;border:1px solid #3e716b;border-radius:6px;padding:6px 10px;font-size:11px}.smallbtn:hover{background:#27615b}.timeline .range{margin:7px 0 10px}.time-ticks{display:flex;justify-content:space-between;font:9px var(--mono);color:#90b1b1}.resetlink{border:0;background:none;color:#87bcb1;text-decoration:underline;text-underline-offset:4px;font-size:11px;padding:4px 0}.audit-line{font:10px/1.7 var(--mono);color:#82a2a6}.audit-dot{display:inline-block;width:7px;height:7px;margin-right:5px;border-radius:50%;background:#75c5ad}.audit-dot.warn{background:#d9b875}.inspector{border:1px solid #2e4d53;background:linear-gradient(140deg,#122b32,#0e202b);border-radius:12px;padding:13px;margin-top:13px}.inspector .ins-title{font-size:14px;font-weight:670;margin:9px 0 7px}.inspector .ins-desc{font-size:11px;line-height:1.65;color:#9ab5b7}.inspector .formula{margin-top:10px;padding:10px;color:#bcdbcc;font:10px/1.75 var(--mono);background:#0a1a22;border-radius:6px;white-space:pre-line}.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.compare-stat{padding:10px;border:1px solid #2a484d;border-radius:8px}.compare-stat small{font-size:10px;color:#779c9c}.compare-stat b{display:block;margin-top:7px;font:17px var(--mono);color:#e0ede6}.scenario-ops{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:6px;margin:11px 0 2px}.scenario-ops button{border:1px solid #36535b;border-radius:6px;background:#122b34;color:#afd4cc;padding:9px 5px;font-size:10px}.scenario-ops button:hover{border-color:#74c9b7;background:#215047}.scenario-ops button:last-child{background:#20514b;color:#e3fff6}.save-message{margin-top:8px;font-size:10px;color:#729399;line-height:1.5}.right-foot{color:#557985;font-size:10px;line-height:1.7;margin-top:19px}
+/* modal */
+.modal-back{position:fixed;inset:0;z-index:50;background:#02090cca;backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}.modal-back.show{display:flex}.modal{background:#101e28;border:1px solid #3a5960;border-radius:15px;box-shadow:0 30px 110px #000a;width:min(810px,95vw);padding:25px}.modal header{display:flex;justify-content:space-between;align-items:center}.modal h2{margin:0;font-size:19px}.modal p,.modal li{color:#9bafb0;font-size:12px;line-height:1.9}.modal table{border-collapse:collapse;width:100%;font-size:11px;margin-top:15px}.modal td,.modal th{border-bottom:1px solid #29444b;padding:9px;color:#b9cfca;text-align:left}.modal strong{color:#e1efeb}.modal .close{border:1px solid #3b5961;border-radius:7px;background:#18313a;color:#d7eae4;padding:7px 12px}
+@media (max-width:1470px){.shell{grid-template-columns:190px minmax(550px,1fr) 306px}.main{padding:19px 16px}.sidebar{padding:18px 11px}.right{padding:17px 12px}.graph-panel{min-height:445px}.kpi{padding:13px 10px}.topbar{padding:0 15px}}
+@media (max-width:1140px){.shell{grid-template-columns:175px minmax(550px,1fr);grid-template-rows:65px auto auto}.topbar{grid-column:1/3}.sidebar{grid-column:1;grid-row:2/4}.main{grid-column:2;grid-row:2}.right{grid-column:2;grid-row:3;max-height:none;min-height:auto;border-left:0;border-top:1px solid #263f48;display:grid;grid-template-columns:1fr 1fr;gap:0 22px}.right-header,.right>.section-rule:first-of-type,.right>.timeline{grid-column:1/3}.right>.section-rule{grid-column:1/3}.graph-panel{height:500px}.undergrid{grid-template-columns:1fr}}
+@media (max-width:760px){.shell{display:flex;flex-direction:column}.topbar{height:auto;min-height:66px;padding:11px;gap:10px}.top-time,.vdiv,.build-label{display:none}.brand-title{font-size:11px}.brand-sub{font-size:8px}.top-left,.top-right{gap:7px}.status-pill{font-size:8px;padding:5px}.sidebar{min-height:auto;order:2;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.sidebar .side-section{margin:0}.nav-header{margin:0;padding-top:10px}.navlist{grid-column:1/3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.nav-btn{padding:9px 6px;justify-content:center}.nav-n,.nav-arrow{display:none}.nav-t{font-size:10px}.left-note,.side-section.partner-sidebar{display:none}.sidebar .side-section.country-section{grid-column:1/2}.sidebar .side-section.product-section{grid-column:2/3}.side-title{margin:0 0 7px}.main{order:1;padding:17px 10px}.main-title{font-size:21px}.main-sub{font-size:10px}.heading-right{display:none}.kpis{grid-template-columns:repeat(2,1fr);gap:7px}.kpi{min-height:80px}.kpi-main{font-size:23px;margin:9px 0 3px}.graph-panel{min-height:340px;height:370px}.network{min-width:760px;width:100%}.graph-panel{overflow:auto hidden}.graph-hud,.network-footer{position:sticky;left:10px}.right{order:3;display:block;padding:18px 14px}.undergrid{grid-template-columns:1fr}.modal{padding:16px}.modal table{font-size:9px}.modal td,.modal th{padding:5px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+ <div class="top-left"><div class="mark" aria-hidden="true"><svg viewBox="0 0 30 30" fill="none"><path d="M15 3L27 15L15 27L3 15L15 3Z" stroke="#9adbd0" stroke-width="1.15"/><path d="M15 8L22 15L15 22L8 15L15 8Z" stroke="#619c99"/><circle cx="15" cy="15" r="2.3" fill="#9fe7d6"/></svg></div><div><div class="brand-title">CHANNEL / ATLAS</div><div class="brand-sub">OPERATING DYNAMICS · EXPLORER</div></div><div class="vdiv"></div><div class="build-label">业务网络 / 影响传导 / 情景推演</div></div>
+ <div class="top-right"><button class="ghost-btn demo-btn" id="demo-btn">▶ 自动传导演示</button><span class="top-time" id="header-time">SCENARIO / W08</span><span class="status-pill">SYNTHETIC MODEL</span><button class="ghost-btn" id="guide-btn" aria-label="阅读模型说明">模型口径 ↗</button></div>
+</header>
+<aside class="sidebar">
+ <section class="side-section country-section"><div class="eyebrow">01 / GEOGRAPHY</div><div class="side-title">市场对象</div><div class="side-choice" id="country-choices"><button class="country-btn active" data-country="TH">泰国<small>TH</small></button><button class="country-btn" data-country="VN">越南<small>VN</small></button><button class="country-btn" data-country="MY">马来<small>MY</small></button></div></section>
+ <section class="side-section product-section"><div class="eyebrow">02 / PRODUCT</div><div class="side-title">推演产品</div><div class="select-wrap"><select class="select" id="product-select" aria-label="选择推演产品"><option value="A">旗舰影像 A</option><option value="B">便携影像 B</option><option value="C">航拍产品 C</option></select></div></section>
+ <div class="nav-header"><span class="eyebrow">03 / PROJECTIONS</span><span class="nav-count">7 LENSES</span></div>
+ <nav class="navlist" id="navlist" aria-label="经营观察层">
+  <button class="nav-btn active" data-focus="overview"><span class="nav-n">00</span><span class="nav-t">经营全景</span><span class="nav-arrow">↗</span></button>
+  <button class="nav-btn" data-focus="channel"><span class="nav-n">01</span><span class="nav-t">渠道经营</span><span class="nav-arrow">↗</span></button>
+  <button class="nav-btn" data-focus="product"><span class="nav-n">02</span><span class="nav-t">产品结构</span><span class="nav-arrow">↗</span></button>
+  <button class="nav-btn" data-focus="margin"><span class="nav-n">03</span><span class="nav-t">Margin</span><span class="nav-arrow">↗</span></button>
+  <button class="nav-btn" data-focus="ars"><span class="nav-n">04</span><span class="nav-t">ARS 经济性</span><span class="nav-arrow">↗</span></button>
+  <button class="nav-btn" data-focus="partner"><span class="nav-n">05</span><span class="nav-t">代理商画像</span><span class="nav-arrow">↗</span></button>
+  <button class="nav-btn" data-focus="wos"><span class="nav-n">06</span><span class="nav-t">货盘 / WOS</span><span class="nav-arrow">↗</span></button>
+ </nav>
+ <section class="side-section partner-sidebar" style="margin-top:22px"><div class="eyebrow">04 / PARTNER BENCHMARK</div><div class="side-title">跨国代理画像对照 <span style="font-size:10px;color:#6c8995">· 模拟</span></div><div id="partner-rows"></div></section>
+ <div class="left-note"><div class="note-h">◎ 一张盘 · 七种视角</div><p>左侧切换关系高亮层，不创建独立数据副本。右侧改变变量后，渠道、利润、ARS、产品、库存与综合指标会从同一份状态重新计算。</p></div>
+</aside>
+<main class="main">
+ <section class="main-heading"><div><div class="eyebrow">INTERACTIVE BUSINESS DYNAMICS / MODEL V0.1</div><h1 class="main-title">区域渠道经营机制沙盘<span style="color:var(--mint)">.</span></h1><div class="main-sub" id="view-subtitle">一个点位决策，沿渠道关系传播到动销、利润与库存。</div></div><div class="heading-right"><div class="clock-t" id="clock-display">THAILAND / WEEK 08</div><div class="clock-s">CONDITION → TRANSMISSION → OUTCOME</div></div></section>
+ <div class="kpis">
+  <div class="kpi"><div class="kpi-tag">01 / MANUFACTURER · DP</div><div class="kpi-main" id="kpi-dp">70.0 U</div><div class="kpi-sub" id="kpi-dp-sub">相对基线 —</div></div>
+  <div class="kpi"><div class="kpi-tag">02 / SELL-OUT · CUMULATIVE</div><div class="kpi-main" id="kpi-sellout">—</div><div class="kpi-sub" id="kpi-sellout-sub">与基线对比</div></div>
+  <div class="kpi"><div class="kpi-tag">03 / FULL CHAIN · WOS</div><div class="kpi-main" id="kpi-wos">—</div><div class="kpi-sub" id="kpi-wos-sub">含上游独立库存</div></div>
+  <div class="kpi"><div class="kpi-tag">04 / ARS · WK CONTRIBUTION</div><div class="kpi-main" id="kpi-ars">—</div><div class="kpi-sub" id="kpi-ars-sub">零售毛利减模拟运营费用</div></div>
+ </div>
+ <section class="graph-panel" id="graph-panel" aria-label="跨模块业务关系图谱">
+  <div class="graph-hud"><div><div class="gh-title" id="field-label">RELATIONSHIP FIELD / ALL CONNECTIONS</div><div class="gh-sub" id="field-description">点击任意节点追溯规则。亮线表示当前观察层的影响路径。</div></div><div class="gh-controls"><button class="chip active" id="btn-all-links">全部关系</button><button class="chip" id="btn-impact">仅看变化</button></div></div>
+  <div id="demo-banner" class="demo-banner" role="status" aria-live="polite"></div><svg id="network-svg" class="network" viewBox="0 0 1100 580" aria-label="供应商、经销商、代理能力、零售、产品、库存和经营结果的关系网络">
+   <defs><pattern id="grid-dot" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="0.7" cy="0.7" r=".55" fill="#7695a2" opacity=".24"/></pattern><radialGradient id="halo"><stop offset="0" stop-color="#3d8e82" stop-opacity=".085"/><stop offset="1" stop-color="#3d8e82" stop-opacity="0"/></radialGradient><marker id="arrow-mint" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#6dc3b4" stroke-width=".8"/></marker></defs>
+   <rect x="0" y="0" width="1100" height="580" fill="url(#grid-dot)" opacity=".5"/>
+   <ellipse cx="550" cy="286" rx="420" ry="220" fill="url(#halo)" />
+   <circle cx="545" cy="295" r="238" fill="none" stroke="#285260" stroke-width=".8" stroke-dasharray="2 10" opacity=".4"/>
+   <circle cx="545" cy="295" r="164" fill="none" stroke="#285260" stroke-width=".8" stroke-dasharray="2 10" opacity=".27"/>
+   <text x="34" y="86" class="orbit-label">DEMAND / PRODUCT</text><text x="378" y="85" class="orbit-label">AGENCY / GOVERNANCE</text><text x="722" y="85" class="orbit-label">RETAIL / UNIT ECONOMICS</text><text x="849" y="526" class="orbit-label">INVENTORY / CASH</text>
+   <g id="edges"></g><g id="nodes"></g>
+  </svg>
+  <div class="network-footer"><div class="legend"><span><i class="keyline"></i>供货 / 流量</span><span><i class="keyline gold"></i>价格 / 经济性</span><span><i class="keyline purple"></i>假设性传导</span></div><span class="net-footer-status" id="node-count">12 OBJECTS · 21 DEPENDENCIES</span></div>
+ </section>
+ <div class="undergrid">
+ <section class="under-card"><div class="panel-head"><div><div class="panel-title">时间推演 / 全链路 WOS</div><div class="panel-cap">BASELINE VS SCENARIO · 0–12 WEEKS</div></div><div style="display:flex;align-items:center;gap:8px"><div class="chart-switch"><button data-chart="wos" class="active">WOS</button><button data-chart="balance">供需缺口</button><button data-chart="ars">ARS贡献</button></div><div class="mini-legend"><i></i>基线 <i class="alt"></i>当前情景</div></div></div><svg id="line-chart" class="spark" viewBox="0 0 570 175" preserveAspectRatio="none" aria-label="基线及模拟情景的未来12周WOS变化图"></svg><div class="chart-foot"><span>库存 = 上游 + 终端，避免渠道重复计数</span><span id="chart-note">W08 / WHAT-IF</span></div></section>
+ <section class="under-card"><div class="panel-head"><div><div class="panel-title">影响传导 / 本次干预</div><div class="panel-cap">ACCOUNTING RULES + ASSUMED RESPONSE</div></div><button class="resetlink" id="trace-detail-btn">查看规则链 ↗</button></div><div class="trace-list" id="trace-list"></div></section>
+ </div>
+</main>
+<aside class="right">
+ <div class="right-header"><div><div class="eyebrow">SCENARIO ENGINE / CONTROL DECK</div><h2 class="right-h">条件干预 · 状态传播</h2><div class="right-sub">仅修改右侧条件；所有视图按同一模型重算。</div></div><button class="ghost-btn" id="reset-btn" title="恢复默认情景">↺</button></div>
+ <div class="section-rule"></div>
+ <div class="eyebrow">01 / POLICY CHOICE</div><div class="ctrl-group"><div class="ctrl-head"><span class="ctrl-name">Margin 调整策略</span></div><div class="tabs" id="mode-tabs"><button class="active" data-mode="transfer">总点位固定</button><button data-mode="expand">总点位扩张</button></div><div class="ctrl-help" id="mode-note">将分销商点位转给零售端；DP保持不变。</div></div>
+ <div class="ctrl-group"><div class="ctrl-head"><span class="ctrl-name">零售端点位调整</span><span class="ctrl-value" id="margin-value">+3.0 pt</span></div><input type="range" class="range" id="margin-range" min="-3" max="7" step="0.5" value="3"/><div class="bounds"><span>−3pt</span><span>BASELINE 0</span><span>+7pt</span></div></div>
+ <div class="ctrl-group"><div class="ctrl-head"><span class="ctrl-name">工厂补货 / Sell-in 强度</span><span class="ctrl-value" id="supply-value">100%</span></div><input type="range" class="range" id="supply-range" min="65" max="140" step="5" value="100"/><div class="bounds"><span>65%</span><span>100% 基线</span><span>140%</span></div></div>
+ <div class="ctrl-group"><div class="ctrl-head"><span class="ctrl-name">ARS 固定费用变化</span><span class="ctrl-value" id="cost-value">0%</span></div><input type="range" class="range" id="cost-range" min="-25" max="25" step="5" value="0"/><div class="bounds"><span>−25%</span><span>成本不变</span><span>+25%</span></div></div>
+ <div class="tweak-box"><div class="tweak-head"><span class="ctrl-name">需求行为响应</span><span class="assumption">ASSUMPTION / 可调整</span></div><p>点位变化不会天然产生销量；此系数是演示中<strong style="color:#bad3cf">明确假设</strong>的零售执行响应。</p><div class="ctrl-head" style="margin-top:12px"><span class="ctrl-name">零售响应 / 每 +1pt</span><span class="ctrl-value" id="elastic-value">1.2%</span></div><input type="range" class="range" id="elastic-range" min="0" max="3" step="0.2" value="1.2"/><div class="bounds"><span>0%：无行为影响</span><span>3%</span></div><div class="ctrl-head" style="margin-top:7px"><span class="ctrl-name">代理执行能力指数</span><span class="ctrl-value" id="partner-value">1.00×</span></div><input type="range" class="range" id="partner-range" min="0.7" max="1.3" step="0.05" value="1"/><div class="bounds"><span>0.70×</span><span>基准 1.00×</span><span>1.30×</span></div><div class="ctrl-help">默认零售延迟2周、经销服务延迟3周；经销服务每点位响应0.8%（均可在模型说明中检查）。</div></div>
+ <div class="timeline"><div class="timeline-top"><span class="ctrl-name">推进模拟时钟</span><div class="time-btns"><button id="prev-week" class="smallbtn">−</button><button id="play-week" class="smallbtn">▶</button><button id="next-week" class="smallbtn">+</button></div></div><div class="ctrl-head"><span class="eyebrow">FORECAST HORIZON</span><span class="ctrl-value" id="week-value">第 8 / 12 周</span></div><input type="range" class="range" id="week-range" min="0" max="12" step="1" value="8"/><div class="time-ticks"><span>W00</span><span>W03</span><span>W06</span><span>W09</span><span>W12</span></div></div>
+ <div class="scenario-ops"><button id="save-A">记录情景 A</button><button id="save-B">记录情景 B</button><button id="open-compare">对照 A ↔ B</button></div><div id="save-message" class="save-message">已准备两个合成情景，可随时覆盖保存。</div>
+ <div class="section-rule"></div>
+ <div class="right-header"><span class="eyebrow">02 / INSPECTION</span><button class="resetlink" id="reset-focus">返回全景</button></div>
+ <section class="inspector" id="inspector"><div class="eyebrow">SELECTED OBJECT</div><div class="ins-title" id="inspector-title">经营结果总盘</div><div class="ins-desc" id="inspector-desc">点击画布中的节点，查看它如何依赖输入、与哪些模块关联、由什么公式产生。</div><div class="formula" id="inspector-formula">所有结果均来自同一份模拟状态。<br>基线与情景独立计算。</div></section>
+ <div class="compare-box"><div class="compare-stat"><small>工厂累计 Sell-in 收入</small><b id="compare-revenue">—</b><div class="ctrl-help" id="compare-revenue-diff"></div></div><div class="compare-stat"><small>经销端累计毛利估算</small><b id="compare-partner">—</b><div class="ctrl-help" id="compare-partner-diff"></div></div></div>
+ <div class="section-rule"></div>
+ <div class="eyebrow">03 / MODEL AUDIT</div><div class="audit-line"><span class="audit-dot" id="audit-dot"></span><span id="audit-physical">库存账实模拟平衡</span><br><span class="audit-dot"></span> Margin / DP 公式闭合<br><span class="audit-dot warn"></span> 动销变化 = 有条件的行为假设</div>
+ <div class="right-foot">DATA CLASS: SYNTHETIC · 模拟数据仅用于验证机制。模型未使用真实公司数据，未校准实际销量弹性、代理考核因果或市场预测。</div>
+</aside>
+</div>
+<div id="modal-back" class="modal-back" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal"><header><h2 id="modal-title">模型口径与可验证规则</h2><button class="close" id="modal-close">关闭 ✕</button></header><p>这是<strong>可运行的合成经营模型</strong>，不是外部数据仪表盘。所有国家、产品、代理画像、销量、库存、成本、需求弹性均为虚构演示参数。演示能够计算跨模块传导，但不应被用于真实商业预测。</p><table><thead><tr><th>机制</th><th>计算口径</th><th>证据等级</th></tr></thead><tbody><tr><td>合同点位</td><td>DP = RRP × (1 − 总点位)；零售/分销点位以同一 RRP 基数计量</td><td>确定性恒等式 / 本模型约定</td></tr><tr><td>库存流转</td><td>期末 = 期初 + 入库 − 出库；总部进货、经销转拨、终端卖出分别记账，不重复计算</td><td>确定性守恒</td></tr><tr><td>WOS</td><td>全链路上游与终端库存合计 ÷ 下一周预期终端周需求；分母使用模型预测值</td><td>有条件指标</td></tr><tr><td>零售响应</td><td>零售Margin点位变化×每点需求响应系数×执行能力×滞后爬坡</td><td>行为性假设，不是实证结论</td></tr><tr><td>经销服务</td><td>经销Margin点位变化×固定0.8%/pt×执行能力×3周延迟</td><td>行为性假设，不是实证结论</td></tr><tr><td>ARS利润</td><td>当周Sell-out×RRP×(零售Margin−可变费用率)−固定费用；未计折旧融资/税费等完整P&amp;L</td><td>简化条件模型</td></tr><tr><td>产品与代理</td><td>国家/产品选择会替换基础需求、库存、成本、合同参数及代理画像；代理能力调整是情景变量</td><td>合成对象属性</td></tr></tbody></table><p><strong>库存核验：</strong> 每周所有库存增减必须与工厂 Sell-in 减终端 Sell-out 完全对应；点位重分配与扩张不得混用；在无行为响应时，Margin改动不得凭空改变动销。随着时间推进，Sell-in 收入与 Sell-out 动销分别报告。</p></div></div>
+<div id="compare-back" class="modal-back" role="dialog" aria-modal="true" aria-labelledby="compare-title"><div class="modal"><header><h2 id="compare-title">情景 A / B · 经营结果对照</h2><button class="close" id="compare-close">关闭 ✕</button></header><p id="compare-scope">同一市场和产品、相同的第N周；对比的是条件模拟输出，不是现实预测。</p><div id="scenario-table"></div><p>点击“记录情景”保存当前参数；随后调整政策、补货或成本，再记录另一个情景。对照始终使用相同市场、产品和时间窗口。</p></div></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const DATA={
+ countries:{
+ TH:{name:'泰国',en:'THAILAND',partner:'TH · DISTRIBUTOR A',score:72,growth:9.1,traits:[83,69,66,70],targets:[75,80,75,75],history:[67,70,72],demand:[120,180,150,210],stocks:[720,1230,850,1210],upstream:980,fixedCost:1620,varCost:.043},
+ VN:{name:'越南',en:'VIETNAM',partner:'VN · DISTRIBUTOR B',score:80,growth:15.8,traits:[74,82,88,79],targets:[78,80,85,78],history:[73,77,80],demand:[95,145,175,160],stocks:[515,1040,1350,920],upstream:720,fixedCost:1150,varCost:.05},
+ MY:{name:'马来西亚',en:'MALAYSIA',partner:'MY · DISTRIBUTOR C',score:69,growth:6.4,traits:[73,67,70,66],targets:[75,78,72,75],history:[64,67,69],demand:[88,124,132,188],stocks:[500,830,720,1030],upstream:690,fixedCost:1100,varCost:.047}
+ },
+ products:{
+ A:{name:'旗舰影像 A',rrp:100,demandFactor:1,stockFactor:1,distMargin:10,retailMargin:20,onlineDist:8,onlineRetail:18,kaMargin:22,fixedFactor:1,category:'高端影像',trend:[78,91,100,112]} ,
+ B:{name:'便携影像 B',rrp:86,demandFactor:1.18,stockFactor:1.06,distMargin:9,retailMargin:19,onlineDist:8,onlineRetail:17,kaMargin:21,fixedFactor:.97,category:'便携影像',trend:[0,62,98,132]},
+ C:{name:'航拍产品 C',rrp:132,demandFactor:.76,stockFactor:1.25,distMargin:11,retailMargin:19,onlineDist:9,onlineRetail:17,kaMargin:23,fixedFactor:1.05,category:'航拍产品',trend:[96,92,100,104]}
+ }
+};
+const CLABEL=['ARS专卖店','线下分销终端','线上分销','KA直供'];
+const fmt=(v,d=0)=>Number.isFinite(v)?v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
+const signed=(v,d=1)=>((v>0?'+':'')+fmt(v,d));
+const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+let state={country:'TH',product:'A',focus:'overview',selected:'system',mode:'transfer',marginDelta:3,supply:100,cost:0,elastic:1.2,partnerExec:1,week:8,impactOnly:false,chart:'wos'};
+let playing=null, demoTimer=null, demoIndex=0;
+let savedScenarios={A:{...state},B:{...state,mode:'expand',supply:120}};
+function input(){return {...state};}
+function config(st){const co=DATA.countries[st.country],p=DATA.products[st.product];return {country:co,product:p,rrp:p.rrp,distBase:p.distMargin,retailBase:p.retailMargin,onlineDist:p.onlineDist,onlineRetail:p.onlineRetail,kaMargin:p.kaMargin,demand:co.demand.map((n,i)=>n*p.demandFactor*(i===3?.95:1)),stocks:co.stocks.map(n=>n*p.stockFactor),upstream:co.upstream*p.stockFactor,fixedCost:co.fixedCost*p.fixedFactor,varCost:co.varCost};}
+function margins(st,cfg){const retailer=cfg.retailBase+st.marginDelta,dist=cfg.distBase-(st.mode==='transfer'?st.marginDelta:0);if(retailer<0||dist<0||retailer+dist>=100)throw new Error('Margin out of bounds');return {retailer,dist,total:retailer+dist,dp:cfg.rrp*(1-(retailer+dist)/100),baselineDp:cfg.rrp*(1-(cfg.retailBase+cfg.distBase)/100),onlineDp:cfg.rrp*(1-(cfg.onlineRetail+cfg.onlineDist)/100),kaDp:cfg.rrp*(1-cfg.kaMargin/100)};}
+function ramp(week,delay){return clamp((week-delay+1)/3,0,1);}
+function demandAt(week,st,cfg,margin){const season=1+.0035*Math.max(week-1,0);
+ const retailEff=st.marginDelta*(st.elastic/100)*ramp(week,2)*st.partnerExec;
+ const distEff=(margin.dist-cfg.distBase)*(.8/100)*ramp(week,3)*st.partnerExec;
+ return cfg.demand.map((d,i)=>{const effect=i===0?retailEff+distEff:i===1?retailEff*.72+distEff*.92:0;return Math.max(0,d*season*clamp(1+effect,.5,1.5));});}
+function simulate(st){const cfg=config(st),m=margins(st,cfg),stock=cfg.stocks.slice();let upstream=cfg.upstream;const totalInitial=stock.reduce((a,b)=>a+b,0)+upstream;let cumSellout=0,cumSellin=0,cumMfr=0,cumPartner=0,cumARS=0;let totalReceipts=0,totalTransfers=0,totalTerminal=0;let lastDemand=cfg.demand.slice(),lastSales=[0,0,0,0],lastShipped=[0,0,0,0],lastARS=cfg.demand[0]*cfg.rrp*(m.retailer/100-cfg.varCost)-cfg.fixedCost*(1+st.cost/100);let lastDist=0;
+ const history=[];
+ function snapshot(week){const projected=demandAt(Math.max(1,week+1),st,cfg,m);const expectedTotal=projected.reduce((a,b)=>a+b,0);const retailTotal=stock.reduce((a,b)=>a+b,0),whole=retailTotal+upstream;const wos=expectedTotal>0?whole/expectedTotal:null;return {week,stock:stock.slice(),upstream,totalStock:whole,retailStock:retailTotal,wos,demand:projected,sellout:week===0?cfg.demand.slice():lastSales.slice(),shipped:lastShipped.slice(),cumSellout,cumSellin,cumMfr,cumPartner,cumARS,arsWeekly:lastARS,distWeekly:lastDist,totalReceipts,totalTransfers,totalTerminal,initialInventory:totalInitial,inventoryResidual:totalInitial+cumSellin-cumSellout-whole,perChannelWos:stock.map((v,i)=>projected[i]>0?v/projected[i]:null),margin:m,cfg};}
+ history.push(snapshot(0));
+ for(let w=1;w<=12;w++){
+  const weeklyDemand=demandAt(w,st,cfg,m);lastDemand=weeklyDemand.slice();
+  // Shipment from manufacturer: destination is a distributor reservoir for ARS + general, or direct to online / KA terminal.
+  const supply=st.supply/100;
+  const toDistributor=(cfg.demand[0]+cfg.demand[1])*supply;
+  const toOnline=cfg.demand[2]*supply;
+  const toKA=cfg.demand[3]*supply;
+  upstream+=toDistributor; totalReceipts+=toDistributor;
+  const arsAlloc=Math.min(upstream,cfg.demand[0]*supply);upstream-=arsAlloc;
+  const genAlloc=Math.min(upstream,cfg.demand[1]*supply);upstream-=genAlloc;
+  lastShipped=[arsAlloc,genAlloc,toOnline,toKA];
+  stock[0]+=arsAlloc;stock[1]+=genAlloc;stock[2]+=toOnline;stock[3]+=toKA;
+  const s=stock.map((v,i)=>Math.min(v,weeklyDemand[i]));lastSales=s.slice();
+  for(let i=0;i<4;i++)stock[i]-=s[i];
+  const sold=s.reduce((a,b)=>a+b,0);const incoming=toDistributor+toOnline+toKA;
+  const factoryGross=toDistributor*m.dp+toOnline*m.onlineDp+toKA*m.kaDp;
+  const partnerGross=(arsAlloc+genAlloc)*(m.dist/100)*cfg.rrp;
+  lastDist=partnerGross;
+  lastARS=s[0]*cfg.rrp*(m.retailer/100-cfg.varCost)-cfg.fixedCost*(1+st.cost/100);
+  cumSellout+=sold;cumSellin+=incoming;cumMfr+=factoryGross;cumPartner+=partnerGross;cumARS+=lastARS;totalTransfers+=arsAlloc+genAlloc;totalTerminal+=sold;
+  history.push(snapshot(w));
+ }
+ return {cfg,margin:m,history};
+}
+function baseline(st){return simulate({...st,marginDelta:0,mode:'transfer',supply:100,cost:0,elastic:0,partnerExec:1});}
+const NODES={
+ product:{x:70,y:125,w:155,h:74,type:'source',k:'PRODUCT MIX',title:'产品需求底盘'},
+ manufacturer:{x:69,y:273,w:158,h:88,type:'source',k:'UPSTREAM',title:'厂家 / DP'},
+ partner:{x:332,y:120,w:164,h:74,type:'complex',k:'PARTNER PROFILE',title:'代理商能力'},
+ distributor:{x:332,y:286,w:165,h:94,type:'source',k:'DISTRIBUTION',title:'分销商 / 利润'},
+ margin:{x:335,y:447,w:162,h:75,type:'finance',k:'MARGIN DESIGN',title:'全链路点位'},
+ online:{x:607,y:107,w:153,h:78,type:'source',k:'ONLINE',title:'线上分销'},
+ ars:{x:607,y:235,w:153,h:87,type:'output',k:'RETAIL / ARS',title:'授权零售店'},
+ retail:{x:608,y:365,w:153,h:78,type:'source',k:'OFFLINE',title:'线下分销终端'},
+ ka:{x:610,y:460,w:152,h:76,type:'source',k:'KEY ACCOUNT',title:'KA大客户'},
+ arsCost:{x:851,y:120,w:171,h:82,type:'finance',k:'STORE ECONOMICS',title:'ARS成本覆盖'},
+ system:{x:847,y:260,w:176,h:111,type:'output',k:'BUSINESS RESULT',title:'经营结果 / 增长'},
+ wos:{x:854,y:434,w:169,h:88,type:'complex',k:'INVENTORY CONTROL',title:'全链路 WOS'}
+};
+const EDGES=[
+ ['e1','product','manufacturer','hypothesis','product'],
+ ['e2','manufacturer','distributor','goods','channel'],
+ ['e3','manufacturer','online','goods','channel'],
+ ['e4','manufacturer','ka','goods','channel'],
+ ['e5','partner','distributor','hypothesis','partner'],
+ ['e6','margin','distributor','economics','margin'],
+ ['e7','margin','ars','economics','margin'],
+ ['e8','distributor','ars','goods','channel'],
+ ['e9','distributor','retail','goods','channel'],
+ ['e10','ars','arsCost','economics','ars'],
+ ['e11','ars','system','derived','ars'],
+ ['e12','retail','system','derived','channel'],
+ ['e13','online','system','derived','channel'],
+ ['e14','ka','system','derived','channel'],
+ ['e15','distributor','wos','derived','wos'],
+ ['e16','ars','wos','derived','wos'],
+ ['e17','retail','wos','derived','wos'],
+ ['e18','online','wos','derived','wos'],
+ ['e19','ka','wos','derived','wos'],
+ ['e20','arsCost','system','derived','ars'],
+ ['e21','partner','ars','hypothesis','partner']
+];
+const FOCUS={
+ overview:{nodes:Object.keys(NODES),edges:EDGES.map(e=>e[0]),label:'ALL CONNECTIONS',sub:'同一经营状态，七种业务投影；选择节点可追溯计算规则。'},
+ channel:{nodes:['manufacturer','distributor','online','ars','retail','ka','system','product'],edges:['e1','e2','e3','e4','e8','e9','e11','e12','e13','e14'],label:'CHANNEL OPERATING STRUCTURE',sub:'区分出货、终端动销与KA直供；避免将终端形态与销售路径直接相加。'},
+ product:{nodes:['product','manufacturer','ars','retail','online','ka','system','wos'],edges:['e1','e2','e3','e4','e8','e9','e11','e12','e13','e14','e16','e17','e18','e19'],label:'PRODUCT / DEMAND PATHWAYS',sub:'切换产品同时重置基础需求、RRP、库存与合同点位；观察各渠道响应。'},
+ margin:{nodes:['manufacturer','margin','distributor','ars','arsCost','partner','system','wos'],edges:['e2','e5','e6','e7','e8','e10','e11','e15','e16','e20','e21'],label:'ECONOMIC TRANSMISSION',sub:'两种点位策略改变不同利益承担主体；动销只能通过明示的假设性规则改变。'},
+ ars:{nodes:['margin','ars','arsCost','system','wos','distributor','partner'],edges:['e6','e7','e8','e10','e11','e16','e20','e21'],label:'ARS UNIT ECONOMICS',sub:'单位毛利、店面费用与销量共同决定门店贡献；成本调整不自动改变需求。'},
+ partner:{nodes:['partner','distributor','margin','ars','retail','system','wos'],edges:['e5','e6','e8','e9','e11','e12','e15','e16','e17','e21'],label:'PARTNER CAPABILITY',sub:'静态画像考核与动态执行系数分离；执行能力仅影响假设性行为响应。'},
+ wos:{nodes:['manufacturer','distributor','ars','retail','online','ka','wos','system'],edges:['e2','e3','e4','e8','e9','e15','e16','e17','e18','e19'],label:'INVENTORY FLOW / WOS',sub:'工厂Sell-in、经销转拨、终端Sell-out分开记账；整条链路库存守恒。'}
+};
+function initGraph(){const edges=$('edges');edges.innerHTML=EDGES.map(e=>`<path id="${e[0]}" class="net-edge ${e[3]}" data-from="${e[1]}" data-to="${e[2]}" />`).join('');const nodes=$('nodes');nodes.innerHTML=Object.entries(NODES).map(([id,n])=>{
+ const cx=n.x+n.w/2,cy=n.y+n.h/2;
+ return `<g class="net-node ${n.type}" id="node-${id}" data-node="${id}" role="button" tabindex="0" aria-label="查看${n.title}对象" transform="translate(${n.x},${n.y})"><rect class="node-shadow node-bg node-border" width="${n.w}" height="${n.h}" rx="11"/><circle class="node-dot" cx="14" cy="15" r="3"/><text x="23" y="18" class="node-header">${n.k}</text><text x="15" y="41" class="node-title">${n.title}</text><text x="15" y="${n.h-12}" class="node-foot" id="node-foot-${id}">—</text><text text-anchor="end" x="${n.w-13}" y="${n.h-12}" class="node-val" id="node-val-${id}"></text></g>`}).join('');
+ EDGES.forEach(e=>{const a=NODES[e[1]],b=NODES[e[2]];let x1,y1,x2,y2;if(b.x>a.x+a.w-22){x1=a.x+a.w;y1=a.y+a.h*.5;x2=b.x;y2=b.y+b.h*.5}else if(b.x+a.w<a.x){x1=a.x;y1=a.y+a.h/2;x2=b.x+b.w;y2=b.y+b.h/2}else if(b.y>=a.y+a.h){x1=a.x+a.w/2;y1=a.y+a.h;x2=b.x+b.w/2;y2=b.y}else{x1=a.x+a.w/2;y1=a.y;x2=b.x+b.w/2;y2=b.y+b.h}const dx=x2-x1,dy=y2-y1;let d;if(Math.abs(dx)>30){const cx=dx*.47;d=`M${x1},${y1} C${x1+cx},${y1} ${x2-cx},${y2} ${x2},${y2}`}else{d=`M${x1},${y1} C${x1},${y1+dy*.5} ${x2},${y2-dy*.5} ${x2},${y2}`}$(e[0]).setAttribute('d',d)});
+ document.querySelectorAll('.net-node').forEach(el=>{el.addEventListener('click',()=>selectNode(el.dataset.node));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectNode(el.dataset.node)}})});
+}
+function focusGraph(){const f=FOCUS[state.focus];$('field-label').textContent=`RELATIONSHIP FIELD / ${f.label}`;$('field-description').textContent=f.sub;$('view-subtitle').textContent=f.sub;const selected=state.selected;
+ document.querySelectorAll('.net-node').forEach(el=>{const id=el.dataset.node;const bright=f.nodes.includes(id);el.classList.toggle('dim',!bright);el.classList.toggle('active',selected===id);});
+ const highlight=state.impactOnly?['e6','e7','e5','e8','e9','e10','e11','e12','e15','e16','e17','e20','e21']:f.edges;
+ document.querySelectorAll('.net-edge').forEach(el=>{const yes=highlight.includes(el.id);el.classList.toggle('dim',!yes);el.classList.toggle('high',yes&&(state.focus!=='overview'||state.impactOnly));});
+ document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.focus===state.focus));$('btn-all-links').classList.toggle('active',!state.impactOnly);$('btn-impact').classList.toggle('active',state.impactOnly);
+}
+function setNodeText(id,foot,val){const f=$('node-foot-'+id),v=$('node-val-'+id);if(f)f.textContent=foot;if(v)v.textContent=val||'';}
+function selectNode(id){state.selected=id;if(['margin','wos','arsCost','partner','product','distributor','ars','retail','online','ka'].includes(id)){const map={margin:'margin',wos:'wos',arsCost:'ars',ars:'ars',partner:'partner',product:'product',distributor:'channel',retail:'channel',online:'channel',ka:'channel'};state.focus=map[id]||'overview';}updateView(false)}
+const INFO={
+ system:['经营结果总盘','经营结果同时依赖供货数量、各渠道终端动销、Margin价格条件及ARS成本。制造商Sell-in收入与终端Sell-out并不是同一个指标。','Manufacturing revenue = Σ(出货量 × 分渠道DP)\nTotal WOS = Σ(上游+终端库存) ÷ 下一周预期Sell-out'],
+ manufacturer:['厂家 / 供货价','厂家通过一级分销、线上和KA直供获取Sell-in收入。总点位固定时本链路DP不变；总点位扩张时同口径DP下降。','DP(ARS) = RRP × [1 − (Distributor pt + Retail pt)/100]'],
+ product:['产品需求底盘','切换产品会更新RRP、基础需求、各渠道库存结构与合同点位。产品的生命周期标签仅作背景，不会伪造时间增长。','需求基线 = 国家渠道需求 × 产品需求系数\n库存基线 = 国家渠道库存 × 产品库存系数'],
+ margin:['全链路点位','合同点位是确定性算术。总点位锁定时分销商让出给零售；扩张时分销商不让点位但厂家DP下降。','Retail pt = Baseline Retail pt + Δ\nDistributor pt = Baseline Dist pt − Δ (固定总点位时)'],
+ distributor:['分销商 / 利润','经销商收入在本示意按对ARS与普通零售的转拨量计量。分销商点位下降可能影响服务投入，但对销量的响应属于假设。','Distributor Gross = Σ(下游转拨量) × RRP × Distributor pt/100'],
+ partner:['代理商能力 / 考核','左侧跨国评分来自虚构的覆盖、零售执行、电商与财务分项。右侧执行指数是用于情景假设的变量，不能把画像得分直接当成真实弹性。','Behavior Response = Point Change × Assumed Elasticity × Execution Index × Ramp(Time)'],
+ ars:['ARS授权零售店','ARS是终端店型，不是与线下分销并列的另一个加总销售路径。它可能处于一级分销的下游；其Sell-out会改变库存与门店利润。','ARS gross margin = ARS Sell-out × RRP × Retail pt/100'],
+ retail:['线下分销终端','线下普通零售与ARS共同从一级分销商接收货物，两个终端类型分别记录库存和Sell-out；此处不含KA直供。','Offline Sell-out = min(可售库存, 预期终端需求)'],
+ online:['线上分销','线上分销拥有独立库存与固定合同点位。只调ARS/普通零售点位不会自动改变线上销量，除非另行建模。','Online DP = RRP × (1 − Online margin total)'],
+ ka:['KA大客户','KA按照直供模型独立核算；其点位定义与经销链路不同。它会贡献销售与库存，但本次Margin干预不影响其价格条件。','KA DP = RRP × (1 − KA direct margin)'],
+ arsCost:['ARS成本覆盖','ARS单位经济性以零售毛利−变动费用−固定费用表达。此处是简化经营贡献，不是完整净利润或ROI。','Weekly Contribution = Sell-out × RRP × (Retail pt% − Variable Opex%) − Fixed Opex'],
+ wos:['货盘 / WOS','全链路库存从工厂入库、经销转拨到终端售出完整记账；经销→终端的转拨不会虚增全链路库存。WOS分母是模型下一周预期需求。','Full-chain WOS = (Dist Upstream + All Terminal Stock) / Next-week Demand']
+};
+function setInspector(sim,base){const id=state.selected,info=INFO[id]||INFO.system,now=sim.history[state.week],m=sim.margin,c=sim.cfg;
+ let dynamic='';if(id==='product')dynamic=`\n合成历史指数(2023-26)：${c.product.trend.join(' / ')}\n本模型按国家×产品系数设基础需求；历史展示不自动变成销量因果。`;
+ if(id==='manufacturer')dynamic=`\n当前 ARS 链路 DP = ${fmt(m.dp,1)} U；基线 ${fmt(m.baselineDp,1)} U`;
+ if(id==='margin')dynamic=`\n当前：零售 ${fmt(m.retailer,1)}pt + 分销 ${fmt(m.dist,1)}pt = 总 ${fmt(m.total,1)}pt`;
+ if(id==='distributor')dynamic=`\n累计模拟毛利 = ${fmt(now.cumPartner,0)} U`;
+ if(id==='arsCost')dynamic=`\n第${state.week}周贡献 = ${fmt(now.arsWeekly,0)} U`;
+ if(id==='wos')dynamic=`\n第${state.week}周全链路WOS = ${fmt(now.wos,2)} 周`;
+ if(id==='partner'){const tr=c.country.traits,go=c.country.targets;dynamic=`\n画像匹配：覆盖 ${tr[0]}/${go[0]} · 零售 ${tr[1]}/${go[1]} · 线上 ${tr[2]}/${go[2]} · 财务 ${tr[3]}/${go[3]}（实际分/目标分）\n模拟考核：2024 ${c.country.history[0]} → 2025 ${c.country.history[1]} → 2026 ${c.country.history[2]}\n执行假设指数 ${fmt(state.partnerExec,2)}×（不修改考核原始分）`;}
+ $('inspector-title').textContent=info[0];$('inspector-desc').textContent=info[1];$('inspector-formula').textContent=info[2]+dynamic;
+}
+function drawChart(sim,base){
+ const choices={wos:{title:'时间推演 / 全链路 WOS',metric:x=>x.wos,unit:' 周',prec:2},balance:{title:'时间推演 / 累计 Sell-in − Sell-out',metric:x=>x.cumSellin-x.cumSellout,unit:' 台',prec:0},ars:{title:'时间推演 / ARS周经营贡献',metric:x=>x.arsWeekly,unit:' U',prec:0}};
+ const ch=choices[state.chart]||choices.wos;
+ const a=base.history,b=sim.history;
+ document.querySelector('.undergrid .panel-title').textContent=ch.title;
+ document.querySelectorAll('[data-chart]').forEach(e=>e.classList.toggle('active',e.dataset.chart===state.chart));
+ const vals=[...a,...b].map(ch.metric).filter(Number.isFinite);
+ let lo=Math.floor(Math.min(...vals)*.93),hi=Math.ceil(Math.max(...vals)*1.07);
+ if(state.chart==='wos')lo=Math.max(0,lo);
+ if(hi-lo<1){const middle=(hi+lo)/2;lo=middle-.5;hi=middle+.5;}
+ const left=37,right=548,top=14,bottom=139,x=w=>left+w/12*(right-left),y=v=>bottom-(v-lo)/(hi-lo)*(bottom-top);
+ const line=arr=>arr.map(z=>`${x(z.week).toFixed(1)},${y(ch.metric(z)).toFixed(1)}`).join(' ');
+ let html='';for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4,yp=y(v);html+=`<line x1="${left}" y1="${yp}" x2="${right}" y2="${yp}" stroke="#33505a" stroke-opacity=".38" stroke-dasharray="3 6"/><text x="2" y="${yp+3}" fill="#73939c" font-size="10" font-family="monospace">${fmt(v,Math.abs(hi-lo)<20?1:0)}</text>`;}
+ for(let i=0;i<=4;i++){const w=i*3;html+=`<text x="${x(w)}" y="161" text-anchor="middle" fill="#77959b" font-size="10" font-family="monospace">W${String(w).padStart(2,'0')}</text>`}
+ html+=`<polyline points="${line(a)}" fill="none" stroke="#507e8b" stroke-width="2"/><polyline points="${line(b)}" fill="none" stroke="#81ddc2" stroke-width="2.8"/><line x1="${x(state.week)}" y1="${top}" x2="${x(state.week)}" y2="${bottom}" stroke="#b2ccb6" stroke-width="1" stroke-dasharray="3 4"/><circle cx="${x(state.week)}" cy="${y(ch.metric(b[state.week]))}" r="4.6" fill="#a8eed8" stroke="#184148" stroke-width="2"/><circle cx="${x(state.week)}" cy="${y(ch.metric(a[state.week]))}" r="3.3" fill="#658e9a"/>`;
+ $('line-chart').innerHTML=html;$('chart-note').textContent=`W${String(state.week).padStart(2,'0')} / ${fmt(ch.metric(b[state.week]),ch.prec)}${ch.unit}`;
+}
+function buildTraces(sim,base){const m=sim.margin,c=sim.cfg,n=sim.history[state.week],b=base.history[state.week];const points=state.marginDelta,DPdelta=m.dp-m.baselineDp;const dSales=n.cumSellout-b.cumSellout;const wosDelta=n.wos-b.wos;const items=[
+ {node:'margin',title:`点位 ${signed(points,1)}pt`,body:state.mode==='transfer'?`总点位固定；分销商 ${signed(-points,1)}pt，厂家DP不变。`:`总点位 ${signed(points,1)}pt；厂家DP ${signed(DPdelta,1)} U。`},
+ {node:'partner',title:'行为响应属于假设',body:`零售需求系数 ${fmt(state.elastic,1)}%/pt · 执行 ${fmt(state.partnerExec,2)}× · 延迟2周；经销服务延迟3周。`},
+ {node:'ars',title:`终端累计动销 ${signed(dSales,0)} 台`,body:`ARS当周贡献 ${fmt(n.arsWeekly,0)} U，变化 ${signed(n.arsWeekly-b.arsWeekly,0)} U。`},
+ {node:'wos',title:`全链路WOS ${signed(wosDelta,2)} 周`,body:`工厂补货 ${state.supply}%；期末库存 ${fmt(n.totalStock,0)} 台，库存守恒误差 ${fmt(n.inventoryResidual,6)}。`}
+ ];$('trace-list').innerHTML=items.map((it,i)=>`<div class="trace-item" data-trace-node="${it.node}"><div class="step">0${i+1}</div><div class="desc"><strong>${it.title}</strong><br>${it.body}</div></div>`).join('');document.querySelectorAll('.trace-item').forEach(e=>e.addEventListener('click',()=>selectNode(e.dataset.traceNode)));}
+function markDiff(el,delta,unit,dec=1){let typ=Math.abs(delta)<1e-8?'neutral':delta>0?'up':'down';el.innerHTML=`<span class="diff ${typ}">${signed(delta,dec)}${unit}</span> · 相对基线`;}
+function updateView(recalc=true){const sim=simulate(state),base=baseline(state),s=sim.history[state.week],b=base.history[state.week],m=sim.margin,c=sim.cfg;
+ $('header-time').textContent=`SCENARIO / W${String(state.week).padStart(2,'0')}`;$('clock-display').textContent=`${c.country.en} / WEEK ${String(state.week).padStart(2,'0')}`;
+ $('kpi-dp').textContent=`${fmt(m.dp,1)} U`;markDiff($('kpi-dp-sub'),m.dp-m.baselineDp,' U',1);
+ $('kpi-sellout').textContent=fmt(s.cumSellout,0);markDiff($('kpi-sellout-sub'),s.cumSellout-b.cumSellout,' 台',0);
+ $('kpi-wos').textContent=fmt(s.wos,2)+' 周';markDiff($('kpi-wos-sub'),s.wos-b.wos,' 周',2);
+ $('kpi-ars').textContent=fmt(s.arsWeekly,0)+' U';markDiff($('kpi-ars-sub'),s.arsWeekly-b.arsWeekly,' U',0);
+ $('mode-note').textContent=state.mode==='transfer'?'总点位锁定：分销商让出点位，厂家DP保持基准。':'总点位扩张：分销商保留点位，厂家DP随总点位下降。';
+ $('margin-value').textContent=signed(state.marginDelta,1)+' pt';$('supply-value').textContent=state.supply+'%';$('cost-value').textContent=signed(state.cost,0)+'%';$('elastic-value').textContent=fmt(state.elastic,1)+'%';$('partner-value').textContent=fmt(state.partnerExec,2)+'×';$('week-value').textContent=`第 ${state.week} / 12 周`;
+ for(const k of ['margin','supply','cost','elastic','partner','week']){$(k+'-range').value=k==='margin'?state.marginDelta:k==='supply'?state.supply:k==='cost'?state.cost:k==='elastic'?state.elastic:k==='partner'?state.partnerExec:state.week;}
+ document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x.dataset.mode===state.mode));document.querySelectorAll('[data-country]').forEach(x=>x.classList.toggle('active',x.dataset.country===state.country));$('product-select').value=state.product;
+ $('compare-revenue').textContent=fmt(s.cumMfr,0)+' U';$('compare-revenue-diff').textContent=signed(s.cumMfr-b.cumMfr,0)+' U vs 基线';$('compare-partner').textContent=fmt(s.cumPartner,0)+' U';$('compare-partner-diff').textContent=signed(s.cumPartner-b.cumPartner,0)+' U vs 基线';
+ const invariant=Math.abs(s.inventoryResidual)<1e-6;$('audit-physical').textContent=invariant?'库存质量守恒：PASS':'库存质量守恒：FAIL';$('audit-dot').style.background=invariant?'#75c5ad':'#ec7f83';
+ setNodeText('product',c.product.category,`${fmt(c.rrp,0)} U`);
+ setNodeText('manufacturer','当前分销链路DP',`${fmt(m.dp,0)} U`);
+ setNodeText('margin',`D ${fmt(m.dist,1)} + R ${fmt(m.retailer,1)}`,`${fmt(m.total,1)}pt`);
+ setNodeText('partner',`画像 ${c.country.score}/100`,`${fmt(state.partnerExec,2)}×`);
+ setNodeText('distributor','累计转拨毛利',fmt(s.cumPartner,0));
+ setNodeText('ars',`销量 ${fmt(s.sellout[0],0)}台`,`${fmt(s.stock[0],0)}库`);
+ setNodeText('retail',`销量 ${fmt(s.sellout[1],0)}台`,`${fmt(s.stock[1],0)}库`);
+ setNodeText('online',`销量 ${fmt(s.sellout[2],0)}台`,`${fmt(s.stock[2],0)}库`);
+ setNodeText('ka',`销量 ${fmt(s.sellout[3],0)}台`,`${fmt(s.stock[3],0)}库`);
+ setNodeText('arsCost','当周门店经营贡献',fmt(s.arsWeekly,0)+'U');
+ setNodeText('system','累计Sell-out',fmt(s.cumSellout,0));
+ setNodeText('wos','上下游库存 / 周需求',fmt(s.wos,2)+'周');
+ drawChart(sim,base);buildTraces(sim,base);setInspector(sim,base);focusGraph();
+ return {sim,base};
+}
+function saveScenario(which){savedScenarios[which]={...state};$('save-message').textContent=`情景 ${which} 已保存：${state.mode==='transfer'?'总点位固定':'点位扩张'}，零售 ${signed(state.marginDelta,1)}pt，补货 ${state.supply}%`;}
+function compareScenarios(){const a=savedScenarios.A,b=savedScenarios.B;if(!a||!b){$('save-message').textContent='先分别记录 A / B 两种情景。';return;}if(a.country!==b.country||a.product!==b.product){$('save-message').textContent='A/B市场或产品不一致，请重新保存为相同对象。';return;}const week=state.week;const aa=simulate(a),bb=simulate(b),base=baseline(a),na=aa.history[week],nb=bb.history[week],nc=base.history[week];$('compare-scope').textContent=`${DATA.countries[a.country].name} / ${DATA.products[a.product].name} / WEEK ${week} · 共同口径；结果均为合成情景，不是实测预测。`;const rows=[['供货价 DP（U）',base.margin.dp,aa.margin.dp,bb.margin.dp,1],['累计Sell-out（台）',nc.cumSellout,na.cumSellout,nb.cumSellout,0],['全链路WOS（周）',nc.wos,na.wos,nb.wos,2],['ARS周经营贡献（U）',nc.arsWeekly,na.arsWeekly,nb.arsWeekly,0],['工厂累计收入（U）',nc.cumMfr,na.cumMfr,nb.cumMfr,0],['分销累计毛利估算（U）',nc.cumPartner,na.cumPartner,nb.cumPartner,0]];let html='<table><thead><tr><th>指标</th><th>基线</th><th>情景 A</th><th>情景 B</th></tr></thead><tbody>';for(const r of rows)html+=`<tr><td>${r[0]}</td><td>${fmt(r[1],r[4])}</td><td>${fmt(r[2],r[4])}</td><td>${fmt(r[3],r[4])}</td></tr>`;html+='</tbody></table>';$('scenario-table').innerHTML=html;$('compare-back').classList.add('show');}
+function stopPlay(){if(playing){clearInterval(playing);playing=null;}$('play-week').textContent='▶'}
+const DEMO_STEPS=[
+ {p:{week:0,marginDelta:0,mode:'transfer',supply:100,cost:0,elastic:1.2,partnerExec:1,focus:'overview',selected:'system'},txt:'00 / 冻结基线：相同国家、产品、渠道与库存口径'},
+ {p:{week:0,marginDelta:3,mode:'transfer',focus:'margin',selected:'margin'},txt:'01 / 点位重分配：零售 +3pt，分销 −3pt，厂家DP不变'},
+ {p:{week:3,focus:'partner',selected:'partner'},txt:'02 / 经销服务与零售响应：条件假设开始随时间生效'},
+ {p:{week:6,focus:'ars',selected:'arsCost'},txt:'03 / ARS 单店经营贡献更新：单位毛利与动销共同影响结果'},
+ {p:{week:9,focus:'wos',selected:'wos'},txt:'04 / 终端需求流转：Sell-out 与库存 / WOS 开始产生差异'},
+ {p:{week:12,mode:'expand',focus:'margin',selected:'manufacturer'},txt:'05 / 改为扩大总点位：厂家DP下降，分销商点位不变'},
+ {p:{week:12,supply:130,focus:'wos',selected:'wos'},txt:'06 / Sell-in 强度上调：需求没有同比扩大，WOS积累'},
+ {p:{week:12,focus:'overview',selected:'system'},txt:'07 / 汇总比较：增长、利润、库存的权衡同时显现'}
+];
+function cancelDemo(){if(demoTimer!==null){clearTimeout(demoTimer);demoTimer=null;}$('demo-btn').textContent='▶ 自动传导演示';$('demo-banner').classList.remove('show')}
+function startDemo(){if(demoTimer!==null){cancelDemo();return}stopPlay();demoIndex=0;$('demo-btn').textContent='Ⅱ 停止演示';
+ function next(){if(demoIndex>=DEMO_STEPS.length){cancelDemo();return}const st=DEMO_STEPS[demoIndex++];Object.assign(state,st.p);updateView();$('demo-banner').textContent=st.txt;$('demo-banner').classList.add('show');demoTimer=setTimeout(next,2200)}next();
+}
+function newScenario(){cancelDemo();state={country:state.country,product:state.product,focus:'overview',selected:'system',mode:'transfer',marginDelta:3,supply:100,cost:0,elastic:1.2,partnerExec:1,week:8,impactOnly:false,chart:'wos'};stopPlay();updateView()}
+function renderPartners(){const rows=$('partner-rows');rows.innerHTML=Object.entries(DATA.countries).map(([id,c])=>`<div class="partner-row" data-pick="${id}" role="button" tabindex="0"><div class="partner-top"><span>${c.name} / ${c.partner.split(' ').slice(-1)[0]}</span><b>${c.score}/100</b></div><div class="partner-bar"><span style="width:${c.score}%"></span></div></div>`).join('');document.querySelectorAll('[data-pick]').forEach(el=>{el.addEventListener('click',()=>{state.country=el.dataset.pick;savedScenarios={A:{...state},B:{...state,mode:'expand',supply:120}};updateView()});el.addEventListener('keydown',e=>{if(e.key==='Enter'){state.country=el.dataset.pick;savedScenarios={A:{...state},B:{...state,mode:'expand',supply:120}};updateView()}})})}
+function wire(){$('demo-btn').addEventListener('click',startDemo);document.querySelectorAll('[data-chart]').forEach(btn=>btn.addEventListener('click',()=>{state.chart=btn.dataset.chart;updateView()}));document.querySelectorAll('[data-country]').forEach(btn=>btn.addEventListener('click',()=>{state.country=btn.dataset.country;savedScenarios={A:{...state},B:{...state,mode:'expand',supply:120}};$('save-message').textContent='市场已切换：A/B已按新对象初始化。';updateView()}));$('product-select').addEventListener('change',e=>{state.product=e.target.value;savedScenarios={A:{...state},B:{...state,mode:'expand',supply:120}};$('save-message').textContent='市场/产品已切换：A/B已按新对象初始化。';updateView()});document.querySelectorAll('[data-focus]').forEach(btn=>btn.addEventListener('click',()=>{state.focus=btn.dataset.focus;state.selected=state.focus==='overview'?'system':({channel:'distributor',product:'product',margin:'margin',ars:'arsCost',partner:'partner',wos:'wos'}[state.focus]);updateView()}));
+ document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>{state.mode=btn.dataset.mode;updateView()}));
+ [['margin','marginDelta'],['supply','supply'],['cost','cost'],['elastic','elastic'],['partner','partnerExec'],['week','week']].forEach(([prefix,k])=>{$(prefix+'-range').addEventListener('input',e=>{if(demoTimer!==null)cancelDemo();state[k]=Number(e.target.value);if(k==='week')stopPlay();updateView()})});
+ $('btn-all-links').addEventListener('click',()=>{state.impactOnly=false;focusGraph()});$('btn-impact').addEventListener('click',()=>{state.impactOnly=true;focusGraph()});$('reset-btn').addEventListener('click',newScenario);$('reset-focus').addEventListener('click',()=>{state.selected='system';state.focus='overview';updateView(false)});$('prev-week').addEventListener('click',()=>{stopPlay();state.week=Math.max(0,state.week-1);updateView()});$('next-week').addEventListener('click',()=>{stopPlay();state.week=Math.min(12,state.week+1);updateView()});$('play-week').addEventListener('click',()=>{if(playing){stopPlay();return}if(state.week>=12)state.week=0;$('play-week').textContent='Ⅱ';playing=setInterval(()=>{state.week+=1;if(state.week>=12)stopPlay();updateView()},760);updateView()});
+ $('save-A').addEventListener('click',()=>saveScenario('A'));$('save-B').addEventListener('click',()=>saveScenario('B'));$('open-compare').addEventListener('click',compareScenarios);$('compare-close').addEventListener('click',()=>$('compare-back').classList.remove('show'));$('compare-back').addEventListener('click',e=>{if(e.target===$('compare-back'))$('compare-back').classList.remove('show')});$('trace-detail-btn').addEventListener('click',()=>{$('modal-back').classList.add('show')});$('guide-btn').addEventListener('click',()=>{$('modal-back').classList.add('show')});$('modal-close').addEventListener('click',()=>{$('modal-back').classList.remove('show')});$('modal-back').addEventListener('click',e=>{if(e.target===$('modal-back'))$('modal-back').classList.remove('show')});document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('modal-back').classList.remove('show');$('compare-back').classList.remove('show')};if(e.key==='ArrowRight'&&!['INPUT','SELECT'].includes(e.target.tagName)){state.week=Math.min(12,state.week+1);updateView()}if(e.key==='ArrowLeft'&&!['INPUT','SELECT'].includes(e.target.tagName)){state.week=Math.max(0,state.week-1);updateView()}});
+}
+// Console test harness for verifying model invariants independently of DOM interactions.
+window.ATLAS_TEST={simulate,baseline,margins,config,DATA,getState:()=>({...state}),setState:(patch)=>{Object.assign(state,patch);return updateView()}};
+initGraph();wire();renderPartners();updateView();
+</script>
+</body></html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>三种业务看板可视化范式 · Interactive Design Study</title>
+<style>
+:root {--bg:#eceef1;--ink:#18232d;--muted:#74808d;--line:#e6e8eb;--red:#b7483f;--green:#286d5c;--blue:#335cce;}
+* {box-sizing:border-box}
+body {margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#e8eaed;color:#162331;}
+button {font:inherit;cursor:pointer}
+.app {max-width:1390px;margin:0 auto;padding:30px 28px 50px}
+.masthead {display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}
+.brand {display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.14em;font-weight:850;color:#33414e}
+.brand-mark {background:#192d35;color:white;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:18px}
+.mast-meta {font-size:11px;letter-spacing:.06em;color:#6c757f}
+.intro {display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin-bottom:23px}
+.intro h1 {margin:0;font-family:Georgia,"Songti SC",serif;letter-spacing:-.05em;font-size:clamp(29px,4vw,53px);font-weight:700}
+.intro p {margin:8px 0 0;max-width:700px;font-size:13px;color:#6c7680;line-height:1.8}
+.tabs {display:flex;align-items:center;gap:4px;background:#dce0e4;padding:5px;border-radius:12px;white-space:nowrap}
+.tab {background:transparent;border:0;border-radius:9px;padding:12px 16px;color:#64707b;font-weight:750;font-size:12px;transition:all .2s}
+.tab.active {color:#1c3440;background:white;box-shadow:0 2px 10px #2222}
+.tab .idx {opacity:.4;margin-right:8px;font-size:10px}
+.demo {display:none;animation:enter .38s ease both}
+.demo.active {display:block}
+@keyframes enter {from {opacity:0;transform:translateY(8px)} to {opacity:1;transform:translateY(0)}}
+.board {overflow:hidden;border-radius:20px;box-shadow:0 22px 60px rgba(22,36,50,.12);min-height:630px;}
+.board .hint {font-size:11px;font-weight:600;letter-spacing:.03em}
+.scene-head {display:flex;justify-content:space-between;align-items:center;gap:16px}
+.scene-head .eyebrow {font-size:10px;letter-spacing:.18em;font-weight:850}
+.scene-head .right {font-size:11px;opacity:.65}
+.scene-title {font-family:Georgia,"Songti SC",serif;letter-spacing:-.03em;line-height:1.16}
+.legend {display:flex;align-items:center;gap:14px;font-size:10px;color:#79818d;flex-wrap:wrap}
+.legend i {display:inline-block;width:8px;height:8px;border-radius:100%;margin-right:5px}
+.explain {margin:20px 0 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.explain .item {padding:14px 17px;border:1px solid #cbd0d5;border-radius:11px;background:#f6f7f8}
+.explain .t {font-size:11px;font-weight:850;letter-spacing:.04em;color:#32414d;margin-bottom:5px}
+.explain .s {font-size:12px;line-height:1.7;color:#6a7480}
+/* A: Boardroom / editorial */
+#business .board {background:#fcfbf7;color:#1c2930;padding:28px 36px 32px}
+#business .scene-head {border-bottom:1px solid #dcdcd7;padding-bottom:14px}
+#business .eyebrow {color:#b64a3e}
+#business .scene-title {font-size:clamp(25px,3vw,38px);font-weight:650;max-width:850px;margin:25px 0 14px}
+#business .headline {max-width:950px;font-size:13px;color:#67727b;line-height:1.8;margin-bottom:26px}
+.kpi-grid {display:grid;grid-template-columns:1.2fr 1fr 1fr 1.1fr;border-top:1px solid #dadbd7;border-bottom:1px solid #dadbd7;margin-bottom:25px}
+.kpi {padding:18px 22px 20px;border-right:1px solid #dadbd7;min-width:0}
+.kpi:first-child {padding-left:0}.kpi:last-child {border:0}
+.kpi .key {font-size:10px;color:#7a848a;letter-spacing:.08em;font-weight:800}
+.kpi .num {font-family:Georgia,serif;font-size:clamp(25px,3vw,37px);margin:5px 0 0;letter-spacing:-.05em}
+.kpi .sub {font-size:10px;color:#849097;margin-top:4px}
+.kpi .red {color:#b44a40}.kpi .green {color:#206c56}
+.business-main {display:grid;grid-template-columns:1.9fr .93fr;gap:30px}
+.chartbox {min-width:0}
+.box-top {display:flex;justify-content:space-between;gap:8px;align-items:center;border-bottom:1px solid #e1e1de;padding-bottom:10px}
+.box-top h3 {font-size:13px;margin:0;font-weight:850}.box-top .tag {font-size:10px;color:#9a7770}
+.waterfall {display:block;width:100%;height:auto;margin-top:6px}
+.waterfall text {font-family:Inter,"PingFang SC",sans-serif}
+.drivers h3 {margin:0 0 17px;font-size:13px}
+.driver {display:grid;grid-template-columns:67px 1fr 60px;align-items:center;gap:12px;margin-bottom:17px;cursor:pointer;border-radius:6px;padding:4px;transition:background .2s}
+.driver:hover,.driver.active {background:#f3f0e9}
+.driver .name {font-weight:750;font-size:11px}
+.driver .track {height:8px;background:#e3e5df;border-radius:10px;overflow:hidden}
+.driver .track span {height:100%;display:block;border-radius:10px;background:#7b9fa0}
+.driver .val {text-align:right;font-size:11px;font-weight:850}
+.drivers .summary {margin-top:24px;border-left:3px solid #b64a3e;background:#f6f0e9;padding:15px 15px 13px;font-size:12px;color:#56616a;line-height:1.65;min-height:92px}
+.drivers .summary b {display:block;color:#28333b;font-size:12px;margin-bottom:4px}
+.business-footer {display:flex;gap:16px;align-items:center;justify-content:space-between;border-top:1px solid #e0e0dc;padding-top:18px;margin-top:10px;font-size:11px}
+.business-footer strong {font-weight:850;font-size:13px}
+.business-footer .action {background:#202e35;color:white;padding:10px 16px;border-radius:5px;font-size:11px}
+/* B: channel, dark atlas */
+#channel .board {background:radial-gradient(circle at 60% 20%,#1b2943 0%,#101a2c 42%,#0c1423 90%);color:#f0f4fb;padding:28px 35px 31px;position:relative}
+#channel .board:before {content:"";position:absolute;inset:0;pointer-events:none;opacity:.13;background-image:radial-gradient(#7c96bd 1px,transparent 1px);background-size:22px 22px}
+#channel .board>* {position:relative;z-index:1}
+#channel .eyebrow {color:#7bdbc4}
+#channel .scene-head {border-bottom:1px solid #ffffff20;padding-bottom:15px}
+#channel .scene-title {font-size:clamp(26px,3vw,39px);margin:28px 0 10px;max-width:850px}
+#channel .lede {font-size:13px;color:#9caabe;line-height:1.7;margin:0 0 20px}
+.channel-stats {display:flex;gap:26px;flex-wrap:wrap;margin-bottom:9px}
+.cs {min-width:140px}.cs label {display:block;font-size:10px;color:#8b9bb3;margin-bottom:6px}.cs strong {font-size:26px;letter-spacing:-.04em}.cs em {font-style:normal;margin-left:7px;color:#69d4bf;font-size:10px}
+.channel-visual {background:linear-gradient(145deg,rgba(32,48,73,.68),rgba(14,25,42,.86));border:1px solid #ffffff18;border-radius:14px;margin-top:19px;overflow:hidden}
+.chartmenu {display:flex;align-items:center;justify-content:space-between;padding:15px 21px 0;gap:10px}
+.chartmenu .title {font-size:12px;font-weight:800}
+.switch {border:1px solid #476078;border-radius:6px;display:flex;overflow:hidden}
+.switch button {border:0;background:transparent;color:#88a0b7;font-size:10px;padding:8px 11px;font-weight:750}
+.switch button.active {background:#456b78;color:#effffc}
+.channel-svg {width:100%;height:auto;display:block;min-width:620px;max-height:370px}
+.channel-svg text {font-family:Inter,"PingFang SC",sans-serif;fill:#d9e6f4}
+.channel-svg .flow {mix-blend-mode:screen;opacity:.66;transition:opacity .2s,stroke-width .2s;stroke-linecap:round;fill:none}
+.channel-svg .flow:hover {opacity:1}
+.channel-svg .control {fill:none;stroke:#f3bb77;stroke-width:2;stroke-dasharray:4 7;opacity:.86;animation:flowline 8s linear infinite}
+@keyframes flowline {to {stroke-dashoffset:-80}}
+.channel-svg .node {cursor:pointer}
+.channel-svg .node rect {transition:stroke .2s,filter .2s}
+.channel-svg .node:hover rect,.channel-svg .node.selected rect {stroke:#fff;filter:drop-shadow(0 0 9px #74ffe866)}
+.channel-svg .small {font-size:12px;fill:#91a7bd}.channel-svg .big {font-size:15px;font-weight:850}
+.channel-bottom {display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:10px;margin-top:17px}
+.channel-card {border:1px solid #ffffff20;background:#ffffff08;border-radius:9px;padding:15px 17px;min-height:94px}
+.channel-card label {display:block;font-size:10px;color:#8d9eb4;margin-bottom:8px}.channel-card strong {font-size:13px;color:#e4f4f5;font-weight:750;line-height:1.5}.channel-card .alert {color:#ffb9a7}
+#node-info {color:#b5e8de}
+/* C: process architecture */
+#process .board {background:#f3f7f6;color:#233e46;padding:28px 34px 30px}
+#process .scene-head {padding-bottom:15px;border-bottom:1px solid #cadad7}
+#process .eyebrow {color:#2a7f78}
+#process .scene-title {font-size:clamp(25px,3vw,39px);margin:25px 0 10px}
+#process .lede {color:#72878a;font-size:13px;line-height:1.7;margin:0 0 19px}
+.process-metrics {display:flex;gap:14px;flex-wrap:wrap;margin-bottom:19px}
+.pm {background:#ffffffb6;border:1px solid #d8e6e2;border-radius:8px;padding:12px 18px;min-width:150px}
+.pm span {font-size:10px;color:#829595;display:block;margin-bottom:5px}.pm strong {font-size:22px;letter-spacing:-.04em}
+.pm .danger {color:#c76a4d}
+.process-figure {border:1px solid #d3e2df;background:white;border-radius:12px;overflow:hidden;box-shadow:0 6px 14px #275c5610}
+.process-svg {width:100%;min-width:680px;display:block;height:auto}
+.process-svg text {font-family:Inter,"PingFang SC",sans-serif}
+.process-svg .lane-name {fill:#7d9795;font-size:12px;font-weight:850;letter-spacing:.03em}
+.process-svg .rail {stroke:#92b8b3;stroke-width:4;stroke-linejoin:round;stroke-linecap:round;fill:none}
+.process-svg .rail-alert {stroke:#d87555;stroke-width:4;fill:none;stroke-linecap:round}
+.process-svg .station {cursor:pointer}
+.process-svg .station .shape {transition:filter .2s,stroke-width .2s}
+.process-svg .station:hover .shape,.process-svg .station.selected .shape {stroke-width:5;filter:drop-shadow(0px 0px 7px #2a989144)}
+.process-svg .stephead {font-size:14px;fill:#24434b;font-weight:850}.process-svg .stepsub {font-size:10px;fill:#819595}
+.process-svg .pilltext {font-size:10px;fill:#ce684c;font-weight:800}
+.process-lower {display:grid;grid-template-columns:1.3fr 1fr;gap:12px;margin-top:14px}
+.process-box {background:#fff;border:1px solid #d7e5e1;border-radius:9px;padding:16px 18px;min-height:106px}
+.process-box small {display:block;color:#899a9a;font-size:10px;margin-bottom:6px;letter-spacing:.03em}
+.process-box strong {font-size:13px;color:#20484b}.process-box p {font-size:12px;line-height:1.7;color:#667d7d;margin:6px 0 0}
+.process-box.risk {border-left:3px solid #d67455}
+@media(max-width:1020px) {.intro{display:block}.tabs{margin-top:18px;width:max-content;max-width:100%;overflow:auto}.business-main{grid-template-columns:1fr}.channel-bottom{grid-template-columns:1fr 1fr}.kpi-grid{grid-template-columns:1fr 1fr}.kpi:nth-child(2){border:0}.kpi:nth-child(-n+2){border-bottom:1px solid #dadbd7}}
+@media(max-width:630px) {.app{padding:20px 11px 32px}.mast-meta{display:none}.brand{font-size:9px}.masthead{margin-bottom:15px}.intro h1{font-size:29px}.tabs{width:100%;justify-content:space-between}.tab{padding:10px 7px;font-size:11px;flex:1}.tab .idx{display:none}.board{border-radius:13px!important;min-height:0}.board .scene-title{font-size:26px!important}.scene-head .right{display:none}#business .board,#channel .board,#process .board{padding:21px 17px 23px}.kpi{padding:12px 12px 13px}.kpi:first-child{padding-left:0}.kpi .num{font-size:29px}.waterfall{min-width:410px}.chartbox{overflow:auto}.channel-stats{gap:11px}.cs{min-width:calc(50% - 11px)}.channel-visual{overflow-x:auto}.chartmenu{min-width:610px}.channel-bottom{grid-template-columns:1fr}.process-figure{overflow-x:auto}.process-lower{grid-template-columns:1fr}.explain{grid-template-columns:1fr}.business-footer{align-items:flex-start;flex-direction:column;gap:9px}.driver{grid-template-columns:68px 1fr 55px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="masthead"><div class="brand"><div class="brand-mark">W</div>VISUAL SYSTEMS LAB / ENTERPRISE INTELLIGENCE</div><div class="mast-meta">THREE VISUAL LANGUAGES · DESIGN STUDY 2026</div></div>
+ <div class="intro"><div><h1>把复杂业务变成可以判断的图。</h1><p>同一套渠道治理数据，采用不同的叙事结构：结果与归因、网络与权力、流程与责任。以下全为虚构示例数据，用于演示交互和视觉方法。</p></div></div>
+ <div class="tabs" role="tablist" aria-label="选择看板场景">
+   <button class="tab active" data-tab="business" aria-selected="true"><span class="idx">01</span>业务经营汇报</button>
+   <button class="tab" data-tab="channel" aria-selected="false"><span class="idx">02</span>渠道结构汇报</button>
+   <button class="tab" data-tab="process" aria-selected="false"><span class="idx">03</span>流程治理汇报</button>
+ </div>
+ <div style="height:18px"></div>
+ <section class="demo active" id="business">
+  <div class="board">
+   <div class="scene-head"><span class="eyebrow">01 / EXECUTIVE DECISION BRIEF</span><span class="right">SEA REGION · QUARTERLY REVIEW · ILLUSTRATIVE</span></div>
+   <h2 class="scene-title">增长实现了，但经营质量正在分化。</h2>
+   <div class="headline">营收上行并不能直接解释业绩质量；需要拆解增长来源，识别渠道库存、价格调整和利润侵蚀。</div>
+   <div class="kpi-grid">
+    <div class="kpi"><div class="key">区域营收 / REVENUE</div><div class="num">$108.0<span style="font-size:16px">M</span></div><div class="sub"><b class="green">↑ 8.0%</b> 同比增长</div></div>
+    <div class="kpi"><div class="key">渠道动销 / SELL-THROUGH</div><div class="num">63.4<span style="font-size:16px">%</span></div><div class="sub">目标 70%，<b class="red">差 6.6pp</b></div></div>
+    <div class="kpi"><div class="key">库存周数 / WOS</div><div class="num red">23.6<span style="font-size:16px">w</span></div><div class="sub">健康阈值 14w</div></div>
+    <div class="kpi"><div class="key">经销利润率 / MARGIN</div><div class="num">15.2<span style="font-size:16px">%</span></div><div class="sub"><b class="red">↓ 2.1pp</b> 环比下降</div></div>
+   </div>
+   <div class="business-main">
+    <div class="chartbox">
+     <div class="box-top"><h3>增长从何而来？｜营收桥接分析</h3><span class="tag">UNIT: USD MILLION</span></div>
+     <svg class="waterfall" viewBox="0 0 670 305" role="img" aria-label="经营结果桥接图：基期100，销量增加18，价格减少5，库存与退货减少8，结构提升3，期末108">
+       <line x1="44" y1="246" x2="648" y2="246" stroke="#ccd0ce" stroke-width="1"/>
+       <line x1="44" y1="168" x2="648" y2="168" stroke="#e8e9e6" stroke-width="1" stroke-dasharray="3 5"/>
+       <line x1="44" y1="90" x2="648" y2="90" stroke="#e8e9e6" stroke-width="1" stroke-dasharray="3 5"/>
+       <text x="6" y="251" font-size="10" fill="#94a1a2">90</text><text x="3" y="172" font-size="10" fill="#94a1a2">105</text><text x="3" y="94" font-size="10" fill="#94a1a2">120</text>
+       <rect x="60" y="194" width="72" height="52" rx="3" fill="#344b55"/>
+       <line x1="132" y1="194" x2="168" y2="194" stroke="#aeb9b5" stroke-dasharray="3 3"/>
+       <rect x="168" y="100" width="72" height="94" rx="3" fill="#4f8775"/>
+       <line x1="240" y1="100" x2="278" y2="100" stroke="#aeb9b5" stroke-dasharray="3 3"/>
+       <rect x="278" y="100" width="72" height="26" rx="3" fill="#c16a5a"/>
+       <line x1="350" y1="126" x2="388" y2="126" stroke="#aeb9b5" stroke-dasharray="3 3"/>
+       <rect x="388" y="126" width="72" height="42" rx="3" fill="#c16a5a"/>
+       <line x1="460" y1="168" x2="498" y2="168" stroke="#aeb9b5" stroke-dasharray="3 3"/>
+       <rect x="498" y="152" width="72" height="16" rx="3" fill="#4f8775"/>
+       <line x1="570" y1="152" x2="590" y2="152" stroke="#aeb9b5" stroke-dasharray="3 3"/>
+       <rect x="590" y="152" width="55" height="94" rx="3" fill="#344b55"/>
+       <g text-anchor="middle" font-size="12" font-weight="800"><text x="96" y="184" fill="#394e57">100</text><text x="204" y="88" fill="#387360">+18</text><text x="314" y="91" fill="#b6574a">−5</text><text x="424" y="117" fill="#b6574a">−8</text><text x="534" y="141" fill="#387360">+3</text><text x="617" y="140" fill="#394e57">108</text></g>
+       <g text-anchor="middle" font-size="11" fill="#64747b"><text x="96" y="267">上期</text><text x="204" y="267">销量</text><text x="314" y="267">价格</text><text x="424" y="267">库存/退货</text><text x="534" y="267">产品结构</text><text x="617" y="267">本期</text></g>
+       <text x="44" y="297" font-size="10" fill="#8a969b">结构桥接用来解释变化，而不只是展示变化。</text>
+     </svg>
+    </div>
+    <div class="drivers">
+     <h3>市场健康度｜点击查看管理判断</h3>
+     <div class="driver active" data-market="泰国"><span class="name">泰国</span><span class="track"><span style="width:82%;background:#bd755e"></span></span><span class="val" style="color:#b45646">26.1w</span></div>
+     <div class="driver" data-market="越南"><span class="name">越南</span><span class="track"><span style="width:35%"></span></span><span class="val">11.3w</span></div>
+     <div class="driver" data-market="马来西亚"><span class="name">马来西亚</span><span class="track"><span style="width:57%"></span></span><span class="val">18.2w</span></div>
+     <div class="driver" data-market="香港"><span class="name">香港</span><span class="track"><span style="width:43%"></span></span><span class="val">13.8w</span></div>
+     <div class="summary" id="market-detail"><b>泰国｜库存结构风险</b>库存周数偏高。建议追踪库存年龄、SKU集中度及Sell-in/Sell-out差异，而非简单继续压货。</div>
+    </div>
+   </div>
+   <div class="business-footer"><div><strong>汇报结论</strong><span style="color:#7b888d;margin-left:9px">优先处理库存质量，而不是仅追求销量增长。</span></div><div class="action">DECISION REQUIRED · 周转治理优先</div></div>
+  </div>
+  <div class="explain">
+   <div class="item"><div class="t">视觉核心：经营桥接</div><div class="s">用增减因素解释总指标如何从 A 走到 B。</div></div>
+   <div class="item"><div class="t">最佳互动：点击国家 / SKU</div><div class="s">联动展示原因、风险阈值和下一步动作。</div></div>
+   <div class="item"><div class="t">汇报适合：高层决策会</div><div class="s">视觉像财经杂志，结论优先，图表服务论点。</div></div>
+  </div>
+ </section>
+ <section class="demo" id="channel">
+  <div class="board">
+   <div class="scene-head"><span class="eyebrow">02 / CHANNEL NETWORK ATLAS</span><span class="right">STRUCTURE · FLOW · CONTROL</span></div>
+   <h2 class="scene-title">看见货物流向，也看见渠道依赖。</h2>
+   <p class="lede">把“总部—代理—渠道—终端”从静态清单改写成带权网络，线的宽度代表货量，节点代表主体，虚线可表达决策或授权关系。</p>
+   <div class="channel-stats">
+    <div class="cs"><label>活跃渠道主体</label><strong>148</strong><em>个节点</em></div>
+    <div class="cs"><label>最大一级代理依赖</label><strong>60%</strong><em style="color:#e8a58a">集中风险</em></div>
+    <div class="cs"><label>终端Sell-out覆盖</label><strong>76%</strong><em>覆盖水平</em></div>
+    <div class="cs"><label>渠道链路完整性</label><strong>92%</strong><em>可追溯</em></div>
+   </div>
+   <div class="channel-visual">
+    <div class="chartmenu"><span class="title">Distribution Flow / 示例货量结构</span><div class="switch"><button class="active" data-layer="goods">货物流</button><button data-layer="control">权责关系</button></div></div>
+    <div style="overflow:auto">
+    <svg class="channel-svg" viewBox="0 0 1040 360" role="img" aria-label="渠道桑基关系图：总部至代理与直控渠道，分流至连锁零售、中小经销、电商和直营">
+    <defs>
+      <linearGradient id="f1" x1="0" x2="1"><stop offset="0" stop-color="#24b7aa" stop-opacity=".65"/><stop offset="1" stop-color="#54dfbe" stop-opacity=".75"/></linearGradient>
+      <linearGradient id="f2" x1="0" x2="1"><stop offset="0" stop-color="#5376bd" stop-opacity=".7"/><stop offset="1" stop-color="#777ee7" stop-opacity=".8"/></linearGradient>
+    </defs>
+    <g class="flows">
+      <path class="flow" d="M165 180 C280 180 300 97 438 97" stroke="url(#f1)" stroke-width="58"/>
+      <path class="flow" d="M165 180 C280 180 300 267 438 267" stroke="url(#f2)" stroke-width="39"/>
+      <path class="flow" d="M453 97 C576 97 605 64 750 64" stroke="#38c9b0" stroke-width="35"/>
+      <path class="flow" d="M453 111 C590 111 630 145 750 151" stroke="#3ea8ab" stroke-width="28"/>
+      <path class="flow" d="M453 267 C570 267 615 235 750 237" stroke="#707fe2" stroke-width="29"/>
+      <path class="flow" d="M453 277 C600 277 615 320 750 322" stroke="#7770d6" stroke-width="15"/>
+    </g>
+    <g class="controls" style="display:none">
+       <path class="control" d="M169 177 C380 4 550 10 751 64"/>
+       <path class="control" d="M169 177 C360 180 570 152 751 151"/>
+       <path class="control" d="M169 177 C380 357 585 350 751 322"/>
+       <text x="480" y="39" style="fill:#f3bb77;font-size:12px;font-weight:800">决策线不等于货物流</text>
+    </g>
+    <g class="node"><rect x="45" y="149" width="120" height="62" rx="8" fill="#26354a" stroke="#71d5c3" stroke-width="1.7"/><text x="105" y="173" text-anchor="middle" class="small">SUPPLY</text><text x="105" y="193" text-anchor="middle" class="big">品牌总部</text></g>
+    <g class="node" data-node="代理型渠道"><rect x="438" y="69" width="147" height="59" rx="7" fill="#254746" stroke="#59d5b5" stroke-width="1.7"/><text x="452" y="91" class="big">总代理</text><text x="452" y="110" class="small" style="fill:#b9dfd3">60% · 一级网络</text></g>
+    <g class="node" data-node="直接管理渠道"><rect x="438" y="239" width="147" height="59" rx="7" fill="#2e375b" stroke="#939af4" stroke-width="1.7"/><text x="452" y="261" class="big">直控渠道</text><text x="452" y="281" class="small" style="fill:#c0c7ff">40% · 品牌管理</text></g>
+    <g class="node" data-node="连锁零售"><rect x="750" y="38" width="240" height="54" rx="7" fill="#163c40" stroke="#42c8b2" stroke-width="1.5"/><text x="770" y="60" class="big">连锁零售</text><text x="966" y="70" text-anchor="end" class="big">34%</text><text x="770" y="78" class="small">KEY ACCOUNT / RETAIL</text></g>
+    <g class="node" data-node="中小经销"><rect x="750" y="124" width="240" height="54" rx="7" fill="#183d46" stroke="#51a9a9" stroke-width="1.5"/><text x="770" y="146" class="big">中小经销</text><text x="966" y="156" text-anchor="end" class="big">26%</text><text x="770" y="164" class="small">DISTRIBUTION NETWORK</text></g>
+    <g class="node" data-node="平台电商"><rect x="750" y="210" width="240" height="54" rx="7" fill="#303657" stroke="#7889e5" stroke-width="1.5"/><text x="770" y="232" class="big">平台电商</text><text x="966" y="242" text-anchor="end" class="big">28%</text><text x="770" y="250" class="small">ECOMMERCE / MARKETPLACE</text></g>
+    <g class="node" data-node="直营门店"><rect x="750" y="295" width="240" height="54" rx="7" fill="#373253" stroke="#a190e4" stroke-width="1.5"/><text x="770" y="317" class="big">直营门店</text><text x="966" y="327" text-anchor="end" class="big">12%</text><text x="770" y="335" class="small">DIRECT-TO-CONSUMER</text></g>
+    </svg></div>
+   </div>
+   <div class="channel-bottom">
+    <div class="channel-card"><label>SELECTED NODE / 点选节点</label><strong id="node-info">选择任一节点，查看不同渠道的管理属性。</strong></div>
+    <div class="channel-card"><label>STRUCTURAL RISK</label><strong class="alert">总代理占比过高，重点查看资金与库存依赖</strong></div>
+    <div class="channel-card"><label>WHAT TO DRILL INTO</label><strong>点位 → SKU → 库存 → 盈利 → 主体关系</strong></div>
+   </div>
+  </div>
+  <div class="explain">
+   <div class="item"><div class="t">视觉核心：带权流动网络</div><div class="s">桑基图表示流量，节点网络表示关系；两者可叠加。</div></div>
+   <div class="item"><div class="t">最佳互动：货物流 / 授权切换</div><div class="s">用相同实体与不同关系层理解权力、库存和资金。</div></div>
+   <div class="item"><div class="t">汇报适合：渠道架构与治理</div><div class="s">让集中度、层级深度和渠道重叠可视化。</div></div>
+  </div>
+ </section>
+ <section class="demo" id="process">
+  <div class="board">
+   <div class="scene-head"><span class="eyebrow">03 / PROCESS OBSERVABILITY BLUEPRINT</span><span class="right">EXECUTION · SLA · EXCEPTION</span></div>
+   <h2 class="scene-title">流程不是图纸，而是正在发生的事。</h2>
+   <p class="lede">将静态泳道图升级为“流程运行监控”：谁处理、卡在哪、超时多久、异常如何回路。主路径独占一条干净的导轨。</p>
+   <div class="process-metrics"><div class="pm"><span>本月事件 / CASES</span><strong>126</strong></div><div class="pm"><span>平均闭环耗时</span><strong>38.5h</strong></div><div class="pm"><span>标准 SLA</span><strong>48h</strong></div><div class="pm"><span>当前阻塞节点</span><strong class="danger">07</strong></div></div>
+   <div class="process-figure" style="overflow:auto">
+    <svg class="process-svg" viewBox="0 0 1070 390" role="img" aria-label="企业流程泳道：销售提出，渠道BP核验，财务复核，BU决策，结论入库。财务复核发生阻塞，出现返工分支">
+     <rect width="1070" height="390" fill="#fff"/>
+     <g fill="#f6faf8"><rect x="0" y="0" width="1070" height="77"/><rect x="0" y="154" width="1070" height="78"/><rect x="0" y="310" width="1070" height="80"/></g>
+     <g stroke="#edf2ef" stroke-width="1"><line x1="0" x2="1070" y1="77" y2="77"/><line x1="0" x2="1070" y1="154" y2="154"/><line x1="0" x2="1070" y1="232" y2="232"/><line x1="0" x2="1070" y1="310" y2="310"/></g>
+     <g text-anchor="start" class="lane-name"><text x="24" y="44">销售</text><text x="24" y="121">渠道 BP</text><text x="24" y="199">财务</text><text x="24" y="278">经营 BU</text><text x="24" y="355">系统归档</text></g>
+     <line x1="109" y1="0" x2="109" y2="390" stroke="#dce6e2"/>
+     <path class="rail" d="M196 39 V117 H385 V195 H574 V273 H763 V348 H952"/>
+     <path class="rail-alert" d="M385 195 H574 V273"/>
+     <path d="M574 195 H653 V153 H718" fill="none" stroke="#d97959" stroke-width="2" stroke-dasharray="5 6"/>
+     <rect x="677" y="126" width="132" height="43" rx="7" fill="#fff4ee" stroke="#ebbca6"/>
+     <text x="691" y="143" class="pilltext">EXCEPTION PATH</text><text x="691" y="158" font-size="11" fill="#aa6856">资料补证 / 退回</text>
+     <g class="station" data-step="1"><circle class="shape" cx="196" cy="39" r="15" fill="#2a8880" stroke="white" stroke-width="3"/><text x="196" y="44" fill="white" font-size="11" font-weight="850" text-anchor="middle">1</text><text x="221" y="33" class="stephead">异常提交</text><text x="221" y="50" class="stepsub">0.2h · completed</text></g>
+     <g class="station" data-step="2"><circle class="shape" cx="385" cy="117" r="15" fill="#2a8880" stroke="white" stroke-width="3"/><text x="385" y="122" fill="white" font-size="11" font-weight="850" text-anchor="middle">2</text><text x="412" y="111" class="stephead">规则核验</text><text x="412" y="130" class="stepsub">1.4h · completed</text></g>
+     <g class="station selected" data-step="3"><circle class="shape" cx="574" cy="195" r="17" fill="#d97959" stroke="white" stroke-width="3"/><text x="574" y="200" fill="white" font-size="11" font-weight="850" text-anchor="middle">3</text><text x="601" y="189" class="stephead">金额复核</text><text x="601" y="207" font-size="11" fill="#bc6652" font-weight="750">26h · bottleneck</text></g>
+     <g class="station" data-step="4"><circle class="shape" cx="763" cy="273" r="15" fill="#98b1ae" stroke="white" stroke-width="3"/><text x="763" y="278" fill="white" font-size="11" font-weight="850" text-anchor="middle">4</text><text x="789" y="267" class="stephead">业务决策</text><text x="789" y="285" class="stepsub">pending</text></g>
+     <g class="station" data-step="5"><circle class="shape" cx="952" cy="348" r="15" fill="#98b1ae" stroke="white" stroke-width="3"/><text x="952" y="353" fill="white" font-size="11" font-weight="850" text-anchor="middle">5</text><text x="812" y="337" class="stephead">结论入库</text><text x="825" y="354" class="stepsub">pending</text></g>
+     <text x="121" y="378" fill="#91a6a2" font-size="10">MAIN RAIL / 主干路径仅连接相邻步骤；所有返工统一进入异常轨道</text>
+    </svg>
+   </div>
+   <div class="process-lower">
+    <div class="process-box risk"><small>BOTTLENECK INSIGHT · 点击流程节点查看</small><strong id="step-title">03 / 财务金额复核 · 当前瓶颈</strong><p id="step-description">复核耗时占总执行时间的 67%。需要先确认数据字段与责任边界，再推动后续 BU 决策；避免在会议里重复解释同一个案例。</p></div>
+    <div class="process-box"><small>GOVERNANCE RULE / 治理规则</small><strong>主路径、异常路径、责任人三层分开呈现</strong><p>不让每一个审批节点都自己画连线。连接线按通道汇总、正交转弯，减少交叉和视觉噪声。</p></div>
+   </div>
+  </div>
+  <div class="explain">
+   <div class="item"><div class="t">视觉核心：运行态工作流</div><div class="s">把等待时间、责任人、证据和进度贴在节点上。</div></div>
+   <div class="item"><div class="t">最佳互动：点击异常节点</div><div class="s">展开原因、责任边界、补证材料和升级条件。</div></div>
+   <div class="item"><div class="t">汇报适合：跨部门治理</div><div class="s">主干保持简单，例外规则通过独立轨道显示。</div></div>
+  </div>
+ </section>
+ <p style="text-align:center;color:#97a0a9;font-size:11px;margin-top:28px">DESIGN STUDY · NOT REAL BUSINESS DATA · HTML / CSS / SVG</p>
+</div>
+<script>
+(function(){
+const tabs=document.querySelectorAll('.tab');
+tabs.forEach(btn=>btn.addEventListener('click',()=>{
+  tabs.forEach(x=>{x.classList.toggle('active',x===btn);x.setAttribute('aria-selected',x===btn?'true':'false')});
+  document.querySelectorAll('.demo').forEach(x=>x.classList.toggle('active',x.id===btn.dataset.tab));
+}));
+const markets={
+'泰国':['泰国｜库存结构风险','库存周数偏高。建议追踪库存年龄、SKU集中度及Sell-in/Sell-out差异，而非简单继续压货。'],
+'越南':['越南｜渠道动销健康','周转处于合理区间。可以进一步拆解电商增量、直营店ROI，以及分销层级的盈利贡献。'],
+'马来西亚':['马来西亚｜结构性积压','总体周转高于健康线。应进一步区分短期季节性备货与长尾SKU沉淀。'],
+'香港':['香港｜保持稳健','周转接近健康阈值。关注重点门店的坪效、库存和单店贡献即可。']};
+document.querySelectorAll('.driver').forEach(node=>node.addEventListener('click',()=>{
+ document.querySelectorAll('.driver').forEach(x=>x.classList.toggle('active',x===node));
+ const d=markets[node.dataset.market];document.querySelector('#market-detail').innerHTML='<b>'+d[0]+'</b>'+d[1];
+}));
+const nodeNotes={
+'代理型渠道':'总代理：掌握批发网络与部分终端触达，需要重点监测资金、库存与二级经销覆盖。',
+'直接管理渠道':'直控渠道：总部对价格、库存、活动与终端数据具有更直接的管理能力。',
+'连锁零售':'连锁零售：适合拆解重点客户、门店点位、单店效率与陈列资源回报。',
+'中小经销':'中小经销：适合分析层级穿透、串货风险、价格一致性与真实终端覆盖。',
+'平台电商':'平台电商：重点看平台投放效率、销售漏斗、动销数据及线下价格冲突。',
+'直营门店':'直营门店：关注单店贡献、坪效、人员效率、租金及投资回报。'};
+document.querySelectorAll('.channel-svg .node[data-node]').forEach(n=>n.addEventListener('click',()=>{
+ document.querySelectorAll('.channel-svg .node').forEach(x=>x.classList.toggle('selected',x===n));
+ document.getElementById('node-info').textContent=nodeNotes[n.dataset.node];
+}));
+document.querySelectorAll('.switch button').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.switch button').forEach(x=>x.classList.toggle('active',x===b));
+ const control=b.dataset.layer==='control';
+ document.querySelectorAll('.flows').forEach(x=>x.style.opacity=control?'.17':'1');
+ document.querySelectorAll('.controls').forEach(x=>x.style.display=control?'':'none');
+}));
+const steps={1:['01 / 异常提交 · 已完成','销售或区域负责人提交事实、证据及影响范围；系统分配唯一Case ID。'],2:['02 / 规则核验 · 已完成','渠道 BP 检查准入规则、政策边界、相关主体与历史案例。'],3:['03 / 财务金额复核 · 当前瓶颈','复核耗时占总执行时间的 67%。需要先确认数据字段与责任边界，再推动后续 BU 决策；避免在会议里重复解释同一个案例。'],4:['04 / 业务决策 · 待处理','BU 在既定决策权限内确认方案；超权限事项升级至相应决策层。'],5:['05 / 结论入库 · 待处理','将结论、责任人、截止日期与验证方式写入治理记录，用于后续复盘。']};
+document.querySelectorAll('.station').forEach(n=>n.addEventListener('click',()=>{
+ document.querySelectorAll('.station').forEach(x=>x.classList.toggle('selected',x===n));
+ const s=steps[n.dataset.step];document.getElementById('step-title').textContent=s[0];document.getElementById('step-description').textContent=s[1];
+}));
+})();
+</script>
+</body></html>

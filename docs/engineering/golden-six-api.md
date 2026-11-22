@@ -6,11 +6,11 @@
 
 ## 1. Quick usage
 
-Serve or open \`examples/golden-six/index.html\` directly. All code and fixtures are local and should work from \`file://\`.
+Serve or open `examples/golden-six/index.html` directly. All code and fixtures are local and should work from `file://`.
 
 Embed one component in any existing HTML dashboard:
 
-\`\`\`html
+```html
 <div id="explosion-target"></div>
 <input id="explosion-slider" type="range" min="0" max="100" value="75">
 <script src="/examples/golden-six/infograph-gold.js"></script>
@@ -24,53 +24,53 @@ Embed one component in any existing HTML dashboard:
     view.setProgress(Number(e.target.value)/100)
   );
 </script>
-\`\`\`
+```
 
-**Supported IDs:** \`exploded\`, \`circuit\`, \`stratigraphy\`, \`hr\`, \`attack\`, \`rail\`.
+**Supported IDs:** `exploded`, `circuit`, `stratigraphy`, `hr`, `attack`, `rail`.
 
 ## 2. Public API
 
 | API | Result | Description |
 |---|---|---|
-| \`InfographGold.info\` | array | id, labels, domain, purpose, rule for 6 representations |
-| \`InfographGold.fixtures\` | data object | JSON-serializable synthetic sample data; non-live |
-| \`InfographGold.verify()\` | \`{pass,checked,tests}\` | 14 invariants over built-in fixture; not industry certification |
-| \`InfographGold.render(id, state)\` | string | standalone SVG markup with fixed \`viewBox\` |
-| \`InfographGold.mount(el,id,options)\` | handle | render into DOM and enable click/keyboard object selection |
-| \`handle.setProgress(value)\` | void | stage exploder progress from 0 to 1 |
-| \`handle.select(id)\` | void | select a source object by ID |
-| \`handle.getState()\` | JSON | current \`selected\`, \`progress\` |
-| \`handle.destroy()\` | void | remove current SVG from container |
+| `InfographGold.info` | array | id, labels, domain, purpose, rule for 6 representations |
+| `InfographGold.fixtures` | data object | JSON-serializable synthetic sample data; non-live |
+| `InfographGold.verify()` | `{pass,checked,tests}` | 14 invariants over built-in fixture; not industry certification |
+| `InfographGold.render(id, state)` | string | standalone SVG markup with fixed `viewBox` |
+| `InfographGold.mount(el,id,options)` | handle | render into DOM and enable click/keyboard object selection |
+| `handle.setProgress(value)` | void | stage exploder progress from 0 to 1 |
+| `handle.select(id)` | void | select a source object by ID |
+| `handle.getState()` | JSON | current `selected`, `progress` |
+| `handle.destroy()` | void | remove current SVG from container |
 
-Example \`onSelect\` is called whenever a selection triggers rendering. Use event handlers for drilldowns and dynamic labels. A built-in viewer demonstrates accessible controls and SVG export.
+Example `onSelect` is called whenever a selection triggers rendering. Use event handlers for drilldowns and dynamic labels. A built-in viewer demonstrates accessible controls and SVG export.
 
-**Limitation:** \`mount\` is a minimal research API. It does not yet expose a data-injection contract, geometry asset loader, deep-link schema, rendering isolation or a production-grade lifecycle manager. The sample \`fixtures\` object is returned as a clone; mutating it does not alter hidden renderers. Production components should accept typed external data and validated assets.
+**Limitation:** `mount` is a minimal research API. It does not yet expose a data-injection contract, geometry asset loader, deep-link schema, rendering isolation or a production-grade lifecycle manager. The sample `fixtures` object is returned as a clone; mutating it does not alter hidden renderers. Production components should accept typed external data and validated assets.
 
 ## 3. Semantics and implementation layers
 
-\`\`\`text
+```text
 Domain reference / source evidence
   -> Domain semantic fixture
   -> SVG reference renderer
   -> UI controls and selection
   -> Independent test invariants
   -> Browser screenshots and accessibility review
-\`\`\`
+```
 
 The SVG library is **illustrative** and prioritizes clarity. For accurate 3D explode geometry use GLB/glTF + Three.js or a CAD workflow; for real schematic nets use KiCad-generated sources; for geologic logs use calibrated depth records; for MITRE matrices use versioned official data rather than the five selected static cards.
 
 ## 4. Quality checks
 
-\`\`\`bash
+```bash
 node --check examples/golden-six/infograph-gold.js
 node tests/golden-six.test.mjs
 # Browser tests require Playwright and Chromium:
 npm install --no-save playwright@1.56.0
 npx playwright install chromium
 node tests/golden-six.browser.mjs
-\`\`\`
+```
 
-CI definition: [\`.github/workflows/golden-six.yml\`](../../.github/workflows/golden-six.yml).
+CI definition: [`.github/workflows/golden-six.yml`](../../.github/workflows/golden-six.yml). **Last confirmed full CI run:** [#45039975281 · PASS](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281), including six Chromium screenshots. Professional accuracy and accessibility expert audit remain separate.
 
 ### What is currently checked
 

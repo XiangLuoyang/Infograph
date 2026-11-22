@@ -9,6 +9,7 @@
 
 ## Research case studies
 
+- [Golden Six evidence](research/golden-six-evidence.md) — six professional visual types with source checks, SVG examples and compliance limits.
 - [Full-spectrum breadth audit](research/full-spectrum-breadth-audit.md) — critical research boundary.
 - [Second-round 18-domain expansion](research/cross-domain-expansion-2026-11-22.md) — 155 domain seeds; 134 exact-name candidates absent from baseline, evidence levels retained.
 - [107-domain open-world coverage map](research/open-domain-coverage-map.md) — research denominator and 77 unaudited disciplines.
@@ -20,6 +21,8 @@
 - [Map material/rendering languages](research/map-rendering-languages.md), [five styles](research/map-five-style-interactions.md), [six-style evaluation](research/map-six-style-evaluation.md), [map/simulation layering](research/map-simulation-layering.md).
 
 ## Implementation & QA
+
+- [Golden Six SVG API & QA](engineering/golden-six-api.md) — offline UI component entrypoint, smoke tests and unverified boundaries.
 
 - [Agent Skills & renderers](engineering/agent-skills-and-renderers.md) — 20 researched skill URLs with adoption boundaries.
 - [18 domains → Skills](engineering/domain-to-skill-routing.md) — specialized vs transferable capability and missing mature skills.

@@ -2,6 +2,11 @@
 
 A **research catalog, not a verified 630-component renderer**. The goal is a cross-disciplinary library for HTML visualization, including charts, diagrams, maps, technical/engineering views and scientific displays.
 
+## Open-world discipline registry
+
+- [107-domain coverage map / 覆盖研究地图](domain-coverage-map-v0.2.json) and [CSV](domain-coverage-map-v0.2.csv): **18 seeded, 12 old-baseline-partial, 77 unaudited** across 10 clusters. This is a provisional planning map, not proof of exhaustive disciplinary coverage.
+- [Coverage explanation](../docs/research/open-domain-coverage-map.md).
+
 ## Professional-domain extension (second round)
 
 - [Searchable offline expansion HTML](extensions/index.html) — 18 domains, 155 names, status and evidence filters.

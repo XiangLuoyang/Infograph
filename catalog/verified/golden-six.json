@@ -9,8 +9,11 @@
     "education_only": true,
     "types_are_not_cad_eda_or_industry_certified": true,
     "definition_reviewed": 6,
-    "browser_qa": "pending until independent headless test evidence",
-    "special_note": "ATT&CK® is a registered trademark of The MITRE Corporation. © 2026 The MITRE Corporation. No MITRE affiliation, sponsorship, or endorsement is implied. Official terms: https://attack.mitre.org/resources/terms-of-use/."
+    "browser_qa": "passed with Chromium on ubuntu-24.04 (run 45039975281); screenshots retained as GitHub Actions artifact",
+    "special_note": "ATT&CK® is a registered trademark of The MITRE Corporation. © 2026 The MITRE Corporation. No MITRE affiliation, sponsorship, or endorsement is implied. Official terms: https://attack.mitre.org/resources/terms-of-use/.",
+    "browser_test_run_url": "https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281",
+    "browser_screenshot_artifact_id": 14761531011,
+    "browser_tested_code_commit": "f74481128190b1f6dd9a149bcbe58239a7690b5b"
   },
   "entries": [
     {
@@ -39,12 +42,14 @@
       ],
       "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
       "example_data": "synthetic",
-      "browser_render_qa": "not_yet_confirmed",
+      "browser_render_qa": "passed_chromium_ci_2026-11-22",
       "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
       "maturity": "research_reference_prototype_not_production",
       "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
       "render_engine": "dependency-free JavaScript SVG",
-      "source_created_at": "2026-11-22"
+      "source_created_at": "2026-11-22",
+      "browser_test_run_url": "https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281",
+      "semantic_test_result": "14/14 semantic checks passed"
     },
     {
       "id": "circuit",
@@ -70,12 +75,14 @@
       ],
       "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
       "example_data": "synthetic",
-      "browser_render_qa": "not_yet_confirmed",
+      "browser_render_qa": "passed_chromium_ci_2026-11-22",
       "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
       "maturity": "research_reference_prototype_not_production",
       "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
       "render_engine": "dependency-free JavaScript SVG",
-      "source_created_at": "2026-11-22"
+      "source_created_at": "2026-11-22",
+      "browser_test_run_url": "https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281",
+      "semantic_test_result": "14/14 semantic checks passed"
     },
     {
       "id": "stratigraphy",
@@ -102,12 +109,14 @@
       ],
       "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
       "example_data": "synthetic",
-      "browser_render_qa": "not_yet_confirmed",
+      "browser_render_qa": "passed_chromium_ci_2026-11-22",
       "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
       "maturity": "research_reference_prototype_not_production",
       "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
       "render_engine": "dependency-free JavaScript SVG",
-      "source_created_at": "2026-11-22"
+      "source_created_at": "2026-11-22",
+      "browser_test_run_url": "https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281",
+      "semantic_test_result": "14/14 semantic checks passed"
     },
     {
       "id": "hr",
@@ -135,12 +144,14 @@
       ],
       "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
       "example_data": "synthetic",
-      "browser_render_qa": "not_yet_confirmed",
+      "browser_render_qa": "passed_chromium_ci_2026-11-22",
       "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
       "maturity": "research_reference_prototype_not_production",
       "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
       "render_engine": "dependency-free JavaScript SVG",
-      "source_created_at": "2026-11-22"
+      "source_created_at": "2026-11-22",
+      "browser_test_run_url": "https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281",
+      "semantic_test_result": "14/14 semantic checks passed"
     },
     {
       "id": "attack",
@@ -173,12 +184,14 @@
       ],
       "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
       "example_data": "synthetic",
-      "browser_render_qa": "not_yet_confirmed",
+      "browser_render_qa": "passed_chromium_ci_2026-11-22",
       "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
       "maturity": "research_reference_prototype_not_production",
       "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
       "render_engine": "dependency-free JavaScript SVG",
-      "source_created_at": "2026-11-22"
+      "source_created_at": "2026-11-22",
+      "browser_test_run_url": "https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281",
+      "semantic_test_result": "14/14 semantic checks passed"
     },
     {
       "id": "rail",
@@ -205,12 +218,14 @@
       ],
       "definition_review": "original professional terminology and core semantic axes/structure checked against linked sources 2026-11-22",
       "example_data": "synthetic",
-      "browser_render_qa": "not_yet_confirmed",
+      "browser_render_qa": "passed_chromium_ci_2026-11-22",
       "runtime_tests": "14 semantic smoke checks defined in examples/golden-six/infograph-gold.js; tests/golden-six.test.mjs",
       "maturity": "research_reference_prototype_not_production",
       "evidence_gate": "definition_and_minimal_visual_grammar_reviewed; full professional drawing compliance not verified",
       "render_engine": "dependency-free JavaScript SVG",
-      "source_created_at": "2026-11-22"
+      "source_created_at": "2026-11-22",
+      "browser_test_run_url": "https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281",
+      "semantic_test_result": "14/14 semantic checks passed"
     }
   ]
 }

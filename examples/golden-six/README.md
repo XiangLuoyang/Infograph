@@ -20,6 +20,8 @@
 - [图型登记 JSON](../../catalog/verified/golden-six.json)
 - [Node smoke tests](../../tests/golden-six.test.mjs) 和 [Chromium browser tests](../../tests/golden-six.browser.mjs)
 
+自动化验收：[Chromium / Node QA 成功运行 #45039975281](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281)，含六张SVG渲染截图，CI产物保留期有限。
+
 **校验原则**：源头文档核验 ≠ 视觉绘制精确性 ≠ 专业领域标准合规。这里暂不声明 CAD/EDA/科学实测/铁路调度级的工程正确性。
 
 **MITRE 声明：** ATT&CK® 为 The MITRE Corporation 的注册商标；© 2026 The MITRE Corporation，示范不代表 MITRE 关联、赞助或认可。见 [官方使用条款](https://attack.mitre.org/resources/terms-of-use/)。

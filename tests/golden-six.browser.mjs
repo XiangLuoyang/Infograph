@@ -27,7 +27,7 @@ try {
     await page.locator("#scene svg").screenshot({path:resolve(outDir,type+".png")});
   }
   await page.locator('.tab[data-type="exploded"]').click();
-  await page.locator("#explode").fill("100");
+  await page.locator("#explode").evaluate(el=>{el.value="100";el.dispatchEvent(new Event("input",{bubbles:true}))});
   assert.equal(await page.locator("#scene").getAttribute("data-progress"),"1","explosion should reflect slider");
   await page.locator('#scene [data-key="rotor"]').click();
   assert.equal(await page.locator("#scene").getAttribute("data-selected"),"rotor");

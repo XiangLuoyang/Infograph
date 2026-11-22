@@ -21,6 +21,13 @@ A **research catalog, not a verified 630-component renderer**. The goal is a cro
 - [All 630 types (CSV)](types.csv) and [24 families (CSV)](families.csv): Excel-friendly UTF-8 BOM exports from the JSON source.
 - [Broad-domain coverage audit](../docs/research/full-spectrum-breadth-audit.md): what is missing and why current breadth is *not yet accepted*.
 
+## Professionally grounded examples (Golden Six)
+
+- [Golden Six registry](verified/golden-six.json) — professional definitions + constraints + source URLs for 6 representative graphic types, kept separate from the original 630-name baseline.
+- [Interactive HTML gallery](../examples/golden-six/index.html) — six actual inline SVG renderers with selection and synthetic fixtures.
+- [Evidence/limitations](../docs/research/golden-six-evidence.md) and [test protocol](../docs/engineering/golden-six-api.md).
+- **Important:** these six are reference implementations of core semantics, not certified industry drawings or a 630-component system.
+
 ## Evidence and coverage boundary
 
 | Metric | Status |

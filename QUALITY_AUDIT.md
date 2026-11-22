@@ -44,3 +44,12 @@
 - Added a searchable offline professional-domain index and 20 linked Agent Skills. Neither the types nor the skill implementations have undergone complete independent runtime testing.
 - Added cross-domain research matrix and semantic-first HTML routing design contract; neither is a certified graphic standard.
 - Original copied artifacts remain unchanged, preserving the 27/27 baseline hash-match finding.
+
+## Golden Six implementation & test evidence (2026-11-22)
+
+- Added six original dependency-free SVG renderers and a responsive offline interaction gallery.
+- Added independent definition sources and semantic constraints in `catalog/verified/golden-six.json`.
+- Added 14 semantic invariants, a Node smoke test and a Chromium/Playwright browser interaction test.
+- **Observed in connected GitHub Actions:** the Node semantic stage reported `PASS: 14 semantic checks; 6 SVG renderers; gallery+registry integrity`. Initial browser install failed on GitHub's new Ubuntu 26.04 runner because pinned Playwright 1.56 did not support that OS; workflow changed to Ubuntu 24.04 for retest.
+- Browser runtime conclusion must be read from a new successful CI job; documentation shall not claim visual pass merely because SVG strings render in Node.
+- No claim of real engineering, scientific observation, clinical, EDA or railway operation compliance.

@@ -14,6 +14,7 @@
 | **[HTML examples / 可运行原型](examples/README.md)** | 15 standalone HTML files: dashboards, 3D maps, variants, interactive storytelling |
 | **[SVG & PNG assets / 视觉素材](assets/README.md)** | 8 SVG diagrams and 4 PNG style studies |
 | **[Migration & provenance](MIGRATION_MANIFEST.md)** | Original source mapping, exact-copy evidence, adaptation rules, excluded sensitive assets |
+| **[Integrity & QA audit](QUALITY_AUDIT.md)** | 27/27 byte-matched assets, Markdown path checks and outstanding verification gates |
 
 ![Six map style overview](assets/diagrams/sea-six-style-overview.svg)
 

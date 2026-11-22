@@ -10,6 +10,7 @@
 ## Research case studies
 
 - [Full-spectrum breadth audit](research/full-spectrum-breadth-audit.md) — critical research boundary.
+- [Second-round 18-domain expansion](research/cross-domain-expansion-2026-11-22.md) — 155 domain seeds; 134 exact-name candidates absent from baseline, evidence levels retained.
 - [Research map](research/research-map.md) — lineage and relationships among visual experiments.
 - [Enterprise decision narratives](research/enterprise-dashboard-narrative.md) — reporting and evidence.
 - [Three business visual paradigms](research/business-channel-process-visual-paradigms.md) — operations, network, process.
@@ -18,6 +19,9 @@
 - [Map material/rendering languages](research/map-rendering-languages.md), [five styles](research/map-five-style-interactions.md), [six-style evaluation](research/map-six-style-evaluation.md), [map/simulation layering](research/map-simulation-layering.md).
 
 ## Implementation & QA
+
+- [Agent Skills & renderers](engineering/agent-skills-and-renderers.md) — 20 verified skill URLs with adoption boundaries.
+- [Visual representation routing contract](engineering/visual-representation-routing-contract.md) — semantic-first type selection and HTML QA gates.
 
 - [ProcessIR layout/routing](engineering/process-ir-layout-routing.md) — graph semantics, ELK and edge geometry.
 - [HTML dashboards generation & acceptance](engineering/html-dashboard-generation-qa.md) — reproducible display and tests.

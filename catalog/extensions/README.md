@@ -5,6 +5,7 @@
 本轮从 **18个专业领域**得到 **155个候选名称**，其中 **21项**英文名称与 V0.1 630项基线匹配，**134项**不直接匹配。
 
 - [可筛选 HTML 专业候选目录](index.html)
+- [18个学科→Skills路由](domain-skill-routing.json) / [解释文档](../../docs/engineering/domain-to-skill-routing.md)
 - [JSON 专业候选目录](discipline-seeds-2026-11-22.json)
 - [CSV 专业候选目录](discipline-seeds-2026-11-22.csv)
 - [V0.1 基线目录](../README.md)

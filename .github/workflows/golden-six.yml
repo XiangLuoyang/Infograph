@@ -1,0 +1,39 @@
+name: Golden Six SVG quality gates
+on:
+  push:
+    paths:
+      - "examples/golden-six/**"
+      - "tests/golden-six.*"
+      - "catalog/verified/golden-six.json"
+      - ".github/workflows/golden-six.yml"
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Static syntax and semantic smoke checks
+        run: |
+          node --check examples/golden-six/infograph-gold.js
+          node --check tests/golden-six.test.mjs
+          node tests/golden-six.test.mjs
+      - name: Install pinned browser test tooling
+        run: |
+          npm install --no-save playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: Chromium interaction and mobile checks
+        run: node tests/golden-six.browser.mjs
+      - name: Publish visual QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: infograph-golden-six-chromium
+          path: test-artifacts/golden-six/*.png
+          if-no-files-found: ignore
+          retention-days: 14

@@ -20,7 +20,9 @@
 - [图型登记 JSON](../../catalog/verified/golden-six.json)
 - [Node smoke tests](../../tests/golden-six.test.mjs) 和 [Chromium browser tests](../../tests/golden-six.browser.mjs)
 
-自动化验收：[Chromium / Node QA 成功运行 #45039975281](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281)，含六张SVG渲染截图，CI产物保留期有限。
+自动化验收：[Chromium / Node QA 成功运行 #45040682399](https://github.com/XiangLuoyang/Infograph/actions/runs/45040682399)，含六张SVG渲染截图，CI产物保留期有限。
+
+本轮额外通过图型切换后的事件监听生命周期、键盘 Enter 选择和实际 SVG 文件下载检查。
 
 **校验原则**：源头文档核验 ≠ 视觉绘制精确性 ≠ 专业领域标准合规。这里暂不声明 CAD/EDA/科学实测/铁路调度级的工程正确性。
 

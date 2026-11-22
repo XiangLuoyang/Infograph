@@ -17,6 +17,7 @@
 | **[Visual Atlas / 全领域图型目录](catalog/README.md)** | [Searchable HTML](catalog/visual_representation_atlas.html), [630-item JSON](catalog/visual_representation_atlas.json), Excel-friendly CSV exports |
 | **[Design & research / 方法论](docs/INDEX.md)** | Five dimensions, visual grammar, domain coverage, use cases, design experiments |
 | **[HTML examples / 可运行原型](examples/README.md)** | 15 standalone HTML files: dashboards, 3D maps, variants, interactive storytelling |
+| **[Six Golden Types / 六个跨领域图型](examples/golden-six/index.html)** | Offline SVG views: exploded, circuit, geology, H–R, ATT&CK matrix, train timetable; semantic CI |
 | **[SVG & PNG assets / 视觉素材](assets/README.md)** | 8 SVG diagrams and 4 PNG style studies |
 | **[Migration & provenance](MIGRATION_MANIFEST.md)** | Original source mapping, exact-copy evidence, adaptation rules, excluded sensitive assets |
 | **[Integrity & QA audit](QUALITY_AUDIT.md)** | 27/27 byte-matched assets, Markdown path checks and outstanding verification gates |
@@ -40,6 +41,10 @@ Semantic QA + Visual QA + Interaction QA + Evidence audit
 ```
 
 **Important distinction:** exploded view is a structural representation, isometric projection is a camera/projection convention, glass material is a rendering choice, and expand/explode animation is an interaction mode. They can be combined, but should not be counted as four independent chart types.
+
+## Golden Six progress
+
+Six source-backed, dependency-free SVG prototype renderers are now available in [Golden Six](examples/golden-six/README.md). This phase advances professional **definitions, minimal semantic constraints, interactions and executable smoke checks**. It **does not** establish domain-standard compliance or complete browser visual QA. See the [evidence dossier](docs/research/golden-six-evidence.md) and [API](docs/engineering/golden-six-api.md).
 
 ## Current inventory
 

@@ -45,7 +45,7 @@ assert.ok(index.includes('<script src="./infograph-gold.js"></script>'),"offline
 assert.ok(index.includes('id="export"'),"gallery has SVG export action");
 const registry=JSON.parse(readFileSync(resolve(root,"catalog/verified/golden-six.json"),"utf8"));
 assert.equal(registry.entries.length,6,"registry six records");
-assert.deepEqual(registry.entries.map(x=>x.id).sort(),api.info.map(x=>x.id).sort());
+assert.equal(JSON.stringify(registry.entries.map(x=>x.id).sort()),JSON.stringify(api.info.map(x=>x.id).sort()),"type ids match across VM realms");
 assert.ok(registry.entries.every(x=>x.definition_sources.length>0),"each record has sources");
 assert.ok(registry.entries.every(x=>x.implementation_claim!=="production_standard"),"no false compliance");
 console.log("PASS: "+summary.checked+" semantic checks; 6 SVG renderers; gallery+registry integrity.");

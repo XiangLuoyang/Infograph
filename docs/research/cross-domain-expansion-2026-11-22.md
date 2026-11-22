@@ -92,6 +92,6 @@ Domain / 学科与规范
 
 ## 七、有关 Agent Skills
 
-最新经过页面核验的地址、适用范围、成熟度差异和具体引擎，见 [Agent Skills and Renderer Landscape](../engineering/agent-skills-and-renderers.md)。**Skill是执行方法，不是图型全集，也不是精确三维模型的替代品。**
+最新经过页面核验的地址、适用范围、成熟度差异和具体引擎，见 [Agent Skills and Renderer Landscape](../engineering/agent-skills-and-renderers.md) 与 [18专业领域对应Skill路由](../engineering/domain-to-skill-routing.md)。**Skill是执行方法，不是图型全集，也不是精确三维模型的替代品。**
 
 与旧研究的衔接：[全领域广度初版审计](full-spectrum-breadth-audit.md)、[五维设计语言](../foundations/five-dimension-design-grammar.md)。

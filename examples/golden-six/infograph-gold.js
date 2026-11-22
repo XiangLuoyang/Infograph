@@ -221,10 +221,13 @@
       if(typeof options.onSelect==="function")options.onSelect(getItem(type,state.selected),state);
     };
     const select=key=>{state.selected=key;draw()};
-    el.addEventListener("click",event=>{const item=event.target.closest("[data-key]");if(item&&el.contains(item))select(item.getAttribute("data-key"))});
-    el.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){const item=event.target.closest("[data-key]");if(item&&el.contains(item)){event.preventDefault();select(item.getAttribute("data-key"))}}});
+    const onClick=event=>{const item=event.target.closest("[data-key]");if(item&&el.contains(item))select(item.getAttribute("data-key"))};
+    const onKeyDown=event=>{if(event.key==="Enter"||event.key===" "){const item=event.target.closest("[data-key]");if(item&&el.contains(item)){event.preventDefault();select(item.getAttribute("data-key"))}}};
+    el.addEventListener("click",onClick);
+    el.addEventListener("keydown",onKeyDown);
     draw();
-    return {type,setProgress:value=>{state.progress=Math.max(0,Math.min(1,Number(value)));draw()},select,getState:()=>clone(state),destroy:()=>{el.innerHTML=""}};
+    let destroyed=false;
+    return {type,setProgress:value=>{if(destroyed)return;state.progress=Math.max(0,Math.min(1,Number(value)));draw()},select:key=>{if(!destroyed)select(key)},getState:()=>clone(state),destroy:()=>{if(destroyed)return;destroyed=true;el.removeEventListener("click",onClick);el.removeEventListener("keydown",onKeyDown);el.innerHTML=""}};
   }
   root.InfographGold={info:clone(info),fixtures:clone(fixture),verify,mount,render:(type,state={})=>{if(!renderers[type])throw Error("Unknown type: "+type);return renderers[type](state)}};
 })(typeof window!=="undefined"?window:globalThis);

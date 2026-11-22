@@ -44,7 +44,7 @@ Semantic QA + Visual QA + Interaction QA + Evidence audit
 
 ## Golden Six progress
 
-Six source-backed, dependency-free SVG prototype renderers are now available in [Golden Six](examples/golden-six/README.md). This phase advances professional **definitions, minimal semantic constraints, interactions and executable smoke checks**. It **does not** establish domain-standard compliance or complete browser visual QA. See the [evidence dossier](docs/research/golden-six-evidence.md) and [API](docs/engineering/golden-six-api.md).
+Six source-backed, dependency-free SVG prototype renderers are now available in [Golden Six](examples/golden-six/README.md). This phase advances professional **definitions, minimal semantic constraints, interactions and executable smoke checks**. The [Chromium CI acceptance run #45039975281](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281) passed on the final renderer revision. It **does not** establish industry-standard compliance or human-expert visual approval. See the [evidence dossier](docs/research/golden-six-evidence.md) and [API](docs/engineering/golden-six-api.md).
 
 ## Current inventory
 

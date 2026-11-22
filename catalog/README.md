@@ -2,6 +2,13 @@
 
 A **research catalog, not a verified 630-component renderer**. The goal is a cross-disciplinary library for HTML visualization, including charts, diagrams, maps, technical/engineering views and scientific displays.
 
+## Professional-domain extension (second round)
+
+- [Searchable offline expansion HTML](extensions/index.html) — 18 domains, 155 names, status and evidence filters.
+- [Extension JSON + CSV](extensions/README.md) — 21 names matched old catalog, 134 new candidates by normalized English name only; **semantic uniqueness remains unverified**.
+- [Cross-domain research matrix](../docs/research/cross-domain-expansion-2026-11-22.md) and [Agent Skills matrix](../docs/engineering/agent-skills-and-renderers.md).
+- The tentative **764 names** (630+134) are **not** 764 confirmed independent visual grammars, and neither taxonomy nor web components are complete.
+
 ## Available artifacts
 
 - [Searchable offline HTML index](visual_representation_atlas.html): open locally in a browser; filters and labels are a directory, not rendered examples of every type.

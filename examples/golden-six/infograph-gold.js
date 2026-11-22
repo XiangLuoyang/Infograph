@@ -82,7 +82,7 @@
     const k=Math.max(0,Math.min(1,Number(s.progress??.75))),p=fixture.exploded.parts;
     let out=section("01 · Exploded view","Illustrative four-part assembly · component identity retained");
     out+=line(407,135,407,476,"#91a69d",2,"7 7");
-    const original=[176,246,316,386],offset=[-116,-39,39,112];
+    const original=[270,286,302,318],offset=[-140,-78,50,128];
     p.forEach((part,i)=>{
       const y=original[i]+offset[i]*k;
       const chosen=s.selected===part.id;

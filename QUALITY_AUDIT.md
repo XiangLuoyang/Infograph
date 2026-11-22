@@ -53,3 +53,12 @@
 - **Observed in connected GitHub Actions:** the Node semantic stage reported `PASS: 14 semantic checks; 6 SVG renderers; gallery+registry integrity`. Initial browser install failed on GitHub's new Ubuntu 26.04 runner because pinned Playwright 1.56 did not support that OS; workflow changed to Ubuntu 24.04 for retest.
 - Browser runtime conclusion must be read from a new successful CI job; documentation shall not claim visual pass merely because SVG strings render in Node.
 - No claim of real engineering, scientific observation, clinical, EDA or railway operation compliance.
+
+### Confirmed Chromium acceptance — 2026-11-22
+
+The final reassembly-layout revision `f74481128190b1f6dd9a149bcbe58239a7690b5b` passed the entire CI workflow at [GitHub Actions run #45039975281](https://github.com/XiangLuoyang/Infograph/actions/runs/45039975281).
+
+- `node --check` and Node smoke tests: **PASS (14/14 semantic invariants, 6 renderer outputs, registry consistency)**.
+- Playwright Chromium: **PASS** across all 6 visual types, type-switching, selecting the exploded rotor and capacitor, slider extremes, and representative mobile viewport checks.
+- Screenshot ZIP stored as run artifact `infograph-golden-six-chromium` (artifact ID `14761531011`, limited retention).
+- Test passing does **not** imply industry-standard correctness or expert review of symbol conventions, accessibility or scientific calibration.

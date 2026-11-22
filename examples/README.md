@@ -2,6 +2,11 @@
 
 All HTML examples in this directory were copied byte-for-byte from the original research vault; **these are experiments, not production dashboards**. Business numbers are synthetic examples and geospatial visuals are not survey-grade geometry.
 
+## Golden Six · 六个跨领域专业图型
+
+- [Interactive Golden Six gallery](golden-six/index.html) — exploded assembly, electrical schematic, geologic column, H–R, ATT&CK tactics selection, train time–distance. Original SVG code, offline use, and semantic checks.
+- [Source-backed definitions](../docs/research/golden-six-evidence.md) and [embeddable API](../docs/engineering/golden-six-api.md).
+
 ## Dashboards & operating narratives
 
 - [Three business paradigms](dashboards/enterprise_dashboard_triptych.html)

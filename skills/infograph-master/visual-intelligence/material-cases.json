@@ -1,0 +1,34 @@
+[
+  {
+    "id": "MC01",
+    "work": "Therme Vals",
+    "source": "https://truffer.ch/en/project/therme-vals/",
+    "observation": "Supplier documents quartzite masonry in three layer heights and integration with water and light.",
+    "transfer": "Repeat one material with controlled variation.",
+    "limit": "Supplier account; no measured visual audit."
+  },
+  {
+    "id": "MC02",
+    "work": "Braun T 1000",
+    "source": "https://sammlung-digital.museumangewandtekunst.de/detailpage/collection/becfeb67-8b99-4245-9d31-5375af6eb7cf",
+    "observation": "Museum documents anodized aluminium and several other materials; ordered scales and controls.",
+    "transfer": "Assign surface roles by function and reveal detailed controls when needed.",
+    "limit": "Do not hide essential data."
+  },
+  {
+    "id": "MC03",
+    "work": "Safdie monograph",
+    "source": "https://www.pentagram.com/work/safdie",
+    "observation": "Designer documents hardcover formats and chapter gatefold timelines.",
+    "transfer": "Use physical layer and unfolding as information disclosure analogy.",
+    "limit": "Paper stock not documented."
+  },
+  {
+    "id": "MC04",
+    "work": "Apple HIG Materials",
+    "source": "https://developer.apple.com/design/human-interface-guidelines/materials",
+    "observation": "Guidance distinguishes control and content layers and favors opacity for fine text.",
+    "transfer": "Reserve transparent materials for functional overlays; use stable content surfaces.",
+    "limit": "Platform guidance, not universal experimental result."
+  }
+]

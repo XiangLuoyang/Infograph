@@ -1,0 +1,58 @@
+[
+  {
+    "id": "uncoated",
+    "label": "未涂布纸",
+    "background": "#f5f2e8",
+    "ink": "#29382f",
+    "grain": 0.12
+  },
+  {
+    "id": "cotton",
+    "label": "棉纸",
+    "background": "#f4ecdc",
+    "ink": "#382f29",
+    "grain": 0.22
+  },
+  {
+    "id": "coated",
+    "label": "涂布纸",
+    "background": "#fafafa",
+    "ink": "#26343b",
+    "grain": 0.02
+  },
+  {
+    "id": "newsprint",
+    "label": "新闻纸",
+    "background": "#e8e3d4",
+    "ink": "#35352e",
+    "grain": 0.18
+  },
+  {
+    "id": "kraft",
+    "label": "牛皮纸",
+    "background": "#c6a477",
+    "ink": "#30271c",
+    "grain": 0.24
+  },
+  {
+    "id": "parchment",
+    "label": "羊皮纸视觉近似",
+    "background": "#e9d8b4",
+    "ink": "#493522",
+    "grain": 0.25
+  },
+  {
+    "id": "vellum",
+    "label": "半透明描图纸近似",
+    "background": "#e8eee8",
+    "ink": "#26382f",
+    "grain": 0.05
+  },
+  {
+    "id": "archival",
+    "label": "档案纸",
+    "background": "#f0e9d8",
+    "ink": "#343b32",
+    "grain": 0.1
+  }
+]

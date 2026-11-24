@@ -1,0 +1,2 @@
+# Color case research, 2026-11-25
+Six source-backed patterns in color-cases.json; source guidance and analyst transfer rules are distinct. Four official/research sources plus Observable documentation and FT search summary. No screenshot-level sampling, source interaction runs, or historical poster/museum/industrial visual audits. color-decision.mjs is a heuristic contract router, not a designer or renderer. Validate role collisions, actual charts and legends separately.

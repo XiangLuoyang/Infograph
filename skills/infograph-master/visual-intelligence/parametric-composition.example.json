@@ -1,0 +1,33 @@
+{
+  "width": 1200,
+  "height": 800,
+  "margin": 24,
+  "gap": 16,
+  "root": {
+    "id": "page",
+    "axis": "column",
+    "children": [
+      {
+        "id": "headline",
+        "weight": 1
+      },
+      {
+        "id": "body",
+        "weight": 3,
+        "axis": "row",
+        "children": [
+          {
+            "id": "evidence",
+            "weight": 2,
+            "minWidth": 100
+          },
+          {
+            "id": "context",
+            "weight": 1,
+            "minWidth": 100
+          }
+        ]
+      }
+    ]
+  }
+}

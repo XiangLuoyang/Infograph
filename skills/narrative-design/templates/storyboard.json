@@ -1,0 +1,29 @@
+{
+  "audience": "Regional management",
+  "purpose": "Assess whether supply pacing warrants review",
+  "thesis": "Supply exceeds sell-through in the observed period; target stock is unknown.",
+  "spine": "Question",
+  "evidence": [
+    {
+      "id": "E1",
+      "source": "Synthetic monthly data: supply 70k, sell-through 61k",
+      "definition": "Units, same period and scope",
+      "limitation": "No returns or transfers data"
+    }
+  ],
+  "acts": [
+    {
+      "id": "A1",
+      "question": "Does supply match sell-through?",
+      "claim": "Supply exceeds sell-through by 9k units.",
+      "before": "Knows sales result",
+      "after": "Understands flow gap",
+      "visual_task": "Compare two quantities",
+      "transition": "Orient to evidence",
+      "interaction": "Optional source detail",
+      "evidence_ids": [
+        "E1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "task": "B03",
+  "arm": "V1.1",
+  "commit": null,
+  "model": null,
+  "applicable": [
+    "evidence",
+    "narrative",
+    "visual",
+    "representation",
+    "engineering"
+  ],
+  "hardFails": [],
+  "scores": {},
+  "checks": [],
+  "efficiency": {},
+  "artifact": null,
+  "status": "not-run"
+}

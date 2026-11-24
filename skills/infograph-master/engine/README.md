@@ -1,0 +1,2 @@
+# V1.1 engineering increment 01
+10 original candidate style token sets, 12 layout presets, 10 CSS material recipes. Text/background contrast calculated using WCAG relative luminance; accent and actual rendered contrast not yet audited. Layouts are presets, not an automatic layout compiler. Materials are CSS approximations, not physical shaders. No user study or browser QA yet. Read styles.json, layouts.json and materials.css; apply tokens as CSS custom properties. This increment does not replace V1.0.

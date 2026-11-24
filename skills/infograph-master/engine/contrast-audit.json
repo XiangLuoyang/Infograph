@@ -1,0 +1,75 @@
+{
+  "method": "WCAG relative luminance; opaque tokens only; accent text threshold 4.5, non-text 3; no rendered material audit",
+  "results": [
+    {
+      "id": "editorial-paper",
+      "textCanvas": 13.305784928097594,
+      "textSurface": 14.755053218908241,
+      "accentSurface": 7.795615840783239,
+      "accentCanvas": 7.0299162070529935
+    },
+    {
+      "id": "financial-ink",
+      "textCanvas": 9.48296479198004,
+      "textSurface": 10.863534421726111,
+      "accentSurface": 4.303200200547551,
+      "accentCanvas": 3.7563369719732536
+    },
+    {
+      "id": "industrial-graphite",
+      "textCanvas": 12.841754949508733,
+      "textSurface": 9.974875314452838,
+      "accentSurface": 5.920625153484492,
+      "accentCanvas": 7.622272456757621
+    },
+    {
+      "id": "architectural-stone",
+      "textCanvas": 9.049219810648342,
+      "textSurface": 10.432214939729862,
+      "accentSurface": 5.25917422794379,
+      "accentCanvas": 4.56196731816882
+    },
+    {
+      "id": "scientific-neutral",
+      "textCanvas": 13.607090396088843,
+      "textSurface": 14.343391356243961,
+      "accentSurface": 4.5819143823802255,
+      "accentCanvas": 4.346707249331703
+    },
+    {
+      "id": "swiss",
+      "textCanvas": 16.113444528704832,
+      "textSurface": 17.756264715186326,
+      "accentSurface": 7.065635896423053,
+      "accentCanvas": 6.411919055231532
+    },
+    {
+      "id": "archive",
+      "textCanvas": 10.326440999120196,
+      "textSurface": 12.341560595829081,
+      "accentSurface": 6.403299677708991,
+      "accentCanvas": 5.357774311288809
+    },
+    {
+      "id": "spatial-glass",
+      "textCanvas": 10.031611798236886,
+      "textSurface": 11.995154905916051,
+      "accentSurface": 6.047045998171275,
+      "accentCanvas": 5.057176706389811
+    },
+    {
+      "id": "consulting",
+      "textCanvas": 13.219666424558483,
+      "textSurface": 14.187651579986266,
+      "accentSurface": 6.762847987558815,
+      "accentCanvas": 6.301437131543283
+    },
+    {
+      "id": "midnight",
+      "textCanvas": 16.242284343704934,
+      "textSurface": 13.060160512360461,
+      "accentSurface": 8.107464345691815,
+      "accentCanvas": 10.082857793711446
+    }
+  ]
+}

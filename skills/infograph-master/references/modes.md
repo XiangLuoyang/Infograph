@@ -85,3 +85,5 @@ Interaction grammar: visual-intelligence/interaction-state.mjs provides in-memor
 Exploratory analysis: visual-intelligence/exploratory-analysis.mjs provides shared filtered projections, conditional inventory scenarios and sensitivity sweeps; UI and state integration pending.
 
 Motion case studies: visual-intelligence/motion-cases.md and motion-selection.mjs provide source-backed candidate patterns and advisory selection gates.
+
+Motion engine: visual-intelligence/motion-engine.mjs integrates five modules for flat market projections, disclosure, scenario and revision-tagged geometry; DOM runtime pending.

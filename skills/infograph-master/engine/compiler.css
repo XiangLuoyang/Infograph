@@ -1,0 +1,1 @@
+.ig-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.ig-grid>[data-ig-block]{min-width:0;grid-column:span var(--span-desktop,12)}@media(max-width:1000px){.ig-grid>[data-ig-block]{grid-column:span var(--span-tablet,12)}}@media(max-width:650px){.ig-grid>[data-ig-block]{grid-column:span 12}}

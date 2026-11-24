@@ -36,3 +36,6 @@ For gallery candidates follow engine/golden/PROMOTION.md. Run browser-qa.mjs wit
 
 ### Relationship composition and motion
 Read engine/composition-motion.md, composition-patterns.json and motion-grammar.json. Choose by information relationship before visual style; preserve reading order and evidence proximity. Use composition-patterns.css and scene-controller.mjs where appropriate. Reorder, flow and camera are specifications only, not implemented animations. Do not imply a spatial relation or causal mechanism without evidence. Verify navigation, reduced motion and focus in browser before claiming pass.
+
+### Specialist engines
+Read engine/specialist-engines.md. Use material-catalog.json and material-extended.css for candidate surface recipes, chart-transforms.mjs for additive waterfall, histogram and attainment data, spatial-transforms.mjs for abstract isometric projection and supplied exploded-part positions. These are transforms, not full renderers. Never use Cartesian isometric projection as geographic projection or infer engineering geometry. Run test-transforms.mjs and inspect actual rendered output.

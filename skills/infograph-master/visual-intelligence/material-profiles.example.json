@@ -1,0 +1,26 @@
+{
+  "paper": {
+    "roughness": 0.85,
+    "metalness": 0,
+    "transmission": 0,
+    "texture": 0.25,
+    "relief": 0.1,
+    "specular": 0.1
+  },
+  "glass": {
+    "roughness": 0.2,
+    "metalness": 0,
+    "transmission": 0.85,
+    "texture": 0,
+    "relief": 0,
+    "specular": 0.8
+  },
+  "metal": {
+    "roughness": 0.35,
+    "metalness": 1,
+    "transmission": 0,
+    "texture": 0.35,
+    "relief": 0.05,
+    "specular": 0.8
+  }
+}

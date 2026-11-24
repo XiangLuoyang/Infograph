@@ -83,3 +83,5 @@ Progressive disclosure: visual-intelligence/disclosure-plan.mjs and progressive-
 Interaction grammar: visual-intelligence/interaction-state.mjs provides in-memory semantic state transitions, undo and reset; link, trace, simulation and DOM integration pending.
 
 Exploratory analysis: visual-intelligence/exploratory-analysis.mjs provides shared filtered projections, conditional inventory scenarios and sensitivity sweeps; UI and state integration pending.
+
+Motion case studies: visual-intelligence/motion-cases.md and motion-selection.mjs provide source-backed candidate patterns and advisory selection gates.

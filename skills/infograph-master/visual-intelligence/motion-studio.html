@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Motion Studio</title><style>*{box-sizing:border-box}body{margin:0;background:#eef0eb;color:#263c32;font:16px system-ui}main{max-width:1050px;margin:auto;padding:24px}h1{font:48px Georgia;margin:12px 0}small{letter-spacing:.12em}section{border-top:1px solid #a9b9ad;padding:20px 0}button,input{font:inherit}button{background:#fff;color:#263c32;border:1px solid #879d8d;padding:10px;cursor:pointer}button[aria-pressed=true]{background:#345b48;color:white}button:focus-visible,input:focus-visible{outline:3px solid #98632d}button:disabled{opacity:.5}#markets,.metrics{display:flex;flex-wrap:wrap;gap:12px}.market{flex:1;min-height:85px}.market.selected{flex:2;min-height:120px}.market[hidden]{display:none}.metrics div{flex:1;min-width:100px}.metrics strong,#scenario{display:block;font:36px Georgia}#chapters,#filters,.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}input[type=range]{max-width:100%}#error{color:#9b3128}</style><main><small>INFOGRAPH / VISUAL INTELLIGENCE / 040</small><h1>Motion Studio</h1><p>Synthetic market data · conditional calculations, not forecasts.</p><section><div id="chapters"></div><h2 id="scene"></h2><p>Declared information IDs: <span id="evidence"></span></p></section><section><div id="filters"></div><div class="metrics"><div>Inventory<strong id="stock"></strong></div><div>Sales<strong id="sales"></strong></div><div>Supply<strong id="supply"></strong></div></div><div id="markets"></div><p id="detail"></p></section><section><h2>Scenario</h2><label>Assumed supply <input id="parameter" type="range" min="0" max="36" step="1"><output id="parameterValue"></output></label><p>Sales assumption: 18K. No other inventory changes.</p><output id="scenario"></output></section><section class="controls"><label><input id="reduce" type="checkbox"> Reduce motion</label><button id="undo">Undo</button><button id="reset">Reset</button><button id="export">Export JSON</button><span id="revision"></span><span id="error" role="alert"></span></section></main><script>const clone=x=>JSON.parse(JSON.stringify(x));
+function createInteraction({entities,scenes,initialScene,parameters={}}){
+if(!Array.isArray(entities)||!entities.length||!Array.isArray(scenes)||!scenes.includes(initialScene)||new Set(scenes).size!==scenes.length)throw Error('invalid configuration');
+const ids=new Map();for(const e of entities){if(typeof e.id!=='string'||!e.id.trim()||ids.has(e.id))throw Error('invalid entity');ids.set(e.id,{...e})}
+for(const e of entities){const seen=new Set([e.id]);let p=e.parent;while(p!=null){if(!ids.has(p)||seen.has(p))throw Error('invalid hierarchy');seen.add(p);p=ids.get(p).parent}}
+for(const p of Object.values(parameters))if(![p.min,p.max,p.initial].every(Number.isFinite)||p.min>p.initial||p.initial>p.max)throw Error('invalid parameter');
+const initial={scene:initialScene,selected:null,focus:null,scope:null,filter:null,compare:[],parameters:Object.fromEntries(Object.entries(parameters).map(([k,p])=>[k,p.initial]))};
+let state=clone(initial),history=[];
+const entity=id=>{if(!ids.has(id))throw Error('unknown entity');return ids.get(id)};
+function dispatch(event){const next=clone(state);switch(event.type){
+case 'select':case 'focus':entity(event.id);next[event.type==='select'?'selected':'focus']=event.id;break;
+case 'filter':if(event.ids!==null&&(!Array.isArray(event.ids)||new Set(event.ids).size!==event.ids.length))throw Error('invalid filter');if(event.ids)event.ids.forEach(entity);next.filter=event.ids===null?null:[...event.ids];break;
+case 'drill':if((entity(event.id).parent??null)!==state.scope)throw Error('not a direct child');next.scope=event.id;break;
+case 'rollup':next.scope=state.scope===null?null:entity(state.scope).parent??null;break;
+case 'compare':if(!Array.isArray(event.ids)||event.ids.length!==2||new Set(event.ids).size!==2)throw Error('two distinct entities required');event.ids.forEach(entity);if((entity(event.ids[0]).parent??null)!==(entity(event.ids[1]).parent??null))throw Error('comparison requires peers');next.compare=[...event.ids];break;
+case 'navigate':if(!scenes.includes(event.scene))throw Error('unknown scene');next.scene=event.scene;break;
+case 'parameter':if(!Object.hasOwn(parameters,event.key)||!Number.isFinite(event.value)||event.value<parameters[event.key].min||event.value>parameters[event.key].max)throw Error('invalid parameter');next.parameters[event.key]=event.value;break;
+case 'undo':if(history.length)state=history.pop();return snapshot();
+case 'reset':history.push(state);state=clone(initial);return snapshot();
+default:throw Error('unsupported event')}
+history.push(state);state=next;return snapshot()}
+function snapshot(){return clone(state)}
+return {dispatch,snapshot,canUndo:()=>history.length>0};
+}
+function explore(rows,{filters={},focus=null}={}){
+if(!Array.isArray(rows)||new Set(rows.map(r=>r.id)).size!==rows.length)throw Error('invalid rows');
+for(const r of rows)if(typeof r.id!=='string'||!r.id||!['stock','sales','supply'].every(k=>Number.isFinite(r[k])&&r[k]>=0))throw Error('invalid row');
+for(const [k,v] of Object.entries(filters))if(!['id','region'].includes(k)||!Array.isArray(v)||v.some(x=>typeof x!=='string'))throw Error('invalid filter');
+const selected=rows.filter(r=>Object.entries(filters).every(([k,v])=>v.includes(r[k])));
+const totals=Object.fromEntries(['stock','sales','supply'].map(k=>[k,selected.reduce((s,r)=>s+r[k],0)]));
+return {ids:selected.map(r=>r.id),totals,focus:focus===null?null:selected.find(r=>r.id===focus)?.id??null,shares:selected.map(r=>({id:r.id,stockShare:totals.stock?r.stock/totals.stock:null}))};
+}
+function scenario({stock,supply,sales,other=0}){
+if(![stock,supply,sales,other].every(Number.isFinite)||Math.min(stock,supply,sales)<0)throw Error('invalid inputs');
+const end=stock+supply-sales+other;
+return {end,feasible:end>=0,delta:end-stock,assumption:'conditional inventory balance, not forecast'};
+}
+function sensitivity(input,values,key='supply'){
+if(!['supply','sales','other'].includes(key)||!Array.isArray(values)||!values.length)throw Error('invalid sweep');
+return values.map(value=>({value,...scenario({...input,[key]:value})}));
+}
+const modes=["verdict-first","question-answer","evidence-accumulation","decomposition","contextual-reveal","contrast-reveal","persistent-scene","reader-exploration"];
+function disclosurePlan({mode,items,scenes}={}){
+if(!modes.includes(mode)||!Array.isArray(items)||!items.length||!Array.isArray(scenes)||!scenes.length)throw Error('invalid plan');
+const map=new Map(),seen=new Set(),sceneIds=new Set();
+for(const x of items){if(typeof x.id!=='string'||!x.id.trim()||map.has(x.id)||typeof x.essential!=='boolean'||!Array.isArray(x.requires)||new Set(x.requires).size!==x.requires.length||!['fact','inference','hypothesis','question','decision','context'].includes(x.kind))throw Error('invalid item');if(['fact','inference'].includes(x.kind)&&(typeof x.evidence!=='string'||!x.evidence.trim()))throw Error('evidence reference required');map.set(x.id,x)}
+for(const x of items)for(const d of x.requires)if(!map.has(d)||d===x.id)throw Error('invalid prerequisite');
+const steps=scenes.map((s,i)=>{if(typeof s.id!=='string'||!s.id.trim()||sceneIds.has(s.id)||typeof s.question!=='string'||!s.question.trim()||!Array.isArray(s.show)||new Set(s.show).size!==s.show.length||s.show.some(id=>!map.has(id)))throw Error('invalid scene');sceneIds.add(s.id);const available=new Set([...seen,...s.show]);for(const id of s.show)for(const d of map.get(id).requires)if(!available.has(d))throw Error('premature reveal');const visiting=new Set(),done=new Set();function visit(id){if(done.has(id))return;if(visiting.has(id))throw Error('prerequisite cycle');visiting.add(id);for(const d of map.get(id).requires)visit(d);visiting.delete(id);done.add(id)}for(const id of s.show)visit(id);const introduced=s.show.filter(id=>!seen.has(id));for(const id of s.show)seen.add(id);return {...s,introduced,visible:[...new Set([...items.filter(x=>x.essential).map(x=>x.id),...s.show])]};});
+if(items.some(x=>x.essential&&!scenes[0].show.includes(x.id)))throw Error('essential item missing at entry');
+if(items.some(x=>!seen.has(x.id)))throw Error('unreachable item');
+return {mode,steps,staticOrder:[...seen],requirements:{manualNavigation:true,staticAlternative:true},scope:'declared disclosure order; no evidence truth or comprehension verification'};
+}
+function recommendMotion({goal,frequent=false,reduced=false,hasTimeSeries=false,hasModel=false}={}){
+const patterns={feedback:'interruptible-feedback',identity:'shared-element',history:'temporal-identity',narrative:'scroll-disclosure',mechanism:'executable-argument',navigation:'context-navigation',comparison:'static-comparison'};
+if(!Object.hasOwn(patterns,goal))throw Error('unknown goal');
+const blockers=[];if(goal==='history'&&!hasTimeSeries)blockers.push('actual time series required');if(goal==='mechanism'&&!hasModel)blockers.push('explicit computational model required');
+return {pattern:patterns[goal],allowed:blockers.length===0,blockers,animation:!blockers.length&&!reduced&&goal!=='comparison'&&!(frequent&&goal==='feedback')?'optional':'none',requirements:['static alternative','manual control','stable identity where applicable'],scope:'heuristic recommendation'};
+}
+function flipTransform(a,b){for(const r of [a,b])if(!r||!['x','y','width','height'].every(k=>Number.isFinite(r[k]))||r.width<=0||r.height<=0)throw Error('invalid rectangle');return {dx:a.x-b.x,dy:a.y-b.y,sx:a.width/b.width,sy:a.height/b.height}}
+function sharedTransitions(a,b){function index(xs){const m=new Map();for(const x of xs){if(typeof x.id!=='string'||!x.id.trim()||m.has(x.id))throw Error('invalid identity');flipTransform(x,x);m.set(x.id,x)}return m}const x=index(a),y=index(b);return {shared:[...y].filter(([id])=>x.has(id)).map(([id,r])=>({id,...flipTransform(x.get(id),r)})),enter:[...y.keys()].filter(id=>!x.has(id)),exit:[...x.keys()].filter(id=>!y.has(id))}}
+function playFlip(el,a,b,{duration=400,reducedMotion=false}={}){if(!Number.isFinite(duration)||duration<0||duration>10000)throw Error('invalid duration');const {dx,dy,sx,sy}=flipTransform(a,b);if(reducedMotion||duration===0)return null;return el.animate([{transformOrigin:'0 0',transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')'},{transformOrigin:'0 0',transform:'none'}],{duration,easing:'cubic-bezier(.4,0,.2,1)'})}
+
+
+
+
+
+function createMotionEngine(config){
+const c=JSON.parse(JSON.stringify(config)), plan=disclosurePlan(c.disclosure), rows=c.rows;
+explore(rows);
+if(rows.some(r=>!c.entities.some(e=>e.id===r.id))||c.entities.some(e=>e.parent!=null))throw Error('flat market entities required');
+const machine=createInteraction({entities:c.entities,scenes:plan.steps.map(s=>s.id),initialScene:plan.steps[0].id,parameters:c.parameters});
+let revision=0,reduced=Boolean(c.reduced),visited=new Set([plan.steps[0].id]);
+function view(){const state=machine.snapshot(),scopeRows=rows.filter(r=>state.scope===null||r.id===state.scope),projection=explore(scopeRows,{filters:state.filter===null?{}:{id:state.filter},focus:state.focus});
+const step=plan.steps.find(s=>s.id===state.scene),index=plan.steps.indexOf(step);
+const context=plan.steps.slice(0,index+1).flatMap(s=>s.visible);
+const row=rows.find(r=>r.id===state.selected&&projection.ids.includes(r.id));
+const simulation=row&&Number.isFinite(state.parameters.supply)&&Number.isFinite(state.parameters.sales)?scenario({stock:row.stock,supply:state.parameters.supply,sales:state.parameters.sales}):null;
+return {revision,state,projection,simulation,visible:[...new Set(context)],visited:[...visited],staticOrder:[...plan.staticOrder],reduced,canUndo:machine.canUndo()}}
+function dispatch(event){if(event.type==='motion-preference'){if(typeof event.reduced!=='boolean')throw Error('invalid preference');reduced=event.reduced}else{machine.dispatch(event);visited.add(machine.snapshot().scene)}revision++;return view()}
+function transition(before,after,{goal='identity',frequent=false}={}){const policy=recommendMotion({goal,frequent,reduced,hasTimeSeries:false,hasModel:false});return {revision,policy,geometry:policy.animation==='optional'?sharedTransitions(before,after):null}}
+return {view,dispatch,transition,isCurrent:r=>r===revision};
+}
+const config={"entities":[{"id":"TH"},{"id":"VN"}],"rows":[{"id":"TH","stock":36,"sales":18,"supply":24},{"id":"VN","stock":20,"sales":16,"supply":17}],"parameters":{"supply":{"min":0,"max":36,"initial":18},"sales":{"min":0,"max":36,"initial":18}},"disclosure":{"mode":"verdict-first","items":[{"id":"verdict","kind":"decision","essential":true,"requires":[]},{"id":"stock","kind":"fact","essential":false,"requires":[],"evidence":"synthetic"},{"id":"gap","kind":"fact","essential":false,"requires":["stock"],"evidence":"synthetic"}],"scenes":[{"id":"overview","question":"Decision?","show":["verdict"]},{"id":"stock","question":"Where?","show":["stock"]},{"id":"gap","question":"What gap?","show":["gap"]}]}};
+const engine=createMotionEngine(config),$=id=>document.getElementById(id),animations=new Map(),media=matchMedia('(prefers-reduced-motion: reduce)');
+const cards=new Map();for(const r of config.rows){const b=document.createElement('button');b.className='market';b.dataset.id=r.id;b.textContent=r.id+' · '+r.stock+'K';b.onclick=()=>act({type:'select',id:r.id});cards.set(r.id,b);$('markets').append(b);const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.checked=true;c.value=r.id;c.onchange=()=>act({type:'filter',ids:[...$('filters').querySelectorAll('input:checked')].map(x=>x.value)});l.append(c,r.id);$('filters').append(l)}
+for(const s of config.disclosure.scenes){const b=document.createElement('button');b.textContent=s.question;b.onclick=()=>act({type:'navigate',scene:s.id});b.dataset.scene=s.id;$('chapters').append(b)}
+function rects(){return [...cards].filter(([id,b])=>!b.hidden).map(([id,b])=>{const r=b.getBoundingClientRect();return {id,x:r.x,y:r.y,width:r.width,height:r.height}}).filter(r=>r.width>0&&r.height>0)}
+function render(v){$('stock').textContent=v.projection.totals.stock+'K';$('sales').textContent=v.projection.totals.sales+'K';$('supply').textContent=v.projection.totals.supply+'K';$('scenario').textContent=v.simulation? v.simulation.end+'K'+(v.simulation.feasible?'':' (infeasible)'):'Select a visible market';$('scene').textContent=v.state.scene;$('evidence').textContent=v.visible.join(' · ');$('revision').textContent='Revision '+v.revision;$('undo').disabled=!v.canUndo;$('reduce').checked=v.reduced;$('parameter').value=v.state.parameters.supply;$('parameterValue').textContent=v.state.parameters.supply+'K';for(const [id,b] of cards){b.hidden=!v.projection.ids.includes(id);b.classList.toggle('selected',v.state.selected===id);b.setAttribute('aria-pressed',String(v.state.selected===id));}for(const c of $('filters').querySelectorAll('input'))c.checked=v.state.filter===null||v.state.filter.includes(c.value);for(const b of $('chapters').querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.scene===v.state.scene));$('detail').textContent=v.projection.shares.map(x=>x.id+': '+(x.stockShare===null?'—':(x.stockShare*100).toFixed(1)+'%')).join(' / ')}
+function act(event){try{const before=rects(),v=engine.dispatch(event);for(const a of animations.values())a.cancel();animations.clear();render(v);const after=rects(),t=engine.transition(before,after,{goal:'identity'});if(!media.matches&&t.geometry)for(const g of t.geometry.shared){const b=cards.get(g.id);if(typeof b.animate!=='function')continue;try{const a=b.animate([{transformOrigin:'0 0',transform:'translate('+g.dx+'px,'+g.dy+'px) scale('+g.sx+','+g.sy+')'},{transform:'none'}],{duration:350,easing:'cubic-bezier(.4,0,.2,1)'});animations.set(g.id,a);a.onfinish=()=>{if(engine.isCurrent(t.revision)&&animations.get(g.id)===a)animations.delete(g.id)}}catch{}}$('error').textContent=''}catch(e){$('error').textContent=e.message}}
+$('parameter').oninput=e=>act({type:'parameter',key:'supply',value:Number(e.target.value)});$('undo').onclick=()=>act({type:'undo'});$('reset').onclick=()=>act({type:'reset'});$('reduce').onchange=e=>act({type:'motion-preference',reduced:e.target.checked});media.addEventListener?.('change',e=>{if(e.matches)act({type:'motion-preference',reduced:true})});$('export').onclick=()=>{const u=URL.createObjectURL(new Blob([JSON.stringify({config,view:engine.view()},null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download='motion-studio.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};if(media.matches)engine.dispatch({type:'motion-preference',reduced:true});render(engine.view());</script></html>

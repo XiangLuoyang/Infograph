@@ -1,0 +1,21 @@
+{
+  "concepts": [
+    {
+      "id": "a",
+      "label": "Governance"
+    },
+    {
+      "id": "b",
+      "label": "Execution"
+    }
+  ],
+  "links": [
+    {
+      "id": "e",
+      "source": "a",
+      "target": "b",
+      "type": "causes",
+      "status": "hypothesis"
+    }
+  ]
+}

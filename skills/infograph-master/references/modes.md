@@ -97,3 +97,5 @@ Representation ontology: visual-intelligence/representation-ontology.json migrat
 Statistical representation: visual-intelligence/statistical-enrichment.json provides eight candidate ID-linked overlays; statistical-transforms.mjs supports five numerical operations. Review limits in statistical-intelligence.md.
 
 Geospatial: visual-intelligence/geospatial-intelligence.md, geospatial-enrichment.json and geospatial-transforms.mjs; candidate overlays and point/metric utilities, no geographic renderer.
+
+Engineering: visual-intelligence/engineering-intelligence.md, engineering-enrichment.json, engineering-transforms.mjs and engineering.example.json. Candidate semantics and coordinate utilities only, not CAD.

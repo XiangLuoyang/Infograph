@@ -1,0 +1,68 @@
+[
+  {
+    "id": "CC01",
+    "work": "The Red Studio",
+    "domain": "painting",
+    "source": "https://www.moma.org/collection/works/78389/",
+    "observation": "Common red field, sparse contours for furniture, detailed artworks and clock axis.",
+    "composition": "Field + axial + focus",
+    "transfer": "Reduce contextual chrome while retaining evidence detail.",
+    "limit": "Do not suppress necessary labels.",
+    "evidence": "source description reviewed; no frame or pixel audit"
+  },
+  {
+    "id": "CC02",
+    "work": "Villa Savoye",
+    "domain": "architecture",
+    "source": "https://www.fondationlecorbusier.fr/en/work-architecture/achievements-villa-savoye-and-gardeners-lodge-poissy-france-1928-1931/",
+    "observation": "Ramp and staircase offer routes through successive viewpoints.",
+    "composition": "Linear + frame + threshold",
+    "transfer": "Maintain object continuity across optional guided scenes.",
+    "limit": "Provide direct navigation.",
+    "evidence": "source description reviewed; no frame or pixel audit"
+  },
+  {
+    "id": "CC03",
+    "work": "Musica Viva 1958–1960",
+    "domain": "graphic design",
+    "source": "https://swissgrid.posterhouse.org/",
+    "observation": "Flexible grid accommodates geometric image, dense text and unequal columns.",
+    "composition": "Modular + asymmetric + hero",
+    "transfer": "Keep alignment anchors while varying chapter composition.",
+    "limit": "Do not equate grid consistency with identical cards.",
+    "evidence": "source description reviewed; no frame or pixel audit"
+  },
+  {
+    "id": "CC04",
+    "work": "Weniger Lärm 1960",
+    "domain": "graphic design",
+    "source": "https://access.posterhouse.org/exhibition/swiss-grid-2/",
+    "observation": "Museum describes grid rotated 50 degrees for tension.",
+    "composition": "Diagonal + hero",
+    "transfer": "Use local directional exception for a meaningful disruption.",
+    "limit": "Keep data axes and essential text legible.",
+    "evidence": "source description reviewed; no frame or pixel audit"
+  },
+  {
+    "id": "CC05",
+    "work": "Citizen Kane",
+    "domain": "film",
+    "source": "https://www.bfi.org.uk/film/f4c92833-af39-5cd6-a41e-8df5933d0dc1/citizen-kane",
+    "observation": "Deep-focus photography keeps foreground and background in focus.",
+    "composition": "Layered + frame",
+    "transfer": "Keep primary evidence and contextual evidence simultaneously readable.",
+    "limit": "Avoid occlusion and forced focus.",
+    "evidence": "source description reviewed; no frame or pixel audit"
+  },
+  {
+    "id": "CC06",
+    "work": "Population Mountains",
+    "domain": "information design",
+    "source": "https://pudding.cool/2018/12/3d-cities-story/",
+    "observation": "Introduces population dots, extrudes them into blocks, zooms out and compares regions at comparable scale.",
+    "composition": "Field + layered + small-multiples",
+    "transfer": "Introduce encoding before changing representation; preserve comparative scales.",
+    "limit": "Height must encode actual quantity; provide flat accessible alternative.",
+    "evidence": "source description reviewed; no frame or pixel audit"
+  }
+]

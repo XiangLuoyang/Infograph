@@ -1,0 +1,11 @@
+const colors={paper:['#f5f2e8','#29382f'],metal:['#c5cdd0','#24343b'],stone:['#d1d0c8','#343b35'],glass:['#e0eae6','#233b35'],matte:['#edf0eb','#293b31']};
+export function renderMaterial({material='paper',detail='surface',backend='auto',seed=1,strength=.3,essential=true}={}){
+if(!Object.hasOwn(colors,material)||!['surface','texture','optical','3d'].includes(detail)||!['auto','css','svg','canvas','webgl'].includes(backend)||!Number.isInteger(seed)||seed<0||seed>4294967295||!Number.isFinite(strength)||strength<0||strength>1||typeof essential!=='boolean')throw Error('invalid material profile');
+const requested=backend==='auto'?({surface:'css',texture:'svg',optical:'webgl','3d':'webgl'})[detail]:backend;
+const [bg,ink]=colors[material];const warnings=[];let actual=requested;
+if(requested==='webgl'||requested==='canvas'){actual='svg';warnings.push(requested+' not implemented; SVG fallback');}
+if(detail==='optical'||detail==='3d')warnings.push('optical or 3D requirement unmet; flat preview only');
+const css={backgroundColor:bg,color:ink,backgroundImage:material==='metal'?`repeating-linear-gradient(0deg,transparent 0px 2px,rgba(36,52,59,${strength*.12}) 2px 3px)`:'none'};
+let svg=null;if(actual==='svg'){let state=seed>>>0;const rand=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296};const marks=[];for(let i=0;i<180;i++){const x=(rand()*160).toFixed(2),y=(rand()*100).toFixed(2),len=(1+rand()*5).toFixed(2);marks.push(material==='metal'?`<path d="M${x} ${y} h${len}" stroke="${ink}" stroke-width=".35" opacity="${strength*.25}"/>`:`<circle cx="${x}" cy="${y}" r=".45" fill="${ink}" opacity="${strength*.22}"/>`)}svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100"><rect width="160" height="100" fill="${bg}"/>${marks.join('')}</svg>`;}
+return {requested,actual,css,svg,warnings,requirementMet:!['optical','3d'].includes(detail)&&(detail!=='texture'||actual==='svg'||material==='metal'),opaqueFallback:true,essential,scope:'decorative opaque CSS/SVG only; no physical rendering'};
+}

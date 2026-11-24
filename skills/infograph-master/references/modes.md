@@ -69,3 +69,5 @@ Material composition: visual-intelligence/material-composition.md, material-case
 Material rendering: visual-intelligence/material-renderer.mjs and material-renderer.md implement opaque CSS and seeded SVG texture assets; Canvas/WebGL fallback only, optical/3D unmet.
 
 Material Studio: visual-intelligence/material-studio.html and material-studio.md integrate three material modules in a standalone preview; browser validation pending.
+
+Motion foundations: visual-intelligence/motion-foundations.md, motion-roles.json and motion-plan.mjs define semantic motion roles, identity and declared evidence/fallback constraints. No animation runtime yet.

@@ -101,3 +101,5 @@ Geospatial: visual-intelligence/geospatial-intelligence.md, geospatial-enrichmen
 Engineering: visual-intelligence/engineering-intelligence.md, engineering-enrichment.json, engineering-transforms.mjs and engineering.example.json. Candidate semantics and coordinate utilities only, not CAD.
 
 Network: visual-intelligence/network-intelligence.md, network-enrichment.json, network-transforms.mjs and network.example.json. DAG rank, single-edge grid routing and traceable aggregation only.
+
+Scientific: visual-intelligence/scientific-intelligence.md, scientific-enrichment.json, scientific-transforms.mjs and scientific.example.json. Grid interpolation, axis maximum projection and fixed-step RK4; no clinical or physical validation.

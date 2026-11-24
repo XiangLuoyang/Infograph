@@ -1,0 +1,272 @@
+[
+  {
+    "id": "editorial-paper",
+    "canvas": "#F5F3EE",
+    "surface": "#FFFFFF",
+    "text": "#202A28",
+    "accent": "#285B4D",
+    "muted": "#202A28",
+    "border": "#285B4D",
+    "positive": "#202A28",
+    "negative": "#202A28",
+    "warning": "#202A28",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "Georgia, 'Noto Serif CJK SC', serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 13.305784928097594,
+      "surface": 14.755053218908241
+    }
+  },
+  {
+    "id": "financial-ink",
+    "canvas": "#F3E9DF",
+    "surface": "#FFF9F2",
+    "text": "#263D4A",
+    "accent": "#477E92",
+    "muted": "#263D4A",
+    "border": "#477E92",
+    "positive": "#263D4A",
+    "negative": "#263D4A",
+    "warning": "#263D4A",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 9.48296479198004,
+      "surface": 10.863534421726111
+    }
+  },
+  {
+    "id": "industrial-graphite",
+    "canvas": "#17201F",
+    "surface": "#283431",
+    "text": "#DCE4E0",
+    "accent": "#91B8A8",
+    "muted": "#DCE4E0",
+    "border": "#91B8A8",
+    "positive": "#DCE4E0",
+    "negative": "#DCE4E0",
+    "warning": "#DCE4E0",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 12.841754949508733,
+      "surface": 9.974875314452838
+    }
+  },
+  {
+    "id": "architectural-stone",
+    "canvas": "#E9E7E1",
+    "surface": "#F8F7F2",
+    "text": "#343D3B",
+    "accent": "#526D62",
+    "muted": "#343D3B",
+    "border": "#526D62",
+    "positive": "#343D3B",
+    "negative": "#343D3B",
+    "warning": "#343D3B",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 9.049219810648342,
+      "surface": 10.432214939729862
+    }
+  },
+  {
+    "id": "scientific-neutral",
+    "canvas": "#F8F9FA",
+    "surface": "#FFFFFF",
+    "text": "#172C3D",
+    "accent": "#367CA5",
+    "muted": "#172C3D",
+    "border": "#367CA5",
+    "positive": "#172C3D",
+    "negative": "#172C3D",
+    "warning": "#172C3D",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 13.607090396088843,
+      "surface": 14.343391356243961
+    }
+  },
+  {
+    "id": "swiss",
+    "canvas": "#F4F4F1",
+    "surface": "#FFFFFF",
+    "text": "#181818",
+    "accent": "#A52B25",
+    "muted": "#181818",
+    "border": "#A52B25",
+    "positive": "#181818",
+    "negative": "#181818",
+    "warning": "#181818",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 16.113444528704832,
+      "surface": 17.756264715186326
+    }
+  },
+  {
+    "id": "archive",
+    "canvas": "#EDE1C9",
+    "surface": "#FFF5DF",
+    "text": "#392D20",
+    "accent": "#79512C",
+    "muted": "#392D20",
+    "border": "#79512C",
+    "positive": "#392D20",
+    "negative": "#392D20",
+    "warning": "#392D20",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "Georgia, 'Noto Serif CJK SC', serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 10.326440999120196,
+      "surface": 12.341560595829081
+    }
+  },
+  {
+    "id": "spatial-glass",
+    "canvas": "#E6ECEB",
+    "surface": "#FFFFFF",
+    "text": "#223B38",
+    "accent": "#356C62",
+    "muted": "#223B38",
+    "border": "#356C62",
+    "positive": "#223B38",
+    "negative": "#223B38",
+    "warning": "#223B38",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 12,
+    "contrast": {
+      "canvas": 10.031611798236886,
+      "surface": 11.995154905916051
+    }
+  },
+  {
+    "id": "consulting",
+    "canvas": "#F5F7FA",
+    "surface": "#FFFFFF",
+    "text": "#182C43",
+    "accent": "#315D91",
+    "muted": "#182C43",
+    "border": "#315D91",
+    "positive": "#182C43",
+    "negative": "#182C43",
+    "warning": "#182C43",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 13.219666424558483,
+      "surface": 14.187651579986266
+    }
+  },
+  {
+    "id": "midnight",
+    "canvas": "#111827",
+    "surface": "#202B3C",
+    "text": "#F3F5F8",
+    "accent": "#A7C5F4",
+    "muted": "#F3F5F8",
+    "border": "#A7C5F4",
+    "positive": "#F3F5F8",
+    "negative": "#F3F5F8",
+    "warning": "#F3F5F8",
+    "statusEncoding": "explicit labels, not color alone",
+    "font": "system-ui, 'Noto Sans CJK SC', sans-serif",
+    "spacing": [
+      4,
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "radius": 2,
+    "contrast": {
+      "canvas": 16.242284343704934,
+      "surface": 13.060160512360461
+    }
+  }
+]

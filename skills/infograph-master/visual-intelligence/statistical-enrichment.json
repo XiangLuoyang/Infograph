@@ -1,0 +1,199 @@
+[
+  {
+    "id": "VIZ-0002",
+    "relations": [
+      "magnitude"
+    ],
+    "tasks": [
+      "compare"
+    ],
+    "channels": [
+      "position",
+      "length"
+    ],
+    "requiredInputs": [
+      "category",
+      "value",
+      "unit"
+    ],
+    "constraints": [
+      "zero baseline",
+      "compatible units"
+    ],
+    "transform": "bar",
+    "source": "https://vega.github.io/vega-lite/docs/encoding.html",
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0033",
+    "relations": [
+      "temporal"
+    ],
+    "tasks": [
+      "trend"
+    ],
+    "channels": [
+      "position",
+      "connection"
+    ],
+    "requiredInputs": [
+      "time",
+      "value",
+      "unit"
+    ],
+    "constraints": [
+      "ordered timestamps",
+      "explicit missing intervals"
+    ],
+    "transform": "line",
+    "source": "https://vega.github.io/vega-lite/docs/encoding.html",
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0062",
+    "relations": [
+      "distribution"
+    ],
+    "tasks": [
+      "inspect"
+    ],
+    "channels": [
+      "position",
+      "length"
+    ],
+    "requiredInputs": [
+      "observations",
+      "bin boundaries",
+      "unit"
+    ],
+    "constraints": [
+      "unequal widths require density for area proportional to frequency"
+    ],
+    "transform": "bin/count",
+    "source": "https://vega.github.io/vega-lite/docs/bin.html",
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0077",
+    "relations": [
+      "distribution"
+    ],
+    "tasks": [
+      "inspect"
+    ],
+    "channels": [
+      "position",
+      "length"
+    ],
+    "requiredInputs": [
+      "estimate",
+      "lower",
+      "upper",
+      "interval definition"
+    ],
+    "constraints": [
+      "label interval type and level where applicable"
+    ],
+    "transform": "interval",
+    "source": "https://vega.github.io/vega-lite/docs/errorbar.html",
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0078",
+    "relations": [
+      "temporal"
+    ],
+    "tasks": [
+      "trend"
+    ],
+    "channels": [
+      "position",
+      "area"
+    ],
+    "requiredInputs": [
+      "time",
+      "lower",
+      "upper",
+      "interval definition"
+    ],
+    "constraints": [
+      "ordered bounds",
+      "label interval type"
+    ],
+    "transform": "interval",
+    "source": "https://vega.github.io/vega-lite/docs/errorband.html",
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0087",
+    "relations": [
+      "association"
+    ],
+    "tasks": [
+      "inspect"
+    ],
+    "channels": [
+      "position"
+    ],
+    "requiredInputs": [
+      "paired values"
+    ],
+    "constraints": [
+      "preserve pairing",
+      "association is not causality"
+    ],
+    "transform": "point",
+    "source": "https://vega.github.io/vega-lite/docs/encoding.html",
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0004",
+    "relations": [
+      "composition"
+    ],
+    "tasks": [
+      "compare"
+    ],
+    "channels": [
+      "position",
+      "length"
+    ],
+    "requiredInputs": [
+      "category",
+      "parts",
+      "unit"
+    ],
+    "constraints": [
+      "additive parts",
+      "compatible units"
+    ],
+    "transform": "stack",
+    "source": "https://vega.github.io/vega-lite/docs/encoding.html",
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0005",
+    "relations": [
+      "composition"
+    ],
+    "tasks": [
+      "compare"
+    ],
+    "channels": [
+      "position",
+      "length"
+    ],
+    "requiredInputs": [
+      "category",
+      "parts",
+      "unit"
+    ],
+    "constraints": [
+      "nonnegative additive parts",
+      "positive denominator"
+    ],
+    "transform": "normalize stack",
+    "source": "https://vega.github.io/vega-lite/docs/encoding.html",
+    "status": "candidate-enrichment"
+  }
+]

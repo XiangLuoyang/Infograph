@@ -1,0 +1,2 @@
+# Engineering representation
+31 F10 catalog records read. Eight candidate overlays. Four utilities: world-coordinate assembly offsets, isometric screen projection (equal axis lengths, enlarged relative to orthographic scale), signed plane distance, BOM ID coverage not quantity reconciliation. 13 inline checks. No CAD import, mesh clipping, collision detection or manufacturing validation. Reading queue not freshly reviewed: ISO 128, ISO 5456, ASME Y14.3. Adapter candidates Three.js, Open Cascade, FreeCAD. Business exploded views are conceptual.

@@ -1,0 +1,2 @@
+# V1.1 increment usage
+Read styles.json, layouts.json, materials.css, motion.css and chart-rules.json after the master workflow. Select assets explicitly; use engine.route(task,fields) for candidate screening, never as proof of domain suitability. Write design JSON following design.example.json. Run python engine.py design.json and python -m unittest test_engine.py from this directory. These tests are supplied but have not been executed in this repository. Structural checks cannot establish truth or aesthetics. No browser validation. V1.0 remains unchanged.

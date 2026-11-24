@@ -1,0 +1,762 @@
+[
+  {
+    "id": "quiet-editorial",
+    "hue": 160,
+    "chroma": 0.07,
+    "dark": false,
+    "tokens": {
+      "canvas": "#eff8f2",
+      "surface": "#ffffff",
+      "text": "#181f1b",
+      "muted": "#4a524d",
+      "primary": "#285c42",
+      "secondary": "#476655",
+      "highlight": "#1f533a"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 15.495243931540456,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 16.79114785118092,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 7.438541181346812,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 8.060643983723027,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 7.178167379522176,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 7.778494504674657,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 5.873141144314686,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.3643258370594635,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 8.223185960263255,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 8.910910462369765,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "monochrome",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  },
+  {
+    "id": "warm-archive",
+    "hue": 65,
+    "chroma": 0.09,
+    "dark": false,
+    "tokens": {
+      "canvas": "#fbf4ed",
+      "surface": "#ffffff",
+      "text": "#211c17",
+      "muted": "#554f49",
+      "primary": "#71440c",
+      "secondary": "#7b5247",
+      "highlight": "#564700"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 15.497044636950454,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 16.892699950908806,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 7.407167854445929,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 8.074253316198414,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 7.601706790486324,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 8.286312321788662,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 6.135166967749107,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.6876967294653875,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 8.387094147702076,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 9.14243123229686,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "analogous",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  },
+  {
+    "id": "financial-contrast",
+    "hue": 250,
+    "chroma": 0.09,
+    "dark": false,
+    "tokens": {
+      "canvas": "#eff6fd",
+      "surface": "#ffffff",
+      "text": "#191d22",
+      "muted": "#4b5056",
+      "primary": "#24527f",
+      "secondary": "#44607e",
+      "highlight": "#653e00"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 15.538739276825268,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 16.933036867940018,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 7.466380169954643,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 8.136341593455768,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 7.445093378420728,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 8.113144729191397,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 5.984339080805089,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.5213163359177155,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 8.59387551421249,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 9.365007567742552,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "complementary",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  },
+  {
+    "id": "museum-split",
+    "hue": 175,
+    "chroma": 0.08,
+    "dark": false,
+    "tokens": {
+      "canvas": "#edf8f5",
+      "surface": "#ffffff",
+      "text": "#171f1d",
+      "muted": "#49524f",
+      "primary": "#035e4d",
+      "secondary": "#6d546e",
+      "highlight": "#6c3531"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 15.475024785743429,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 16.797742985053432,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 7.432015701439142,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 8.067262659809618,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 7.133311577005489,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 7.743026984566344,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 6.154350138220393,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.680389420577451,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 8.82904324845132,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 9.583700274783226,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "split",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  },
+  {
+    "id": "scientific-triad",
+    "hue": 235,
+    "chroma": 0.07,
+    "dark": false,
+    "tokens": {
+      "canvas": "#eef7fc",
+      "surface": "#ffffff",
+      "text": "#181e22",
+      "muted": "#4a5156",
+      "primary": "#235671",
+      "secondary": "#73535f",
+      "highlight": "#474c1c"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 15.50551190796082,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 16.831697994376846,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 7.433334975325764,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 8.069107949379292,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 7.3249376544759865,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 7.951439408103575,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 6.177645714464751,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.7060196141439015,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 8.344056978402229,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 9.057723984993492,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "triadic",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  },
+  {
+    "id": "swiss-accent",
+    "hue": 25,
+    "chroma": 0.14,
+    "dark": false,
+    "tokens": {
+      "canvas": "#f5f5f5",
+      "surface": "#ffffff",
+      "text": "#1d1d1d",
+      "muted": "#505050",
+      "primary": "#8d2425",
+      "secondary": "#8a4743",
+      "highlight": "#831a1d"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 15.462400870549049,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 16.857588663262874,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 7.3959451753782846,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 8.063288656552828,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 7.9871878493760144,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 8.707879744435253,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 6.2885980888010415,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.856024542185132,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 9.040809812722985,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 9.856571064326767,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "neutralAccent",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  },
+  {
+    "id": "industrial-night",
+    "hue": 180,
+    "chroma": 0.09,
+    "dark": true,
+    "tokens": {
+      "canvas": "#0a1110",
+      "surface": "#19211f",
+      "text": "#e3eeeb",
+      "muted": "#a9b4b1",
+      "primary": "#78d1c0",
+      "secondary": "#8baf91",
+      "highlight": "#7cd8e8"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 16.078634932380904,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 13.839162038211375,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 8.950264829116813,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 7.703649331921872,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 10.612663737237359,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 9.134505120263299,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 7.849267179268082,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.756001416285651,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 11.67088961098006,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 10.045338620827419,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "analogous",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  },
+  {
+    "id": "cinematic-night",
+    "hue": 275,
+    "chroma": 0.12,
+    "dark": true,
+    "tokens": {
+      "canvas": "#0e0f15",
+      "surface": "#1d1f25",
+      "text": "#e9ebf3",
+      "muted": "#afb1b9",
+      "primary": "#aab9ff",
+      "secondary": "#96a1d6",
+      "highlight": "#e0c766"
+    },
+    "audit": [
+      {
+        "role": "text",
+        "bg": "canvas",
+        "ratio": 16.07012374163735,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "text",
+        "bg": "surface",
+        "ratio": 13.837607897941053,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "canvas",
+        "ratio": 8.937813456229563,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "muted",
+        "bg": "surface",
+        "ratio": 7.696142236403509,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "canvas",
+        "ratio": 10.104286310603811,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "primary",
+        "bg": "surface",
+        "ratio": 8.70056474377982,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "canvas",
+        "ratio": 7.620266707968537,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "secondary",
+        "bg": "surface",
+        "ratio": 6.561633530511881,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "canvas",
+        "ratio": 11.41404749839572,
+        "normalText": true,
+        "graphic": true
+      },
+      {
+        "role": "highlight",
+        "bg": "surface",
+        "ratio": 9.828369485547125,
+        "normalText": true,
+        "graphic": true
+      }
+    ],
+    "harmony": "complementary",
+    "areaGuide": {
+      "neutral": 75,
+      "support": 20,
+      "accent": 5
+    },
+    "brandPolicy": "none",
+    "scope": "candidate atmosphere, not categorical data encoding"
+  }
+]

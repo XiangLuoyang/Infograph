@@ -1,0 +1,106 @@
+{
+  "desktop": {
+    "width": 1200,
+    "height": 800,
+    "boxes": [
+      {
+        "id": "page",
+        "x": 24,
+        "y": 24,
+        "width": 1152,
+        "height": 752,
+        "depth": 0,
+        "leaf": false
+      },
+      {
+        "id": "headline",
+        "x": 24,
+        "y": 24,
+        "width": 1152,
+        "height": 184,
+        "depth": 1,
+        "leaf": true
+      },
+      {
+        "id": "body",
+        "x": 24,
+        "y": 224,
+        "width": 1152,
+        "height": 552,
+        "depth": 1,
+        "leaf": false
+      },
+      {
+        "id": "evidence",
+        "x": 24,
+        "y": 224,
+        "width": 724,
+        "height": 552,
+        "depth": 2,
+        "leaf": true
+      },
+      {
+        "id": "context",
+        "x": 764,
+        "y": 224,
+        "width": 412,
+        "height": 552,
+        "depth": 2,
+        "leaf": true
+      }
+    ],
+    "scope": "rectangular geometry only"
+  },
+  "narrow": {
+    "width": 480,
+    "height": 1000,
+    "boxes": [
+      {
+        "id": "page",
+        "x": 24,
+        "y": 24,
+        "width": 432,
+        "height": 952,
+        "depth": 0,
+        "leaf": false
+      },
+      {
+        "id": "headline",
+        "x": 24,
+        "y": 24,
+        "width": 432,
+        "height": 234,
+        "depth": 1,
+        "leaf": true
+      },
+      {
+        "id": "body",
+        "x": 24,
+        "y": 274,
+        "width": 432,
+        "height": 702,
+        "depth": 1,
+        "leaf": false
+      },
+      {
+        "id": "evidence",
+        "x": 24,
+        "y": 274,
+        "width": 432,
+        "height": 457.3333333333333,
+        "depth": 2,
+        "leaf": true
+      },
+      {
+        "id": "context",
+        "x": 24,
+        "y": 747.3333333333333,
+        "width": 432,
+        "height": 228.66666666666666,
+        "depth": 2,
+        "leaf": true
+      }
+    ],
+    "scope": "rectangular geometry only"
+  }
+}

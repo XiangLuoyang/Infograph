@@ -1,0 +1,3 @@
+import {selectRepresentation} from './representation-selector.mjs';
+import {renderRepresentation} from './specialist-adapter.mjs';
+export function studioRun(index,request,id,data){const selection=selectRepresentation(index,request);if(!id)return {selection,status:'choose'};if(!selection.ready.some(x=>x.id===id))return {selection,status:'blocked'};try{return {selection,...renderRepresentation({id,data})}}catch(e){return {selection,status:'invalid-data',reason:String(e.message)}}}

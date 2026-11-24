@@ -1,0 +1,170 @@
+{
+  "editorial": {
+    "azimuth": 315,
+    "intensity": 0.35,
+    "softness": 0.8,
+    "ambient": 0.75,
+    "temperature": 5500,
+    "levels": [
+      {
+        "elevation": 0,
+        "x": 0,
+        "y": 0,
+        "blur": 0,
+        "alpha": 0.058,
+        "css": "none"
+      },
+      {
+        "elevation": 1,
+        "x": 1.414,
+        "y": 1.414,
+        "blur": 6,
+        "alpha": 0.058,
+        "css": "0 1px 2px rgba(0,0,0,0.035), 1.414px 1.414px 6px rgba(0,0,0,0.058)"
+      },
+      {
+        "elevation": 2,
+        "x": 2.828,
+        "y": 2.828,
+        "blur": 12,
+        "alpha": 0.058,
+        "css": "0 1px 3px rgba(0,0,0,0.035), 2.828px 2.828px 12px rgba(0,0,0,0.058)"
+      },
+      {
+        "elevation": 3,
+        "x": 4.243,
+        "y": 4.243,
+        "blur": 18,
+        "alpha": 0.058,
+        "css": "0 1px 4px rgba(0,0,0,0.035), 4.243px 4.243px 18px rgba(0,0,0,0.058)"
+      }
+    ],
+    "scope": "CSS shadow heuristic; temperature metadata only; no physical lighting or contrast guarantee"
+  },
+  "industrial": {
+    "azimuth": 270,
+    "intensity": 0.8,
+    "softness": 0.25,
+    "ambient": 0.35,
+    "temperature": 6500,
+    "levels": [
+      {
+        "elevation": 0,
+        "x": 0,
+        "y": 0,
+        "blur": 0,
+        "alpha": 0.211,
+        "css": "none"
+      },
+      {
+        "elevation": 1,
+        "x": 2,
+        "y": 0,
+        "blur": 3.25,
+        "alpha": 0.211,
+        "css": "0 1px 2px rgba(0,0,0,0.127), 2px 0px 3.25px rgba(0,0,0,0.211)"
+      },
+      {
+        "elevation": 2,
+        "x": 4,
+        "y": 0,
+        "blur": 6.5,
+        "alpha": 0.211,
+        "css": "0 1px 3px rgba(0,0,0,0.127), 4px 0px 6.5px rgba(0,0,0,0.211)"
+      },
+      {
+        "elevation": 3,
+        "x": 6,
+        "y": 0,
+        "blur": 9.75,
+        "alpha": 0.211,
+        "css": "0 1px 4px rgba(0,0,0,0.127), 6px 0px 9.75px rgba(0,0,0,0.211)"
+      }
+    ],
+    "scope": "CSS shadow heuristic; temperature metadata only; no physical lighting or contrast guarantee"
+  },
+  "spatial": {
+    "azimuth": 315,
+    "intensity": 0.65,
+    "softness": 0.85,
+    "ambient": 0.5,
+    "temperature": 6500,
+    "levels": [
+      {
+        "elevation": 0,
+        "x": 0,
+        "y": 0,
+        "blur": 0,
+        "alpha": 0.148,
+        "css": "none"
+      },
+      {
+        "elevation": 1,
+        "x": 1.414,
+        "y": 1.414,
+        "blur": 6.25,
+        "alpha": 0.148,
+        "css": "0 1px 2px rgba(0,0,0,0.089), 1.414px 1.414px 6.25px rgba(0,0,0,0.148)"
+      },
+      {
+        "elevation": 2,
+        "x": 2.828,
+        "y": 2.828,
+        "blur": 12.5,
+        "alpha": 0.148,
+        "css": "0 1px 3px rgba(0,0,0,0.089), 2.828px 2.828px 12.5px rgba(0,0,0,0.148)"
+      },
+      {
+        "elevation": 3,
+        "x": 4.243,
+        "y": 4.243,
+        "blur": 18.75,
+        "alpha": 0.148,
+        "css": "0 1px 4px rgba(0,0,0,0.089), 4.243px 4.243px 18.75px rgba(0,0,0,0.148)"
+      }
+    ],
+    "scope": "CSS shadow heuristic; temperature metadata only; no physical lighting or contrast guarantee"
+  },
+  "dramatic": {
+    "azimuth": 90,
+    "intensity": 0.95,
+    "softness": 0.15,
+    "ambient": 0.15,
+    "temperature": 4500,
+    "levels": [
+      {
+        "elevation": 0,
+        "x": 0,
+        "y": 0,
+        "blur": 0,
+        "alpha": 0.298,
+        "css": "none"
+      },
+      {
+        "elevation": 1,
+        "x": -2,
+        "y": 0,
+        "blur": 2.75,
+        "alpha": 0.298,
+        "css": "0 1px 2px rgba(0,0,0,0.179), -2px 0px 2.75px rgba(0,0,0,0.298)"
+      },
+      {
+        "elevation": 2,
+        "x": -4,
+        "y": 0,
+        "blur": 5.5,
+        "alpha": 0.298,
+        "css": "0 1px 3px rgba(0,0,0,0.179), -4px 0px 5.5px rgba(0,0,0,0.298)"
+      },
+      {
+        "elevation": 3,
+        "x": -6,
+        "y": 0,
+        "blur": 8.25,
+        "alpha": 0.298,
+        "css": "0 1px 4px rgba(0,0,0,0.179), -6px 0px 8.25px rgba(0,0,0,0.298)"
+      }
+    ],
+    "scope": "CSS shadow heuristic; temperature metadata only; no physical lighting or contrast guarantee"
+  }
+}

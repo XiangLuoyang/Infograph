@@ -1,0 +1,9 @@
+/* Dependency-free SVG chart primitives. Values must be finite. */
+const IGCharts=(()=>{
+ const ns='http://www.w3.org/2000/svg';
+ function el(tag,attrs={},label){const n=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,String(v));if(label!==undefined)n.textContent=label;return n}
+ function frame(title){const s=el('svg',{viewBox:'0 0 640 320',role:'img','aria-label':title,width:'100%'});s.append(el('title',{},title));return s}
+ function bar(rows,title='Comparison'){if(!rows.length||rows.some(r=>!Number.isFinite(r.value)||r.value<0))throw Error('Nonnegative finite values required');const s=frame(title),max=Math.max(1,...rows.map(r=>r.value)),h=260/rows.length;rows.forEach((r,i)=>{const y=20+i*h;s.append(el('text',{x:8,y:y+h*.6,fill:'currentColor','font-size':12},r.label),el('rect',{x:150,y:y+2,width:400*r.value/max,height:Math.max(1,h-5),fill:'var(--accent,currentColor)'}),el('text',{x:155+400*r.value/max,y:y+h*.6,fill:'currentColor','font-size':12},r.value))});return s}
+ function line(values,title='Ordered series'){if(values.length<2||values.some(v=>!Number.isFinite(v)))throw Error('At least two finite values required');const s=frame(title),lo=Math.min(0,...values),hi=Math.max(1,...values),x=i=>40+i*560/(values.length-1),y=v=>280-(v-lo)*250/(hi-lo);s.append(el('line',{x1:40,x2:600,y1:y(0),y2:y(0),stroke:'currentColor','stroke-opacity':.4}),el('polyline',{points:values.map((v,i)=>x(i)+','+y(v)).join(' '),fill:'none',stroke:'var(--accent,currentColor)','stroke-width':3}));values.forEach((v,i)=>s.append(el('circle',{cx:x(i),cy:y(v),r:3,fill:'currentColor'}),el('text',{x:x(i),y:y(v)-8,'text-anchor':'middle','font-size':11,fill:'currentColor'},v)));return s}
+ return {bar,line}
+})();

@@ -1,0 +1,2 @@
+# Design IR 2.0 experimental
+Unified brief, evidence, visual, narrative/composition blocks, spatial objects, interaction transitions and validation records. Use design-v2.example.json and validateDesign/compileDesign with catalogs keyed by filenames. Compiler emits candidate spans and chart types, not HTML. Spatial coordinates require domain interpretation; stable IDs do not prove continuity. Validation evidence strings are references, not verified results. V1 remains supported; no automatic migration. Eight inline structural checks passed; browser and CI not verified.

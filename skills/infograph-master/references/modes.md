@@ -59,3 +59,5 @@ Material Intelligence foundations: visual-intelligence/material-foundations.md a
 Material Atlas: visual-intelligence/material-atlas.md, material-atlas.json and material-descriptor.mjs separate reference substance, finish, geometry, rendering and normalized descriptors; candidate taxonomy only.
 
 Lighting and depth: visual-intelligence/lighting-depth.md, lighting-plan.mjs and lighting-presets.json provide shared light direction and elevation CSS shadow tokens; temperature metadata only, not physical rendering.
+
+Paper and print: visual-intelligence/paper-print.md, paper-atlas.json and print-plan.mjs provide decorative opaque paper CSS; printing and finishing metadata only.

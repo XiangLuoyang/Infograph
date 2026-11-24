@@ -1,0 +1,4 @@
+import assert from 'node:assert/strict';
+import {bilinear,maxProjection,integrateRK4} from './scientific-transforms.mjs';
+const g=[[0,2],[4,6]];assert(bilinear(g,.5,.5)===3);assert(bilinear(g,1,1)===6);assert(bilinear(g,0,0)===0);assert(JSON.stringify(maxProjection([g,[[1,0],[3,8]]]))==='[[1,2],[4,8]]');assert(maxProjection([[[-3,-2],[-1,-4]]])[0][0]===-3);assert(Math.abs(integrateRK4(p=>p,[1],{dt:.1,steps:10}).at(-1).p[0]-Math.E)<.00001);assert(Math.abs(integrateRK4(()=>[2],[0],{dt:.5,steps:4}).at(-1).p[0]-4)<1e-12);assert(integrateRK4(()=>[0],[2],{steps:0}).length===1);for(const fn of [()=>bilinear(g,-1,0),()=>bilinear([[1,2],[3]],0,0),()=>maxProjection([]),()=>maxProjection([g,[[1,2,3],[4,5,6]]]),()=>integrateRK4(()=>[NaN],[1]),()=>integrateRK4(()=>[1],[1],{dt:0}),()=>integrateRK4(()=>[1,2],[1])]){let rejected=false;try{fn()}catch{rejected=true}assert(rejected)}
+console.log('15 assertions passed');

@@ -55,3 +55,5 @@ Parametric composition: visual-intelligence/parametric-composition.md and .mjs i
 Composition Studio: visual-intelligence/composition-studio.html and composition-studio.md provide an integration prototype; serve over HTTP. Candidate selection and geometry template are independent.
 
 Material Intelligence foundations: visual-intelligence/material-foundations.md and material-profile.mjs distinguish physical properties, visual cues and contextual associations; audit text over textures and transmission.
+
+Material Atlas: visual-intelligence/material-atlas.md, material-atlas.json and material-descriptor.mjs separate reference substance, finish, geometry, rendering and normalized descriptors; candidate taxonomy only.

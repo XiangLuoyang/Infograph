@@ -1,0 +1,7 @@
+# Cross-domain motion studies
+Five source-backed records: four official/author texts and one secondary account. No interactive playback, film, architecture, game or Observable specimen inspection. Transfers are design hypotheses. Selection heuristic checks time-series and computational-model declarations; eight inline checks passed. No browser or audience validation.
+- MC01 [Bret Victor / Explorable Explanations](https://worrydream.com/ExplorableExplanations/): Executable argument. Expose assumptions and recalculate dependent claims. Limit: Conditional arithmetic is not causal prediction.
+- MC02 [Gapminder Tools](https://www.gapminder.org/tools/): Temporal identity. Stable market identifiers across time; playback and static trends. Limit: No historical trajectories without actual time series.
+- MC03 [The Pudding / How to Implement Scrollytelling](https://github.com/the-pudding/how-to-implement-scrollytelling/blob/master/index.html): Scroll-driven disclosure. Observe scroll without hijacking; add chapter controls. Limit: No browser usability validation.
+- MC04 [Apple HIG / Motion](https://developer.apple.com/design/human-interface-guidelines/motion): Interruptible feedback. Brief purposeful motion, reduced-motion alternative. Limit: Guideline is not a measured dashboard effect.
+- MC05 [Apple HIG / Scroll views](https://developer.apple.com/design/human-interface-guidelines/scroll-views): Context-preserving navigation. Preserve orientation and standard scrolling. Limit: Platform guidance requires adaptation.

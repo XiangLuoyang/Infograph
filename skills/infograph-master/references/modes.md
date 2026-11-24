@@ -25,3 +25,5 @@ For interactive palette rehearsal use visual-intelligence/color-studio.html via 
 For custom typography consult visual-intelligence/typography-foundations.md and typography.mjs. Establish semantic roles, numeric alignment and language-specific reading measures; verify actual fonts and wrapping. Candidate tokens are not accessibility certification.
 
 For font pairing consult visual-intelligence/typeface-pairing.md, typeface-pairs.json and typeface-pairing.mjs. Verify installed faces, glyph coverage and license; candidate stacks are not measured pairings.
+
+For mixed-language dashboards consult visual-intelligence/multilingual.md and multilingual.mjs/css. Preserve language runs and quantities; inspect actual wrapping, fallback glyphs and narrow widths.

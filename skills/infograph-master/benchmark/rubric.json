@@ -1,0 +1,38 @@
+{
+  "weights": {
+    "evidence": 25,
+    "narrative": 20,
+    "visual": 20,
+    "representation": 15,
+    "interaction": 10,
+    "engineering": 10
+  },
+  "scale": "0 absent or incorrect; 1 major defects; 2 partial; 3 adequate; 4 strong; 5 exceptional with evidence",
+  "hardFails": [
+    "material numerical error",
+    "unsupported factual or causal claim",
+    "misleading encoding",
+    "broken required control",
+    "privacy breach"
+  ],
+  "notApplicable": "predeclare per task; renormalize applicable weights; never treat not-run as pass",
+  "efficiency": [
+    "elapsedSeconds",
+    "inputTokens",
+    "outputTokens",
+    "toolCalls",
+    "repairTurns"
+  ],
+  "humanMeasures": [
+    "unaided thesis recall",
+    "correct lookup",
+    "explanation accuracy",
+    "decision identification",
+    "perceived difficulty"
+  ],
+  "status": [
+    "pass",
+    "fail",
+    "not-run"
+  ]
+}

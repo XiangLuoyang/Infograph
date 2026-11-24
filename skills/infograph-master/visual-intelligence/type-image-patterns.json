@@ -1,0 +1,58 @@
+[
+  {
+    "id": "monument",
+    "label": "巨型数字",
+    "use": "single focal metric",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  },
+  {
+    "id": "outline",
+    "label": "轮廓文字",
+    "use": "decorative duplicate only",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  },
+  {
+    "id": "mask",
+    "label": "文字蒙版",
+    "use": "decorative duplicate only",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  },
+  {
+    "id": "path",
+    "label": "路径文字",
+    "use": "short decorative label",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  },
+  {
+    "id": "spatial",
+    "label": "空间文字",
+    "use": "decorative depth cue",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  },
+  {
+    "id": "kinetic",
+    "label": "动态文字",
+    "use": "state transition, not invented observations",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  },
+  {
+    "id": "encoded",
+    "label": "数据编码文字",
+    "use": "explicit quantitative scale",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  },
+  {
+    "id": "negative",
+    "label": "负空间文字",
+    "use": "decorative silhouette",
+    "essentialText": "retain plain readable equivalent",
+    "motion": "respect reduced motion"
+  }
+]

@@ -19,3 +19,5 @@ For Studio or custom atmosphere, read visual-intelligence/color-art.md and use c
 For substantive color decisions consult visual-intelligence/color-cases.json and color-decision.mjs: declare scale domain/center, reserve signals, preserve semantic roles; inspect adjacency and legends. Router is advisory.
 
 For Studio color refinement or narrative scene palettes consult visual-intelligence/color-cross-domain.md and color-cross-domain.json. Compare in context, use grayscale hierarchy first, preserve semantic identities across scenes; these are advisory patterns, not validated aesthetic metrics.
+
+For interactive palette rehearsal use visual-intelligence/color-studio.html via local HTTP; see color-studio.md. Exported color contract is advisory and not yet automatically consumed by Design IR. Browser QA pending.

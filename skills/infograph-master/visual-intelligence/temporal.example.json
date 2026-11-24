@@ -1,0 +1,63 @@
+{
+  "events": [
+    {
+      "id": "a",
+      "duration": 300,
+      "after": [],
+      "curve": "standard",
+      "data": false
+    },
+    {
+      "id": "b",
+      "duration": 200,
+      "after": [
+        "a"
+      ],
+      "curve": "enter",
+      "data": false
+    },
+    {
+      "id": "c",
+      "duration": 400,
+      "after": [],
+      "curve": "linear",
+      "data": true
+    }
+  ],
+  "output": {
+    "steps": [
+      {
+        "id": "a",
+        "duration": 300,
+        "after": [],
+        "curve": "standard",
+        "data": false,
+        "start": 0,
+        "end": 300
+      },
+      {
+        "id": "b",
+        "duration": 200,
+        "after": [
+          "a"
+        ],
+        "curve": "enter",
+        "data": false,
+        "start": 300,
+        "end": 500
+      },
+      {
+        "id": "c",
+        "duration": 400,
+        "after": [],
+        "curve": "linear",
+        "data": true,
+        "start": 0,
+        "end": 400
+      }
+    ],
+    "total": 500,
+    "reducedMotion": false,
+    "scope": "dependency schedule only; no playback"
+  }
+}

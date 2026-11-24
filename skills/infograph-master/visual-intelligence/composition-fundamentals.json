@@ -1,0 +1,50 @@
+[
+  {
+    "id": "proximity",
+    "label": "邻近",
+    "rule": "group related evidence",
+    "limit": "distance alone must not imply unsupported relationship"
+  },
+  {
+    "id": "similarity",
+    "label": "相似",
+    "rule": "consistent appearance for same semantic role",
+    "limit": "do not rely on color alone"
+  },
+  {
+    "id": "figure-ground",
+    "label": "图底",
+    "rule": "separate focal evidence from context",
+    "limit": "preserve contrast and labels"
+  },
+  {
+    "id": "continuity",
+    "label": "连续",
+    "rule": "align sequential evidence along anchors",
+    "limit": "do not imply causal or temporal order without evidence"
+  },
+  {
+    "id": "closure",
+    "label": "闭合",
+    "rule": "suggest boundaries with sparse marks",
+    "limit": "explicit boundaries for operational controls"
+  },
+  {
+    "id": "weight",
+    "label": "视觉重量",
+    "rule": "allocate emphasis according to decision relevance",
+    "limit": "area is not quantitative unless scale declared"
+  },
+  {
+    "id": "balance",
+    "label": "平衡",
+    "rule": "distribute visual mass around a reference axis",
+    "limit": "geometric balance is not perceived balance"
+  },
+  {
+    "id": "tension",
+    "label": "张力",
+    "rule": "use asymmetry and contrast for meaningful focal shifts",
+    "limit": "avoid distracting from evidence"
+  }
+]

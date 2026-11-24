@@ -1,0 +1,74 @@
+[
+  {
+    "id": "reveal",
+    "purpose": "introduce evidence",
+    "channel": "opacity",
+    "durationMs": 180,
+    "requiresStableIdentity": false,
+    "reducedMotion": "instant",
+    "implementation": "basic state switch"
+  },
+  {
+    "id": "focus",
+    "purpose": "change attention",
+    "channel": "outline",
+    "durationMs": 180,
+    "requiresStableIdentity": false,
+    "reducedMotion": "instant",
+    "implementation": "basic state switch"
+  },
+  {
+    "id": "compare",
+    "purpose": "switch comparable state",
+    "channel": "opacity",
+    "durationMs": 240,
+    "requiresStableIdentity": false,
+    "reducedMotion": "instant",
+    "implementation": "basic state switch"
+  },
+  {
+    "id": "drilldown",
+    "purpose": "change granularity",
+    "channel": "opacity",
+    "durationMs": 240,
+    "requiresStableIdentity": false,
+    "reducedMotion": "instant",
+    "implementation": "basic state switch"
+  },
+  {
+    "id": "return",
+    "purpose": "restore context",
+    "channel": "opacity",
+    "durationMs": 180,
+    "requiresStableIdentity": false,
+    "reducedMotion": "instant",
+    "implementation": "basic state switch"
+  },
+  {
+    "id": "reorder",
+    "purpose": "change rank",
+    "channel": "position",
+    "durationMs": 300,
+    "requiresStableIdentity": true,
+    "reducedMotion": "instant",
+    "implementation": "specification only"
+  },
+  {
+    "id": "flow",
+    "purpose": "explain transfer",
+    "channel": "position",
+    "durationMs": 400,
+    "requiresStableIdentity": true,
+    "reducedMotion": "instant",
+    "implementation": "specification only"
+  },
+  {
+    "id": "camera",
+    "purpose": "change spatial viewpoint",
+    "channel": "transform",
+    "durationMs": 500,
+    "requiresStableIdentity": true,
+    "reducedMotion": "instant",
+    "implementation": "specification only"
+  }
+]

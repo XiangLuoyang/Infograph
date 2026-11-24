@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "id": "claim",
+      "label": "区域达成目标"
+    },
+    {
+      "id": "sales",
+      "label": "实际326M / 目标320M"
+    },
+    {
+      "id": "inventory",
+      "label": "库存86K"
+    }
+  ],
+  "edges": [
+    {
+      "from": "sales",
+      "to": "claim",
+      "type": "supports",
+      "evidence": "synthetic-sales"
+    },
+    {
+      "from": "inventory",
+      "to": "sales",
+      "type": "peer",
+      "evidence": "synthetic-review"
+    }
+  ],
+  "goal": "supports"
+}

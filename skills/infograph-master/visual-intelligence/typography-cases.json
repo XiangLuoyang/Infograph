@@ -78,5 +78,25 @@
     "transfer": "Change chapter composition within consistent identity",
     "limit": "Preserve reading order and semantics",
     "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP09",
+    "name": "Editorial Restraint",
+    "work": "Lloyd's 2014 Annual Report",
+    "source": "https://prod.origin.pentagram.com/work/lloyds-of-london",
+    "observation": "Restrained palette, consistent editorial voice, responsive customizable digital report",
+    "transfer": "Reduce decorative intensity in evidence layers; allow detail selection",
+    "limit": "Essential facts cannot be hidden",
+    "evidence": "designer description; analyst transfer"
+  },
+  {
+    "id": "TP10",
+    "name": "Semantic Word Emphasis",
+    "work": "United States Holocaust Memorial Museum annual report",
+    "source": "https://www.pentagram.com/work/united-states-holocaust-memorial-museum",
+    "observation": "Different letter sizes emphasize mission keyword; accent unifies hierarchy",
+    "transfer": "Emphasize decision-relevant words within a headline",
+    "limit": "Do not transfer subject-specific imagery or emotional framing",
+    "evidence": "designer description; analyst transfer"
   }
 ]

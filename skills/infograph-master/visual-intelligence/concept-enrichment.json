@@ -1,0 +1,112 @@
+[
+  {
+    "id": "VIZ-0186",
+    "form": "Venn Diagram",
+    "requiredInputs": [
+      "sets and membership"
+    ],
+    "constraints": [
+      "regions must represent possible intersections; area not quantitative unless calibrated"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0187",
+    "form": "Euler Diagram",
+    "requiredInputs": [
+      "observed set relationships"
+    ],
+    "constraints": [
+      "omit empty intersections only when justified"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0195",
+    "form": "Taxonomy Tree",
+    "requiredInputs": [
+      "classification hierarchy"
+    ],
+    "constraints": [
+      "declare classification rule"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0200",
+    "form": "Affinity Diagram",
+    "requiredInputs": [
+      "items and grouping rationale"
+    ],
+    "constraints": [
+      "grouping is interpretive"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0502",
+    "form": "Semantic Network Map",
+    "requiredInputs": [
+      "concepts and typed links"
+    ],
+    "constraints": [
+      "association is not causation"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0593",
+    "form": "Annotated Diagram",
+    "requiredInputs": [
+      "base object and anchored annotations"
+    ],
+    "constraints": [
+      "preserve anchor identity"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0595",
+    "form": "Step-by-Step Diagram",
+    "requiredInputs": [
+      "ordered steps"
+    ],
+    "constraints": [
+      "do not imply unsupported sequence"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0597",
+    "form": "Explorable Explanation",
+    "requiredInputs": [
+      "model parameters assumptions"
+    ],
+    "constraints": [
+      "show limits"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0601",
+    "form": "Explanatory Infographic",
+    "requiredInputs": [
+      "claims evidence and narrative"
+    ],
+    "constraints": [
+      "separate metaphor from fact"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0603",
+    "form": "Visual Abstract",
+    "requiredInputs": [
+      "research question method findings limitations"
+    ],
+    "constraints": [
+      "retain uncertainty"
+    ],
+    "status": "candidate-enrichment"
+  }
+]

@@ -1,0 +1,3 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {renderDesign} from './runtime.mjs';
+const read=async p=>JSON.parse(await readFile(p,'utf8'));const c={};for(const n of ['styles.json','composition-patterns.json','material-catalog.json','motion-grammar.json','chart-rules.json'])c[n]=JSON.parse(await readFile(new URL(n,import.meta.url),'utf8'));const [design,data,out]=process.argv.slice(2);if(!design||!data||!out)throw Error('usage: node render-cli.mjs design.json data.json output.html');await writeFile(out,renderDesign(await read(design),c,await read(data)));

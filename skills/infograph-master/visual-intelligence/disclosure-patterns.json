@@ -1,0 +1,34 @@
+[
+  {
+    "id": "verdict-first",
+    "status": "candidate"
+  },
+  {
+    "id": "question-answer",
+    "status": "candidate"
+  },
+  {
+    "id": "evidence-accumulation",
+    "status": "candidate"
+  },
+  {
+    "id": "decomposition",
+    "status": "candidate"
+  },
+  {
+    "id": "contextual-reveal",
+    "status": "candidate"
+  },
+  {
+    "id": "contrast-reveal",
+    "status": "candidate"
+  },
+  {
+    "id": "persistent-scene",
+    "status": "candidate"
+  },
+  {
+    "id": "reader-exploration",
+    "status": "candidate"
+  }
+]

@@ -24,3 +24,6 @@ When requested to use V1.1, read engine/USAGE.md relative to this skill, select 
 
 ### V1.1 compiler increment
 For V1.1, run `python compiler.py design.json` from engine after IR validation (use actual design file path). Apply scene bindings and responsive spans with compiler.css, tag rendered blocks with data-ig-block, and run visual-check.js diagnostics at target viewports. Review warnings, do not hide defects with overlay exclusions. Run both unit test modules. Report CI and browser status only when observed. Compiler is a heuristic plan generator; preserve narrative and domain semantics through manual review.
+
+### V1.1 visual expression increment
+Read engine/art-direction-guide.md and art-directions.json. Compare at least two directions on composition, type, material and motion, not only palette. Use typography-composition.css when appropriate. Optional charts.js supplies simple nonnegative bar and ordered line SVG primitives; inspect labels, units, density, axes and accessibility, and use a specialist renderer when needed. These are candidates, not browser-validated golden designs.

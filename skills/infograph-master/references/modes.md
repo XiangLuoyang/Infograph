@@ -31,3 +31,5 @@ For mixed-language dashboards consult visual-intelligence/multilingual.md and mu
 For financial tables and KPI typography consult visual-intelligence/numeric-typography.md and numeric-typography.mjs/css. Preserve raw values, explicit scale/unit/precision and null; verify actual numeric alignment and locale formatting.
 
 For text spacing and reading rhythm consult visual-intelligence/typographic-rhythm.md and typographic-rhythm.mjs. Use semantic gaps, candidate grid and reading measure; verify actual baselines, zoom and wrapping.
+
+For typographic art direction consult visual-intelligence/typography-cases.json and typography-cases.md; choose transferable mechanisms rather than copying artwork. Cases are provisional research patterns.

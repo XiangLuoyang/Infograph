@@ -57,3 +57,5 @@ Composition Studio: visual-intelligence/composition-studio.html and composition-
 Material Intelligence foundations: visual-intelligence/material-foundations.md and material-profile.mjs distinguish physical properties, visual cues and contextual associations; audit text over textures and transmission.
 
 Material Atlas: visual-intelligence/material-atlas.md, material-atlas.json and material-descriptor.mjs separate reference substance, finish, geometry, rendering and normalized descriptors; candidate taxonomy only.
+
+Lighting and depth: visual-intelligence/lighting-depth.md, lighting-plan.mjs and lighting-presets.json provide shared light direction and elevation CSS shadow tokens; temperature metadata only, not physical rendering.

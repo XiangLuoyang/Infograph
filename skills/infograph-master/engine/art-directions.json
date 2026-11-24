@@ -1,0 +1,182 @@
+[
+  {
+    "id": "editorial",
+    "label": "编辑式",
+    "type": "serif",
+    "composition": "claim",
+    "material": "paper",
+    "chart": "line",
+    "motion": "reveal"
+  },
+  {
+    "id": "consulting",
+    "label": "咨询式",
+    "type": "sans",
+    "composition": "verdict",
+    "material": "matte",
+    "chart": "bar",
+    "motion": "none"
+  },
+  {
+    "id": "swiss",
+    "label": "瑞士主义",
+    "type": "sans",
+    "composition": "grid",
+    "material": "matte",
+    "chart": "dot",
+    "motion": "none"
+  },
+  {
+    "id": "architectural",
+    "label": "建筑式",
+    "type": "sans",
+    "composition": "spatial",
+    "material": "clay",
+    "chart": "map",
+    "motion": "focus"
+  },
+  {
+    "id": "industrial",
+    "label": "工业式",
+    "type": "mono",
+    "composition": "instrument",
+    "material": "metal",
+    "chart": "line",
+    "motion": "focus"
+  },
+  {
+    "id": "archive",
+    "label": "档案式",
+    "type": "serif",
+    "composition": "timeline",
+    "material": "parchment",
+    "chart": "timeline",
+    "motion": "reveal"
+  },
+  {
+    "id": "scientific",
+    "label": "科研式",
+    "type": "sans",
+    "composition": "multiples",
+    "material": "matte",
+    "chart": "scatter",
+    "motion": "none"
+  },
+  {
+    "id": "spatial-glass",
+    "label": "空间玻璃",
+    "type": "sans",
+    "composition": "spatial",
+    "material": "glass",
+    "chart": "map",
+    "motion": "focus"
+  },
+  {
+    "id": "financial",
+    "label": "财经式",
+    "type": "serif",
+    "composition": "ledger",
+    "material": "paper",
+    "chart": "waterfall",
+    "motion": "none"
+  },
+  {
+    "id": "midnight",
+    "label": "夜间监控",
+    "type": "mono",
+    "composition": "instrument",
+    "material": "ink",
+    "chart": "line",
+    "motion": "focus"
+  },
+  {
+    "id": "museum",
+    "label": "展陈式",
+    "type": "serif",
+    "composition": "hero",
+    "material": "paper",
+    "chart": "diagram",
+    "motion": "reveal"
+  },
+  {
+    "id": "atlas",
+    "label": "地图集",
+    "type": "sans",
+    "composition": "spatial",
+    "material": "grid",
+    "chart": "map",
+    "motion": "focus"
+  },
+  {
+    "id": "blueprint",
+    "label": "工程蓝图",
+    "type": "mono",
+    "composition": "flow",
+    "material": "wireframe",
+    "chart": "diagram",
+    "motion": "none"
+  },
+  {
+    "id": "minimal",
+    "label": "极简",
+    "type": "sans",
+    "composition": "hero",
+    "material": "matte",
+    "chart": "dot",
+    "motion": "none"
+  },
+  {
+    "id": "newspaper",
+    "label": "报刊式",
+    "type": "serif",
+    "composition": "columns",
+    "material": "paper",
+    "chart": "bar",
+    "motion": "none"
+  },
+  {
+    "id": "laboratory",
+    "label": "实验台",
+    "type": "mono",
+    "composition": "multiples",
+    "material": "grid",
+    "chart": "scatter",
+    "motion": "focus"
+  },
+  {
+    "id": "strategy",
+    "label": "战略推演",
+    "type": "sans",
+    "composition": "split",
+    "material": "matte",
+    "chart": "waterfall",
+    "motion": "focus"
+  },
+  {
+    "id": "cinematic",
+    "label": "电影分镜",
+    "type": "sans",
+    "composition": "hero",
+    "material": "ink",
+    "chart": "line",
+    "motion": "reveal"
+  },
+  {
+    "id": "catalog",
+    "label": "产品图录",
+    "type": "sans",
+    "composition": "grid",
+    "material": "clay",
+    "chart": "diagram",
+    "motion": "none"
+  },
+  {
+    "id": "notebook",
+    "label": "研究笔记",
+    "type": "serif",
+    "composition": "columns",
+    "material": "paper",
+    "chart": "line",
+    "motion": "none"
+  }
+]

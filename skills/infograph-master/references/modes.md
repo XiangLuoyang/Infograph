@@ -13,3 +13,5 @@ Modes compose, not mutually exclusive. Use engineering assets only when they hel
 For Standard, Narrative or Studio tasks needing custom palettes, optionally read visual-intelligence/color-foundations.md and use color.mjs or palettes.json. Keep atmosphere separate from data encoding; check actual backgrounds. V1.2 is incremental, not a replacement for V1.1.
 
 For categorical or signed data read visual-intelligence/semantic-color.md and use semantic-color.mjs where useful. Simulated distance is heuristic; preserve labels/shapes and stable category IDs. Do not use distinct hues for simple ranking unless category identity matters.
+
+For Studio or custom atmosphere, read visual-intelligence/color-art.md and use color-art.mjs/art-palettes.json. Harmony and area ratios are heuristics; preserve brand hex, audit role contrast and actual compositing; keep semantic palettes independent.

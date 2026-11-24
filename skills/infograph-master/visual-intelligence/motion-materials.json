@@ -1,0 +1,32 @@
+[
+  {
+    "id": "precision",
+    "curve": "precision",
+    "duration": 180,
+    "description": "controlled short motion"
+  },
+  {
+    "id": "glass",
+    "curve": "enter",
+    "duration": 320,
+    "description": "smooth settling"
+  },
+  {
+    "id": "heavy",
+    "curve": "standard",
+    "duration": 550,
+    "description": "deliberate transition"
+  },
+  {
+    "id": "paper",
+    "curve": "standard",
+    "duration": 280,
+    "description": "restrained editorial transition"
+  },
+  {
+    "id": "elastic",
+    "curve": "elastic",
+    "duration": 420,
+    "description": "decorative feedback only"
+  }
+]

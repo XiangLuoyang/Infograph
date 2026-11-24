@@ -51,3 +51,5 @@ Cross-domain composition studies: visual-intelligence/composition-cases.md and c
 Information-driven composition: consult visual-intelligence/information-composition.md and information-composition.mjs; declare evidence-linked relations and goal before choosing archetypes; retain secondary relations and unplaced nodes for review.
 
 Parametric composition: visual-intelligence/parametric-composition.md and .mjs implement recursive rectangular allocation; review infeasible bounds and actual text fit separately.
+
+Composition Studio: visual-intelligence/composition-studio.html and composition-studio.md provide an integration prototype; serve over HTTP. Candidate selection and geometry template are independent.

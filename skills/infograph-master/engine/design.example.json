@@ -1,0 +1,24 @@
+{
+  "audience": "management",
+  "purpose": "compare target",
+  "style": "editorial-paper",
+  "layout": "editorial",
+  "evidence": [
+    {
+      "id": "E1",
+      "source": "synthetic fixture"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "S1",
+      "question": "Target gap?",
+      "before": "knows target",
+      "after": "knows gap",
+      "task": "deviation",
+      "evidence_ids": [
+        "E1"
+      ]
+    }
+  ]
+}

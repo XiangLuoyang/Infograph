@@ -1,0 +1,172 @@
+[
+  {
+    "id": "argument",
+    "relation": "claim and evidence",
+    "roles": [
+      "hero",
+      "support"
+    ],
+    "spans": [
+      8,
+      4
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "comparison",
+    "relation": "equal alternatives",
+    "roles": [
+      "left",
+      "right"
+    ],
+    "spans": [
+      6,
+      6
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "focus-context",
+    "relation": "selected object and surroundings",
+    "roles": [
+      "focus",
+      "context"
+    ],
+    "spans": [
+      8,
+      4
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "sequence",
+    "relation": "ordered stages",
+    "roles": [
+      "stage",
+      "stage"
+    ],
+    "spans": [
+      4,
+      4,
+      4
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "overview-detail",
+    "relation": "summary and drilldown",
+    "roles": [
+      "overview",
+      "detail"
+    ],
+    "spans": [
+      12,
+      12
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "editorial",
+    "relation": "argument with marginal notes",
+    "roles": [
+      "body",
+      "aside"
+    ],
+    "spans": [
+      9,
+      3
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "matrix",
+    "relation": "comparable observations",
+    "roles": [
+      "item",
+      "item"
+    ],
+    "spans": [
+      6,
+      6
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "spatial",
+    "relation": "grounded spatial relationships",
+    "roles": [
+      "map",
+      "legend"
+    ],
+    "spans": [
+      9,
+      3
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Require grounded geometry; otherwise label schematic"
+  },
+  {
+    "id": "ledger",
+    "relation": "precise lookup",
+    "roles": [
+      "table",
+      "notes"
+    ],
+    "spans": [
+      12,
+      12
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "tradeoff",
+    "relation": "competing objectives",
+    "roles": [
+      "option",
+      "option"
+    ],
+    "spans": [
+      6,
+      6
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "timeline",
+    "relation": "dated events",
+    "roles": [
+      "events",
+      "context"
+    ],
+    "spans": [
+      8,
+      4
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Preserve evidence proximity"
+  },
+  {
+    "id": "small-multiples",
+    "relation": "common scale observations",
+    "roles": [
+      "plot",
+      "plot"
+    ],
+    "spans": [
+      4,
+      4,
+      4
+    ],
+    "mobile": "preserve DOM order",
+    "constraint": "Shared scales for comparison"
+  }
+]

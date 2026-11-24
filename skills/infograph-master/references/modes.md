@@ -37,3 +37,5 @@ For typographic art direction consult visual-intelligence/typography-cases.json 
 For expressive typography consult visual-intelligence/type-image.md, type-image-patterns.json and type-image-gallery.html; preserve plain essential text and explicit quantitative scales.
 
 Typography Studio: visual-intelligence/typography-studio.html and typography-studio.md integrate candidate typography contracts; use exported JSON as design input, not certification.
+
+Composition foundations: consult visual-intelligence/composition-fundamentals.md and composition-audit.mjs. Geometric proxies are diagnostic only; preserve semantic reading order and review actual perception.

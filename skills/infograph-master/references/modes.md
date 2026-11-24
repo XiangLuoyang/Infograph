@@ -61,3 +61,5 @@ Material Atlas: visual-intelligence/material-atlas.md, material-atlas.json and m
 Lighting and depth: visual-intelligence/lighting-depth.md, lighting-plan.mjs and lighting-presets.json provide shared light direction and elevation CSS shadow tokens; temperature metadata only, not physical rendering.
 
 Paper and print: visual-intelligence/paper-print.md, paper-atlas.json and print-plan.mjs provide decorative opaque paper CSS; printing and finishing metadata only.
+
+Industrial materials: visual-intelligence/industrial-materials.md, industrial-materials.json and industrial-plan.mjs provide opaque CSS surface and assembly approximations; optics and chamfer geometry not implemented.

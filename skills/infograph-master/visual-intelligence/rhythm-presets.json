@@ -1,0 +1,47 @@
+[
+  {
+    "density": "compact",
+    "base": 16,
+    "line": 28,
+    "step": 4,
+    "gaps": {
+      "inline": 4,
+      "related": 16,
+      "paragraph": 16,
+      "section": 32,
+      "chapter": 48
+    },
+    "measure": "36em",
+    "scope": "candidate rhythm; not measured line length or baseline alignment"
+  },
+  {
+    "density": "normal",
+    "base": 16,
+    "line": 28,
+    "step": 4,
+    "gaps": {
+      "inline": 4,
+      "related": 16,
+      "paragraph": 28,
+      "section": 56,
+      "chapter": 84
+    },
+    "measure": "36em",
+    "scope": "candidate rhythm; not measured line length or baseline alignment"
+  },
+  {
+    "density": "reading",
+    "base": 16,
+    "line": 28,
+    "step": 4,
+    "gaps": {
+      "inline": 4,
+      "related": 16,
+      "paragraph": 44,
+      "section": 88,
+      "chapter": 132
+    },
+    "measure": "36em",
+    "scope": "candidate rhythm; not measured line length or baseline alignment"
+  }
+]

@@ -35,3 +35,5 @@ For text spacing and reading rhythm consult visual-intelligence/typographic-rhyt
 For typographic art direction consult visual-intelligence/typography-cases.json and typography-cases.md; choose transferable mechanisms rather than copying artwork. Cases are provisional research patterns.
 
 For expressive typography consult visual-intelligence/type-image.md, type-image-patterns.json and type-image-gallery.html; preserve plain essential text and explicit quantitative scales.
+
+Typography Studio: visual-intelligence/typography-studio.html and typography-studio.md integrate candidate typography contracts; use exported JSON as design input, not certification.

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "editorial",
+    "heading": "Source Serif 4",
+    "body": "Source Sans 3",
+    "cjkHeading": "Source Han Serif SC",
+    "cjkBody": "Source Han Sans SC",
+    "strategy": "coordinated-family",
+    "status": "candidate; font availability and exact pairing unverified"
+  },
+  {
+    "id": "modernist",
+    "heading": "Helvetica Neue",
+    "body": "Arial",
+    "cjkHeading": "PingFang SC",
+    "cjkBody": "PingFang SC",
+    "strategy": "single-style",
+    "status": "candidate; font availability and exact pairing unverified"
+  },
+  {
+    "id": "technical",
+    "heading": "IBM Plex Sans",
+    "body": "IBM Plex Mono",
+    "cjkHeading": "Source Han Sans SC",
+    "cjkBody": "Source Han Sans SC",
+    "strategy": "coordinated-family",
+    "status": "candidate; font availability and exact pairing unverified"
+  },
+  {
+    "id": "geometric",
+    "heading": "Futura",
+    "body": "Arial",
+    "cjkHeading": "Source Han Sans SC",
+    "cjkBody": "Source Han Sans SC",
+    "strategy": "deliberate-contrast",
+    "status": "candidate; font availability and exact pairing unverified"
+  },
+  {
+    "id": "classic",
+    "heading": "Garamond",
+    "body": "Source Sans 3",
+    "cjkHeading": "Source Han Serif SC",
+    "cjkBody": "Source Han Sans SC",
+    "strategy": "deliberate-contrast",
+    "status": "candidate; font availability and exact pairing unverified"
+  },
+  {
+    "id": "financial",
+    "heading": "Georgia",
+    "body": "Arial",
+    "cjkHeading": "Source Han Serif SC",
+    "cjkBody": "Source Han Sans SC",
+    "strategy": "deliberate-contrast",
+    "status": "candidate; font availability and exact pairing unverified"
+  },
+  {
+    "id": "poster",
+    "heading": "Bodoni Moda",
+    "body": "Source Sans 3",
+    "cjkHeading": "Source Han Serif SC",
+    "cjkBody": "Source Han Sans SC",
+    "strategy": "deliberate-contrast",
+    "status": "candidate; font availability and exact pairing unverified"
+  },
+  {
+    "id": "industrial",
+    "heading": "Roboto Slab",
+    "body": "Roboto",
+    "cjkHeading": "Source Han Sans SC",
+    "cjkBody": "Source Han Sans SC",
+    "strategy": "deliberate-contrast",
+    "status": "candidate; font availability and exact pairing unverified"
+  }
+]

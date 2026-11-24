@@ -1,0 +1,151 @@
+[
+  {
+    "id": "B01",
+    "mode": "Express",
+    "brief": "Compare six markets' revenue attainment in one chart.",
+    "data": "markets",
+    "checks": [
+      "correct ratios",
+      "zero baseline for bars",
+      "units visible"
+    ],
+    "human": [
+      "chart suitability",
+      "legibility"
+    ]
+  },
+  {
+    "id": "B02",
+    "mode": "Standard",
+    "brief": "Build a monitoring dashboard for revenue, inventory and supply gap.",
+    "data": "markets",
+    "checks": [
+      "correct totals",
+      "WOS formula and period",
+      "missing opening stock disclosed"
+    ],
+    "human": [
+      "lookup efficiency",
+      "hierarchy"
+    ]
+  },
+  {
+    "id": "B03",
+    "mode": "Narrative",
+    "brief": "Create an executive report explaining why attainment alone is insufficient to assess channel health.",
+    "data": "markets",
+    "checks": [
+      "no unsupported causal claims",
+      "evidence visible",
+      "decision request"
+    ],
+    "human": [
+      "thesis recall",
+      "progression",
+      "decision clarity"
+    ]
+  },
+  {
+    "id": "B04",
+    "mode": "Studio",
+    "brief": "Create two materially different visual directions for the same executive brief.",
+    "data": "markets",
+    "checks": [
+      "same facts",
+      "same task",
+      "no decorative distortion"
+    ],
+    "human": [
+      "composition differentiation",
+      "typography",
+      "material coherence"
+    ]
+  },
+  {
+    "id": "B05",
+    "mode": "Specialist",
+    "brief": "Create an interactive schematic market map; do not imply real geography.",
+    "data": "markets",
+    "checks": [
+      "schematic label",
+      "linked market selection",
+      "keyboard access"
+    ],
+    "human": [
+      "spatial clarity",
+      "interaction usefulness"
+    ]
+  },
+  {
+    "id": "B06",
+    "mode": "Specialist",
+    "brief": "Show supplied assembly parts in an exploded diagram with adjustable separation.",
+    "data": "parts",
+    "checks": [
+      "preserve IDs",
+      "positions match supplied offsets",
+      "reset"
+    ],
+    "human": [
+      "object clarity",
+      "motion continuity"
+    ]
+  },
+  {
+    "id": "B07",
+    "mode": "Specialist",
+    "brief": "Show a channel process with branches and shared downstream steps.",
+    "data": "process",
+    "checks": [
+      "all nodes and edges",
+      "no invented transitions",
+      "readable labels"
+    ],
+    "human": [
+      "edge routing",
+      "process comprehension"
+    ]
+  },
+  {
+    "id": "B08",
+    "mode": "Runtime",
+    "brief": "Generate repeatable static ranking output from existing IR fixture.",
+    "data": "runtime",
+    "checks": [
+      "exact fixture reproduction",
+      "unit mismatch rejected"
+    ],
+    "human": [
+      "readability"
+    ]
+  },
+  {
+    "id": "B09",
+    "mode": "Standard",
+    "brief": "Handle missing, zero and negative values without silently imputing.",
+    "data": "edge",
+    "checks": [
+      "zero denominator flagged",
+      "missing distinct from zero",
+      "negative preserved"
+    ],
+    "human": [
+      "exception clarity"
+    ]
+  },
+  {
+    "id": "B10",
+    "mode": "Narrative",
+    "brief": "Compare supply scenarios with fixed sell-through and explicit assumptions.",
+    "data": "markets",
+    "checks": [
+      "stock balance arithmetic",
+      "assumptions visible",
+      "no causal forecast claim"
+    ],
+    "human": [
+      "tradeoff comprehension",
+      "control clarity"
+    ]
+  }
+]

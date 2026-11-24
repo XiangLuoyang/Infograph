@@ -1,0 +1,11 @@
+.material-paper{background:var(--surface);border:1px solid #8884}
+.material-glass{background:var(--surface);background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(12px);border:1px solid #8885}
+.material-parchment{background:linear-gradient(120deg,#fff5df,#e8d6b7);color:#392d20}
+.material-metal{background:linear-gradient(110deg,#283431,#40504b,#283431);color:#f4f6f5}
+.material-clay{background:#f2f0e9;color:#343d3b;box-shadow:0 5px 12px #0002}
+.material-wireframe{background:var(--surface);border:1px dashed var(--accent)}
+.material-matte{background:var(--surface)}
+.material-ink{background:#182c43;color:#fff}
+.material-grid{background:var(--surface);background-image:linear-gradient(#8881 1px,transparent 1px),linear-gradient(90deg,#8881 1px,transparent 1px);background-size:16px 16px}
+.material-layered{background:var(--surface);box-shadow:4px 4px 0 #8883}
+@supports not (backdrop-filter:blur(1px)){.material-glass{background:var(--surface)}}

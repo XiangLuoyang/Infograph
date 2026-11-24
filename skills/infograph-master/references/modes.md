@@ -111,3 +111,5 @@ Concept: visual-intelligence/concept-intelligence.md, concept-enrichment.json, c
 Selection: visual-intelligence/representation-selector.md, representation-index.json, representation-selector.mjs. Only explicit routes qualify; unrouted records require review. Declared inputs are not validated data.
 
 Rendering: visual-intelligence/specialist-adapter.md and specialist-adapter.mjs. Three narrow native SVG adapters; unsupported forms must not be silently substituted.
+
+Representation Studio: visual-intelligence/representation-studio.html and representation-studio.md. HTTP-served prototype; actual selector and native adapter imports, no browser acceptance yet.

@@ -1,0 +1,4 @@
+# Color intelligence V1.2
+Separate atmosphere from data semantics: categorical identity, ordered magnitude, signed deviation, status. Unknown differs from zero. Status needs text or shape. Choose hue and chroma by context, not universal emotional claims. Generate in OKLCH, reduce chroma to fit sRGB, measure contrast after quantization. Fixed lightness recipes and binary chroma reduction are not optimal gamut mapping. WCAG AA normal text 4.5:1, large text 3:1, relevant non-text UI 3:1 subject to exceptions. Audit composited backgrounds and states separately. Sequential scale is not certified CVD safe. Categorical/diverging and CVD simulation pending.
+Reference starting points, not freshly retrieved: https://www.w3.org/TR/WCAG22/ ; https://www.w3.org/TR/css-color-4/ ; https://bottosson.github.io/posts/oklab/ ; https://colorbrewer2.org/ ; doi:10.1038/s41467-020-19160-7.
+Twelve candidate themes, 72 opaque text pairs checked. No browser or audience validation.

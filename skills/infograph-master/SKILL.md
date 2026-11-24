@@ -42,3 +42,6 @@ Read engine/specialist-engines.md. Use material-catalog.json and material-extend
 
 ### Experimental unified Design IR 2.0
 Read engine/design-v2.md and design-v2.example.json. Use design-v2.mjs with the five catalogs to validate and compile candidate layout and chart plans. Keep V1 compatible. No automatic HTML rendering, semantic truth validation, geographic projection or verified animation is implied. Run test-design-v2.mjs and report observed results only.
+
+### Experimental Design Runtime
+Read engine/runtime.md. For supported static ranking and lookup designs use render-cli.mjs with Design IR 2.0 and separate block data. Reject unsupported tasks, transitions and spatial objects; use freeform or specialist renderers instead. Material is not applied. Inspect actual HTML and browser output before claiming quality. Never infer business conclusions from renderer success.

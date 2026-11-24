@@ -1,0 +1,122 @@
+{
+  "data": [
+    [
+      "Thailand",
+      100,
+      108,
+      24,
+      18,
+      36
+    ],
+    [
+      "Vietnam",
+      80,
+      76,
+      17,
+      16,
+      20
+    ],
+    [
+      "Malaysia",
+      65,
+      70,
+      14,
+      14,
+      12
+    ],
+    [
+      "Singapore",
+      40,
+      42,
+      8,
+      8,
+      6
+    ],
+    [
+      "Cambodia",
+      20,
+      18,
+      4,
+      3,
+      7
+    ],
+    [
+      "Myanmar",
+      15,
+      12,
+      3,
+      2,
+      5
+    ]
+  ],
+  "total": {
+    "target": 320,
+    "actual": 326,
+    "supply": 70,
+    "sell": 61,
+    "stock": 86
+  },
+  "examples": [
+    {
+      "id": "editorial",
+      "style": "editorial-paper",
+      "mode": "claim",
+      "type": "serif",
+      "material": "paper",
+      "html": "editorial.html",
+      "status": "candidate; JS syntax checked; browser not tested",
+      "note": "Material preference recorded; not applied as a dedicated class in this example."
+    },
+    {
+      "id": "consulting",
+      "style": "consulting",
+      "mode": "verdict",
+      "type": "sans",
+      "material": "matte",
+      "html": "consulting.html",
+      "status": "candidate; JS syntax checked; browser not tested",
+      "note": "Material preference recorded; not applied as a dedicated class in this example."
+    },
+    {
+      "id": "architectural",
+      "style": "architectural-stone",
+      "mode": "spatial",
+      "type": "sans",
+      "material": "clay",
+      "html": "architectural.html",
+      "status": "candidate; JS syntax checked; browser not tested",
+      "note": "Material preference recorded; not applied as a dedicated class in this example."
+    },
+    {
+      "id": "industrial",
+      "style": "industrial-graphite",
+      "mode": "instrument",
+      "type": "mono",
+      "material": "metal",
+      "html": "industrial.html",
+      "status": "candidate; JS syntax checked; browser not tested",
+      "note": "Material preference recorded; not applied as a dedicated class in this example."
+    },
+    {
+      "id": "cinematic",
+      "style": "midnight",
+      "mode": "hero",
+      "type": "sans",
+      "material": "ink",
+      "html": "cinematic.html",
+      "status": "candidate; JS syntax checked; browser not tested",
+      "note": "Material preference recorded; not applied as a dedicated class in this example."
+    },
+    {
+      "id": "scientific",
+      "style": "scientific-neutral",
+      "mode": "multiples",
+      "type": "sans",
+      "material": "matte",
+      "html": "scientific.html",
+      "status": "candidate; JS syntax checked; browser not tested",
+      "note": "Material preference recorded; not applied as a dedicated class in this example."
+    }
+  ],
+  "limitations": "Same fixture, differing content order and visual composition; not controlled experiment. No browser or audience test. Material preferences not implemented; schematic not geographic."
+}

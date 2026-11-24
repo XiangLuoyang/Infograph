@@ -105,3 +105,5 @@ Network: visual-intelligence/network-intelligence.md, network-enrichment.json, n
 Scientific: visual-intelligence/scientific-intelligence.md, scientific-enrichment.json, scientific-transforms.mjs and scientific.example.json. Grid interpolation, axis maximum projection and fixed-step RK4; no clinical or physical validation.
 
 Business: visual-intelligence/business-intelligence.md, business-enrichment.json, business-transforms.mjs and business.example.json. Arithmetic bridge, drawdown, contribution margin and weighted decision; not causal attribution or investment advice.
+
+Concept: visual-intelligence/concept-intelligence.md, concept-enrichment.json, concept-transforms.mjs and concept.example.json. Typed concept links, metaphor boundaries and pictogram counts; not evidence verification.

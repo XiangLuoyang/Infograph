@@ -22,3 +22,5 @@ jobs:
       - run: python engine.py design.example.json
       - run: python compiler.py design.example.json
       - run: node --check visual-check.js
+
+      - run: node test-transforms.mjs

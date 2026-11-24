@@ -1,0 +1,173 @@
+[
+  {
+    "direction": "editorial",
+    "locale": "mixed",
+    "families": {
+      "heading": "Georgia, \"Noto Serif CJK SC\", \"Songti SC\", serif",
+      "body": "system-ui, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"
+    },
+    "roles": {
+      "note": {
+        "size": 12.8,
+        "lineHeight": 1.8,
+        "weight": 400
+      },
+      "body": {
+        "size": 16,
+        "lineHeight": 1.8,
+        "weight": 400
+      },
+      "label": {
+        "size": 16,
+        "lineHeight": 1.8,
+        "weight": 500
+      },
+      "subheading": {
+        "size": 20,
+        "lineHeight": 1.8,
+        "weight": 500
+      },
+      "heading": {
+        "size": 25,
+        "lineHeight": 1.2,
+        "weight": 600
+      },
+      "display": {
+        "size": 39.1,
+        "lineHeight": 1.2,
+        "weight": 400
+      },
+      "metric": {
+        "size": 48.8,
+        "lineHeight": 1.2,
+        "weight": 600
+      }
+    },
+    "numeric": {
+      "variant": "tabular-nums lining-nums",
+      "alignment": "end",
+      "unitPolicy": "explicit consistent units and precision"
+    },
+    "reading": {
+      "maxInlineSize": "36em",
+      "lineBreak": "strict",
+      "wordBreak": "normal",
+      "overflowWrap": "anywhere"
+    },
+    "scope": "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+  },
+  {
+    "direction": "swiss",
+    "locale": "zh-CN",
+    "families": {
+      "heading": "\"Helvetica Neue\", Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+      "body": "system-ui, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"
+    },
+    "roles": {
+      "note": {
+        "size": 12,
+        "lineHeight": 1.6,
+        "weight": 400
+      },
+      "body": {
+        "size": 16,
+        "lineHeight": 1.6,
+        "weight": 400
+      },
+      "label": {
+        "size": 16,
+        "lineHeight": 1.6,
+        "weight": 500
+      },
+      "subheading": {
+        "size": 21.3,
+        "lineHeight": 1.6,
+        "weight": 500
+      },
+      "heading": {
+        "size": 28.4,
+        "lineHeight": 1.2,
+        "weight": 600
+      },
+      "display": {
+        "size": 50.5,
+        "lineHeight": 1.2,
+        "weight": 400
+      },
+      "metric": {
+        "size": 67.3,
+        "lineHeight": 1.2,
+        "weight": 600
+      }
+    },
+    "numeric": {
+      "variant": "tabular-nums lining-nums",
+      "alignment": "end",
+      "unitPolicy": "explicit consistent units and precision"
+    },
+    "reading": {
+      "maxInlineSize": "36em",
+      "lineBreak": "strict",
+      "wordBreak": "normal",
+      "overflowWrap": "anywhere"
+    },
+    "scope": "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+  },
+  {
+    "direction": "technical",
+    "locale": "mixed",
+    "families": {
+      "heading": "system-ui, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+      "body": "system-ui, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"
+    },
+    "roles": {
+      "note": {
+        "size": 12,
+        "lineHeight": 1.45,
+        "weight": 400
+      },
+      "body": {
+        "size": 14,
+        "lineHeight": 1.45,
+        "weight": 400
+      },
+      "label": {
+        "size": 14,
+        "lineHeight": 1.45,
+        "weight": 500
+      },
+      "subheading": {
+        "size": 16.8,
+        "lineHeight": 1.45,
+        "weight": 500
+      },
+      "heading": {
+        "size": 20.2,
+        "lineHeight": 1.2,
+        "weight": 600
+      },
+      "display": {
+        "size": 29,
+        "lineHeight": 1.2,
+        "weight": 400
+      },
+      "metric": {
+        "size": 34.8,
+        "lineHeight": 1.2,
+        "weight": 600
+      }
+    },
+    "numeric": {
+      "variant": "tabular-nums lining-nums",
+      "alignment": "end",
+      "unitPolicy": "explicit consistent units and precision"
+    },
+    "reading": {
+      "maxInlineSize": "36em",
+      "lineBreak": "strict",
+      "wordBreak": "normal",
+      "overflowWrap": "anywhere"
+    },
+    "scope": "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+  }
+]

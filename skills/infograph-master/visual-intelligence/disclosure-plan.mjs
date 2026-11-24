@@ -1,0 +1,11 @@
+export const modes=["verdict-first","question-answer","evidence-accumulation","decomposition","contextual-reveal","contrast-reveal","persistent-scene","reader-exploration"];
+export function disclosurePlan({mode,items,scenes}={}){
+if(!modes.includes(mode)||!Array.isArray(items)||!items.length||!Array.isArray(scenes)||!scenes.length)throw Error('invalid plan');
+const map=new Map(),seen=new Set(),sceneIds=new Set();
+for(const x of items){if(typeof x.id!=='string'||!x.id.trim()||map.has(x.id)||typeof x.essential!=='boolean'||!Array.isArray(x.requires)||new Set(x.requires).size!==x.requires.length||!['fact','inference','hypothesis','question','decision','context'].includes(x.kind))throw Error('invalid item');if(['fact','inference'].includes(x.kind)&&(typeof x.evidence!=='string'||!x.evidence.trim()))throw Error('evidence reference required');map.set(x.id,x)}
+for(const x of items)for(const d of x.requires)if(!map.has(d)||d===x.id)throw Error('invalid prerequisite');
+const steps=scenes.map((s,i)=>{if(typeof s.id!=='string'||!s.id.trim()||sceneIds.has(s.id)||typeof s.question!=='string'||!s.question.trim()||!Array.isArray(s.show)||new Set(s.show).size!==s.show.length||s.show.some(id=>!map.has(id)))throw Error('invalid scene');sceneIds.add(s.id);const available=new Set([...seen,...s.show]);for(const id of s.show)for(const d of map.get(id).requires)if(!available.has(d))throw Error('premature reveal');const visiting=new Set(),done=new Set();function visit(id){if(done.has(id))return;if(visiting.has(id))throw Error('prerequisite cycle');visiting.add(id);for(const d of map.get(id).requires)visit(d);visiting.delete(id);done.add(id)}for(const id of s.show)visit(id);const introduced=s.show.filter(id=>!seen.has(id));for(const id of s.show)seen.add(id);return {...s,introduced,visible:[...new Set([...items.filter(x=>x.essential).map(x=>x.id),...s.show])]};});
+if(items.some(x=>x.essential&&!scenes[0].show.includes(x.id)))throw Error('essential item missing at entry');
+if(items.some(x=>!seen.has(x.id)))throw Error('unreachable item');
+return {mode,steps,staticOrder:[...seen],requirements:{manualNavigation:true,staticAlternative:true},scope:'declared disclosure order; no evidence truth or comprehension verification'};
+}

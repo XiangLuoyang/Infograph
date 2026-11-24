@@ -1,0 +1,14 @@
+{
+  "substance": "glass",
+  "finish": "frosted",
+  "geometry": "sheet",
+  "rendering": "procedural",
+  "parameters": {
+    "roughness": 0.65,
+    "metalness": 0,
+    "transmission": 0.65,
+    "texture": 0.1,
+    "relief": 0,
+    "specular": 0.4
+  }
+}

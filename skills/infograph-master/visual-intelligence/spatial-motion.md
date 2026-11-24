@@ -1,0 +1,2 @@
+# Spatial motion
+FLIP rectangle inversion, identity matching, Web Animations adapter and standalone synthetic market demo. Ten inline checks plus script syntax passed. Current visual rectangles measured before cancelling active animations: candidate interruption strategy, not browser-verified. Assumes common viewport coordinates and no nested transforms. No path morph, camera or semantic zoom engine. Reduced motion uses immediate layout. No browser or audience tests.

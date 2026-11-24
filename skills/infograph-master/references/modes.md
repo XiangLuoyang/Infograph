@@ -43,3 +43,5 @@ Composition foundations: consult visual-intelligence/composition-fundamentals.md
 Spatial grammar: visual-intelligence/spatial-grammar.md, spatial-grammar.json and spatial-grammar.mjs map declared relationships to advisory spatial primitives; preserve evidence and reading order.
 
 Composition archetypes: consult visual-intelligence/composition-archetypes.md and JSON/MJS companions for 30 candidate patterns; compare alternatives by semantic fit, not alphabetical tie order.
+
+Attention choreography: consult visual-intelligence/attention-choreography.md and attention-plan.mjs for intended reading paths; keep essential evidence visible and navigation voluntary.

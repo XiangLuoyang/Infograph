@@ -45,3 +45,5 @@ Spatial grammar: visual-intelligence/spatial-grammar.md, spatial-grammar.json an
 Composition archetypes: consult visual-intelligence/composition-archetypes.md and JSON/MJS companions for 30 candidate patterns; compare alternatives by semantic fit, not alphabetical tie order.
 
 Attention choreography: consult visual-intelligence/attention-choreography.md and attention-plan.mjs for intended reading paths; keep essential evidence visible and navigation voluntary.
+
+Cross-domain composition studies: visual-intelligence/composition-cases.md and composition-cases.json. Use compositional modifiers alongside archetypes; source observations and transfer hypotheses are distinct.

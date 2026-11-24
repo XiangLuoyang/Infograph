@@ -1,0 +1,61 @@
+{
+  "version": "2.0",
+  "brief": {
+    "audience": "management",
+    "purpose": "assess target attainment"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "source": "synthetic fixture",
+      "unit": "percent",
+      "period": "illustrative month"
+    }
+  ],
+  "visual": {
+    "style": "editorial-paper",
+    "type": "serif",
+    "material": "paper"
+  },
+  "narrative": {
+    "thesis": "Revenue exceeds target; efficiency remains unverified.",
+    "scenes": [
+      {
+        "id": "S1",
+        "question": "How did revenue perform?",
+        "before": "knows target",
+        "after": "knows attainment",
+        "composition": "argument",
+        "blocks": [
+          {
+            "id": "B1",
+            "role": "primary",
+            "task": "ranking",
+            "fields": [
+              "numeric",
+              "category"
+            ],
+            "evidenceIds": [
+              "E1"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spatial": {
+    "coordinateSystem": "abstract",
+    "objects": []
+  },
+  "interaction": {
+    "initial": "S1",
+    "transitions": []
+  },
+  "validation": {
+    "required": [
+      "source-review",
+      "browser-review"
+    ],
+    "results": []
+  }
+}

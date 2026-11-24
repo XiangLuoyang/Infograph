@@ -1,0 +1,132 @@
+[
+  {
+    "id": "paper",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "glass",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "parchment",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "metal",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "clay",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "wireframe",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "matte",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "ink",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "grid",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "layered",
+    "implementation": "materials.css",
+    "contrast": "verify rendered foreground and background",
+    "fallback": "opaque surface"
+  },
+  {
+    "id": "vellum",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "ceramic",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "slate",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "linen",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "enamel",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "rubber",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "frosted",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "concrete",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "blueprint",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  },
+  {
+    "id": "newsprint",
+    "implementation": "material-extended.css",
+    "contrast": "verify rendered contrast",
+    "fallback": "opaque surface",
+    "fidelity": "CSS approximation, not physical material"
+  }
+]

@@ -1,0 +1,2 @@
+# Material rendering prototype
+CSS and deterministic seeded SVG textures for five opaque surface families. Canvas and WebGL explicitly fall back to SVG; optical and 3D requests are marked unmet. SVG texture uses 180 decorative marks; no physical fiber, reflectance or transmission. Keep text outside texture assets and audit contrast independently. No integration with earlier profile schemas, browser validation or performance measurement. Thirteen inline checks passed. Backend selection is an authored heuristic.

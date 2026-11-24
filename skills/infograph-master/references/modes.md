@@ -73,3 +73,5 @@ Material Studio: visual-intelligence/material-studio.html and material-studio.md
 Motion foundations: visual-intelligence/motion-foundations.md, motion-roles.json and motion-plan.mjs define semantic motion roles, identity and declared evidence/fallback constraints. No animation runtime yet.
 
 Temporal intelligence: visual-intelligence/temporal-engine.mjs, motion-materials.json and temporal-intelligence.md provide easing evaluation and dependency scheduling; no playback or physical spring solver.
+
+Cinematic intelligence: visual-intelligence/cinematic-plan.mjs and cinematic-grammar.json validate semantic shot sequences and shared anchors; no camera runtime.

@@ -15,3 +15,5 @@ For Standard, Narrative or Studio tasks needing custom palettes, optionally read
 For categorical or signed data read visual-intelligence/semantic-color.md and use semantic-color.mjs where useful. Simulated distance is heuristic; preserve labels/shapes and stable category IDs. Do not use distinct hues for simple ranking unless category identity matters.
 
 For Studio or custom atmosphere, read visual-intelligence/color-art.md and use color-art.mjs/art-palettes.json. Harmony and area ratios are heuristics; preserve brand hex, audit role contrast and actual compositing; keep semantic palettes independent.
+
+For substantive color decisions consult visual-intelligence/color-cases.json and color-decision.mjs: declare scale domain/center, reserve signals, preserve semantic roles; inspect adjacency and legends. Router is advisory.

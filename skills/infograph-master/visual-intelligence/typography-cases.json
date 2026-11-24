@@ -1,0 +1,82 @@
+[
+  {
+    "id": "TP01",
+    "name": "Flexible Grid Invariance",
+    "work": "Müller-Brockmann Musica Viva",
+    "source": "https://access.posterhouse.org/exhibition/swiss-grid-2/",
+    "observation": "Shared grid supports different visual weights and arrangements",
+    "transfer": "Preserve anchors while varying scene composition",
+    "limit": "Grid does not prove reading efficiency",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP02",
+    "name": "Typographic Reduction",
+    "work": "Herbert Bayer 1926 Poelzig poster",
+    "source": "https://www.moma.org/collection/works/5101",
+    "observation": "Single type treatment, grid and asymmetry",
+    "transfer": "Attempt text-only hierarchy before decoration",
+    "limit": "Do not force uppercase or suppress evidence",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP03",
+    "name": "Structural Typography",
+    "work": "Wim Crouwel Visuele communicatie Nederland",
+    "source": "https://id.rijksmuseum.nl/200546353",
+    "observation": "Line structure regulates letter spacing; readability tradeoff",
+    "transfer": "Use structural motifs in nonessential display",
+    "limit": "Keep operational labels readable",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP04",
+    "name": "Glyph Decomposition",
+    "work": "Ikko Tanaka Tategumi Yokogumi anniversary 1993",
+    "source": "https://www.moma.org/collection/works/6015",
+    "observation": "Work title explicitly frames kanji decomposition",
+    "transfer": "Explore glyph fragments as chapter motif",
+    "limit": "Title-based inference only; never fragment essential text",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP05",
+    "name": "Content-shaped Grid",
+    "work": "Pentagram Steven Holl",
+    "source": "https://www.pentagram.com/work/steven-holl",
+    "observation": "Flexible grid reflects architectural geometry",
+    "transfer": "Adapt composition to domain structure",
+    "limit": "Do not confuse metaphor with data encoding",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP06",
+    "name": "Progressive Editorial Disclosure",
+    "work": "Pentagram Safdie",
+    "source": "https://www.pentagram.com/work/safdie",
+    "observation": "Chapter gatefold reveals detailed chronology",
+    "transfer": "Offer expandable evidence with stable main narrative",
+    "limit": "Essential facts remain visible",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP07",
+    "name": "Subject-space Priority",
+    "work": "Pentagram Art Museum in Modern Times",
+    "source": "https://www.pentagram.com/work/the-art-museum-in-modern-times",
+    "observation": "Airy layouts give photographs space; coherent typography",
+    "transfer": "Give primary evidence room and subordinate captions",
+    "limit": "Do not hide uncertainty or reduce legibility",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  },
+  {
+    "id": "TP08",
+    "name": "Editorial Story Families",
+    "work": "Pentagram Nineties x Anna Sui",
+    "source": "https://www.pentagram.com/work/the-nineties-x-anna-sui",
+    "observation": "Magazine-style visual stories organize recurring themes",
+    "transfer": "Change chapter composition within consistent identity",
+    "limit": "Preserve reading order and semantics",
+    "evidence": "published source description; analyst transfer; no measured specimen audit"
+  }
+]

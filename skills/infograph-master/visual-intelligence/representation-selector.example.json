@@ -1,0 +1,9 @@
+{
+  "relation": "magnitude",
+  "task": "compare",
+  "available": [
+    "category",
+    "value",
+    "unit"
+  ]
+}

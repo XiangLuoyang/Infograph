@@ -1,0 +1,123 @@
+[
+  {
+    "id": "VIZ-0205",
+    "form": "choropleth",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "polygon",
+      "rate"
+    ],
+    "constraints": [
+      "normalize by meaningful denominator"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0207",
+    "form": "proportional-symbol",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "coordinates",
+      "quantity"
+    ],
+    "constraints": [
+      "symbol area proportional to quantity"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0209",
+    "form": "dot-density",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "polygon",
+      "count",
+      "dot-unit"
+    ],
+    "constraints": [
+      "synthetic dot positions not actual locations"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0210",
+    "form": "isoline",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "field",
+      "levels"
+    ],
+    "constraints": [
+      "declare interpolation"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0212",
+    "form": "cartogram",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "polygon",
+      "quantity"
+    ],
+    "constraints": [
+      "distorted area not geographic area"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0217",
+    "form": "hexbin",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "coordinates",
+      "grid"
+    ],
+    "constraints": [
+      "declare grid resolution and projection"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0225",
+    "form": "terrain",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "DEM",
+      "vertical-datum"
+    ],
+    "constraints": [
+      "declare elevation units"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0226",
+    "form": "terrain-3d",
+    "relations": [
+      "geography"
+    ],
+    "requiredInputs": [
+      "DEM",
+      "vertical-datum"
+    ],
+    "constraints": [
+      "declare vertical exaggeration"
+    ],
+    "status": "candidate-enrichment"
+  }
+]

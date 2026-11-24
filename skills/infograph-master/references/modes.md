@@ -23,3 +23,5 @@ For Studio color refinement or narrative scene palettes consult visual-intellige
 For interactive palette rehearsal use visual-intelligence/color-studio.html via local HTTP; see color-studio.md. Exported color contract is advisory and not yet automatically consumed by Design IR. Browser QA pending.
 
 For custom typography consult visual-intelligence/typography-foundations.md and typography.mjs. Establish semantic roles, numeric alignment and language-specific reading measures; verify actual fonts and wrapping. Candidate tokens are not accessibility certification.
+
+For font pairing consult visual-intelligence/typeface-pairing.md, typeface-pairs.json and typeface-pairing.mjs. Verify installed faces, glyph coverage and license; candidate stacks are not measured pairings.

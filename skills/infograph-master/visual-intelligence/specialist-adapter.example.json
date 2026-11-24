@@ -1,0 +1,16 @@
+{
+  "id": "VIZ-0002",
+  "data": {
+    "unit": "K",
+    "rows": [
+      {
+        "label": "Thailand",
+        "value": 18
+      },
+      {
+        "label": "Vietnam",
+        "value": 16
+      }
+    ]
+  }
+}

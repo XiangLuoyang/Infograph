@@ -1,0 +1,24 @@
+name: Infograph engine checks
+on:
+  push:
+    paths:
+      - 'skills/infograph-master/engine/**'
+      - '.github/workflows/infograph-engine-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/infograph-master/engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest test_engine test_compiler
+      - run: python engine.py design.example.json
+      - run: python compiler.py design.example.json
+      - run: node --check visual-check.js

@@ -1,0 +1,27 @@
+{
+  "shots": [
+    "extreme-wide",
+    "wide",
+    "medium",
+    "close",
+    "extreme-close"
+  ],
+  "moves": [
+    "static",
+    "push",
+    "pull",
+    "pan",
+    "tilt",
+    "track",
+    "orbit",
+    "rack-focus"
+  ],
+  "cuts": [
+    "cut",
+    "match",
+    "cross-cut",
+    "dissolve",
+    "continuous"
+  ],
+  "status": "candidate"
+}

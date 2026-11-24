@@ -1,0 +1,255 @@
+[
+  {
+    "relation": "magnitude",
+    "task": "compare",
+    "channels": [
+      "position",
+      "length"
+    ],
+    "forms": [
+      "bar",
+      "dot"
+    ],
+    "requires": [
+      "value",
+      "unit"
+    ]
+  },
+  {
+    "relation": "temporal",
+    "task": "trend",
+    "channels": [
+      "position",
+      "connection"
+    ],
+    "forms": [
+      "line",
+      "small-multiples"
+    ],
+    "requires": [
+      "time",
+      "value",
+      "unit"
+    ]
+  },
+  {
+    "relation": "distribution",
+    "task": "inspect",
+    "channels": [
+      "position",
+      "length"
+    ],
+    "forms": [
+      "histogram",
+      "ecdf"
+    ],
+    "requires": [
+      "observations",
+      "unit"
+    ]
+  },
+  {
+    "relation": "composition",
+    "task": "compare",
+    "channels": [
+      "length",
+      "area"
+    ],
+    "forms": [
+      "stacked-bar",
+      "treemap"
+    ],
+    "requires": [
+      "parts",
+      "whole",
+      "unit"
+    ]
+  },
+  {
+    "relation": "association",
+    "task": "inspect",
+    "channels": [
+      "position"
+    ],
+    "forms": [
+      "scatter",
+      "matrix"
+    ],
+    "requires": [
+      "paired-values"
+    ]
+  },
+  {
+    "relation": "hierarchy",
+    "task": "navigate",
+    "channels": [
+      "containment",
+      "connection"
+    ],
+    "forms": [
+      "tree",
+      "treemap"
+    ],
+    "requires": [
+      "parent-links"
+    ]
+  },
+  {
+    "relation": "network",
+    "task": "trace",
+    "channels": [
+      "connection",
+      "position"
+    ],
+    "forms": [
+      "node-link",
+      "adjacency-matrix"
+    ],
+    "requires": [
+      "nodes",
+      "edges"
+    ]
+  },
+  {
+    "relation": "flow",
+    "task": "trace",
+    "channels": [
+      "connection",
+      "width"
+    ],
+    "forms": [
+      "sankey",
+      "flow-map"
+    ],
+    "requires": [
+      "source",
+      "target",
+      "quantity",
+      "unit"
+    ]
+  },
+  {
+    "relation": "sequence",
+    "task": "understand",
+    "channels": [
+      "position",
+      "connection"
+    ],
+    "forms": [
+      "timeline",
+      "process-diagram"
+    ],
+    "requires": [
+      "ordered-events"
+    ]
+  },
+  {
+    "relation": "causality",
+    "task": "explain",
+    "channels": [
+      "directed-connection"
+    ],
+    "forms": [
+      "causal-diagram"
+    ],
+    "requires": [
+      "causal-evidence",
+      "directed-links"
+    ]
+  },
+  {
+    "relation": "geography",
+    "task": "locate",
+    "channels": [
+      "geographic-position"
+    ],
+    "forms": [
+      "map"
+    ],
+    "requires": [
+      "coordinates",
+      "crs"
+    ]
+  },
+  {
+    "relation": "physical-assembly",
+    "task": "understand",
+    "channels": [
+      "shape",
+      "depth",
+      "separation"
+    ],
+    "forms": [
+      "exploded-view",
+      "assembly-diagram"
+    ],
+    "requires": [
+      "geometry",
+      "part-links"
+    ]
+  },
+  {
+    "relation": "internal-structure",
+    "task": "inspect",
+    "channels": [
+      "shape",
+      "section"
+    ],
+    "forms": [
+      "section-view"
+    ],
+    "requires": [
+      "geometry",
+      "section-plane"
+    ]
+  },
+  {
+    "relation": "field",
+    "task": "inspect",
+    "channels": [
+      "position",
+      "color"
+    ],
+    "forms": [
+      "contour",
+      "heatmap"
+    ],
+    "requires": [
+      "sample-coordinates",
+      "values",
+      "unit"
+    ]
+  },
+  {
+    "relation": "mechanism",
+    "task": "simulate",
+    "channels": [
+      "connection",
+      "motion"
+    ],
+    "forms": [
+      "interactive-model"
+    ],
+    "requires": [
+      "model",
+      "parameters",
+      "assumptions"
+    ]
+  },
+  {
+    "relation": "concept",
+    "task": "understand",
+    "channels": [
+      "containment",
+      "connection",
+      "text"
+    ],
+    "forms": [
+      "concept-map"
+    ],
+    "requires": [
+      "concepts",
+      "typed-links"
+    ]
+  }
+]

@@ -1,0 +1,129 @@
+[
+  {
+    "id": "VIZ-0391",
+    "form": "Contour Plot",
+    "requiredInputs": [
+      "scalar grid",
+      "coordinate spacing",
+      "levels"
+    ],
+    "constraints": [
+      "declare interpolation and missing data"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0393",
+    "form": "Isosurface Rendering",
+    "requiredInputs": [
+      "volume",
+      "isovalue",
+      "voxel spacing"
+    ],
+    "constraints": [
+      "preserve physical spacing"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0394",
+    "form": "Volume Rendering",
+    "requiredInputs": [
+      "volume",
+      "transfer function",
+      "spacing"
+    ],
+    "constraints": [
+      "opacity is a display mapping"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0404",
+    "form": "Streamline Plot",
+    "requiredInputs": [
+      "vector field",
+      "seeds",
+      "integration settings"
+    ],
+    "constraints": [
+      "instantaneous field, not necessarily particle trajectory"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0426",
+    "form": "Maximum Intensity Projection",
+    "requiredInputs": [
+      "volume",
+      "projection axis"
+    ],
+    "constraints": [
+      "depth is lost"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0429",
+    "form": "Segmentation Overlay",
+    "requiredInputs": [
+      "image",
+      "registered labels",
+      "label provenance"
+    ],
+    "constraints": [
+      "not a diagnostic conclusion"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0438",
+    "form": "Protein Ribbon Diagram",
+    "requiredInputs": [
+      "molecular coordinates",
+      "chain identity"
+    ],
+    "constraints": [
+      "schematic secondary structure"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0446",
+    "form": "Genome Browser Tracks",
+    "requiredInputs": [
+      "reference assembly",
+      "genomic coordinates"
+    ],
+    "constraints": [
+      "declare coordinate convention"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0522",
+    "form": "Phase Portrait",
+    "requiredInputs": [
+      "state variables",
+      "differential equations"
+    ],
+    "constraints": [
+      "declare parameters and initial conditions"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0544",
+    "form": "Spectrogram",
+    "requiredInputs": [
+      "signal",
+      "sample rate",
+      "window",
+      "hop"
+    ],
+    "constraints": [
+      "declare time-frequency resolution"
+    ],
+    "status": "candidate-enrichment"
+  }
+]

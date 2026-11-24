@@ -1,0 +1,626 @@
+[
+  {
+    "id": "editorial-jade",
+    "hue": 160,
+    "chroma": 0.07,
+    "dark": false,
+    "tokens": {
+      "canvas": "#ebf9f1",
+      "surface": "#ffffff",
+      "text": "#18221c",
+      "muted": "#48534c",
+      "accent": "#285c42"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.067442858563394,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.349829294510887,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.394479510709262,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.023821882499702,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.168394199331664,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 7.778494504674657,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "financial-navy",
+    "hue": 250,
+    "chroma": 0.09,
+    "dark": false,
+    "tokens": {
+      "canvas": "#eef6ff",
+      "surface": "#ffffff",
+      "text": "#192028",
+      "muted": "#49515a",
+      "accent": "#24527f"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.064948130057436,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.42447596089661,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.385911170583758,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.052448599443546,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.44158320837197,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 8.113144729191397,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "archive-umber",
+    "hue": 70,
+    "chroma": 0.09,
+    "dark": false,
+    "tokens": {
+      "canvas": "#fdf3e8",
+      "surface": "#ffffff",
+      "text": "#251e16",
+      "muted": "#564e45",
+      "accent": "#6f4606"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.017743073450337,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.458225574234927,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.452041436721852,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.166831617391336,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.500995977646888,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 8.220481814593855,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "architectural-stone",
+    "hue": 95,
+    "chroma": 0.025,
+    "dark": false,
+    "tokens": {
+      "canvas": "#f9f5e8",
+      "surface": "#ffffff",
+      "text": "#221f16",
+      "muted": "#535045",
+      "accent": "#545040"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.094234106454921,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.462888433015554,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.402030084498397,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.073201634444633,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.409828302899324,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 8.08170694836817,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "scientific-blue",
+    "hue": 235,
+    "chroma": 0.1,
+    "dark": false,
+    "tokens": {
+      "canvas": "#ebf7ff",
+      "surface": "#ffffff",
+      "text": "#172127",
+      "muted": "#475258",
+      "accent": "#00577a"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.024683058594588,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.36443190259215,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.371011790982031,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.028283860385956,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.291417158850466,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 7.941591786267042,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "industrial-teal",
+    "hue": 180,
+    "chroma": 0.09,
+    "dark": true,
+    "tokens": {
+      "canvas": "#05100e",
+      "surface": "#13201d",
+      "text": "#dfefeb",
+      "muted": "#a9b8b4",
+      "accent": "#78d1c0"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 16.269808093012458,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 14.124058596558465,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 9.386472331624589,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.148534049628935,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 10.746011136176552,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 9.32876958959415,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "midnight-indigo",
+    "hue": 275,
+    "chroma": 0.11,
+    "dark": true,
+    "tokens": {
+      "canvas": "#0b0d15",
+      "surface": "#1a1c26",
+      "text": "#e7ebf8",
+      "muted": "#b1b4c0",
+      "accent": "#aab9ff"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 16.290531435776273,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 14.245886181730224,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 9.383724920457365,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.205961708770433,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 10.246176996271663,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 8.960166331111042,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "museum-ochre",
+    "hue": 85,
+    "chroma": 0.1,
+    "dark": false,
+    "tokens": {
+      "canvas": "#fbf4e8",
+      "surface": "#ffffff",
+      "text": "#231f15",
+      "muted": "#544f45",
+      "accent": "#664b00"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.025843958700092,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.428220693188063,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.440990162467551,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.13546506278464,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.4696492909322885,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 8.166798975780623,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "swiss-red",
+    "hue": 25,
+    "chroma": 0.14,
+    "dark": false,
+    "tokens": {
+      "canvas": "#fff2f0",
+      "surface": "#ffffff",
+      "text": "#271c1b",
+      "muted": "#594c4b",
+      "accent": "#8d2425"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.148386406909152,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.55896896043069,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.503910705567103,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.202657439386138,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.966095441619309,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 8.707879744435253,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "botanical",
+    "hue": 135,
+    "chroma": 0.09,
+    "dark": false,
+    "tokens": {
+      "canvas": "#f0f8ec",
+      "surface": "#ffffff",
+      "text": "#1c2119",
+      "muted": "#4c5248",
+      "accent": "#395a25"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.100635833966567,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.394014754612577,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.417474571614369,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.052785916172091,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.263289201198324,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 7.885394472173401,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "mineral-violet",
+    "hue": 305,
+    "chroma": 0.07,
+    "dark": false,
+    "tokens": {
+      "canvas": "#f8f2ff",
+      "surface": "#ffffff",
+      "text": "#211d26",
+      "muted": "#524d58",
+      "accent": "#59466f"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.08682908232797,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.556282749646797,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.471452839919299,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.19917062050179,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.562580120708726,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 8.299173677388241,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  {
+    "id": "graphite",
+    "hue": 220,
+    "chroma": 0.025,
+    "dark": true,
+    "tokens": {
+      "canvas": "#050f13",
+      "surface": "#131f23",
+      "text": "#dfeef4",
+      "muted": "#a8b7bc",
+      "accent": "#adc2c9"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 16.30139136563425,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 14.162174320652953,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 9.375262988934994,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.14495559140864,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 10.456666402783963,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 9.084447400075026,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  }
+]

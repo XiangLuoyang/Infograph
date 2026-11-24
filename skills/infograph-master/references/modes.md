@@ -27,3 +27,5 @@ For custom typography consult visual-intelligence/typography-foundations.md and 
 For font pairing consult visual-intelligence/typeface-pairing.md, typeface-pairs.json and typeface-pairing.mjs. Verify installed faces, glyph coverage and license; candidate stacks are not measured pairings.
 
 For mixed-language dashboards consult visual-intelligence/multilingual.md and multilingual.mjs/css. Preserve language runs and quantities; inspect actual wrapping, fallback glyphs and narrow widths.
+
+For financial tables and KPI typography consult visual-intelligence/numeric-typography.md and numeric-typography.mjs/css. Preserve raw values, explicit scale/unit/precision and null; verify actual numeric alignment and locale formatting.

@@ -33,3 +33,6 @@ Consult engine/golden/manifest.json and relevant HTML examples for composition a
 
 ### Browser QA and promotion
 For gallery candidates follow engine/golden/PROMOTION.md. Run browser-qa.mjs with Playwright from engine, or inspect the browser QA workflow artifacts. Review report.json and screenshots; do not equate screenshot capture with regression testing. Do not claim a pass without observed results.
+
+### Relationship composition and motion
+Read engine/composition-motion.md, composition-patterns.json and motion-grammar.json. Choose by information relationship before visual style; preserve reading order and evidence proximity. Use composition-patterns.css and scene-controller.mjs where appropriate. Reorder, flow and camera are specifications only, not implemented animations. Do not imply a spatial relation or causal mechanism without evidence. Verify navigation, reduced motion and focus in browser before claiming pass.

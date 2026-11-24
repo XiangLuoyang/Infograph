@@ -1,0 +1,74 @@
+[
+  {
+    "id": "editorial",
+    "task": "claim-evidence",
+    "columns": "2fr 1fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "matrix",
+    "task": "comparison",
+    "columns": "repeat(2,minmax(0,1fr))",
+    "mobile": "1fr"
+  },
+  {
+    "id": "asymmetric",
+    "task": "priority",
+    "columns": "3fr 1fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "hierarchical",
+    "task": "overview-detail",
+    "columns": "1fr 1fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "flow",
+    "task": "sequence",
+    "columns": "repeat(3,minmax(0,1fr))",
+    "mobile": "1fr"
+  },
+  {
+    "id": "spatial",
+    "task": "geography",
+    "columns": "1fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "magazine",
+    "task": "mixed-evidence",
+    "columns": "1fr 2fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "split",
+    "task": "tradeoff",
+    "columns": "1fr 1fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "focus-context",
+    "task": "focus",
+    "columns": "2fr 1fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "timeline",
+    "task": "chronology",
+    "columns": "1fr",
+    "mobile": "1fr"
+  },
+  {
+    "id": "small-multiples",
+    "task": "trend-comparison",
+    "columns": "repeat(3,minmax(0,1fr))",
+    "mobile": "1fr"
+  },
+  {
+    "id": "ledger",
+    "task": "lookup",
+    "columns": "1fr",
+    "mobile": "1fr"
+  }
+]

@@ -79,3 +79,5 @@ Cinematic intelligence: visual-intelligence/cinematic-plan.mjs and cinematic-gra
 Spatial motion: visual-intelligence/spatial-motion.mjs and spatial-motion-lab.html implement basic FLIP and shared identity matching; browser verification pending.
 
 Progressive disclosure: visual-intelligence/disclosure-plan.mjs and progressive-disclosure.md validate declared information prerequisites, essential visibility and reachability; no runtime yet.
+
+Interaction grammar: visual-intelligence/interaction-state.mjs provides in-memory semantic state transitions, undo and reset; link, trace, simulation and DOM integration pending.

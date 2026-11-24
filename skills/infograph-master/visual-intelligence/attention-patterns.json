@@ -1,0 +1,62 @@
+[
+  {
+    "id": "anchor",
+    "label": "锚定",
+    "purpose": "establish focal claim",
+    "status": "candidate"
+  },
+  {
+    "id": "orient",
+    "label": "定向",
+    "purpose": "establish context and reading entry",
+    "status": "candidate"
+  },
+  {
+    "id": "guide",
+    "label": "引导",
+    "purpose": "connect related evidence",
+    "status": "candidate"
+  },
+  {
+    "id": "contrast",
+    "label": "对比",
+    "purpose": "distinguish alternatives",
+    "status": "candidate"
+  },
+  {
+    "id": "reveal",
+    "label": "揭示",
+    "purpose": "progressively disclose optional detail",
+    "status": "candidate"
+  },
+  {
+    "id": "pause",
+    "label": "停顿",
+    "purpose": "allow synthesis without forced delay",
+    "status": "candidate"
+  },
+  {
+    "id": "shift",
+    "label": "转移",
+    "purpose": "move focus to next question",
+    "status": "candidate"
+  },
+  {
+    "id": "return",
+    "label": "回扣",
+    "purpose": "revisit established anchor",
+    "status": "candidate"
+  },
+  {
+    "id": "resolve",
+    "label": "收束",
+    "purpose": "connect evidence to decision",
+    "status": "candidate"
+  },
+  {
+    "id": "explore",
+    "label": "探索",
+    "purpose": "allow user-directed navigation",
+    "status": "candidate"
+  }
+]

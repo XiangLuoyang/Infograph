@@ -1,0 +1,2 @@
+# Composition and motion increment
+Choose a composition by information relation, not aesthetic label. Set data-pattern and --ig-span on children; preserve DOM reading order. Spans are suggestions, not packing optimization. Use scene-controller.mjs for explicit previous/next navigation with live status; it does not animate objects or implement camera paths. Motion grammar distinguishes state switches from future stable-identity transitions. No automatic playback. Preserve essential evidence and offer reduced motion. Browser verification pending.

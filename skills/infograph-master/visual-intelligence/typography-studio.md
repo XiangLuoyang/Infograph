@@ -1,0 +1,2 @@
+# Typography Studio
+Standalone HTML bundles exact current five modules and two catalogs at generation time. Eight pairing candidates, ten locale options including mixed, rhythm, precision, seven art treatments, ten cases and JSON export. Path type remains in separate gallery. Non-Chinese locales use locale fallback and English sample text, not translation. Font availability is unknown. Five integrated logic checks and JS syntax check passed; browser and reader testing pending. Bundle is a snapshot, regenerate after module changes.

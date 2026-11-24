@@ -1,0 +1,1795 @@
+{
+  "baseline": "e4e3f62413ec8d848d68207a438f13a5638d9506",
+  "truncated": false,
+  "files": 336,
+  "directories": 29,
+  "bytes": 6202812,
+  "groups": {
+    ".github": 3,
+    "MIGRATION_MANIFEST.md": 1,
+    "QUALITY_AUDIT.md": 1,
+    "README.md": 1,
+    "assets": 13,
+    "catalog": 13,
+    "docs": 26,
+    "examples": 19,
+    "index.html": 1,
+    "skills/infograph-master/README.md": 1,
+    "skills/infograph-master/SKILL.md": 1,
+    "skills/infograph-master/benchmark": 6,
+    "skills/infograph-master/engine": 55,
+    "skills/infograph-master/references": 5,
+    "skills/infograph-master/visual-intelligence": 181,
+    "skills": 7,
+    "tests": 2
+  },
+  "extensions": {
+    "yml": 3,
+    "md": 110,
+    "svg": 13,
+    "png": 4,
+    "csv": 4,
+    "json": 88,
+    "html": 36,
+    "js": 3,
+    "mjs": 63,
+    "css": 8,
+    "py": 4
+  },
+  "tests": [
+    ".github/workflows/golden-six.yml",
+    ".github/workflows/infograph-browser-qa.yml",
+    ".github/workflows/infograph-engine-check.yml",
+    "skills/infograph-master/engine/browser-qa.mjs",
+    "skills/infograph-master/engine/test-design-v2.mjs",
+    "skills/infograph-master/engine/test-hybrid.mjs",
+    "skills/infograph-master/engine/test-integration.mjs",
+    "skills/infograph-master/engine/test-transforms.mjs",
+    "skills/infograph-master/engine/test_compiler.py",
+    "skills/infograph-master/engine/test_engine.py",
+    "skills/infograph-master/visual-intelligence/test-business.mjs",
+    "skills/infograph-master/visual-intelligence/test-concept.mjs",
+    "skills/infograph-master/visual-intelligence/test-information-composition.mjs",
+    "skills/infograph-master/visual-intelligence/test-scientific.mjs",
+    "skills/infograph-master/visual-intelligence/test-specialist-adapter.mjs",
+    "tests/golden-six.test.mjs"
+  ],
+  "studios": [
+    "skills/infograph-master/visual-intelligence/color-studio.html",
+    "skills/infograph-master/visual-intelligence/composition-studio.html",
+    "skills/infograph-master/visual-intelligence/material-studio.html",
+    "skills/infograph-master/visual-intelligence/motion-studio.html",
+    "skills/infograph-master/visual-intelligence/representation-studio.html",
+    "skills/infograph-master/visual-intelligence/typography-studio.html"
+  ],
+  "imports": [
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-studio.html",
+      "imports": [
+        "./color.mjs",
+        "./semantic-color.mjs",
+        "./color-art.mjs",
+        "./color-decision.mjs"
+      ],
+      "inlineModule": true
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-studio.html",
+      "imports": [
+        "./parametric-composition.mjs",
+        "./information-composition.mjs",
+        "./attention-plan.mjs"
+      ],
+      "inlineModule": true
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-studio.html",
+      "imports": [],
+      "inlineModule": false
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-studio.html",
+      "imports": [],
+      "inlineModule": false
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-studio.html",
+      "imports": [
+        "./representation-index.json",
+        "./representation-selector.mjs",
+        "./specialist-adapter.mjs"
+      ],
+      "inlineModule": true
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography-studio.html",
+      "imports": [],
+      "inlineModule": false
+    }
+  ],
+  "missing": [],
+  "duplicateBlobGroups": [],
+  "licensePaths": [],
+  "inventory": [
+    {
+      "path": ".github/workflows/golden-six.yml",
+      "sha": "eae9b7a2dd8e9822e679b33867ac9fadfa27377e",
+      "size": 1357
+    },
+    {
+      "path": ".github/workflows/infograph-browser-qa.yml",
+      "sha": "067e02c49bd2c55f980ec46be62a101c5dbf808e",
+      "size": 781
+    },
+    {
+      "path": ".github/workflows/infograph-engine-check.yml",
+      "sha": "142c7a4dd199948e636ae3d7195cfc944d1235fc",
+      "size": 811
+    },
+    {
+      "path": "MIGRATION_MANIFEST.md",
+      "sha": "c9e1dae850685845eb784c91dacfbd7021834b88",
+      "size": 10473
+    },
+    {
+      "path": "QUALITY_AUDIT.md",
+      "sha": "b12fc612c6cb1ee07dae9a3dcc2f263d2c00923c",
+      "size": 6309
+    },
+    {
+      "path": "README.md",
+      "sha": "b2676da5c6aee3a010d74a37fd09f94ec8f52c2b",
+      "size": 6110
+    },
+    {
+      "path": "assets/README.md",
+      "sha": "4ec5a57bc44f442052f41717f89ad0f5898e0730",
+      "size": 983
+    },
+    {
+      "path": "assets/diagrams/2-5d-governance-map.svg",
+      "sha": "ffcc28641df4f298c7323eb4c57a2089eb41a409",
+      "size": 7252
+    },
+    {
+      "path": "assets/diagrams/bus-routing-comparison.svg",
+      "sha": "cb64abc57619c565da1e28459e0e96f9de5c7173",
+      "size": 4699
+    },
+    {
+      "path": "assets/diagrams/business-paradigms.svg",
+      "sha": "9f22ae9fce43eb03ade94e53a88591ee7d9055bb",
+      "size": 4460
+    },
+    {
+      "path": "assets/diagrams/flow-compile-pipeline.svg",
+      "sha": "18a70e30848c099d115d856421ef2e30c5ee8443",
+      "size": 8208
+    },
+    {
+      "path": "assets/diagrams/flow-visual-vocabulary.svg",
+      "sha": "8f9c60003d20e5cfded778cec3b759e36ddac480",
+      "size": 9311
+    },
+    {
+      "path": "assets/diagrams/map-simulation-layers.svg",
+      "sha": "b3407cf66879263105118dc636a97a6482026f8e",
+      "size": 4335
+    },
+    {
+      "path": "assets/diagrams/sea-five-style-overview.svg",
+      "sha": "f3bb2094bb96b0c2d3a3e025ac6ab0954febaf32",
+      "size": 13792
+    },
+    {
+      "path": "assets/diagrams/sea-six-style-overview.svg",
+      "sha": "c6a203d82358a02910dd300a4d516ded78c4793a",
+      "size": 9436
+    },
+    {
+      "path": "assets/style-studies/editorial-p1.png",
+      "sha": "a6872777fd5fc9ff0d48c24d00fb81fc3414a137",
+      "size": 238735
+    },
+    {
+      "path": "assets/style-studies/ibcs-structure-c.png",
+      "sha": "f3eb77ce95977d5c451e61d277c0b657ec21c166",
+      "size": 131580
+    },
+    {
+      "path": "assets/style-studies/owid-palette-b.png",
+      "sha": "c68015bd41dc2fc6175f7e0f8645d61025c26f08",
+      "size": 131954
+    },
+    {
+      "path": "assets/style-studies/report-layout-a.png",
+      "sha": "79c7d510666f90470da54df651c5c37b1f88685c",
+      "size": 233363
+    },
+    {
+      "path": "catalog/README.md",
+      "sha": "408ffde3784328df04a4ca3d860870926ae696f2",
+      "size": 3767
+    },
+    {
+      "path": "catalog/domain-coverage-map-v0.2.csv",
+      "sha": "b8678f3ceafcf02e59896e94cff24409586fc8c9",
+      "size": 13954
+    },
+    {
+      "path": "catalog/domain-coverage-map-v0.2.json",
+      "sha": "df42cf61bc3273a350acdd08473f4c875ef590c6",
+      "size": 40130
+    },
+    {
+      "path": "catalog/extensions/README.md",
+      "sha": "613ce38c157e596624fb9a00070a72b61abe1c57",
+      "size": 1163
+    },
+    {
+      "path": "catalog/extensions/discipline-seeds-2026-11-22.csv",
+      "sha": "a09ef72dd264725923be20e2ab900d0bf57b2c4a",
+      "size": 38209
+    },
+    {
+      "path": "catalog/extensions/discipline-seeds-2026-11-22.json",
+      "sha": "3ae6ca8229b5c56dca3d8d5e6858f046c5114272",
+      "size": 110948
+    },
+    {
+      "path": "catalog/extensions/domain-skill-routing.json",
+      "sha": "273c695f970740ad692982ca686df520d35a4362",
+      "size": 7126
+    },
+    {
+      "path": "catalog/extensions/index.html",
+      "sha": "3b66a124bb104f919a04673a75d38b96968757bc",
+      "size": 43233
+    },
+    {
+      "path": "catalog/families.csv",
+      "sha": "7aac749b317fb11417725016533504221165d477",
+      "size": 4243
+    },
+    {
+      "path": "catalog/types.csv",
+      "sha": "46f6a5b59ba91b7ee744cf0fd98b23ad656a5bf5",
+      "size": 247001
+    },
+    {
+      "path": "catalog/verified/golden-six.json",
+      "sha": "b8f2f0d07870857859a3c44e86bf195fdea84c05",
+      "size": 13419
+    },
+    {
+      "path": "catalog/visual_representation_atlas.html",
+      "sha": "d17d0314b85e0506ece9a776b4082d3e5b22ce6e",
+      "size": 369053
+    },
+    {
+      "path": "catalog/visual_representation_atlas.json",
+      "sha": "69bcb2f10ae5f1111ea8256b11a501c65e251c91",
+      "size": 450577
+    },
+    {
+      "path": "docs/INDEX.md",
+      "sha": "4c17aa57b2bcd1152d64aa3a044281eb73ddb4b4",
+      "size": 2864
+    },
+    {
+      "path": "docs/engineering/agent-skills-and-renderers.md",
+      "sha": "2665f762f925cdf6e621beb37c6bc035e617c948",
+      "size": 10918
+    },
+    {
+      "path": "docs/engineering/domain-to-skill-routing.md",
+      "sha": "764bf90e84c3501ad85bde8534642ae174ab8825",
+      "size": 6073
+    },
+    {
+      "path": "docs/engineering/drawio-workflow.md",
+      "sha": "77e0bd1b13f4f4a6dfc032e5b0717f32c04c7ee8",
+      "size": 2934
+    },
+    {
+      "path": "docs/engineering/golden-six-api.md",
+      "sha": "ef70b32be704c49056ce8a228bf2890b3c7f3a9e",
+      "size": 4986
+    },
+    {
+      "path": "docs/engineering/html-dashboard-generation-qa.md",
+      "sha": "3fe336d8f5693e2f8f1b12a6b2b1a08c76a79033",
+      "size": 10883
+    },
+    {
+      "path": "docs/engineering/process-ir-layout-routing.md",
+      "sha": "0a9406ba34cafb27f5cb0511181a439b5db32174",
+      "size": 6491
+    },
+    {
+      "path": "docs/engineering/visual-representation-routing-contract.md",
+      "sha": "b670d5bb97ea5f8fab497f10667a35ac1435f52f",
+      "size": 6371
+    },
+    {
+      "path": "docs/foundations/anti-ai-slop.md",
+      "sha": "411d9874e9c1557117cea50041cc5e4ad3df6bc4",
+      "size": 9113
+    },
+    {
+      "path": "docs/foundations/dashboard-layout-evolution.md",
+      "sha": "81a884304566f6393fdcaba40b5958f519b082eb",
+      "size": 6431
+    },
+    {
+      "path": "docs/foundations/five-dimension-design-grammar.md",
+      "sha": "1aa809c8ac6ce08a2166b4d917e89edd52267bd3",
+      "size": 15147
+    },
+    {
+      "path": "docs/foundations/flowchart-swimlane-grammar.md",
+      "sha": "ca80ef030350d0af1da458d9134abbb0b2e10d38",
+      "size": 4241
+    },
+    {
+      "path": "docs/research/atlas-sea-dashboard-case.md",
+      "sha": "23a4de0a111c4a7ff6e1dfd8312eec885552497a",
+      "size": 5515
+    },
+    {
+      "path": "docs/research/business-channel-process-visual-paradigms.md",
+      "sha": "124ee40632face0ccdca8f9105d7f71f1a8b3b59",
+      "size": 12125
+    },
+    {
+      "path": "docs/research/channel-business-mechanism-workbench.md",
+      "sha": "d00d117a5639be3d54d7c9776a759ceee28b55e4",
+      "size": 19147
+    },
+    {
+      "path": "docs/research/cross-domain-expansion-2026-11-22.md",
+      "sha": "eed06b693e3e14918fed484811bd0d41b014b75d",
+      "size": 9092
+    },
+    {
+      "path": "docs/research/enterprise-dashboard-narrative.md",
+      "sha": "232a518e72ee6335cc13e83b3a811b40820d4a1e",
+      "size": 24306
+    },
+    {
+      "path": "docs/research/full-spectrum-breadth-audit.md",
+      "sha": "72099700cec80bad10cc46361ff2721a8df283d3",
+      "size": 11270
+    },
+    {
+      "path": "docs/research/golden-six-evidence.md",
+      "sha": "817a17f1571796b2efecf714f7c3f55038025e59",
+      "size": 7221
+    },
+    {
+      "path": "docs/research/map-five-style-interactions.md",
+      "sha": "886a93d95cdc248c06f30d6590e26adcc4299a14",
+      "size": 11163
+    },
+    {
+      "path": "docs/research/map-rendering-languages.md",
+      "sha": "ff584e05918b2be4c10e61c933b64790ddb74dca",
+      "size": 7906
+    },
+    {
+      "path": "docs/research/map-simulation-layering.md",
+      "sha": "76c54034db88b03e53ccb877f41033da9f86336e",
+      "size": 13058
+    },
+    {
+      "path": "docs/research/map-six-style-evaluation.md",
+      "sha": "53c95244a7eac5f10aa18a2c91c25ade5e099152",
+      "size": 11536
+    },
+    {
+      "path": "docs/research/narrative-architecture.md",
+      "sha": "5e6d56b343bc276eab2d3ecaa5efa3d0155848d8",
+      "size": 7666
+    },
+    {
+      "path": "docs/research/open-domain-coverage-map.md",
+      "sha": "ba841214ee71b4932b121a700e04d0e141ac21c8",
+      "size": 4634
+    },
+    {
+      "path": "docs/research/research-map.md",
+      "sha": "045b079d9bb5e6dadfbf47a14a536d3041a5f9d3",
+      "size": 16381
+    },
+    {
+      "path": "examples/README.md",
+      "sha": "e2a1206febe11bc7376e767763cdcd350c01989e",
+      "size": 2305
+    },
+    {
+      "path": "examples/dashboards/channel_atlas_simulation_v01.html",
+      "sha": "745d909892c3c2685975d7286d43f2392a5db165",
+      "size": 68624
+    },
+    {
+      "path": "examples/dashboards/enterprise_dashboard_triptych.html",
+      "sha": "5b5ebd93ab920b2c56d395ae070d7b87e93c30d1",
+      "size": 33868
+    },
+    {
+      "path": "examples/dashboards/region_channel_three_paradigms.html",
+      "sha": "b0a0ac5c557f1deaa03c7228cebbf487a18e6b14",
+      "size": 32962
+    },
+    {
+      "path": "examples/dashboards/sea_3d_business_atlas_v02.html",
+      "sha": "1fc4f4624fcf88e76eba2c18251928c440f59c5f",
+      "size": 79348
+    },
+    {
+      "path": "examples/dashboards/sea_business_dashboard_atlas_v1.html",
+      "sha": "c3d5ca53bc4d6dfda04793a8085a5bb4ca5c5439",
+      "size": 49280
+    },
+    {
+      "path": "examples/geospatial/sea_3d_design_gallery.html",
+      "sha": "c54797da30553681b4727cea0134fcc4c1787db2",
+      "size": 11885
+    },
+    {
+      "path": "examples/geospatial/sea_3d_interactive_map.html",
+      "sha": "e9e30c9cfe61f21ec846e3e712ca6856a61d80f6",
+      "size": 32868
+    },
+    {
+      "path": "examples/geospatial/sea_3d_six_map_material_renderings_v02.html",
+      "sha": "80739e814b6b7c6068c23ddd973fcdec1c0c046a",
+      "size": 55247
+    },
+    {
+      "path": "examples/geospatial/sea_3d_six_style_interaction_lab.html",
+      "sha": "2994ca237ecd140fd13168fddfdfbcc62720e7e3",
+      "size": 58621
+    },
+    {
+      "path": "examples/geospatial/sea_3d_style_01_abyss.html",
+      "sha": "0bc7c7593f3ae7730d72a072d259d1503078c7a5",
+      "size": 371019
+    },
+    {
+      "path": "examples/geospatial/sea_3d_style_02_editorial.html",
+      "sha": "7213f58a6bd33a44d700a11016c829462f088181",
+      "size": 372551
+    },
+    {
+      "path": "examples/geospatial/sea_3d_style_03_terrain.html",
+      "sha": "7de7e658aaf468b9d41559d7211eb85e71ca51e4",
+      "size": 372657
+    },
+    {
+      "path": "examples/geospatial/sea_3d_style_04_prism.html",
+      "sha": "191eaba277938e993a71d32005cb5bde1ce285b7",
+      "size": 373030
+    },
+    {
+      "path": "examples/geospatial/sea_3d_style_05_command.html",
+      "sha": "fffdc4546d0f8003d988a27e9a1c3476fb28a519",
+      "size": 373128
+    },
+    {
+      "path": "examples/geospatial/sea_true_3d_map.html",
+      "sha": "7f74715d84243fde19ff4eb2041db83845048372",
+      "size": 362666
+    },
+    {
+      "path": "examples/golden-six/README.md",
+      "sha": "e80340d55687450e748d411b2f4cdca95dd5a8dc",
+      "size": 2091
+    },
+    {
+      "path": "examples/golden-six/index.html",
+      "sha": "f1bf4957706d6b1f1ea3bace514f5f337481d344",
+      "size": 9891
+    },
+    {
+      "path": "examples/golden-six/infograph-gold.js",
+      "sha": "1177ab16a62f1233496e84c09df4c886fa9dbbd4",
+      "size": 20435
+    },
+    {
+      "path": "index.html",
+      "sha": "dd5e3e58f248eb8002d551e6ae51ee440d61f397",
+      "size": 10602
+    },
+    {
+      "path": "skills/infograph-master/README.md",
+      "sha": "dca47de3ed2bd2c76887accbd0101944046ef147",
+      "size": 1380
+    },
+    {
+      "path": "skills/infograph-master/SKILL.md",
+      "sha": "689c9a300aea12f16052a0bf3a6d1ec6db9229c0",
+      "size": 2008
+    },
+    {
+      "path": "skills/infograph-master/benchmark/PROTOCOL.md",
+      "sha": "394d88ba76b67d589b022ba310ea2ff328b491b9",
+      "size": 839
+    },
+    {
+      "path": "skills/infograph-master/benchmark/fixtures.json",
+      "sha": "9ac0901419d5228862ffdc616d0ee8fcf958733b",
+      "size": 2159
+    },
+    {
+      "path": "skills/infograph-master/benchmark/rubric.json",
+      "sha": "dbea74aceaa1c084a06cd403f01aa04db1d8118a",
+      "size": 885
+    },
+    {
+      "path": "skills/infograph-master/benchmark/run.example.json",
+      "sha": "6ab44a5b2ff51ce28769f1fa31fc08640ca88d1b",
+      "size": 295
+    },
+    {
+      "path": "skills/infograph-master/benchmark/score.mjs",
+      "sha": "f5e66ed0a0d46cdca8f56d864a8457d0279bf76e",
+      "size": 633
+    },
+    {
+      "path": "skills/infograph-master/benchmark/tasks.json",
+      "sha": "fc7f7989f26a781d44dce06c7931ce68a5a2e0fb",
+      "size": 3409
+    },
+    {
+      "path": "skills/infograph-master/engine/README.md",
+      "sha": "23e0f94daf5d2edb073bff096de11caf9a109a93",
+      "size": 506
+    },
+    {
+      "path": "skills/infograph-master/engine/USAGE.md",
+      "sha": "015321b38098dfd634d56364add61abb68d3247a",
+      "size": 1233
+    },
+    {
+      "path": "skills/infograph-master/engine/art-direction-guide.md",
+      "sha": "128f8e5f36c819575fba4c56e95b7083fab6c4c8",
+      "size": 660
+    },
+    {
+      "path": "skills/infograph-master/engine/art-directions.json",
+      "sha": "f0aa125a94b56e047a6dc36e14a8e708f80c6d02",
+      "size": 3546
+    },
+    {
+      "path": "skills/infograph-master/engine/browser-qa.mjs",
+      "sha": "880e9ccebdc00639a886a88ea42d104ed2d5e1c2",
+      "size": 1953
+    },
+    {
+      "path": "skills/infograph-master/engine/chart-rules.json",
+      "sha": "bd06bcaaf7be6a2e16123aa3ff807c4b2195e6c6",
+      "size": 2823
+    },
+    {
+      "path": "skills/infograph-master/engine/chart-transforms.mjs",
+      "sha": "677393f3ae9ff4ea87e8114c0efedfd9d19fa731",
+      "size": 1112
+    },
+    {
+      "path": "skills/infograph-master/engine/charts.js",
+      "sha": "00c62e8ad89ac5987b327a7089e26a0baf252525",
+      "size": 1747
+    },
+    {
+      "path": "skills/infograph-master/engine/compiler.css",
+      "sha": "eaba2310e34168ec3b05d6f7604602f7d0e45348",
+      "size": 316
+    },
+    {
+      "path": "skills/infograph-master/engine/compiler.py",
+      "sha": "0df30cd83570b4171c3f348d2532d845c774b889",
+      "size": 1856
+    },
+    {
+      "path": "skills/infograph-master/engine/composition-motion.md",
+      "sha": "d270226cedffab3539a8f48816e82bf424dd86f1",
+      "size": 550
+    },
+    {
+      "path": "skills/infograph-master/engine/composition-patterns.css",
+      "sha": "d99113551831c678de0dcf673b20e91a6ad41085",
+      "size": 815
+    },
+    {
+      "path": "skills/infograph-master/engine/composition-patterns.json",
+      "sha": "af601feec55a069a3d10b7f5d2d03ac8b46f1d79",
+      "size": 3027
+    },
+    {
+      "path": "skills/infograph-master/engine/contrast-audit.json",
+      "sha": "4b017d96b0dcf2bd18e042257f737be6c5d98926",
+      "size": 2192
+    },
+    {
+      "path": "skills/infograph-master/engine/design-v2.example.json",
+      "sha": "54914b03db470536b2ba316d931c8ddb7babb686",
+      "size": 1208
+    },
+    {
+      "path": "skills/infograph-master/engine/design-v2.md",
+      "sha": "62bae94ec9efc45558814ed51d5fb44f54cb8e8e",
+      "size": 575
+    },
+    {
+      "path": "skills/infograph-master/engine/design-v2.mjs",
+      "sha": "c4740bf12d36fb4caf94c499d8004933776666fa",
+      "size": 3976
+    },
+    {
+      "path": "skills/infograph-master/engine/design.example.json",
+      "sha": "e1eed011f0ecf0b504bfa5e93a611bd8839fac85",
+      "size": 417
+    },
+    {
+      "path": "skills/infograph-master/engine/engine.py",
+      "sha": "47279d9553644f30a6e7272fd5ae99425068991f",
+      "size": 2123
+    },
+    {
+      "path": "skills/infograph-master/engine/gallery.html",
+      "sha": "3242d8029a5f646701aaea6052dffb31da2886ec",
+      "size": 11980
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/PROMOTION.md",
+      "sha": "d8f935f49f5e86758933d6a2eaed698c0aafc057",
+      "size": 961
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/architectural.html",
+      "sha": "792f6111ab8306a312f3758cc306f8a48d7494b6",
+      "size": 8447
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/cinematic.html",
+      "sha": "fc75d9f2acb35210f2d907a78f07a5c50730c0aa",
+      "size": 8649
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/consulting.html",
+      "sha": "21a72d8c1717c52b29be0cd05f6d84e2e3f11e0e",
+      "size": 8036
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/editorial.html",
+      "sha": "9b2e100a42e864804d7da9c9d6db26b746f08624",
+      "size": 8033
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/index.html",
+      "sha": "f67b1be334ff75c9b6d3e7a93d295badcd3445b4",
+      "size": 1534
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/industrial.html",
+      "sha": "3896594bb0e7857ba4eba548e2f68756bdd2e6ec",
+      "size": 8286
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/manifest.json",
+      "sha": "071cff0b2c7632141fc652486d231eca86d093b4",
+      "size": 2881
+    },
+    {
+      "path": "skills/infograph-master/engine/golden/scientific.html",
+      "sha": "f67d2858c4e0cea4513162d406265b1ada594ce6",
+      "size": 8493
+    },
+    {
+      "path": "skills/infograph-master/engine/hybrid.md",
+      "sha": "5bffca173dd65ccc8c49f4d381c176a57fed85fa",
+      "size": 636
+    },
+    {
+      "path": "skills/infograph-master/engine/hybrid.mjs",
+      "sha": "29906ca7d4203cc0184075ff62e9805457e91a25",
+      "size": 2515
+    },
+    {
+      "path": "skills/infograph-master/engine/integration-audit.md",
+      "sha": "92178ff808387a0066e47f33cfc4ff3b1b29b0c7",
+      "size": 1121
+    },
+    {
+      "path": "skills/infograph-master/engine/layouts.json",
+      "sha": "cc1ca69966bdd6591c021f9578516cc527e2b0b8",
+      "size": 1284
+    },
+    {
+      "path": "skills/infograph-master/engine/material-catalog.json",
+      "sha": "3ad74cd9ba9e7995f51cabac8e3b382841c03a8d",
+      "size": 3756
+    },
+    {
+      "path": "skills/infograph-master/engine/material-extended.css",
+      "sha": "19fed384c629e9fdabfa68509445d5d22ab1a611",
+      "size": 839
+    },
+    {
+      "path": "skills/infograph-master/engine/materials.css",
+      "sha": "c7695b028be6b29c7dfae92b0b23ea86aa448439",
+      "size": 975
+    },
+    {
+      "path": "skills/infograph-master/engine/motion-grammar.json",
+      "sha": "02ae23798ac2f980eed29202ffe916fa2a4459c8",
+      "size": 1818
+    },
+    {
+      "path": "skills/infograph-master/engine/motion.css",
+      "sha": "d0024a4f3f61c7cfa1085b0bd110fc53514a3d94",
+      "size": 364
+    },
+    {
+      "path": "skills/infograph-master/engine/render-cli.mjs",
+      "sha": "0d3eb7d40f471ee2f259794a09a40600b89bc4cf",
+      "size": 575
+    },
+    {
+      "path": "skills/infograph-master/engine/runtime-data.example.json",
+      "sha": "813f549df6bd4dfa9eeed94a10dfef0f546e23fd",
+      "size": 494
+    },
+    {
+      "path": "skills/infograph-master/engine/runtime-example.html",
+      "sha": "1a2a4b67c81808a7cdc3bc6fd923fff2ec30afe7",
+      "size": 2860
+    },
+    {
+      "path": "skills/infograph-master/engine/runtime.md",
+      "sha": "370ed1b9ce1ddabaa3665e152e42cdca757f85d6",
+      "size": 816
+    },
+    {
+      "path": "skills/infograph-master/engine/runtime.mjs",
+      "sha": "0d66e7f5be1db9d8b41fc117173996f8acaf8ed6",
+      "size": 3778
+    },
+    {
+      "path": "skills/infograph-master/engine/scene-controller.mjs",
+      "sha": "16089c8348abe65a1e4c853de11ee02e109eef45",
+      "size": 958
+    },
+    {
+      "path": "skills/infograph-master/engine/spatial-transforms.mjs",
+      "sha": "78ccc96e2daba641f93e7e4e16d8c6817b21697d",
+      "size": 667
+    },
+    {
+      "path": "skills/infograph-master/engine/specialist-engines.md",
+      "sha": "130922f057ec0271c8a0c706789930d345d55f68",
+      "size": 672
+    },
+    {
+      "path": "skills/infograph-master/engine/styles.json",
+      "sha": "17a2e247c8952ffc5dada96244827cf992ddbffa",
+      "size": 5714
+    },
+    {
+      "path": "skills/infograph-master/engine/test-design-v2.mjs",
+      "sha": "01be6e7ed24c8e6ce451b732b5da26cafa712b70",
+      "size": 1062
+    },
+    {
+      "path": "skills/infograph-master/engine/test-hybrid.mjs",
+      "sha": "be04cd6627bb3086dbaec096f9d9d19b3dfa0b15",
+      "size": 846
+    },
+    {
+      "path": "skills/infograph-master/engine/test-integration.mjs",
+      "sha": "911f08e6b3ad761fec18c3a2f8b6c431d14a940b",
+      "size": 902
+    },
+    {
+      "path": "skills/infograph-master/engine/test-transforms.mjs",
+      "sha": "6d4c60a24350c4d6fed5e49622cdeba77ce28357",
+      "size": 624
+    },
+    {
+      "path": "skills/infograph-master/engine/test_compiler.py",
+      "sha": "3ec139fb698e58a150f7cf1b37175e0ea2a2b93b",
+      "size": 537
+    },
+    {
+      "path": "skills/infograph-master/engine/test_engine.py",
+      "sha": "abfed61bd7db634861a2915b75d2bf0b35b8a665",
+      "size": 576
+    },
+    {
+      "path": "skills/infograph-master/engine/typography-composition.css",
+      "sha": "b3f67598e63bc9b8149c1843bc704e58c6a021dc",
+      "size": 1469
+    },
+    {
+      "path": "skills/infograph-master/engine/visual-check.js",
+      "sha": "37e9a7475f1c28db215f8b37215a25d310a37490",
+      "size": 1138
+    },
+    {
+      "path": "skills/infograph-master/references/acceptance.md",
+      "sha": "97a304ea66b15ce16686f9395ae151490e75935b",
+      "size": 843
+    },
+    {
+      "path": "skills/infograph-master/references/engineering-assets.md",
+      "sha": "7ad3407cb30f322cbb1420c375eac5992505abd8",
+      "size": 5095
+    },
+    {
+      "path": "skills/infograph-master/references/modes.md",
+      "sha": "134a885e2661a8ea102d6615606e42fbbdc7fb45",
+      "size": 12277
+    },
+    {
+      "path": "skills/infograph-master/references/router.md",
+      "sha": "40db9dafedc600b45e0e2df28c6ef5e9951578a8",
+      "size": 1874
+    },
+    {
+      "path": "skills/infograph-master/references/visual-design.md",
+      "sha": "76371da858ed8f089151eba77bf00c2752f09353",
+      "size": 4052
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/README.md",
+      "sha": "2cdb4ecd1a83e020865917186d6d777ec405ba89",
+      "size": 174
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/art-palettes.json",
+      "sha": "1cb9d1ffb44d8384d671bdb3a7ae0977ef15c886",
+      "size": 16829
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/attention-choreography.md",
+      "sha": "b15a213d4347c63aa54578ef464be4ed7e4e9cca",
+      "size": 783
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/attention-patterns.json",
+      "sha": "fd99d57f39bf02968897af8fddd92a59c65ff749",
+      "size": 1262
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/attention-plan.mjs",
+      "sha": "47f2ad8c7a3c044682014142fef8fc6a5f51895a",
+      "size": 1289
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/attention.example.json",
+      "sha": "20950c9a0f636dc97450a60f8851eb2d13369ec7",
+      "size": 520
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/business-enrichment.json",
+      "sha": "58d2d58531c42608a256693283903b0e7a41ce4c",
+      "size": 2710
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/business-intelligence.md",
+      "sha": "166272fd2a8a010e591ddcd6eaaf924c8e3974f2",
+      "size": 976
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/business-transforms.mjs",
+      "sha": "93e3f0d4acae4c15685d79eb9fafff3525564883",
+      "size": 1976
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/business.example.json",
+      "sha": "7923d22e39eab291761faa4d24fa37e9c0a0f9f7",
+      "size": 239
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/cinematic-grammar.json",
+      "sha": "8de45c3adff7913b0bf6c7324298b73d1f39e264",
+      "size": 337
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/cinematic-intelligence.md",
+      "sha": "43eedc952335a88f2b56745856433460cd8ced86",
+      "size": 583
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/cinematic-plan.mjs",
+      "sha": "0e89a016b85958c2419305db77f906997cf86e2a",
+      "size": 1655
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/cinematic.example.json",
+      "sha": "b959f534214100b475f4e3bd738feeb38cc6a8c1",
+      "size": 1020
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-art.md",
+      "sha": "04c7aa9876c674ccf943c45ee040db9d6091e1cc",
+      "size": 1083
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-art.mjs",
+      "sha": "8ba9443c188e6db93fc8d6fa30472984b2356f77",
+      "size": 2060
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-cases.json",
+      "sha": "137c61c0bffaaef1a72e6cf0bc760418d1e78581",
+      "size": 2454
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-cases.md",
+      "sha": "d5d24ab16663f102ab9d95e49f0a54af6d6b93d0",
+      "size": 474
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-cross-domain.json",
+      "sha": "5d6635e83dd17b1d71c9d61d71684688327f1c27",
+      "size": 3652
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-cross-domain.md",
+      "sha": "5253cfdac3e24bcf593008148fa80b84a23c3bc9",
+      "size": 761
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-decision.mjs",
+      "sha": "6e5b44c27426a8fe08a83795a0fa75bafa98ebda",
+      "size": 1477
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-foundations.md",
+      "sha": "8716ae172ef758c33889266f764d3f3a667a63dc",
+      "size": 969
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-studio.html",
+      "sha": "c6c1081cce78e7f241e32490ad12429e1baecf26",
+      "size": 9070
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color-studio.md",
+      "sha": "b4b667e3ac60d56c481bdfddd0c5eba6fd554045",
+      "size": 771
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/color.mjs",
+      "sha": "870176ded8e99232f519c9b6d3178def863107f9",
+      "size": 1962
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-archetypes.json",
+      "sha": "8e9e355942c6186da1d5785f821950a36b8757b8",
+      "size": 8972
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-archetypes.md",
+      "sha": "67fe98ce4f506057b9cee3d58e8487477203072b",
+      "size": 635
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-archetypes.mjs",
+      "sha": "f9977163007d92d3998edb67b8a0944cc2880271",
+      "size": 495
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-audit.mjs",
+      "sha": "be0eabf342dc06a42c5d870d80f19d2127218a3f",
+      "size": 1328
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-cases.json",
+      "sha": "f8bac74ed1314060455536e1652849c31d2efc87",
+      "size": 3168
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-cases.md",
+      "sha": "5ec4a84cf74343fa44c0dc6078d4d96e9e00ec62",
+      "size": 2651
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-fundamentals.json",
+      "sha": "6eda8ddb357e1c19cdcbbece4defcf8a54b12067",
+      "size": 1352
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-fundamentals.md",
+      "sha": "950cdd5dd294e8c25e2cd2e7ff83a87307b9e99e",
+      "size": 953
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-studio.html",
+      "sha": "f82ce298dffbcacf5fc2b997703e508aabf6e690",
+      "size": 6220
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/composition-studio.md",
+      "sha": "af4050f53db82ebe5f0a3d9a1b40927d9e85ea12",
+      "size": 703
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/concept-enrichment.json",
+      "sha": "a9b3bb7efafa9bc3a65cebc89a143d4237b43630",
+      "size": 2377
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/concept-intelligence.md",
+      "sha": "c0b8ac235f1e0b28edda5fa8af3d305ba982a81d",
+      "size": 845
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/concept-transforms.mjs",
+      "sha": "6ffe728b5902d7bb9d893120645ce402ca42df38",
+      "size": 2485
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/concept.example.json",
+      "sha": "87a6a0d6074e95b1e8b7ed8641802f9b75d0e24a",
+      "size": 279
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/cvd-preview.json",
+      "sha": "18286411466998fac6748c3c2ab33ff6b4692ba8",
+      "size": 434
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/disclosure-patterns.json",
+      "sha": "fc229532e9da3b2c5a22d36c261652bdaca4a72c",
+      "size": 522
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/disclosure-plan.mjs",
+      "sha": "9b5ac39a6644446a41bf41be19ada5fcd2ce2af5",
+      "size": 2236
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/disclosure.example.json",
+      "sha": "c745a40f8cd17180025c90c9b1bf388fe7609314",
+      "size": 2291
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/engineering-enrichment.json",
+      "sha": "e474dd5a4ffe84fc93033d3b0f7b4b648b41eae8",
+      "size": 1935
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/engineering-intelligence.md",
+      "sha": "33d1b74cc18e17bf5f1bcf968f842de62af5fc65",
+      "size": 549
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/engineering-transforms.mjs",
+      "sha": "516f07eba030a084e6086ded010d438d09667a2c",
+      "size": 1602
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/engineering.example.json",
+      "sha": "9fb72064622ffab1fe738555f1145b0c8279c0d2",
+      "size": 373
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/exploratory-analysis.mjs",
+      "sha": "0ea72f0e1e3e4b1323147e5c3314916bcda4afea",
+      "size": 1416
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/exploratory-intelligence.md",
+      "sha": "03ab41f9a4d1286e0f47e1eb6d3a2fdb687121c0",
+      "size": 861
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/exploratory.example.json",
+      "sha": "bcda7e4dfeb2c9dd8f03a9d8fa8565e624bc9bfd",
+      "size": 1665
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/geospatial-enrichment.json",
+      "sha": "6bc5075d17a80254e0036a61aaa71127653b777c",
+      "size": 2196
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/geospatial-intelligence.md",
+      "sha": "059fa162b8c6ea6e971c5b2bb2c9f593ef0fb174",
+      "size": 879
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/geospatial-transforms.mjs",
+      "sha": "ef9e55eec50afe4d0a7da0396b038da3b8002089",
+      "size": 1169
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/industrial-materials.json",
+      "sha": "b7f814965b215865d250458b3d047a590b19d9aa",
+      "size": 1193
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/industrial-materials.md",
+      "sha": "dd58a4bc1acfc148e02811b858fe331c076dd7bc",
+      "size": 783
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/industrial-plan.example.json",
+      "sha": "0ea59c3cc6255b35d46c6ea8d56dde11a42361c6",
+      "size": 837
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/industrial-plan.mjs",
+      "sha": "54a8a2e7b9958817d82eb7cfcaea31be697ca498",
+      "size": 1479
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/information-composition.example.json",
+      "sha": "d4f16555dc72daecdb7b3ab300941c2cdbf24275",
+      "size": 507
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/information-composition.md",
+      "sha": "2ff294449502a6d6d33782e9870e0cf4b705e98f",
+      "size": 770
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/information-composition.mjs",
+      "sha": "b65aae054a8f2b89b48bc840d625adafee6bb186",
+      "size": 2063
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/interaction-grammar.json",
+      "sha": "15c29eb388cbe09873d80526a6a3f97770fa2493",
+      "size": 673
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/interaction-grammar.md",
+      "sha": "105c86a63015cc07fa7270e1262a6ecb9311d65d",
+      "size": 804
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/interaction-state.mjs",
+      "sha": "74035d4614732d75b0428084e532c4426a5cdb7a",
+      "size": 2723
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/interaction.example.json",
+      "sha": "d238346a5f559335199b8dd0a18db646763e6e71",
+      "size": 317
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/lighting-depth.md",
+      "sha": "a9c240943ae6ca1543432bcdd8903c583142dca4",
+      "size": 783
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/lighting-output.example.json",
+      "sha": "db83bb04de145608261fc4155868517747c1744e",
+      "size": 4058
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/lighting-plan.mjs",
+      "sha": "03c0a3571fb8611ad0e6dae90c8fb33431c7d36c",
+      "size": 1148
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/lighting-presets.json",
+      "sha": "bb8aede93b95eec8a03225b76e3d77d9254e7117",
+      "size": 524
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-atlas.json",
+      "sha": "c7608317ed5a9e9506b1a56fdf3b8875dbcf1b6b",
+      "size": 5288
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-atlas.md",
+      "sha": "858634dc61eb236359aea3d84859e17c9097fd7a",
+      "size": 675
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-cases.json",
+      "sha": "7a1579b3bb9fb02b0dc945d587cacf105fe4c389",
+      "size": 1559
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-composition.example.json",
+      "sha": "703d28f34968d2e83e5e17d2986e7e0b1750ded4",
+      "size": 627
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-composition.md",
+      "sha": "2c50e7ed6d776cf7f2cb2c50258c492f3f5153cc",
+      "size": 770
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-composition.mjs",
+      "sha": "ec780ce93c738932a17bc552bb6e251a871056d4",
+      "size": 1346
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-cues.json",
+      "sha": "57a3d85a1d432cc4151812a0a778b1f7fb79709b",
+      "size": 1365
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-descriptor.example.json",
+      "sha": "c58fc025275cdc3c7335f411d50e50a4a599e6f6",
+      "size": 250
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-descriptor.mjs",
+      "sha": "79a23c7b732a3d14e09c2536d7a815d39277efc3",
+      "size": 1320
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-foundations.md",
+      "sha": "bbcbdb8910e041209da6d9d68856c98368cf62ae",
+      "size": 916
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-profile.mjs",
+      "sha": "ea0bd2d34609792bf19bb65943c91d1986442458",
+      "size": 758
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-profiles.example.json",
+      "sha": "d5aafc7294a48a4c67f0527406b511bd3ea50c55",
+      "size": 432
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-renderer.example.json",
+      "sha": "5740b5e63bf1ab16984d44182db602222b8da1e6",
+      "size": 76518
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-renderer.md",
+      "sha": "08594586932d6a87933cfd4fa859a78bca8c596c",
+      "size": 515
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-renderer.mjs",
+      "sha": "c260e1140b980603eea0ae12d84fe0553f925748",
+      "size": 2037
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-samples/glass.svg",
+      "sha": "ce203fd572a930ba7964af168e73357a963e6ab6",
+      "size": 12758
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-samples/matte.svg",
+      "sha": "9809f922dccd695b1838142e65a80f5d03372b93",
+      "size": 12758
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-samples/metal.svg",
+      "sha": "8acaba04761441c8eac1155772dd5a1b57f8910d",
+      "size": 14918
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-samples/paper.svg",
+      "sha": "c20f15af1dc91f7681a088db14c05d0e58e8ee77",
+      "size": 12758
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-samples/stone.svg",
+      "sha": "f16e69f5905b89c73f7d4e9c07d85ad96bf78245",
+      "size": 12758
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-studio.html",
+      "sha": "0ffd4512566f0f329d4b45be37bec2d621cffdc0",
+      "size": 12335
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/material-studio.md",
+      "sha": "5aaa99969fc6669b9ada00e3e6da2009e4387839",
+      "size": 520
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-cases.json",
+      "sha": "7ea29e8a2ee012bc97be5d8327a29687f4c11ec2",
+      "size": 1860
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-cases.md",
+      "sha": "eb53755225df84542b22e14dd637c1328eabbdf0",
+      "size": 1530
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-engine.example.json",
+      "sha": "0143a21749f7caf87690d4ea4ffd2d1f3df3d2ec",
+      "size": 1337
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-engine.md",
+      "sha": "a15594c7dd467733cfcc2860f38a7c234afc0aeb",
+      "size": 746
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-engine.mjs",
+      "sha": "9683b5d6d27ce229781e9a6b0bff19aacb6fbbda",
+      "size": 2160
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-foundations.md",
+      "sha": "7ec307201a888b921a5cdebd010487adedf61b91",
+      "size": 794
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-materials.json",
+      "sha": "767c587668b4dcea8d907c3329c7b63fc696fed6",
+      "size": 599
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-plan.example.json",
+      "sha": "6b35dd23d8629d41f63b8aba4b9ec3597dc59e8c",
+      "size": 449
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-plan.mjs",
+      "sha": "6370633606224b339c50c34032d324a96ae1ca8d",
+      "size": 1409
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-roles.json",
+      "sha": "731c1bb8070fa5449f1c9cacbdcf6a5aa4b949a2",
+      "size": 959
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-selection.mjs",
+      "sha": "9a6987a7bed2e47f3dd1e5b0d1dc3e3fda194beb",
+      "size": 889
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-studio.html",
+      "sha": "d0eb5fbe446ff4df4c68c2add1cba6a7ff5cd7f5",
+      "size": 16769
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/motion-studio.md",
+      "sha": "18a3fdee245c45b1a4a16df06f5be228ab48311a",
+      "size": 590
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/multilingual.css",
+      "sha": "1f0589bedd0693299e4216b0c581d00d343a09a3",
+      "size": 386
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/multilingual.md",
+      "sha": "25c7148bdb1a6c180dc1bf54ab93dbc709f4557e",
+      "size": 1029
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/multilingual.mjs",
+      "sha": "869dffd022c25ef7deea2c7667b4bba28f29d5a0",
+      "size": 1975
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/network-enrichment.json",
+      "sha": "10e30408572ff1786d47d0c3c9f22bfa18b87e92",
+      "size": 1992
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/network-intelligence.md",
+      "sha": "442c6c55450e562a8ed6f11bf3e72729a59a7393",
+      "size": 817
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/network-transforms.mjs",
+      "sha": "02493a2b3c09ade99a21aa3ab40d3f4c1a67f2fe",
+      "size": 2517
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/network.example.json",
+      "sha": "a31afe45a853dd96869c5deb617e66f455be6b8f",
+      "size": 533
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/numeric-typography.css",
+      "sha": "0347b066428aa6ad48bc085c9097d53118771a74",
+      "size": 696
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/numeric-typography.md",
+      "sha": "5983e740659398ab312b3406d1aa47103d39dd7a",
+      "size": 1302
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/numeric-typography.mjs",
+      "sha": "aaa210bd523ddd21da5cb4f776f6e295c2cadccf",
+      "size": 2231
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/palettes.json",
+      "sha": "d87fd835863cc85668a6e3c0c0545ca4bbbe779a",
+      "size": 13753
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/paper-atlas.json",
+      "sha": "4717aeca0c3c3831f09eb43dcfb135885760c7f8",
+      "size": 1029
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/paper-print.md",
+      "sha": "5c10a4cace5b7a616830df6de381e0b7ee45ea6b",
+      "size": 702
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/parametric-composition.example.json",
+      "sha": "895614d3f901059cb6332aaaf2e5d565d33a9b8a",
+      "size": 537
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/parametric-composition.md",
+      "sha": "b379d779a83a369525097edb08718969fc63d9fa",
+      "size": 727
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/parametric-composition.mjs",
+      "sha": "eea0ffd136a83f3d0bd16b2ce5bc5d432fa85cbd",
+      "size": 1792
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/parametric-composition.output.json",
+      "sha": "3f078d4448d064a5af0e26a4da2361bf713c6b15",
+      "size": 1910
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/print-plan.example.json",
+      "sha": "5a0d6fd40fa9143a1525f10f99f50067b6deb311",
+      "size": 725
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/print-plan.mjs",
+      "sha": "eb2bfccf4c477e45bada4e5e6e6e6609cffd6f82",
+      "size": 1142
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/progressive-disclosure.md",
+      "sha": "6aa4d624304baecfb644e3c7150624cabc4ecdb8",
+      "size": 730
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-audit.json",
+      "sha": "fa743bb5139d1252d557fdcc0d53c349435d746a",
+      "size": 926
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-foundations.md",
+      "sha": "4cfdfba3fe83755b8f0e31f658bd30aaa20fccec",
+      "size": 848
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-index.json",
+      "sha": "0d27e0a77c398d4e841561010395ae8c5f6a0b7d",
+      "size": 117119
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-ontology.json",
+      "sha": "c7766c74b511fa656bd5575c16148fafe3f96d73",
+      "size": 310068
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-ontology.md",
+      "sha": "c8187a6280475efe71c9aacac2e975ecc6f40357",
+      "size": 459
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-ontology.schema.json",
+      "sha": "cc83c02952279ec898e449897fa374ab5dc3fd2d",
+      "size": 1061
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-rules.json",
+      "sha": "360adf91b929ce3ab603008a62ad6a6b266caeb0",
+      "size": 3791
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-selection.mjs",
+      "sha": "fb7c8e3fd4278797b372ebb3e3e832f52e3ffb7e",
+      "size": 561
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-selector.example.json",
+      "sha": "b86925cf8e3f6faf3590ff659cb913d4ccc9d2d0",
+      "size": 112
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-selector.md",
+      "sha": "1603179c723f3809ba767741eaa1bd203e4e91c2",
+      "size": 644
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-selector.mjs",
+      "sha": "2fddac70ee11f0dd54c1eeafcaa10ad86ac14de6",
+      "size": 1318
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-studio-core.mjs",
+      "sha": "24b1577965741ffe84ff08a70c629f73b213ba99",
+      "size": 483
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-studio.html",
+      "sha": "0bf6f9d9cc9c08211da3de83c00d9c84be477ece",
+      "size": 5768
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/representation-studio.md",
+      "sha": "135db711496fbcc7c1c64df4033c21d42841e7bf",
+      "size": 707
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/rhythm-presets.json",
+      "sha": "919fad7ede21d343f7bcbd5f4a4fefcb34195bf1",
+      "size": 932
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/scientific-enrichment.json",
+      "sha": "43aa246319c34890b3b3e2a8d2ae95622b9d4e11",
+      "size": 2603
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/scientific-intelligence.md",
+      "sha": "88c5d01a308fc9a24b8916c6069f46667e1dfa0c",
+      "size": 893
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/scientific-transforms.mjs",
+      "sha": "a82d61fc758cdff824cc9d4df01d2599824d5fb3",
+      "size": 1751
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/scientific.example.json",
+      "sha": "bfc8f133173d60f6000145fe1fa2e5ebab350ed0",
+      "size": 402
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/semantic-color.md",
+      "sha": "248c2e338cd6249b1c3707b9b247376aee82b69d",
+      "size": 875
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/semantic-color.mjs",
+      "sha": "a5ff3fe2f38dc6de835d8e283f05c04235933423",
+      "size": 3073
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/semantic-palettes.json",
+      "sha": "753ec96726f30c440f439d3301be6a62defb4f5a",
+      "size": 9868
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/spatial-grammar.json",
+      "sha": "ef3be9a9b48db00ea262f147dc4a87de0392d8fd",
+      "size": 2164
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/spatial-grammar.md",
+      "sha": "12ef03ab777101708555f9fb05d513192afbb704",
+      "size": 688
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/spatial-grammar.mjs",
+      "sha": "f4682a0b1924bd396ce538f5c33dbf8765b9e6b5",
+      "size": 1377
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/spatial-motion-lab.html",
+      "sha": "8d4a3bdb0cefb74a564a910e0e0e553a572297fa",
+      "size": 3821
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/spatial-motion.md",
+      "sha": "518ed470233c955814362cd57dbc105380261e50",
+      "size": 471
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/spatial-motion.mjs",
+      "sha": "847cdcc820a1858d411fdf9181437c9329f7fbff",
+      "size": 1125
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/specialist-adapter.example.json",
+      "sha": "48e19c12d00636bd4a2ff524ce5443dd1f8cf99d",
+      "size": 206
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/specialist-adapter.md",
+      "sha": "3ff3506b3976d45ea53be6ef95d1419ab83d88fe",
+      "size": 765
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/specialist-adapter.mjs",
+      "sha": "42672acd72407f354a2847e620a6e3dfb069e740",
+      "size": 3988
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/statistical-enrichment.json",
+      "sha": "44f7a2550c01f21dd40c115f239ad2e64f5b71d9",
+      "size": 3781
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/statistical-intelligence.md",
+      "sha": "0f4b6210d2793fe085579674028b584f2dd6be9c",
+      "size": 595
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/statistical-transforms.mjs",
+      "sha": "55a6a3d6e050f4f17ee76b4061b02ccf0d831aaf",
+      "size": 1361
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/temporal-engine.mjs",
+      "sha": "84b2be1b1605ac1a8450ac10c25b552bc7d09b07",
+      "size": 1685
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/temporal-intelligence.md",
+      "sha": "1b43b3ceeba344f9ddd35bb54ea1c71394229f4f",
+      "size": 712
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/temporal.example.json",
+      "sha": "dad2692de154867ff1577c56361ba31b72cf0c68",
+      "size": 1067
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/test-business.mjs",
+      "sha": "ea259457f3889b8a6d4d8285983a91bb8d719654",
+      "size": 1027
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/test-concept.mjs",
+      "sha": "1811ebaeda6bb2cb2df51b29bfece103fa7543ac",
+      "size": 1330
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/test-information-composition.mjs",
+      "sha": "b74f0edebb9c4895523a1e0423278498da5df56a",
+      "size": 1227
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/test-scientific.mjs",
+      "sha": "8f66546f79f327cf63bb18dcad378dbb1d94da7f",
+      "size": 914
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/test-specialist-adapter.mjs",
+      "sha": "e03af0cdaa3c4f5688cff726a16179ca7c25500a",
+      "size": 1304
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/type-image-gallery.html",
+      "sha": "cb08df80ac57c2bea0eff15d8c648c9d442ec6b0",
+      "size": 3973
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/type-image-patterns.json",
+      "sha": "dc3963e8b0ac1fa69b52bbd90f8f7707575eb62d",
+      "size": 1569
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/type-image.md",
+      "sha": "cfcb6e78cb779157426696be06a0bddd341012de",
+      "size": 705
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/type-image.mjs",
+      "sha": "3897023ee9ed7de12fb7495a8e75d535d6d48a3c",
+      "size": 857
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typeface-pairing.md",
+      "sha": "765dd722a70af1e3bc056f4deb0a8296a8aa61c7",
+      "size": 932
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typeface-pairing.mjs",
+      "sha": "47c5de37d68002f87795c6c6db42094eb955f444",
+      "size": 1029
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typeface-pairs.json",
+      "sha": "02ec096846ce72b031dd8544b74d56861dd86cc4",
+      "size": 2192
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typographic-rhythm.md",
+      "sha": "f2efcef7f17e691ad5198b0c97db0aa5d77e1d30",
+      "size": 1117
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typographic-rhythm.mjs",
+      "sha": "bac8a2db97c5c44f8539a94fffc7dfcb0c0cd989",
+      "size": 1653
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography-cases.json",
+      "sha": "0255d1a171028cfc26f0a9d97ff8604396e94adb",
+      "size": 4756
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography-cases.md",
+      "sha": "980c24cfd12d0a8d9d8cc6abbf6f2fd23dfb1a9d",
+      "size": 530
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography-foundations.md",
+      "sha": "c82f004a3b2b41567a25d81bd3a32f624558a4b1",
+      "size": 1814
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography-presets.json",
+      "sha": "f52ae4fd09c6a8485ca182ca1c6d1c1eb448014a",
+      "size": 4120
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography-studio.html",
+      "sha": "07e5d8269160e7ef7a89f56fb52269f8427dd9ec",
+      "size": 21274
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography-studio.md",
+      "sha": "52018f1ea59ba25d12d4fa3b09c6e39de562ec31",
+      "size": 536
+    },
+    {
+      "path": "skills/infograph-master/visual-intelligence/typography.mjs",
+      "sha": "1ac3ae11e1abe84d702024df0e303ccbb5c69527",
+      "size": 2567
+    },
+    {
+      "path": "skills/narrative-design/README.md",
+      "sha": "1cfdf42da6759d82da8e156b303f89192d6fcb3a",
+      "size": 313
+    },
+    {
+      "path": "skills/narrative-design/SKILL.md",
+      "sha": "71bacc08c179e65080094f960f96a274d5c09058",
+      "size": 2953
+    },
+    {
+      "path": "skills/narrative-design/references/atlas.md",
+      "sha": "ffd7acf28874a7d6c2c83bbdeef09366f6186bd6",
+      "size": 1187
+    },
+    {
+      "path": "skills/narrative-design/references/patterns.md",
+      "sha": "691b1bad0d8454b293700693531e9938214bd553",
+      "size": 2094
+    },
+    {
+      "path": "skills/narrative-design/templates/storyboard.json",
+      "sha": "db68db1d870307fc1c5c91202f510db7c6a15e45",
+      "size": 858
+    },
+    {
+      "path": "skills/narrative-design/templates/storyboard.schema.json",
+      "sha": "b6a6b39d2ffc73fba0e5252b12f206e566d8e91e",
+      "size": 2030
+    },
+    {
+      "path": "skills/narrative-design/tests/protocol.md",
+      "sha": "bf752d36802422b4e74b6e18548ab93f5a5263e9",
+      "size": 916
+    },
+    {
+      "path": "tests/golden-six.browser.mjs",
+      "sha": "132ffcaa2f83330fdc473eb24d3f9b1937360aeb",
+      "size": 3704
+    },
+    {
+      "path": "tests/golden-six.test.mjs",
+      "sha": "5f0adb1342385a61255e77f83f9bba9ee89500c8",
+      "size": 3125
+    }
+  ]
+}

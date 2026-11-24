@@ -77,3 +77,5 @@ Temporal intelligence: visual-intelligence/temporal-engine.mjs, motion-materials
 Cinematic intelligence: visual-intelligence/cinematic-plan.mjs and cinematic-grammar.json validate semantic shot sequences and shared anchors; no camera runtime.
 
 Spatial motion: visual-intelligence/spatial-motion.mjs and spatial-motion-lab.html implement basic FLIP and shared identity matching; browser verification pending.
+
+Progressive disclosure: visual-intelligence/disclosure-plan.mjs and progressive-disclosure.md validate declared information prerequisites, essential visibility and reachability; no runtime yet.

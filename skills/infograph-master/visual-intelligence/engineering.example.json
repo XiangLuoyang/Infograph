@@ -1,0 +1,33 @@
+{
+  "parts": [
+    {
+      "id": "a",
+      "parent": null,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "offset": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "b",
+      "parent": "a",
+      "origin": [
+        0,
+        0,
+        2
+      ],
+      "offset": [
+        0,
+        0,
+        8
+      ]
+    }
+  ],
+  "factor": 0.5
+}

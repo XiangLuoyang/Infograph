@@ -1,0 +1,56 @@
+[
+  {
+    "id": "C01",
+    "name": "Semantic role invariance",
+    "source": "https://developer.apple.com/design/human-interface-guidelines/color",
+    "kind": "official guidance",
+    "observed": "Dynamic colors retain semantic purposes across appearances.",
+    "rule": "Map roles to theme-specific tokens; do not bind component meaning to hex.",
+    "limit": "Verify contrast per theme and material."
+  },
+  {
+    "id": "C02",
+    "name": "Adjacency-aware palette",
+    "source": "https://www.carbondesignsystem.com/building-blocks/data-visualization/color-palettes",
+    "kind": "official guidance",
+    "observed": "Curated categorical sequence prioritizes neighboring differentiation.",
+    "rule": "Audit adjacency edges as well as global pairs.",
+    "limit": "Actual adjacency optimization not implemented."
+  },
+  {
+    "id": "C03",
+    "name": "Reserved signal",
+    "source": "https://design-system.service.gov.uk/styles/colour/",
+    "kind": "official guidance",
+    "observed": "Functional colors have context-specific roles including focus.",
+    "rule": "Reserve focus and error signals for their intended roles.",
+    "limit": "Require text or shape redundancy."
+  },
+  {
+    "id": "C04",
+    "name": "Perceptual fidelity",
+    "source": "https://doi.org/10.1038/s41467-020-19160-7",
+    "kind": "research paper",
+    "observed": "Uneven gradients can distort quantitative perception; color bars matter.",
+    "rule": "Prefer established scientific ramps; preserve domain and legend.",
+    "limit": "Generated ramps lack perceptual validation."
+  },
+  {
+    "id": "C05",
+    "name": "Editorial accent discipline",
+    "source": "https://www.ft.com/content/bb9bf7c6-1785-4383-9e39-03da04a17fe2",
+    "kind": "editorial design experiment; search summary",
+    "observed": "Proposed research note uses neutral reading surface and pink accent.",
+    "rule": "Separate editorial identity from quantitative encodings.",
+    "limit": "One proposed note, not universal FT policy; full article not inspected."
+  },
+  {
+    "id": "C06",
+    "name": "Explicit scale contract",
+    "source": "https://observablehq.com/@observablehq/plot-cheatsheets-colors",
+    "kind": "interactive documentation",
+    "observed": "Scale type, domain, pivot and scheme independently configurable.",
+    "rule": "Declare field, scale type, domain, pivot, legend and missing policy before colors.",
+    "limit": "No interactive source execution in this review."
+  }
+]

@@ -1,0 +1,7 @@
+export function materialComposition({surfaces,relations=[]}={}){
+const roles=['foundation','primary','secondary','accent','mediator'];if(!Array.isArray(surfaces)||!surfaces.length||!Array.isArray(relations))throw Error('invalid plan');
+const ids=new Set();for(const s of surfaces){if(typeof s.id!=='string'||!s.id.trim()||ids.has(s.id)||!roles.includes(s.role)||typeof s.material!=='string'||!s.material.trim()||typeof s.essential!=='boolean'||typeof s.translucent!=='boolean'||!Number.isFinite(s.area)||s.area<0||s.area>1)throw Error('invalid surface');ids.add(s.id);if(s.essential&&s.translucent&&s.opaqueFallback!==true)throw Error('essential translucent surface requires opaque fallback');}
+if(surfaces.filter(s=>s.role==='foundation').length!==1||!surfaces.some(s=>s.role==='primary'))throw Error('foundation and primary required');
+for(const r of relations)if(!ids.has(r.from)||!ids.has(r.to)||r.from===r.to||!['adjacent','overlay','transition'].includes(r.type))throw Error('invalid relation');
+const warnings=[];if(new Set(surfaces.map(s=>s.material)).size>4)warnings.push('review material proliferation');if(surfaces.filter(s=>s.role==='accent').reduce((a,s)=>a+s.area,0)>.1)warnings.push('review accent area');return {surfaces,relations,warnings,scope:'declared role and area heuristic; no geometry, contrast or physical validation'};
+}

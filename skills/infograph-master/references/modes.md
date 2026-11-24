@@ -33,3 +33,5 @@ For financial tables and KPI typography consult visual-intelligence/numeric-typo
 For text spacing and reading rhythm consult visual-intelligence/typographic-rhythm.md and typographic-rhythm.mjs. Use semantic gaps, candidate grid and reading measure; verify actual baselines, zoom and wrapping.
 
 For typographic art direction consult visual-intelligence/typography-cases.json and typography-cases.md; choose transferable mechanisms rather than copying artwork. Cases are provisional research patterns.
+
+For expressive typography consult visual-intelligence/type-image.md, type-image-patterns.json and type-image-gallery.html; preserve plain essential text and explicit quantitative scales.

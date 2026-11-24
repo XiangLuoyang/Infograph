@@ -1,0 +1,36 @@
+{
+  "surfaces": [
+    {
+      "id": "base",
+      "role": "foundation",
+      "material": "paper",
+      "area": 1,
+      "essential": false,
+      "translucent": false
+    },
+    {
+      "id": "data",
+      "role": "primary",
+      "material": "matte",
+      "area": 0.6,
+      "essential": true,
+      "translucent": false
+    },
+    {
+      "id": "detail",
+      "role": "secondary",
+      "material": "glass",
+      "area": 0.1,
+      "essential": true,
+      "translucent": true,
+      "opaqueFallback": true
+    }
+  ],
+  "relations": [
+    {
+      "from": "detail",
+      "to": "data",
+      "type": "overlay"
+    }
+  ]
+}

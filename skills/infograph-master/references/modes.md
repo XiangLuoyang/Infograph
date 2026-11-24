@@ -87,3 +87,5 @@ Exploratory analysis: visual-intelligence/exploratory-analysis.mjs provides shar
 Motion case studies: visual-intelligence/motion-cases.md and motion-selection.mjs provide source-backed candidate patterns and advisory selection gates.
 
 Motion engine: visual-intelligence/motion-engine.mjs integrates five modules for flat market projections, disclosure, scenario and revision-tagged geometry; DOM runtime pending.
+
+Motion Studio: visual-intelligence/motion-studio.html bundles the integrated engine for a synthetic market interaction demo; browser QA pending.

@@ -1,0 +1,6 @@
+function sample(xs){if(!Array.isArray(xs)||!xs.length||!xs.every(Number.isFinite))throw Error('finite nonempty sample required');return [...xs].sort((a,b)=>a-b)}
+export function histogram(xs,edges){const a=sample(xs);if(!Array.isArray(edges)||edges.length<2||!edges.every(Number.isFinite)||edges.some((x,i)=>i&&x<=edges[i-1])||a[0]<edges[0]||a.at(-1)>edges.at(-1))throw Error('invalid coverage or edges');return edges.slice(0,-1).map((lo,i)=>{const hi=edges[i+1],count=a.filter(x=>x>=lo&&(x<hi||i===edges.length-2&&x===hi)).length;return {lo,hi,count,density:count/a.length/(hi-lo)}})}
+export function ecdf(xs){const a=sample(xs);return [...new Set(a)].map(x=>({x,p:a.filter(y=>y<=x).length/a.length}))}
+export function quantile(xs,p){const a=sample(xs);if(!Number.isFinite(p)||p<0||p>1)throw Error('invalid probability');const i=(a.length-1)*p,k=Math.floor(i);return a[k]+(a[Math.min(k+1,a.length-1)]-a[k])*(i-k)}
+export function normalizeParts(xs){const a=sample(xs);if(a[0]<0)throw Error('negative parts');const total=xs.reduce((s,x)=>s+x,0);if(!Number.isFinite(total)||total<=0)throw Error('invalid total');return xs.map(x=>x/total)}
+export function interval({lower,upper,estimate,kind}){if(![lower,upper,estimate].every(Number.isFinite)||lower>upper||typeof kind!=='string'||!kind.trim())throw Error('invalid interval');return {lower,upper,estimate,kind}}

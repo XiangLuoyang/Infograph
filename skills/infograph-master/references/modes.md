@@ -75,3 +75,5 @@ Motion foundations: visual-intelligence/motion-foundations.md, motion-roles.json
 Temporal intelligence: visual-intelligence/temporal-engine.mjs, motion-materials.json and temporal-intelligence.md provide easing evaluation and dependency scheduling; no playback or physical spring solver.
 
 Cinematic intelligence: visual-intelligence/cinematic-plan.mjs and cinematic-grammar.json validate semantic shot sequences and shared anchors; no camera runtime.
+
+Spatial motion: visual-intelligence/spatial-motion.mjs and spatial-motion-lab.html implement basic FLIP and shared identity matching; browser verification pending.

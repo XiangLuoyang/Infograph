@@ -1,0 +1,214 @@
+[
+  {
+    "task": "ranking",
+    "types": [
+      "bar",
+      "dot"
+    ],
+    "requires": [
+      "numeric",
+      "category"
+    ]
+  },
+  {
+    "task": "deviation",
+    "types": [
+      "bullet",
+      "diverging-bar"
+    ],
+    "requires": [
+      "actual",
+      "target"
+    ]
+  },
+  {
+    "task": "trend",
+    "types": [
+      "line",
+      "small-multiples"
+    ],
+    "requires": [
+      "time",
+      "numeric"
+    ]
+  },
+  {
+    "task": "composition",
+    "types": [
+      "stacked-bar",
+      "treemap"
+    ],
+    "requires": [
+      "part",
+      "whole"
+    ]
+  },
+  {
+    "task": "distribution",
+    "types": [
+      "histogram",
+      "box",
+      "ecdf"
+    ],
+    "requires": [
+      "observations"
+    ]
+  },
+  {
+    "task": "relationship",
+    "types": [
+      "scatter"
+    ],
+    "requires": [
+      "x",
+      "y"
+    ]
+  },
+  {
+    "task": "contribution",
+    "types": [
+      "waterfall"
+    ],
+    "requires": [
+      "additive"
+    ]
+  },
+  {
+    "task": "flow",
+    "types": [
+      "sankey",
+      "alluvial"
+    ],
+    "requires": [
+      "source",
+      "target",
+      "weight"
+    ]
+  },
+  {
+    "task": "geography-rate",
+    "types": [
+      "choropleth"
+    ],
+    "requires": [
+      "geometry",
+      "rate"
+    ]
+  },
+  {
+    "task": "geography-total",
+    "types": [
+      "proportional-symbol"
+    ],
+    "requires": [
+      "coordinates",
+      "total"
+    ]
+  },
+  {
+    "task": "lookup",
+    "types": [
+      "table"
+    ],
+    "requires": [
+      "records"
+    ]
+  },
+  {
+    "task": "network",
+    "types": [
+      "node-link",
+      "adjacency-matrix"
+    ],
+    "requires": [
+      "nodes",
+      "edges"
+    ]
+  },
+  {
+    "task": "process",
+    "types": [
+      "flowchart",
+      "swimlane"
+    ],
+    "requires": [
+      "nodes",
+      "edges"
+    ]
+  },
+  {
+    "task": "assembly",
+    "types": [
+      "exploded-view",
+      "cutaway"
+    ],
+    "requires": [
+      "parts",
+      "geometry"
+    ]
+  },
+  {
+    "task": "uncertainty",
+    "types": [
+      "interval",
+      "fan-chart"
+    ],
+    "requires": [
+      "estimate",
+      "bounds"
+    ]
+  },
+  {
+    "task": "schedule",
+    "types": [
+      "gantt",
+      "timetable"
+    ],
+    "requires": [
+      "start",
+      "end"
+    ]
+  },
+  {
+    "task": "hierarchy",
+    "types": [
+      "tree",
+      "treemap"
+    ],
+    "requires": [
+      "parent",
+      "child"
+    ]
+  },
+  {
+    "task": "correlation-matrix",
+    "types": [
+      "heatmap"
+    ],
+    "requires": [
+      "matrix"
+    ]
+  },
+  {
+    "task": "change-pairs",
+    "types": [
+      "slopegraph",
+      "dumbbell"
+    ],
+    "requires": [
+      "before",
+      "after"
+    ]
+  },
+  {
+    "task": "scenario",
+    "types": [
+      "small-multiples",
+      "interactive-model"
+    ],
+    "requires": [
+      "assumptions",
+      "outputs"
+    ]
+  }
+]

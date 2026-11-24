@@ -1,0 +1,26 @@
+{
+  "input": {
+    "paper": "cotton",
+    "process": "letterpress",
+    "finish": "deboss",
+    "grainScale": 1
+  },
+  "output": {
+    "paper": "cotton",
+    "process": "letterpress",
+    "finish": "deboss",
+    "grain": 0.22,
+    "css": {
+      "backgroundColor": "#f4ecdc",
+      "color": "#382f29",
+      "backgroundImage": "radial-gradient(circle at 1px 1px, rgba(60,45,30,0.033) 0.5px, transparent 0.8px)",
+      "backgroundSize": "5px 7px"
+    },
+    "warnings": [
+      "texture is decorative; keep data and text on stable surfaces",
+      "finish is metadata, not rendered",
+      "process is metadata, not simulated"
+    ],
+    "scope": "decorative CSS paper approximation; no physical ink or print simulation"
+  }
+}

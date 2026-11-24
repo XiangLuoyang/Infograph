@@ -1,0 +1,2 @@
+# Representation ontology migration
+All baseline entries migrated losslessly for identifiers, names, source verification and legacy family/kind; original atlas remains authoritative for other fields. Semantic fields deliberately empty pending per-entry review. Canonical identity unresolved. Audit counts describe source metadata, not fresh external evidence. No automatic promotion to renderer readiness. Source blob 69bcb2f10ae5f1111ea8256b11a501c65e251c91.

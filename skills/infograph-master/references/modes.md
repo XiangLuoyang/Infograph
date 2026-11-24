@@ -93,3 +93,5 @@ Motion Studio: visual-intelligence/motion-studio.html bundles the integrated eng
 Representation foundations: visual-intelligence/representation-foundations.md, representation-rules.json and representation-selection.mjs provide preliminary relation/task/channel mappings and declared-input gates. Existing catalog audit pending.
 
 Representation ontology: visual-intelligence/representation-ontology.json migrates all 630 legacy records as unreviewed; representation-audit.json records structural counts; representation-ontology.schema.json is a preliminary schema. Do not treat empty semantic fields or legacy renderer hints as verified capabilities.
+
+Statistical representation: visual-intelligence/statistical-enrichment.json provides eight candidate ID-linked overlays; statistical-transforms.mjs supports five numerical operations. Review limits in statistical-intelligence.md.

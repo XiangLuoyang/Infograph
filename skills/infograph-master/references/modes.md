@@ -47,3 +47,5 @@ Composition archetypes: consult visual-intelligence/composition-archetypes.md an
 Attention choreography: consult visual-intelligence/attention-choreography.md and attention-plan.mjs for intended reading paths; keep essential evidence visible and navigation voluntary.
 
 Cross-domain composition studies: visual-intelligence/composition-cases.md and composition-cases.json. Use compositional modifiers alongside archetypes; source observations and transfer hypotheses are distinct.
+
+Information-driven composition: consult visual-intelligence/information-composition.md and information-composition.mjs; declare evidence-linked relations and goal before choosing archetypes; retain secondary relations and unplaced nodes for review.

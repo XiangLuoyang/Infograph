@@ -1,0 +1,29 @@
+{
+  "input": {
+    "preset": "brushed-aluminum",
+    "edge": "rounded",
+    "assembly": "inset",
+    "radius": 6,
+    "gap": 8,
+    "texture": 0.2
+  },
+  "output": {
+    "preset": "brushed-aluminum",
+    "edge": "rounded",
+    "assembly": "inset",
+    "css": {
+      "backgroundColor": "#c5cdd0",
+      "color": "#24343b",
+      "backgroundImage": "repeating-linear-gradient(0deg, transparent 0px 2px, rgba(30,45,50,0.024) 2px 3px)",
+      "backgroundSize": "auto",
+      "borderRadius": "6px",
+      "gap": "8px",
+      "border": "1px solid rgba(70,85,90,.3)",
+      "boxShadow": "inset 0 1px 3px rgba(0,0,0,.12)"
+    },
+    "warnings": [
+      "decorative surface only; verify text contrast and focus independently"
+    ],
+    "scope": "opaque CSS approximation; no physical reflectance, chamfer geometry or calibrated machining"
+  }
+}

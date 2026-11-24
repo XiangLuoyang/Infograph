@@ -21,3 +21,5 @@ For substantive color decisions consult visual-intelligence/color-cases.json and
 For Studio color refinement or narrative scene palettes consult visual-intelligence/color-cross-domain.md and color-cross-domain.json. Compare in context, use grayscale hierarchy first, preserve semantic identities across scenes; these are advisory patterns, not validated aesthetic metrics.
 
 For interactive palette rehearsal use visual-intelligence/color-studio.html via local HTTP; see color-studio.md. Exported color contract is advisory and not yet automatically consumed by Design IR. Browser QA pending.
+
+For custom typography consult visual-intelligence/typography-foundations.md and typography.mjs. Establish semantic roles, numeric alignment and language-specific reading measures; verify actual fonts and wrapping. Candidate tokens are not accessibility certification.

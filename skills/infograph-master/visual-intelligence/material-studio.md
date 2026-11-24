@@ -1,0 +1,2 @@
+# Material Studio
+Standalone HTML bundles snapshots of three modules and industrial catalog. Four presets, five base surface families, eight industrial finishes, seeded texture, shadow direction/offset, composition validation, backend status and JSON export. Six pure integration checks and script syntax passed. No browser or download test. Paper/lighting specialist modules not integrated; lighting is decorative CSS shadow, glass opaque, Canvas/WebGL fallback. Bundled snapshots require rebuild when upstream changes.

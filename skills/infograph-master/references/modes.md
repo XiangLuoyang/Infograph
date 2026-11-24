@@ -95,3 +95,5 @@ Representation foundations: visual-intelligence/representation-foundations.md, r
 Representation ontology: visual-intelligence/representation-ontology.json migrates all 630 legacy records as unreviewed; representation-audit.json records structural counts; representation-ontology.schema.json is a preliminary schema. Do not treat empty semantic fields or legacy renderer hints as verified capabilities.
 
 Statistical representation: visual-intelligence/statistical-enrichment.json provides eight candidate ID-linked overlays; statistical-transforms.mjs supports five numerical operations. Review limits in statistical-intelligence.md.
+
+Geospatial: visual-intelligence/geospatial-intelligence.md, geospatial-enrichment.json and geospatial-transforms.mjs; candidate overlays and point/metric utilities, no geographic renderer.

@@ -1,0 +1,266 @@
+[
+  {
+    "id": "paper",
+    "label": "纸张",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "uncoated",
+        "reference": "paper-uncoated",
+        "status": "candidate"
+      },
+      {
+        "id": "coated",
+        "reference": "paper-coated",
+        "status": "candidate"
+      },
+      {
+        "id": "embossed",
+        "reference": "paper-embossed",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "wood",
+    "label": "木材",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "raw",
+        "reference": "wood-raw",
+        "status": "candidate"
+      },
+      {
+        "id": "polished",
+        "reference": "wood-polished",
+        "status": "candidate"
+      },
+      {
+        "id": "lacquered",
+        "reference": "wood-lacquered",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "stone",
+    "label": "石材",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "honed",
+        "reference": "stone-honed",
+        "status": "candidate"
+      },
+      {
+        "id": "polished",
+        "reference": "stone-polished",
+        "status": "candidate"
+      },
+      {
+        "id": "rough",
+        "reference": "stone-rough",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "glass",
+    "label": "玻璃",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "clear",
+        "reference": "glass-clear",
+        "status": "candidate"
+      },
+      {
+        "id": "frosted",
+        "reference": "glass-frosted",
+        "status": "candidate"
+      },
+      {
+        "id": "etched",
+        "reference": "glass-etched",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "metal",
+    "label": "金属",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "brushed",
+        "reference": "metal-brushed",
+        "status": "candidate"
+      },
+      {
+        "id": "polished",
+        "reference": "metal-polished",
+        "status": "candidate"
+      },
+      {
+        "id": "anodized",
+        "reference": "metal-anodized",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "ceramic",
+    "label": "陶瓷",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "matte",
+        "reference": "ceramic-matte",
+        "status": "candidate"
+      },
+      {
+        "id": "glazed",
+        "reference": "ceramic-glazed",
+        "status": "candidate"
+      },
+      {
+        "id": "unglazed",
+        "reference": "ceramic-unglazed",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "textile",
+    "label": "织物",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "woven",
+        "reference": "textile-woven",
+        "status": "candidate"
+      },
+      {
+        "id": "knitted",
+        "reference": "textile-knitted",
+        "status": "candidate"
+      },
+      {
+        "id": "felted",
+        "reference": "textile-felted",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "leather",
+    "label": "皮革",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "grain",
+        "reference": "leather-grain",
+        "status": "candidate"
+      },
+      {
+        "id": "smooth",
+        "reference": "leather-smooth",
+        "status": "candidate"
+      },
+      {
+        "id": "suede",
+        "reference": "leather-suede",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "polymer",
+    "label": "聚合物",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "matte",
+        "reference": "polymer-matte",
+        "status": "candidate"
+      },
+      {
+        "id": "glossy",
+        "reference": "polymer-glossy",
+        "status": "candidate"
+      },
+      {
+        "id": "translucent",
+        "reference": "polymer-translucent",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "composite",
+    "label": "复合材料",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "woven",
+        "reference": "composite-woven",
+        "status": "candidate"
+      },
+      {
+        "id": "matte",
+        "reference": "composite-matte",
+        "status": "candidate"
+      },
+      {
+        "id": "polished",
+        "reference": "composite-polished",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "liquid",
+    "label": "液体",
+    "kind": "physical-reference",
+    "finishes": [
+      {
+        "id": "still",
+        "reference": "liquid-still",
+        "status": "candidate"
+      },
+      {
+        "id": "rippled",
+        "reference": "liquid-rippled",
+        "status": "candidate"
+      },
+      {
+        "id": "foamed",
+        "reference": "liquid-foamed",
+        "status": "candidate"
+      }
+    ]
+  },
+  {
+    "id": "abstract",
+    "label": "抽象数字材质",
+    "kind": "digital",
+    "finishes": [
+      {
+        "id": "flat",
+        "reference": "abstract-flat",
+        "status": "candidate"
+      },
+      {
+        "id": "gradient",
+        "reference": "abstract-gradient",
+        "status": "candidate"
+      },
+      {
+        "id": "emissive",
+        "reference": "abstract-emissive",
+        "status": "candidate"
+      }
+    ]
+  }
+]

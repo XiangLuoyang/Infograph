@@ -1,0 +1,472 @@
+[
+  {
+    "id": "central",
+    "name": "中心式",
+    "family": "focus",
+    "familyLabel": "聚焦",
+    "primitives": [
+      "center"
+    ],
+    "tasks": [
+      "verdict",
+      "diagnosis"
+    ],
+    "status": "candidate",
+    "constraint": "declare focal claim"
+  },
+  {
+    "id": "hero",
+    "name": "主体式",
+    "family": "focus",
+    "familyLabel": "聚焦",
+    "primitives": [
+      "center",
+      "void"
+    ],
+    "tasks": [
+      "verdict",
+      "diagnosis"
+    ],
+    "status": "candidate",
+    "constraint": "declare focal claim"
+  },
+  {
+    "id": "frame",
+    "name": "框景式",
+    "family": "focus",
+    "familyLabel": "聚焦",
+    "primitives": [
+      "boundary",
+      "center"
+    ],
+    "tasks": [
+      "verdict",
+      "diagnosis"
+    ],
+    "status": "candidate",
+    "constraint": "declare focal claim"
+  },
+  {
+    "id": "isolation",
+    "name": "孤立式",
+    "family": "focus",
+    "familyLabel": "聚焦",
+    "primitives": [
+      "void",
+      "center"
+    ],
+    "tasks": [
+      "verdict",
+      "diagnosis"
+    ],
+    "status": "candidate",
+    "constraint": "declare focal claim"
+  },
+  {
+    "id": "asymmetric",
+    "name": "非对称主从",
+    "family": "focus",
+    "familyLabel": "聚焦",
+    "primitives": [
+      "partition",
+      "center"
+    ],
+    "tasks": [
+      "verdict",
+      "diagnosis"
+    ],
+    "status": "candidate",
+    "constraint": "declare focal claim"
+  },
+  {
+    "id": "bilateral",
+    "name": "双侧对称",
+    "family": "order",
+    "familyLabel": "秩序",
+    "primitives": [
+      "axis",
+      "partition"
+    ],
+    "tasks": [
+      "monitor",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "preserve semantic order and comparable units"
+  },
+  {
+    "id": "axial",
+    "name": "轴线式",
+    "family": "order",
+    "familyLabel": "秩序",
+    "primitives": [
+      "axis"
+    ],
+    "tasks": [
+      "monitor",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "preserve semantic order and comparable units"
+  },
+  {
+    "id": "modular",
+    "name": "模数网格",
+    "family": "order",
+    "familyLabel": "秩序",
+    "primitives": [
+      "grid"
+    ],
+    "tasks": [
+      "monitor",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "preserve semantic order and comparable units"
+  },
+  {
+    "id": "rhythmic",
+    "name": "节奏重复",
+    "family": "order",
+    "familyLabel": "秩序",
+    "primitives": [
+      "axis",
+      "grid"
+    ],
+    "tasks": [
+      "monitor",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "preserve semantic order and comparable units"
+  },
+  {
+    "id": "hierarchical",
+    "name": "层级递进",
+    "family": "order",
+    "familyLabel": "秩序",
+    "primitives": [
+      "nesting",
+      "axis"
+    ],
+    "tasks": [
+      "monitor",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "preserve semantic order and comparable units"
+  },
+  {
+    "id": "diagonal",
+    "name": "对角线",
+    "family": "direction",
+    "familyLabel": "方向",
+    "primitives": [
+      "axis"
+    ],
+    "tasks": [
+      "sequence",
+      "process"
+    ],
+    "status": "candidate",
+    "constraint": "require meaningful order"
+  },
+  {
+    "id": "linear",
+    "name": "线性序列",
+    "family": "direction",
+    "familyLabel": "方向",
+    "primitives": [
+      "axis",
+      "corridor"
+    ],
+    "tasks": [
+      "sequence",
+      "process"
+    ],
+    "status": "candidate",
+    "constraint": "require meaningful order"
+  },
+  {
+    "id": "zigzag",
+    "name": "折线序列",
+    "family": "direction",
+    "familyLabel": "方向",
+    "primitives": [
+      "axis",
+      "corridor"
+    ],
+    "tasks": [
+      "sequence",
+      "process"
+    ],
+    "status": "candidate",
+    "constraint": "require meaningful order"
+  },
+  {
+    "id": "spiral",
+    "name": "螺旋序列",
+    "family": "direction",
+    "familyLabel": "方向",
+    "primitives": [
+      "axis",
+      "center"
+    ],
+    "tasks": [
+      "sequence",
+      "process"
+    ],
+    "status": "candidate",
+    "constraint": "require meaningful order"
+  },
+  {
+    "id": "threshold",
+    "name": "门槛序列",
+    "family": "direction",
+    "familyLabel": "方向",
+    "primitives": [
+      "threshold",
+      "axis"
+    ],
+    "tasks": [
+      "sequence",
+      "process"
+    ],
+    "status": "candidate",
+    "constraint": "require meaningful order"
+  },
+  {
+    "id": "radial",
+    "name": "放射式",
+    "family": "relation",
+    "familyLabel": "关系",
+    "primitives": [
+      "center",
+      "corridor"
+    ],
+    "tasks": [
+      "relationship",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "verify represented relationships"
+  },
+  {
+    "id": "cluster",
+    "name": "聚簇式",
+    "family": "relation",
+    "familyLabel": "关系",
+    "primitives": [
+      "cluster"
+    ],
+    "tasks": [
+      "relationship",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "verify represented relationships"
+  },
+  {
+    "id": "nested",
+    "name": "嵌套式",
+    "family": "relation",
+    "familyLabel": "关系",
+    "primitives": [
+      "nesting"
+    ],
+    "tasks": [
+      "relationship",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "verify represented relationships"
+  },
+  {
+    "id": "network",
+    "name": "网络式",
+    "family": "relation",
+    "familyLabel": "关系",
+    "primitives": [
+      "corridor",
+      "field"
+    ],
+    "tasks": [
+      "relationship",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "verify represented relationships"
+  },
+  {
+    "id": "matrix",
+    "name": "矩阵式",
+    "family": "relation",
+    "familyLabel": "关系",
+    "primitives": [
+      "grid",
+      "field"
+    ],
+    "tasks": [
+      "relationship",
+      "hierarchy"
+    ],
+    "status": "candidate",
+    "constraint": "verify represented relationships"
+  },
+  {
+    "id": "diptych",
+    "name": "双联式",
+    "family": "contrast",
+    "familyLabel": "对照",
+    "primitives": [
+      "partition"
+    ],
+    "tasks": [
+      "compare",
+      "tradeoff"
+    ],
+    "status": "candidate",
+    "constraint": "preserve comparable definitions"
+  },
+  {
+    "id": "triptych",
+    "name": "三联式",
+    "family": "contrast",
+    "familyLabel": "对照",
+    "primitives": [
+      "partition",
+      "grid"
+    ],
+    "tasks": [
+      "compare",
+      "tradeoff"
+    ],
+    "status": "candidate",
+    "constraint": "preserve comparable definitions"
+  },
+  {
+    "id": "mirror",
+    "name": "镜像比较",
+    "family": "contrast",
+    "familyLabel": "对照",
+    "primitives": [
+      "axis",
+      "partition"
+    ],
+    "tasks": [
+      "compare",
+      "tradeoff"
+    ],
+    "status": "candidate",
+    "constraint": "preserve comparable definitions"
+  },
+  {
+    "id": "juxtaposition",
+    "name": "并置式",
+    "family": "contrast",
+    "familyLabel": "对照",
+    "primitives": [
+      "partition",
+      "void"
+    ],
+    "tasks": [
+      "compare",
+      "tradeoff"
+    ],
+    "status": "candidate",
+    "constraint": "preserve comparable definitions"
+  },
+  {
+    "id": "small-multiples",
+    "name": "小多图",
+    "family": "contrast",
+    "familyLabel": "对照",
+    "primitives": [
+      "grid"
+    ],
+    "tasks": [
+      "compare",
+      "tradeoff"
+    ],
+    "status": "candidate",
+    "constraint": "preserve comparable definitions"
+  },
+  {
+    "id": "layered",
+    "name": "层叠式",
+    "family": "space",
+    "familyLabel": "空间",
+    "primitives": [
+      "layer"
+    ],
+    "tasks": [
+      "spatial",
+      "context"
+    ],
+    "status": "candidate",
+    "constraint": "declare coordinate or depth semantics"
+  },
+  {
+    "id": "field",
+    "name": "场域式",
+    "family": "space",
+    "familyLabel": "空间",
+    "primitives": [
+      "field"
+    ],
+    "tasks": [
+      "spatial",
+      "context"
+    ],
+    "status": "candidate",
+    "constraint": "declare coordinate or depth semantics"
+  },
+  {
+    "id": "panorama",
+    "name": "全景式",
+    "family": "space",
+    "familyLabel": "空间",
+    "primitives": [
+      "field",
+      "axis"
+    ],
+    "tasks": [
+      "spatial",
+      "context"
+    ],
+    "status": "candidate",
+    "constraint": "declare coordinate or depth semantics"
+  },
+  {
+    "id": "section",
+    "name": "剖面式",
+    "family": "space",
+    "familyLabel": "空间",
+    "primitives": [
+      "partition",
+      "layer"
+    ],
+    "tasks": [
+      "spatial",
+      "context"
+    ],
+    "status": "candidate",
+    "constraint": "declare coordinate or depth semantics"
+  },
+  {
+    "id": "exploded",
+    "name": "爆炸式",
+    "family": "space",
+    "familyLabel": "空间",
+    "primitives": [
+      "layer",
+      "axis"
+    ],
+    "tasks": [
+      "spatial",
+      "context"
+    ],
+    "status": "candidate",
+    "constraint": "declare coordinate or depth semantics"
+  }
+]

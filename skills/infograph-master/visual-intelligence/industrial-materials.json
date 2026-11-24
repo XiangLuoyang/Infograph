@@ -1,0 +1,66 @@
+[
+  {
+    "id": "brushed-aluminum",
+    "substance": "metal",
+    "finish": "brushed",
+    "bg": "#c5cdd0",
+    "ink": "#24343b",
+    "shine": 0.45
+  },
+  {
+    "id": "bead-blasted-metal",
+    "substance": "metal",
+    "finish": "blasted",
+    "bg": "#b8c0c2",
+    "ink": "#25353a",
+    "shine": 0.12
+  },
+  {
+    "id": "polished-steel",
+    "substance": "metal",
+    "finish": "polished",
+    "bg": "#d6dde0",
+    "ink": "#26343b",
+    "shine": 0.8
+  },
+  {
+    "id": "anodized-metal",
+    "substance": "metal",
+    "finish": "anodized",
+    "bg": "#56676b",
+    "ink": "#ffffff",
+    "shine": 0.25
+  },
+  {
+    "id": "clear-glass",
+    "substance": "glass",
+    "finish": "clear",
+    "bg": "#eaf2f1",
+    "ink": "#233b35",
+    "shine": 0.7
+  },
+  {
+    "id": "frosted-glass",
+    "substance": "glass",
+    "finish": "frosted",
+    "bg": "#e0eae6",
+    "ink": "#233b35",
+    "shine": 0.2
+  },
+  {
+    "id": "matte-polymer",
+    "substance": "polymer",
+    "finish": "matte",
+    "bg": "#d8ddd7",
+    "ink": "#293b31",
+    "shine": 0.08
+  },
+  {
+    "id": "glazed-ceramic",
+    "substance": "ceramic",
+    "finish": "glazed",
+    "bg": "#f0eee5",
+    "ink": "#343b35",
+    "shine": 0.45
+  }
+]

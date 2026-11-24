@@ -1,0 +1,86 @@
+{
+  "entities": [
+    {
+      "id": "TH"
+    },
+    {
+      "id": "VN"
+    }
+  ],
+  "rows": [
+    {
+      "id": "TH",
+      "stock": 36,
+      "sales": 18,
+      "supply": 24
+    },
+    {
+      "id": "VN",
+      "stock": 20,
+      "sales": 16,
+      "supply": 17
+    }
+  ],
+  "parameters": {
+    "supply": {
+      "min": 0,
+      "max": 36,
+      "initial": 18
+    },
+    "sales": {
+      "min": 0,
+      "max": 36,
+      "initial": 18
+    }
+  },
+  "disclosure": {
+    "mode": "verdict-first",
+    "items": [
+      {
+        "id": "verdict",
+        "kind": "decision",
+        "essential": true,
+        "requires": []
+      },
+      {
+        "id": "stock",
+        "kind": "fact",
+        "essential": false,
+        "requires": [],
+        "evidence": "synthetic"
+      },
+      {
+        "id": "gap",
+        "kind": "fact",
+        "essential": false,
+        "requires": [
+          "stock"
+        ],
+        "evidence": "synthetic"
+      }
+    ],
+    "scenes": [
+      {
+        "id": "overview",
+        "question": "Decision?",
+        "show": [
+          "verdict"
+        ]
+      },
+      {
+        "id": "stock",
+        "question": "Where?",
+        "show": [
+          "stock"
+        ]
+      },
+      {
+        "id": "gap",
+        "question": "What gap?",
+        "show": [
+          "gap"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "objects": [
+    {
+      "id": "thailand",
+      "essential": true
+    },
+    {
+      "id": "detail",
+      "essential": false
+    }
+  ],
+  "events": [
+    {
+      "id": "focus",
+      "role": "continuity",
+      "target": "thailand",
+      "fromIdentity": "thailand",
+      "toIdentity": "thailand",
+      "duration": 400
+    },
+    {
+      "id": "detail",
+      "role": "disclosure",
+      "target": "detail",
+      "duration": 200
+    }
+  ]
+}

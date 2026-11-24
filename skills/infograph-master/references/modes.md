@@ -41,3 +41,5 @@ Typography Studio: visual-intelligence/typography-studio.html and typography-stu
 Composition foundations: consult visual-intelligence/composition-fundamentals.md and composition-audit.mjs. Geometric proxies are diagnostic only; preserve semantic reading order and review actual perception.
 
 Spatial grammar: visual-intelligence/spatial-grammar.md, spatial-grammar.json and spatial-grammar.mjs map declared relationships to advisory spatial primitives; preserve evidence and reading order.
+
+Composition archetypes: consult visual-intelligence/composition-archetypes.md and JSON/MJS companions for 30 candidate patterns; compare alternatives by semantic fit, not alphabetical tie order.

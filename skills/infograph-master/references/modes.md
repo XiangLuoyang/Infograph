@@ -99,3 +99,5 @@ Statistical representation: visual-intelligence/statistical-enrichment.json prov
 Geospatial: visual-intelligence/geospatial-intelligence.md, geospatial-enrichment.json and geospatial-transforms.mjs; candidate overlays and point/metric utilities, no geographic renderer.
 
 Engineering: visual-intelligence/engineering-intelligence.md, engineering-enrichment.json, engineering-transforms.mjs and engineering.example.json. Candidate semantics and coordinate utilities only, not CAD.
+
+Network: visual-intelligence/network-intelligence.md, network-enrichment.json, network-transforms.mjs and network.example.json. DAG rank, single-edge grid routing and traceable aggregation only.

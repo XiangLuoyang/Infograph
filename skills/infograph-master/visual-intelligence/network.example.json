@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {
+      "id": "a"
+    },
+    {
+      "id": "b"
+    },
+    {
+      "id": "c"
+    }
+  ],
+  "edges": [
+    {
+      "id": "1",
+      "source": "a",
+      "target": "b",
+      "type": "flow",
+      "weight": 2
+    },
+    {
+      "id": "2",
+      "source": "b",
+      "target": "c",
+      "type": "flow",
+      "weight": 3
+    }
+  ],
+  "grid": {
+    "width": 5,
+    "height": 3,
+    "start": [
+      0,
+      1
+    ],
+    "end": [
+      4,
+      1
+    ],
+    "blocked": [
+      [
+        2,
+        1
+      ]
+    ]
+  }
+}

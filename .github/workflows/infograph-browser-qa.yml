@@ -1,0 +1,28 @@
+name: Infograph browser QA
+on:
+  push:
+    paths:
+      - 'skills/infograph-master/engine/**'
+      - '.github/workflows/infograph-browser-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/infograph-master/engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.51.1
+      - run: npx playwright install --with-deps chromium
+      - run: node browser-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: infograph-browser-qa
+          path: skills/infograph-master/engine/qa-output/

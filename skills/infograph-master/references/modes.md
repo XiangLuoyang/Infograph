@@ -53,3 +53,5 @@ Information-driven composition: consult visual-intelligence/information-composit
 Parametric composition: visual-intelligence/parametric-composition.md and .mjs implement recursive rectangular allocation; review infeasible bounds and actual text fit separately.
 
 Composition Studio: visual-intelligence/composition-studio.html and composition-studio.md provide an integration prototype; serve over HTTP. Candidate selection and geometry template are independent.
+
+Material Intelligence foundations: visual-intelligence/material-foundations.md and material-profile.mjs distinguish physical properties, visual cues and contextual associations; audit text over textures and transmission.

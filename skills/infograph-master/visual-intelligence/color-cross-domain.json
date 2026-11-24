@@ -1,0 +1,65 @@
+[
+  {
+    "id": "C07",
+    "name": "Contextual color appearance",
+    "source": "https://interactionofcolor.com/?id=-22682",
+    "observation": "Albers digital edition describes identical colors appearing different on different grounds.",
+    "transfer": "Review color in its actual surround; compare same token on all intended surfaces.",
+    "limit": "No psychophysical test or original plate reproduction.",
+    "evidenceLevel": "published source excerpt; analyst transfer"
+  },
+  {
+    "id": "C08",
+    "name": "Structural chromatic economy",
+    "source": "https://www.moma.org/artists/4154-josef-muller-brockmann",
+    "observation": "MoMA collection and design history identify Swiss typographic rigor; Der Film is a concrete reference.",
+    "transfer": "Use scale, grid and typography before adding decorative hues.",
+    "limit": "No pixel sampling; economy is an analyst transfer, not a universal Swiss rule.",
+    "evidenceLevel": "published source excerpt; analyst transfer"
+  },
+  {
+    "id": "C09",
+    "name": "Spatial chromatic articulation",
+    "source": "https://www.fondationlecorbusier.fr/en/le-corbusier/works/architecture/polychromie-architecturale/",
+    "observation": "Architectural polychromy uses color to articulate perceived planes and volumes.",
+    "transfer": "Bind surface colors to spatial roles; keep quantitative encoding independent.",
+    "limit": "Warm/cool depth effects are contextual, not geometric evidence.",
+    "evidenceLevel": "published source excerpt; analyst transfer"
+  },
+  {
+    "id": "C10",
+    "name": "Figure-ground exhibition",
+    "source": "https://www.sifacilities.si.edu/sites/default/files/Files/Accessibility/accessible-exhibition-design1.pdf",
+    "observation": "Smithsonian guidance emphasizes visibility of objects, label contrast and navigable routes.",
+    "transfer": "Give primary subject a quiet contrasting surround; inspect labels and glare.",
+    "limit": "Physical exhibit lighting rules are not direct web compliance standards.",
+    "evidenceLevel": "published source excerpt; analyst transfer"
+  },
+  {
+    "id": "C11",
+    "name": "Operational signal exclusivity",
+    "source": "https://www.nasa.gov/wp-content/uploads/2023/03/human-integration-design-handbook-revision-1.pdf",
+    "observation": "NASA handbook discusses functional label color consistency and viewing conditions.",
+    "transfer": "Reserve operational signals and supplement them with labels and shapes.",
+    "limit": "Do not import safety color meanings into unrelated domains without checking standards.",
+    "evidenceLevel": "published source excerpt; analyst transfer"
+  },
+  {
+    "id": "C12",
+    "name": "Chromatic narrative arc",
+    "source": "https://theasc.com/article/crouching-tiger-hidden-dragon-cinematography/",
+    "observation": "Cinematographer describes restrained watercolor palette and three-act color changes.",
+    "transfer": "Use scene atmosphere changes at narrative boundaries while preserving data color identity.",
+    "limit": "No frame-level color extraction; mood mapping is contextual.",
+    "evidenceLevel": "published source excerpt; analyst transfer"
+  },
+  {
+    "id": "C13",
+    "name": "Curated palette rehearsal",
+    "source": "https://theasc.com/article/ballard-vibrant-noir-cinematography/",
+    "observation": "Production tested lighting colors on camera and reduced options to a reusable set.",
+    "transfer": "Preview a limited palette with actual marks, text and materials before committing.",
+    "limit": "No reproduction of production colors or evaluation of exact footage.",
+    "evidenceLevel": "published source excerpt; analyst transfer"
+  }
+]

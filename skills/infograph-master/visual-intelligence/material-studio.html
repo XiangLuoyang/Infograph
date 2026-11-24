@@ -1,0 +1,97 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Infograph Material Studio</title><style>*{box-sizing:border-box}body{margin:0;background:#e8ebe6;color:#263b32;font:15px system-ui,sans-serif}header{padding:24px;border-bottom:1px solid #aab8ae}h1{font:32px Georgia,serif;margin:0}main{display:grid;grid-template-columns:minmax(230px,300px) minmax(0,1fr);gap:24px;padding:24px;max-width:1200px;margin:auto}aside{display:grid;gap:10px;align-content:start}label{display:grid;gap:4px}select,input,button{font:inherit;max-width:100%;padding:7px}button{cursor:pointer}#preview{padding:clamp(16px,4vw,48px);min-height:460px;overflow-wrap:anywhere}#frame{display:grid;padding:12px;grid-template-columns:repeat(2,minmax(0,1fr))}#frame section,#overlay{padding:16px}strong.metric{display:block;font:clamp(28px,5vw,52px) Georgia,serif;font-variant-numeric:tabular-nums}#overlay{margin-top:16px}#status{white-space:pre-wrap;font-size:13px}small{display:block} @media(max-width:650px){main{grid-template-columns:1fr;padding:12px}#frame{grid-template-columns:1fr}}</style><header><h1>Material Studio</h1><small>Infograph / Visual Intelligence · 合成数据</small></header><main><aside id="controls"></aside><div><article id="preview"><small>REGIONAL BUSINESS REVIEW</small><h2>Growth and inventory</h2><p>区域销售达成与库存分布</p><div id="frame"><section class="data"><small>销售目标达成率</small><strong class="metric">101.9%</strong>326M / 320M</section><section class="data"><small>区域库存</small><strong class="metric">86K</strong>合成数据</section></div><section id="overlay"><small>泰国库存占比</small><strong class="metric">41.9%</strong>36K / 86K</section></article><pre id="status" role="status"></pre><button id="export">导出 JSON</button></div></main><script>const colors={paper:['#f5f2e8','#29382f'],metal:['#c5cdd0','#24343b'],stone:['#d1d0c8','#343b35'],glass:['#e0eae6','#233b35'],matte:['#edf0eb','#293b31']};
+function renderMaterial({material='paper',detail='surface',backend='auto',seed=1,strength=.3,essential=true}={}){
+if(!Object.hasOwn(colors,material)||!['surface','texture','optical','3d'].includes(detail)||!['auto','css','svg','canvas','webgl'].includes(backend)||!Number.isInteger(seed)||seed<0||seed>4294967295||!Number.isFinite(strength)||strength<0||strength>1||typeof essential!=='boolean')throw Error('invalid material profile');
+const requested=backend==='auto'?({surface:'css',texture:'svg',optical:'webgl','3d':'webgl'})[detail]:backend;
+const [bg,ink]=colors[material];const warnings=[];let actual=requested;
+if(requested==='webgl'||requested==='canvas'){actual='svg';warnings.push(requested+' not implemented; SVG fallback');}
+if(detail==='optical'||detail==='3d')warnings.push('optical or 3D requirement unmet; flat preview only');
+const css={backgroundColor:bg,color:ink,backgroundImage:material==='metal'?`repeating-linear-gradient(0deg,transparent 0px 2px,rgba(36,52,59,${strength*.12}) 2px 3px)`:'none'};
+let svg=null;if(actual==='svg'){let state=seed>>>0;const rand=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296};const marks=[];for(let i=0;i<180;i++){const x=(rand()*160).toFixed(2),y=(rand()*100).toFixed(2),len=(1+rand()*5).toFixed(2);marks.push(material==='metal'?`<path d="M${x} ${y} h${len}" stroke="${ink}" stroke-width=".35" opacity="${strength*.25}"/>`:`<circle cx="${x}" cy="${y}" r=".45" fill="${ink}" opacity="${strength*.22}"/>`)}svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100"><rect width="160" height="100" fill="${bg}"/>${marks.join('')}</svg>`;}
+return {requested,actual,css,svg,warnings,requirementMet:!['optical','3d'].includes(detail)&&(detail!=='texture'||actual==='svg'||material==='metal'),opaqueFallback:true,essential,scope:'decorative opaque CSS/SVG only; no physical rendering'};
+}
+function materialComposition({surfaces,relations=[]}={}){
+const roles=['foundation','primary','secondary','accent','mediator'];if(!Array.isArray(surfaces)||!surfaces.length||!Array.isArray(relations))throw Error('invalid plan');
+const ids=new Set();for(const s of surfaces){if(typeof s.id!=='string'||!s.id.trim()||ids.has(s.id)||!roles.includes(s.role)||typeof s.material!=='string'||!s.material.trim()||typeof s.essential!=='boolean'||typeof s.translucent!=='boolean'||!Number.isFinite(s.area)||s.area<0||s.area>1)throw Error('invalid surface');ids.add(s.id);if(s.essential&&s.translucent&&s.opaqueFallback!==true)throw Error('essential translucent surface requires opaque fallback');}
+if(surfaces.filter(s=>s.role==='foundation').length!==1||!surfaces.some(s=>s.role==='primary'))throw Error('foundation and primary required');
+for(const r of relations)if(!ids.has(r.from)||!ids.has(r.to)||r.from===r.to||!['adjacent','overlay','transition'].includes(r.type))throw Error('invalid relation');
+const warnings=[];if(new Set(surfaces.map(s=>s.material)).size>4)warnings.push('review material proliferation');if(surfaces.filter(s=>s.role==='accent').reduce((a,s)=>a+s.area,0)>.1)warnings.push('review accent area');return {surfaces,relations,warnings,scope:'declared role and area heuristic; no geometry, contrast or physical validation'};
+}
+function industrialPlan({preset,edge='chamfer',assembly='inset',radius=4,gap=8,texture=.2}={},catalog){
+const p=catalog.find(x=>x.id===preset);if(!p)throw Error('unknown preset');
+if(!['square','chamfer','rounded'].includes(edge)||!['flush','inset','stacked','seamed'].includes(assembly))throw Error('unknown geometry');
+if(!Number.isFinite(radius)||radius<0||radius>24||!Number.isFinite(gap)||gap<0||gap>32||!Number.isFinite(texture)||texture<0||texture>1)throw Error('invalid dimensions');
+const warnings=['decorative surface only; verify text contrast and focus independently'];
+if(p.substance==='glass')warnings.push('opaque fallback; no transmission or refraction');
+if(edge==='chamfer')warnings.push('chamfer metadata only; no clipping of content');
+const image=p.finish==='brushed'?`repeating-linear-gradient(0deg, transparent 0px 2px, rgba(30,45,50,${texture*.12}) 2px 3px)`:p.finish==='blasted'?`radial-gradient(circle at 1px 1px, rgba(30,45,50,${texture*.15}) .5px, transparent .8px)`:'none';
+return {preset,edge,assembly,css:{backgroundColor:p.bg,color:p.ink,backgroundImage:image,backgroundSize:p.finish==='blasted'?'4px 5px':'auto',borderRadius:(edge==='rounded'?radius:0)+'px',gap:gap+'px',border:'1px solid rgba(70,85,90,.3)',boxShadow:assembly==='inset'?'inset 0 1px 3px rgba(0,0,0,.12)':assembly==='stacked'?'0 3px 6px rgba(0,0,0,.15)':'none'},warnings,scope:'opaque CSS approximation; no physical reflectance, chamfer geometry or calibrated machining'};}
+const catalog=[
+  {
+    "id": "brushed-aluminum",
+    "substance": "metal",
+    "finish": "brushed",
+    "bg": "#c5cdd0",
+    "ink": "#24343b",
+    "shine": 0.45
+  },
+  {
+    "id": "bead-blasted-metal",
+    "substance": "metal",
+    "finish": "blasted",
+    "bg": "#b8c0c2",
+    "ink": "#25353a",
+    "shine": 0.12
+  },
+  {
+    "id": "polished-steel",
+    "substance": "metal",
+    "finish": "polished",
+    "bg": "#d6dde0",
+    "ink": "#26343b",
+    "shine": 0.8
+  },
+  {
+    "id": "anodized-metal",
+    "substance": "metal",
+    "finish": "anodized",
+    "bg": "#56676b",
+    "ink": "#ffffff",
+    "shine": 0.25
+  },
+  {
+    "id": "clear-glass",
+    "substance": "glass",
+    "finish": "clear",
+    "bg": "#eaf2f1",
+    "ink": "#233b35",
+    "shine": 0.7
+  },
+  {
+    "id": "frosted-glass",
+    "substance": "glass",
+    "finish": "frosted",
+    "bg": "#e0eae6",
+    "ink": "#233b35",
+    "shine": 0.2
+  },
+  {
+    "id": "matte-polymer",
+    "substance": "polymer",
+    "finish": "matte",
+    "bg": "#d8ddd7",
+    "ink": "#293b31",
+    "shine": 0.08
+  },
+  {
+    "id": "glazed-ceramic",
+    "substance": "ceramic",
+    "finish": "glazed",
+    "bg": "#f0eee5",
+    "ink": "#343b35",
+    "shine": 0.45
+  }
+];
+const presets={"editorial":["paper","matte","bead-blasted-metal","glass"],"architectural":["stone","matte","frosted-glass","glass"],"instrument":["metal","matte","anodized-metal","matte"],"archive":["paper","paper","matte-polymer","paper"]};
+function studioPlan(p){const base=renderMaterial({material:p.base,detail:p.detail,backend:p.backend,seed:p.seed,strength:p.strength});const primary=renderMaterial({material:p.primary});const overlay=renderMaterial({material:p.overlay});const industrial=industrialPlan({preset:p.frame,edge:p.edge,assembly:p.assembly,texture:p.strength,gap:p.gap},catalog);const composition=materialComposition({surfaces:[{id:'base',role:'foundation',material:p.base,area:1,essential:false,translucent:false},{id:'data',role:'primary',material:p.primary,area:.5,essential:true,translucent:false},{id:'frame',role:'secondary',material:p.frame,area:.6,essential:false,translucent:false},...(p.showOverlay?[{id:'detail',role:'secondary',material:p.overlay,area:.1,essential:true,translucent:false}]:[])],relations:p.showOverlay?[{from:'detail',to:'data',type:'adjacent'}]:[]});return {profile:p,base,primary,overlay,industrial,composition,lighting:{x:Math.round(Math.cos(p.angle*Math.PI/180)*p.shadow),y:Math.round(Math.sin(p.angle*Math.PI/180)*p.shadow)}};}
+const defaults={base:'paper',primary:'matte',frame:'bead-blasted-metal',overlay:'glass',detail:'texture',backend:'auto',seed:42,strength:.3,edge:'rounded',assembly:'inset',gap:8,angle:45,shadow:6,showOverlay:true};
+let p={...defaults};const el=id=>document.getElementById(id);const controls=el('controls');const fields={base:['paper','metal','stone','glass','matte'],primary:['paper','metal','stone','glass','matte'],frame:catalog.map(x=>x.id),overlay:['paper','metal','stone','glass','matte'],detail:['surface','texture','optical','3d'],backend:['auto','css','svg','canvas','webgl'],edge:['square','chamfer','rounded'],assembly:['flush','inset','stacked','seamed']};const labels={base:'基底',primary:'主体',frame:'工业框架',overlay:'详情表面',detail:'表达需求',backend:'渲染后端',edge:'边缘',assembly:'装配',seed:'随机种子',strength:'纹理强度',gap:'间距',angle:'阴影方向',shadow:'阴影偏移',showOverlay:'显示详情'};const inputs={};function add(k,node){const l=document.createElement('label');l.textContent=labels[k]||k;l.append(node);controls.append(l);inputs[k]=node;node.addEventListener('input',()=>{p[k]=node.type==='checkbox'?node.checked:node.type==='range'||node.type==='number'?Number(node.value):node.value;draw()})}const preset=document.createElement('select');for(const k of Object.keys(presets)){preset.add(new Option(k,k))}controls.append(preset);preset.onchange=()=>{const v=presets[preset.value];Object.assign(p,{base:v[0],primary:v[1],frame:v[2],overlay:v[3]});sync();draw()};for(const [k,opts] of Object.entries(fields)){const s=document.createElement('select');opts.forEach(v=>s.add(new Option(v,v)));add(k,s)}for(const [k,min,max,step] of [['seed',0,1000,1],['strength',0,1,.05],['gap',0,32,1],['angle',0,360,5],['shadow',0,16,1]]){const s=document.createElement('input');s.type='range';s.min=min;s.max=max;s.step=step;add(k,s)}const cb=document.createElement('input');cb.type='checkbox';add('showOverlay',cb);function sync(){for(const [k,n] of Object.entries(inputs)){if(n.type==='checkbox')n.checked=p[k];else n.value=p[k]}}function apply(n,r){Object.assign(n.style,r.css);if(r.svg)n.style.backgroundImage='url("data:image/svg+xml,'+encodeURIComponent(r.svg)+'")';n.style.backgroundSize=r.svg?'160px 100px':'auto'}function draw(){const r=studioPlan(p);apply(el('preview'),r.base);Object.assign(el('frame').style,r.industrial.css);el('frame').style.filter='drop-shadow('+r.lighting.x+'px '+r.lighting.y+'px 8px #0002)';document.querySelectorAll('.data').forEach(n=>apply(n,r.primary));apply(el('overlay'),r.overlay);el('overlay').hidden=!p.showOverlay;el('status').textContent=[r.base.requested+' → '+r.base.actual,r.base.requirementMet?'基础需求满足':'需求未满足',...r.base.warnings,...r.industrial.warnings,...r.composition.warnings].join('\n')}el('export').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(studioPlan(p),null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='material-profile.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};sync();draw();</script></html>

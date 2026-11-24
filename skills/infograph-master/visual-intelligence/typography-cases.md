@@ -1,0 +1,2 @@
+# Typography case atlas
+Eight provisional transferable patterns derived from published museum and designer descriptions. See typography-cases.json for sources, observations, transfers and limits. TP04 is title-based only. No full-page image measurements or reader studies; no reproduction assets included. Financial publication and annual report case studies remain pending. Use patterns as hypotheses, select by task, preserve essential information and semantic reading order. Do not copy distinctive artwork or distribute fonts.

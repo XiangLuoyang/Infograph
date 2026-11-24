@@ -89,3 +89,5 @@ Motion case studies: visual-intelligence/motion-cases.md and motion-selection.mj
 Motion engine: visual-intelligence/motion-engine.mjs integrates five modules for flat market projections, disclosure, scenario and revision-tagged geometry; DOM runtime pending.
 
 Motion Studio: visual-intelligence/motion-studio.html bundles the integrated engine for a synthetic market interaction demo; browser QA pending.
+
+Representation foundations: visual-intelligence/representation-foundations.md, representation-rules.json and representation-selection.mjs provide preliminary relation/task/channel mappings and declared-input gates. Existing catalog audit pending.

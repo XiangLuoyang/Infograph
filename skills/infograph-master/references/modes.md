@@ -39,3 +39,5 @@ For expressive typography consult visual-intelligence/type-image.md, type-image-
 Typography Studio: visual-intelligence/typography-studio.html and typography-studio.md integrate candidate typography contracts; use exported JSON as design input, not certification.
 
 Composition foundations: consult visual-intelligence/composition-fundamentals.md and composition-audit.mjs. Geometric proxies are diagnostic only; preserve semantic reading order and review actual perception.
+
+Spatial grammar: visual-intelligence/spatial-grammar.md, spatial-grammar.json and spatial-grammar.mjs map declared relationships to advisory spatial primitives; preserve evidence and reading order.

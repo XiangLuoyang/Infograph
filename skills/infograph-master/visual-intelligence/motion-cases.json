@@ -1,0 +1,47 @@
+[
+  {
+    "id": "MC01",
+    "work": "Bret Victor / Explorable Explanations",
+    "source": "https://worrydream.com/ExplorableExplanations/",
+    "review": "secondary description reviewed",
+    "pattern": "Executable argument",
+    "transfer": "Expose assumptions and recalculate dependent claims",
+    "limit": "Conditional arithmetic is not causal prediction"
+  },
+  {
+    "id": "MC02",
+    "work": "Gapminder Tools",
+    "source": "https://www.gapminder.org/tools/",
+    "review": "official page text reviewed",
+    "pattern": "Temporal identity",
+    "transfer": "Stable market identifiers across time; playback and static trends",
+    "limit": "No historical trajectories without actual time series"
+  },
+  {
+    "id": "MC03",
+    "work": "The Pudding / How to Implement Scrollytelling",
+    "source": "https://github.com/the-pudding/how-to-implement-scrollytelling/blob/master/index.html",
+    "review": "author tutorial source text reviewed",
+    "pattern": "Scroll-driven disclosure",
+    "transfer": "Observe scroll without hijacking; add chapter controls",
+    "limit": "No browser usability validation"
+  },
+  {
+    "id": "MC04",
+    "work": "Apple HIG / Motion",
+    "source": "https://developer.apple.com/design/human-interface-guidelines/motion",
+    "review": "official guideline text reviewed",
+    "pattern": "Interruptible feedback",
+    "transfer": "Brief purposeful motion, reduced-motion alternative",
+    "limit": "Guideline is not a measured dashboard effect"
+  },
+  {
+    "id": "MC05",
+    "work": "Apple HIG / Scroll views",
+    "source": "https://developer.apple.com/design/human-interface-guidelines/scroll-views",
+    "review": "official guideline text reviewed",
+    "pattern": "Context-preserving navigation",
+    "transfer": "Preserve orientation and standard scrolling",
+    "limit": "Platform guidance requires adaptation"
+  }
+]

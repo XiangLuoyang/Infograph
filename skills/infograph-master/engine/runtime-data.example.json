@@ -1,0 +1,32 @@
+{
+  "B1": {
+    "title": "Revenue attainment",
+    "unit": "percent",
+    "rows": [
+      {
+        "label": "Thailand",
+        "value": 108
+      },
+      {
+        "label": "Vietnam",
+        "value": 95
+      },
+      {
+        "label": "Malaysia",
+        "value": 107.7
+      },
+      {
+        "label": "Singapore",
+        "value": 105
+      },
+      {
+        "label": "Cambodia",
+        "value": 90
+      },
+      {
+        "label": "Myanmar",
+        "value": 80
+      }
+    ]
+  }
+}

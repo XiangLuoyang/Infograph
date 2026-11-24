@@ -1,0 +1,2 @@
+# Typography as Image
+Eight original candidate treatments. Preserve plain text and explicit scale; decorative treatments never carry essential information alone. Gallery uses synthetic data and SVG/CSS; no external fonts. Negative-space specimen is reversed type, not actual cutout; spatial specimen is 2D pseudo-depth; kinetic specimen is a one-shot reveal. No browser or audience validation. Financial publication and annual-report case research remains pending; no new external sources reviewed this round.

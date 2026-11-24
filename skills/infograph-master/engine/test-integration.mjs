@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {validateDesign,compileDesign} from './design-v2.mjs';
+import {planHybrid} from './hybrid.mjs';
+import {renderDesign} from './runtime.mjs';
+const read=n=>readFile(new URL(n,import.meta.url),'utf8');
+const json=async n=>JSON.parse(await read(n));
+const c={};for(const n of ['styles.json','composition-patterns.json','material-catalog.json','motion-grammar.json','chart-rules.json'])c[n]=await json(n);
+const d=await json('design-v2.example.json'),data=await json('runtime-data.example.json');
+assert.deepEqual(validateDesign(d,c).errors,[]);
+const p=compileDesign(d,c),h=planHybrid(p,data);
+assert.equal(h.runtimeReady,true);assert.equal(h.slots[0].renderer,'native-ranking');
+assert.equal(renderDesign(d,c,data),await read('runtime-example.html'));
+console.log('Static integration fixture reproduced exactly');

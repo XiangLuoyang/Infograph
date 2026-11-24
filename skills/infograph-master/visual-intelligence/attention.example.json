@@ -1,0 +1,31 @@
+{
+  "blocks": [
+    {
+      "id": "claim",
+      "essential": true,
+      "initiallyVisible": true
+    },
+    {
+      "id": "detail",
+      "essential": false,
+      "initiallyVisible": false
+    }
+  ],
+  "steps": [
+    {
+      "action": "anchor",
+      "target": "claim",
+      "question": "What happened?"
+    },
+    {
+      "action": "reveal",
+      "target": "detail",
+      "question": "What supports it?"
+    },
+    {
+      "action": "return",
+      "target": "claim",
+      "question": "What follows?"
+    }
+  ]
+}

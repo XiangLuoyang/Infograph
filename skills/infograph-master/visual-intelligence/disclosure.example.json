@@ -1,0 +1,121 @@
+{
+  "input": {
+    "mode": "verdict-first",
+    "items": [
+      {
+        "id": "verdict",
+        "kind": "decision",
+        "essential": true,
+        "requires": []
+      },
+      {
+        "id": "stock",
+        "kind": "fact",
+        "essential": false,
+        "requires": [],
+        "evidence": "synthetic-stock"
+      },
+      {
+        "id": "gap",
+        "kind": "fact",
+        "essential": false,
+        "requires": [
+          "stock"
+        ],
+        "evidence": "synthetic-flow"
+      },
+      {
+        "id": "unknown",
+        "kind": "question",
+        "essential": false,
+        "requires": [
+          "gap"
+        ]
+      }
+    ],
+    "scenes": [
+      {
+        "id": "overview",
+        "question": "需要决定什么？",
+        "show": [
+          "verdict"
+        ]
+      },
+      {
+        "id": "distribution",
+        "question": "库存集中在哪里？",
+        "show": [
+          "stock"
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "question": "证据能解释什么？",
+        "show": [
+          "gap",
+          "unknown"
+        ]
+      }
+    ]
+  },
+  "output": {
+    "mode": "verdict-first",
+    "steps": [
+      {
+        "id": "overview",
+        "question": "需要决定什么？",
+        "show": [
+          "verdict"
+        ],
+        "introduced": [
+          "verdict"
+        ],
+        "visible": [
+          "verdict"
+        ]
+      },
+      {
+        "id": "distribution",
+        "question": "库存集中在哪里？",
+        "show": [
+          "stock"
+        ],
+        "introduced": [
+          "stock"
+        ],
+        "visible": [
+          "verdict",
+          "stock"
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "question": "证据能解释什么？",
+        "show": [
+          "gap",
+          "unknown"
+        ],
+        "introduced": [
+          "gap",
+          "unknown"
+        ],
+        "visible": [
+          "verdict",
+          "gap",
+          "unknown"
+        ]
+      }
+    ],
+    "staticOrder": [
+      "verdict",
+      "stock",
+      "gap",
+      "unknown"
+    ],
+    "requirements": {
+      "manualNavigation": true,
+      "staticAlternative": true
+    },
+    "scope": "declared disclosure order; no evidence truth or comprehension verification"
+  }
+}

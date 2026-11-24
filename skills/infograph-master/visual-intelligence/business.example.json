@@ -1,0 +1,21 @@
+{
+  "synthetic": true,
+  "revenue": {
+    "p0": 10,
+    "q0": 100,
+    "p1": 12,
+    "q1": 120
+  },
+  "equity": [
+    100,
+    120,
+    90,
+    130
+  ],
+  "margin": {
+    "rrp": 100,
+    "discount": 0.2,
+    "cost": 60,
+    "fees": 4
+  }
+}

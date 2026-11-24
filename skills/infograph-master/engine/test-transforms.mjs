@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {waterfall,histogram,attainment} from './chart-transforms.mjs';
+import {projectIsometric,explode} from './spatial-transforms.mjs';
+assert.equal(waterfall([10,-3,2]).at(-1).end,9);
+assert.equal(histogram([0,1,2,3],3).reduce((a,b)=>a+b.count,0),4);
+assert.equal(histogram([2,2],3)[0].count,2);
+assert.equal(attainment(108,100).gap,8);
+assert.equal(projectIsometric(0,0,5).y,-5);
+assert.equal(explode([{id:'a',position:[1,2,3],offset:[2,0,0]}],.5)[0].position[0],2);
+assert.throws(()=>attainment(1,0));
+assert.throws(()=>explode([],2));
+console.log('8 transform checks passed');

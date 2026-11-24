@@ -1,0 +1,101 @@
+[
+  {
+    "id": "VIZ-0137",
+    "form": "Sankey Diagram",
+    "requiredInputs": [
+      "directed weighted edges",
+      "common additive unit"
+    ],
+    "constraints": [
+      "width proportional to flow; disclose imbalance"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0159",
+    "form": "Network Diagram",
+    "requiredInputs": [
+      "nodes",
+      "edges"
+    ],
+    "constraints": [
+      "preserve endpoints and direction"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0176",
+    "form": "Dependency Graph",
+    "requiredInputs": [
+      "nodes",
+      "typed dependencies"
+    ],
+    "constraints": [
+      "cycles must remain visible"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0294",
+    "form": "Flowchart",
+    "requiredInputs": [
+      "activities",
+      "decisions",
+      "transitions"
+    ],
+    "constraints": [
+      "label decision branches"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0295",
+    "form": "Swimlane Diagram",
+    "requiredInputs": [
+      "activities",
+      "owners",
+      "transitions"
+    ],
+    "constraints": [
+      "explicit handoffs"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0317",
+    "form": "Causal Loop Diagram",
+    "requiredInputs": [
+      "variables",
+      "hypothesized signed causal links"
+    ],
+    "constraints": [
+      "do not infer causality from correlation"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0318",
+    "form": "Stock-and-Flow Diagram",
+    "requiredInputs": [
+      "stocks",
+      "rates",
+      "time units"
+    ],
+    "constraints": [
+      "stock changes integrate net flows"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0332",
+    "form": "UML Sequence Diagram",
+    "requiredInputs": [
+      "participants",
+      "ordered messages"
+    ],
+    "constraints": [
+      "preserve message order"
+    ],
+    "status": "candidate-enrichment"
+  }
+]

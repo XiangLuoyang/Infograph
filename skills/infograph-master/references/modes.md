@@ -67,3 +67,5 @@ Industrial materials: visual-intelligence/industrial-materials.md, industrial-ma
 Material composition: visual-intelligence/material-composition.md, material-cases.json and material-composition.mjs define semantic surface roles and declared fallback checks, not physical compatibility or actual contrast.
 
 Material rendering: visual-intelligence/material-renderer.mjs and material-renderer.md implement opaque CSS and seeded SVG texture assets; Canvas/WebGL fallback only, optical/3D unmet.
+
+Material Studio: visual-intelligence/material-studio.html and material-studio.md integrate three material modules in a standalone preview; browser validation pending.

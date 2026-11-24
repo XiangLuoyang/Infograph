@@ -1,0 +1,86 @@
+[
+  {
+    "id": "axis",
+    "label": "轴线",
+    "relation": "sequence",
+    "rule": "align anchors along a declared direction",
+    "limit": "alignment alone does not establish chronology"
+  },
+  {
+    "id": "center",
+    "label": "中心",
+    "relation": "focus",
+    "rule": "place focal object within supporting context",
+    "limit": "centrality is not quantitative importance"
+  },
+  {
+    "id": "grid",
+    "label": "网格",
+    "relation": "comparison",
+    "rule": "repeat comparable cells and anchors",
+    "limit": "preserve common scales"
+  },
+  {
+    "id": "boundary",
+    "label": "边界",
+    "relation": "membership",
+    "rule": "enclose explicitly related objects",
+    "limit": "avoid false group membership"
+  },
+  {
+    "id": "partition",
+    "label": "分割",
+    "relation": "contrast",
+    "rule": "separate alternatives into comparable regions",
+    "limit": "area is not a value unless encoded"
+  },
+  {
+    "id": "nesting",
+    "label": "嵌套",
+    "relation": "hierarchy",
+    "rule": "contain children within parent regions",
+    "limit": "require verified parent relation"
+  },
+  {
+    "id": "layer",
+    "label": "层叠",
+    "relation": "depth",
+    "rule": "separate context and foreground by z-order",
+    "limit": "avoid occluding essential evidence"
+  },
+  {
+    "id": "threshold",
+    "label": "门槛",
+    "relation": "transition",
+    "rule": "mark change of scene or state",
+    "limit": "do not invent transitions"
+  },
+  {
+    "id": "corridor",
+    "label": "廊道",
+    "relation": "flow",
+    "rule": "connect ordered stages",
+    "limit": "require verified edges"
+  },
+  {
+    "id": "void",
+    "label": "留白",
+    "relation": "separation",
+    "rule": "reserve unoccupied space between groups",
+    "limit": "do not hide missing evidence"
+  },
+  {
+    "id": "cluster",
+    "label": "聚簇",
+    "relation": "association",
+    "rule": "place related objects close together",
+    "limit": "proximity is not causality"
+  },
+  {
+    "id": "field",
+    "label": "场域",
+    "relation": "distribution",
+    "rule": "place objects in shared coordinate system",
+    "limit": "declare coordinate meaning"
+  }
+]

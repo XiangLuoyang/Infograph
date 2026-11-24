@@ -65,3 +65,5 @@ Paper and print: visual-intelligence/paper-print.md, paper-atlas.json and print-
 Industrial materials: visual-intelligence/industrial-materials.md, industrial-materials.json and industrial-plan.mjs provide opaque CSS surface and assembly approximations; optics and chamfer geometry not implemented.
 
 Material composition: visual-intelligence/material-composition.md, material-cases.json and material-composition.mjs define semantic surface roles and declared fallback checks, not physical compatibility or actual contrast.
+
+Material rendering: visual-intelligence/material-renderer.mjs and material-renderer.md implement opaque CSS and seeded SVG texture assets; Canvas/WebGL fallback only, optical/3D unmet.

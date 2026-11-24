@@ -107,3 +107,5 @@ Scientific: visual-intelligence/scientific-intelligence.md, scientific-enrichmen
 Business: visual-intelligence/business-intelligence.md, business-enrichment.json, business-transforms.mjs and business.example.json. Arithmetic bridge, drawdown, contribution margin and weighted decision; not causal attribution or investment advice.
 
 Concept: visual-intelligence/concept-intelligence.md, concept-enrichment.json, concept-transforms.mjs and concept.example.json. Typed concept links, metaphor boundaries and pictogram counts; not evidence verification.
+
+Selection: visual-intelligence/representation-selector.md, representation-index.json, representation-selector.mjs. Only explicit routes qualify; unrouted records require review. Declared inputs are not validated data.

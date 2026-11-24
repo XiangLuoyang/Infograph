@@ -45,3 +45,6 @@ Read engine/design-v2.md and design-v2.example.json. Use design-v2.mjs with the 
 
 ### Experimental Design Runtime
 Read engine/runtime.md. For supported static ranking and lookup designs use render-cli.mjs with Design IR 2.0 and separate block data. Reject unsupported tasks, transitions and spatial objects; use freeform or specialist renderers instead. Material is not applied. Inspect actual HTML and browser output before claiming quality. Never infer business conclusions from renderer success.
+
+### Hybrid planning prototype
+Read engine/hybrid.md. Use planHybrid after compileDesign to identify native and custom slots. A custom slot is not permission to bypass data validation; resolve invalid data first. No automatic custom code execution, shared-state UI integration or repair execution is implemented. Preserve evidence IDs and review all custom code. Run test-hybrid.mjs and report actual results.

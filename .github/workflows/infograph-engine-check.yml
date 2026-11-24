@@ -26,3 +26,5 @@ jobs:
       - run: node test-transforms.mjs
 
       - run: node test-design-v2.mjs
+
+      - run: node test-hybrid.mjs

@@ -30,3 +30,6 @@ Read engine/art-direction-guide.md and art-directions.json. Compare at least two
 
 ### Candidate gallery
 Consult engine/golden/manifest.json and relevant HTML examples for composition and evidence presentation. These are synthetic candidates, not certified golden works. Do not copy their claims or data into real reports. Material preferences are not fully implemented; architectural example is not a map; chart primitives are limited. Compare actual screenshots and validate before promoting any example.
+
+### Browser QA and promotion
+For gallery candidates follow engine/golden/PROMOTION.md. Run browser-qa.mjs with Playwright from engine, or inspect the browser QA workflow artifacts. Review report.json and screenshots; do not equate screenshot capture with regression testing. Do not claim a pass without observed results.

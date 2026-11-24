@@ -1,0 +1,157 @@
+{
+  "markets": {
+    "period": "synthetic month",
+    "revenueUnit": "million currency units",
+    "quantityUnit": "thousand units",
+    "columns": [
+      "market",
+      "target",
+      "actual",
+      "supply",
+      "sellThrough",
+      "endStock"
+    ],
+    "rows": [
+      [
+        "Thailand",
+        100,
+        108,
+        24,
+        18,
+        36
+      ],
+      [
+        "Vietnam",
+        80,
+        76,
+        17,
+        16,
+        20
+      ],
+      [
+        "Malaysia",
+        65,
+        70,
+        14,
+        14,
+        12
+      ],
+      [
+        "Singapore",
+        40,
+        42,
+        8,
+        8,
+        6
+      ],
+      [
+        "Cambodia",
+        20,
+        18,
+        4,
+        3,
+        7
+      ],
+      [
+        "Myanmar",
+        15,
+        12,
+        3,
+        2,
+        5
+      ]
+    ],
+    "missing": [
+      "openingStock",
+      "transfers",
+      "targetWOS"
+    ],
+    "weeksPerMonth": 4.333333333333333
+  },
+  "parts": [
+    {
+      "id": "base",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "offset": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "cover",
+      "position": [
+        0,
+        0,
+        1
+      ],
+      "offset": [
+        0,
+        0,
+        3
+      ]
+    }
+  ],
+  "process": {
+    "nodes": [
+      "order",
+      "review",
+      "approve",
+      "reject",
+      "ship",
+      "close"
+    ],
+    "edges": [
+      [
+        "order",
+        "review"
+      ],
+      [
+        "review",
+        "approve"
+      ],
+      [
+        "review",
+        "reject"
+      ],
+      [
+        "approve",
+        "ship"
+      ],
+      [
+        "ship",
+        "close"
+      ],
+      [
+        "reject",
+        "close"
+      ]
+    ]
+  },
+  "edge": [
+    {
+      "label": "A",
+      "actual": 0,
+      "target": 0
+    },
+    {
+      "label": "B",
+      "actual": null,
+      "target": 10
+    },
+    {
+      "label": "C",
+      "actual": -5,
+      "target": 10
+    }
+  ],
+  "runtime": {
+    "design": "../engine/design-v2.example.json",
+    "data": "../engine/runtime-data.example.json",
+    "expected": "../engine/runtime-example.html"
+  }
+}

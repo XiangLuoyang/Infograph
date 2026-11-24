@@ -39,3 +39,6 @@ Read engine/composition-motion.md, composition-patterns.json and motion-grammar.
 
 ### Specialist engines
 Read engine/specialist-engines.md. Use material-catalog.json and material-extended.css for candidate surface recipes, chart-transforms.mjs for additive waterfall, histogram and attainment data, spatial-transforms.mjs for abstract isometric projection and supplied exploded-part positions. These are transforms, not full renderers. Never use Cartesian isometric projection as geographic projection or infer engineering geometry. Run test-transforms.mjs and inspect actual rendered output.
+
+### Experimental unified Design IR 2.0
+Read engine/design-v2.md and design-v2.example.json. Use design-v2.mjs with the five catalogs to validate and compile candidate layout and chart plans. Keep V1 compatible. No automatic HTML rendering, semantic truth validation, geographic projection or verified animation is implied. Run test-design-v2.mjs and report observed results only.

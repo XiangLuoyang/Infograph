@@ -1,0 +1,50 @@
+[
+  {
+    "id": "attention",
+    "label": "注意力引导",
+    "primitive": "highlight",
+    "status": "candidate"
+  },
+  {
+    "id": "continuity",
+    "label": "对象连续性",
+    "primitive": "shared-object",
+    "status": "candidate"
+  },
+  {
+    "id": "transformation",
+    "label": "状态变化",
+    "primitive": "state-transition",
+    "status": "candidate"
+  },
+  {
+    "id": "causality",
+    "label": "因果表达",
+    "primitive": "directed-flow",
+    "status": "candidate"
+  },
+  {
+    "id": "orientation",
+    "label": "空间定向",
+    "primitive": "camera",
+    "status": "candidate"
+  },
+  {
+    "id": "disclosure",
+    "label": "信息揭示",
+    "primitive": "reveal",
+    "status": "candidate"
+  },
+  {
+    "id": "feedback",
+    "label": "操作反馈",
+    "primitive": "response",
+    "status": "candidate"
+  },
+  {
+    "id": "evolution",
+    "label": "时间演化",
+    "primitive": "timeline",
+    "status": "candidate"
+  }
+]

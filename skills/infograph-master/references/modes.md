@@ -91,3 +91,5 @@ Motion engine: visual-intelligence/motion-engine.mjs integrates five modules for
 Motion Studio: visual-intelligence/motion-studio.html bundles the integrated engine for a synthetic market interaction demo; browser QA pending.
 
 Representation foundations: visual-intelligence/representation-foundations.md, representation-rules.json and representation-selection.mjs provide preliminary relation/task/channel mappings and declared-input gates. Existing catalog audit pending.
+
+Representation ontology: visual-intelligence/representation-ontology.json migrates all 630 legacy records as unreviewed; representation-audit.json records structural counts; representation-ontology.schema.json is a preliminary schema. Do not treat empty semantic fields or legacy renderer hints as verified capabilities.

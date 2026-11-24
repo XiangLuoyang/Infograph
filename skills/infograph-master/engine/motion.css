@@ -1,0 +1,1 @@
+.ig-reveal{animation:ig-in 240ms ease-out both}@keyframes ig-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}.ig-focus{transition:opacity 180ms ease,outline-color 180ms ease}.ig-focus:focus-visible{outline:2px solid currentColor;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ig-reveal{animation:none}.ig-focus{transition:none}}

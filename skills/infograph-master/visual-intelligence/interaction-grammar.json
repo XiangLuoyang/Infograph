@@ -1,0 +1,50 @@
+[
+  {
+    "id": "select",
+    "status": "candidate"
+  },
+  {
+    "id": "focus",
+    "status": "candidate"
+  },
+  {
+    "id": "filter",
+    "status": "candidate"
+  },
+  {
+    "id": "drill-down",
+    "status": "candidate"
+  },
+  {
+    "id": "roll-up",
+    "status": "candidate"
+  },
+  {
+    "id": "compare",
+    "status": "candidate"
+  },
+  {
+    "id": "link",
+    "status": "candidate"
+  },
+  {
+    "id": "trace",
+    "status": "candidate"
+  },
+  {
+    "id": "navigate",
+    "status": "candidate"
+  },
+  {
+    "id": "manipulate",
+    "status": "candidate"
+  },
+  {
+    "id": "simulate",
+    "status": "candidate"
+  },
+  {
+    "id": "restore",
+    "status": "candidate"
+  }
+]

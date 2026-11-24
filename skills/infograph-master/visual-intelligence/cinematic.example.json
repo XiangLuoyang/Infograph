@@ -1,0 +1,53 @@
+{
+  "scenes": [
+    {
+      "id": "region",
+      "shot": "wide",
+      "question": "区域库存分布如何？",
+      "objects": [
+        "region",
+        "thailand"
+      ],
+      "focus": "region"
+    },
+    {
+      "id": "country",
+      "shot": "medium",
+      "question": "泰国库存结构如何？",
+      "objects": [
+        "thailand",
+        "inventory"
+      ],
+      "focus": "thailand"
+    },
+    {
+      "id": "detail",
+      "shot": "close",
+      "question": "库存集中度是多少？",
+      "objects": [
+        "inventory"
+      ],
+      "focus": "inventory"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "region",
+      "to": "country",
+      "move": "push",
+      "cut": "continuous",
+      "anchor": "thailand",
+      "duration": 550,
+      "purpose": "从区域进入国家"
+    },
+    {
+      "from": "country",
+      "to": "detail",
+      "move": "static",
+      "cut": "match",
+      "anchor": "inventory",
+      "duration": 250,
+      "purpose": "聚焦库存证据"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "rows": [
+    {
+      "id": "TH",
+      "region": "SEA",
+      "stock": 36,
+      "sales": 18,
+      "supply": 24
+    },
+    {
+      "id": "VN",
+      "region": "SEA",
+      "stock": 20,
+      "sales": 16,
+      "supply": 17
+    },
+    {
+      "id": "MY",
+      "region": "SEA",
+      "stock": 12,
+      "sales": 14,
+      "supply": 14
+    },
+    {
+      "id": "SG",
+      "region": "SEA",
+      "stock": 6,
+      "sales": 8,
+      "supply": 8
+    },
+    {
+      "id": "KH",
+      "region": "SEA",
+      "stock": 7,
+      "sales": 3,
+      "supply": 4
+    },
+    {
+      "id": "MM",
+      "region": "SEA",
+      "stock": 5,
+      "sales": 2,
+      "supply": 3
+    }
+  ],
+  "projection": {
+    "ids": [
+      "TH",
+      "VN"
+    ],
+    "totals": {
+      "stock": 56,
+      "sales": 34,
+      "supply": 41
+    },
+    "focus": null,
+    "shares": [
+      {
+        "id": "TH",
+        "stockShare": 0.6428571428571429
+      },
+      {
+        "id": "VN",
+        "stockShare": 0.35714285714285715
+      }
+    ]
+  },
+  "sweep": [
+    {
+      "value": 0,
+      "end": 18,
+      "feasible": true,
+      "delta": -18,
+      "assumption": "conditional inventory balance, not forecast"
+    },
+    {
+      "value": 12,
+      "end": 30,
+      "feasible": true,
+      "delta": -6,
+      "assumption": "conditional inventory balance, not forecast"
+    },
+    {
+      "value": 18,
+      "end": 36,
+      "feasible": true,
+      "delta": 0,
+      "assumption": "conditional inventory balance, not forecast"
+    },
+    {
+      "value": 24,
+      "end": 42,
+      "feasible": true,
+      "delta": 6,
+      "assumption": "conditional inventory balance, not forecast"
+    }
+  ]
+}

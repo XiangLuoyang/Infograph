@@ -1,0 +1,123 @@
+[
+  {
+    "id": "VIZ-0013",
+    "form": "Waterfall Chart",
+    "requiredInputs": [
+      "additive signed changes and baseline"
+    ],
+    "constraints": [
+      "reconcile ending value"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0028",
+    "form": "Tornado Chart",
+    "requiredInputs": [
+      "baseline and comparable parameter scenarios"
+    ],
+    "constraints": [
+      "not probability or causal proof"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0375",
+    "form": "Strategy Map",
+    "requiredInputs": [
+      "objectives and typed hypothesized links"
+    ],
+    "constraints": [
+      "distinguish hypothesis from evidence"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0379",
+    "form": "Risk Matrix",
+    "requiredInputs": [
+      "defined likelihood and impact scales"
+    ],
+    "constraints": [
+      "ordinal scores are not expected loss"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0381",
+    "form": "RACI Matrix",
+    "requiredInputs": [
+      "activities roles and responsibility assignments"
+    ],
+    "constraints": [
+      "declare accountability convention"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0385",
+    "form": "Executive Dashboard",
+    "requiredInputs": [
+      "metric definitions period targets and sources"
+    ],
+    "constraints": [
+      "consistent denominators"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0469",
+    "form": "Candlestick Chart",
+    "requiredInputs": [
+      "timestamp OHLC and adjustment convention"
+    ],
+    "constraints": [
+      "low <= open/close <= high"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0485",
+    "form": "Drawdown Chart",
+    "requiredInputs": [
+      "positive equity series ordered by time"
+    ],
+    "constraints": [
+      "running peak denominator"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0489",
+    "form": "Performance Attribution Waterfall",
+    "requiredInputs": [
+      "attribution method and additive contributions"
+    ],
+    "constraints": [
+      "disclose residual"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0493",
+    "form": "Efficient Frontier Plot",
+    "requiredInputs": [
+      "expected returns covariance constraints"
+    ],
+    "constraints": [
+      "model-dependent not guaranteed"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0496",
+    "form": "Earnings Bridge Chart",
+    "requiredInputs": [
+      "baseline ending earnings and additive drivers"
+    ],
+    "constraints": [
+      "reconcile residual"
+    ],
+    "status": "candidate-enrichment"
+  }
+]

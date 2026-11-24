@@ -1,0 +1,102 @@
+[
+  {
+    "id": "VIZ-0240",
+    "form": "exploded-view",
+    "requiredInputs": [
+      "part geometry",
+      "assembly tree",
+      "separation vectors"
+    ],
+    "constraints": [
+      "preserve identity and assembled pose"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0241",
+    "form": "assembly-drawing",
+    "requiredInputs": [
+      "part geometry",
+      "assembled poses"
+    ],
+    "constraints": [
+      "preserve mating relationships"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0244",
+    "form": "section-view",
+    "requiredInputs": [
+      "solid geometry",
+      "cutting plane"
+    ],
+    "constraints": [
+      "derive intersections"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0248",
+    "form": "cutaway",
+    "requiredInputs": [
+      "geometry",
+      "removed region"
+    ],
+    "constraints": [
+      "declare removed material"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0251",
+    "form": "orthographic",
+    "requiredInputs": [
+      "geometry",
+      "view direction",
+      "scale"
+    ],
+    "constraints": [
+      "declare view convention"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0253",
+    "form": "isometric",
+    "requiredInputs": [
+      "geometry",
+      "scale"
+    ],
+    "constraints": [
+      "equal axis foreshortening"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0263",
+    "form": "free-body",
+    "requiredInputs": [
+      "isolated body",
+      "external forces",
+      "reference frame"
+    ],
+    "constraints": [
+      "do not invent loads"
+    ],
+    "status": "candidate-enrichment"
+  },
+  {
+    "id": "VIZ-0268",
+    "form": "bom-balloon",
+    "requiredInputs": [
+      "part IDs",
+      "bill of materials",
+      "leader anchors"
+    ],
+    "constraints": [
+      "unique references"
+    ],
+    "status": "candidate-enrichment"
+  }
+]

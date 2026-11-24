@@ -109,3 +109,5 @@ Business: visual-intelligence/business-intelligence.md, business-enrichment.json
 Concept: visual-intelligence/concept-intelligence.md, concept-enrichment.json, concept-transforms.mjs and concept.example.json. Typed concept links, metaphor boundaries and pictogram counts; not evidence verification.
 
 Selection: visual-intelligence/representation-selector.md, representation-index.json, representation-selector.mjs. Only explicit routes qualify; unrouted records require review. Declared inputs are not validated data.
+
+Rendering: visual-intelligence/specialist-adapter.md and specialist-adapter.mjs. Three narrow native SVG adapters; unsupported forms must not be silently substituted.

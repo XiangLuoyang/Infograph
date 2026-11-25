@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - 'docs/consolidation/candidate-trigger.json'
       - 'skills/infograph-master/benchmark/**'
       - '.github/workflows/infograph-benchmark-smoke.yml'
 permissions:

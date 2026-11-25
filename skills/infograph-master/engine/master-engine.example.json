@@ -1,0 +1,26 @@
+{
+  "designId": "master-demo",
+  "rows": [
+    {
+      "label": "Supply",
+      "value": 70
+    },
+    {
+      "label": "Sales",
+      "value": 61
+    }
+  ],
+  "unit": "k",
+  "title": "区域供销观察",
+  "subtitle": "合成数据",
+  "claim": "供货高于终端销售 9 千台",
+  "note": "差额不等于库存变化。",
+  "patches": [
+    {
+      "revision": 0,
+      "taskId": "layout",
+      "field": "width",
+      "value": 960
+    }
+  ]
+}

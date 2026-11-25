@@ -15,3 +15,6 @@ Added standalone layered renderer and neutral 14-link fixture, offline embedded 
 
 ## Phase 3 implementation
 Phase 2 first browser run failed: SVG `.hidden` property did not apply the hidden attribute; fix uses `toggleAttribute` and retains prior regression. Added restricted native WebGL mechanical mesh, direct-light metallic shading, orthographic view, procedural reflection and context-loss fallback, with separate unit and browser tests. This is not a general model loader, physical simulation or full PBR pipeline. CI and human review pending at submission.
+
+## Phase 3b
+Prior revision 8f71b50 passed browser QA, engine checks and distribution audit. Added bounded configurable box/cylinder assemblies, orthographic camera shared between CPU and GPU, authored 3D ports projected into SVG coordinates with 2D fallback on context loss, and neutral 26-part fixture. New CI pending; no aesthetic claim. Remaining: real environment maps, cast shadows, arbitrary geometry and actual reference-based comparison.

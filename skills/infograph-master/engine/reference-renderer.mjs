@@ -2,6 +2,7 @@ import {createHash} from 'node:crypto';
 import {compileReference,resolveAnchor,planLinks} from './reference-scene.mjs';
 import {previewReferenceSurfaces} from './reference-surface.mjs';
 import {mountMechanicalHub,validateWebGLObject} from './reference-webgl.mjs';
+import {cameraBasis,projectPoint,projectedObjectPorts} from './reference-geometry.mjs';
 const assert=(ok,msg)=>{if(!ok)throw Error(msg)};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeJSON=x=>JSON.stringify(x).replace(/</g,'\\u003c');
@@ -33,7 +34,7 @@ function runtime(p){
  const glViews=new Map();const neutral={dx:0,dy:0,rotation:0,scale:1},ratio=p.plan.source.width/p.plan.source.height;
  let index=p.plan.scenes.findIndex(s=>s.id===p.plan.staticScene),current=p.transforms[p.plan.staticScene]??{},frame=0,timer=null;
  function draw(ts){current=ts;for(const [id,o] of objects){const t=ts[id]??neutral,el=elements.get(id);el.style.left=(o.bounds[0]+t.dx)*100+'%';el.style.top=(o.bounds[1]+t.dy)*100+'%';el.style.transform='rotate('+t.rotation+'deg) scale('+t.scale+')'}
-  for(const l of planLinks(p.plan,ts,ratio)){const el=lines.get(l.id);for(const n of el.querySelectorAll('line')){n.setAttribute('x1',l.from[0]*p.plan.source.width);n.setAttribute('y1',l.from[1]*p.plan.source.height);n.setAttribute('x2',l.to[0]*p.plan.source.width);n.setAttribute('y2',l.to[1]*p.plan.source.height)}}
+  const activePlan={...p.plan,objects:p.plan.objects.map(o=>elements.get(o.id).dataset.glState==='ready'?projectedObjectPorts(o,ratio):o)};for(const l of planLinks(activePlan,ts,ratio)){const el=lines.get(l.id);for(const n of el.querySelectorAll('line')){n.setAttribute('x1',l.from[0]*p.plan.source.width);n.setAttribute('y1',l.from[1]*p.plan.source.height);n.setAttribute('x2',l.to[0]*p.plan.source.width);n.setAttribute('y2',l.to[1]*p.plan.source.height)}}
  }
  function go(next,instant=false){
   cancelAnimationFrame(frame);index=Math.max(0,Math.min(p.plan.scenes.length-1,next));const s=p.plan.scenes[index],vis=new Set(s.visible),start=current,end=p.transforms[s.id]??{};
@@ -54,9 +55,9 @@ function runtime(p){
  motion.addEventListener('change',()=>{cancelAnimationFrame(frame);draw(p.transforms[p.plan.scenes[index].id]??{})});
  for(const o of p.plan.objects){const el=elements.get(o.id),canvas=el.querySelector('canvas');if(!canvas)continue;
  const fallback=el.querySelector('.gl-fallback');let view=null;
- function fail(reason){el.dataset.glState='fallback';canvas.hidden=true;fallback.hidden=false;fallback.textContent='3D unavailable — '+reason;view?.dispose();view=null}
+ function fail(reason){el.dataset.glState='fallback';canvas.hidden=true;fallback.hidden=false;fallback.textContent='3D unavailable — '+reason;view?.dispose();view=null;draw(current)}
  function redraw(){if(!view||el.hidden)return;try{view.draw()}catch{fail('draw failed')}}
- try{view=mountMechanicalHub(canvas,o.material,p.light);el.dataset.glState='ready';fallback.hidden=true;canvas.hidden=false;glViews.set(o.id,{redraw});new ResizeObserver(redraw).observe(el)}catch{fail('context or shader failed')}
+ try{view=mountMechanicalHub(canvas,o.material,p.light,o.geometry);el.dataset.glState='ready';fallback.hidden=true;canvas.hidden=false;glViews.set(o.id,{redraw});new ResizeObserver(redraw).observe(el)}catch{fail('context or shader failed')}
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();fail('context lost')});
  }
  controls.hidden=false;go(0,true);
@@ -66,6 +67,8 @@ const css=String.raw`
 `;
 export function buildReferenceHTML(manifest,options={}){
  const assets=options.assets??{},plan=compileReference(manifest,{raster:true,webgl:options.webgl===true}),ratio=plan.source.width/plan.source.height;
+ // Project physical attachment points only when the actual adapter is enabled; preserve 2D ports for fallback.
+ for(const s of plan.slots.filter(s=>s.renderer==='webgl')){const o=plan.objects.find(o=>o.id===s.id);validateWebGLObject(o);projectedObjectPorts(o,ratio);}
  assert(Number.isFinite(ratio)&&ratio>=.5&&ratio<=3,'unsupported canvas ratio');
  const warnings=[...plan.issues];assert(plan.planningReady||options.allowDegraded===true,'essential renderer unavailable; explicit preview required');
  const transforms=sceneTransforms(plan,options.transforms),highlights=options.highlights??{};
@@ -91,7 +94,7 @@ export function buildReferenceHTML(manifest,options={}){
  const data={plan,transforms,highlights,duration,interval,light:surfaces.lighting};
  const summary=plan.objects.filter(o=>o.essential).map(o=>'<li>'+esc(o.label)+'</li>').join(''),relations=plan.links.map(l=>'<li>'+esc(plan.objects.find(o=>o.id===l.from.object).label)+' — '+esc(plan.objects.find(o=>o.id===l.to.object).label)+'</li>').join('');
  const issues=warnings.map(w=>'<li>'+esc(w.objectId??'Scene')+': '+esc(w.reason)+'</li>').join('');
- const script='const mountMechanicalHub='+mountMechanicalHub.toString()+';const requireThat=(ok,msg)=>{if(!ok)throw Error(msg)};const resolveAnchor='+resolveAnchor.toString()+';const planLinks='+planLinks.toString()+';('+runtime.toString()+')('+safeJSON(data)+');';
- const html='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+css+'</style><main><header><div><div class="kicker">INFOGRAPH / REFERENCE SCENE LAB</div><h1>'+title+'</h1><p>'+description+'</p></div></header><section id="ref-stage" class="stage" style="aspect-ratio:'+plan.source.width+'/'+plan.source.height+'" tabindex="0" aria-label="Operating scene; use arrow keys to navigate" data-scene="'+staticScene.id+'">'+lines+objects+'</section><div class="controls" id="ref-controls" hidden><button id="ref-prev">Previous</button><button id="ref-next">Next</button><button id="ref-play" aria-pressed="false">Play</button><button id="ref-reset">Reset</button><button id="ref-all">Show all</button><span id="ref-status" class="status" aria-live="polite"></span></div><div class="legend"><span class="brand">Brand demands</span><span class="partner">Partner demands</span><span class="external">External context</span></div><p class="note">Qualitative metaphor. Geometry and motion are illustrative, not measured force. WebGL, if enabled, uses a restricted opaque mechanical preset, procedural lighting and screen-space anchors; not optical simulation or measured force.</p>'+(issues?'<details open class="warning"><summary>Preview limitations</summary><ul>'+issues+'</ul></details>':'')+'<details><summary>Accessible scene inventory and links</summary><ul>'+summary+relations+'</ul></details><noscript><p>Static full scene shown. Interactive playback requires JavaScript.</p></noscript></main><script>'+script+'</script></html>';
+ const script='const cameraBasis='+cameraBasis.toString()+';const projectPoint='+projectPoint.toString()+';const projectedObjectPorts='+projectedObjectPorts.toString()+';const mountMechanicalHub='+mountMechanicalHub.toString()+';const requireThat=(ok,msg)=>{if(!ok)throw Error(msg)};const resolveAnchor='+resolveAnchor.toString()+';const planLinks='+planLinks.toString()+';('+runtime.toString()+')('+safeJSON(data)+');';
+ const html='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+css+'</style><main><header><div><div class="kicker">INFOGRAPH / REFERENCE SCENE LAB</div><h1>'+title+'</h1><p>'+description+'</p></div></header><section id="ref-stage" class="stage" style="aspect-ratio:'+plan.source.width+'/'+plan.source.height+'" tabindex="0" aria-label="Operating scene; use arrow keys to navigate" data-scene="'+staticScene.id+'">'+lines+objects+'</section><div class="controls" id="ref-controls" hidden><button id="ref-prev">Previous</button><button id="ref-next">Next</button><button id="ref-play" aria-pressed="false">Play</button><button id="ref-reset">Reset</button><button id="ref-all">Show all</button><span id="ref-status" class="status" aria-live="polite"></span></div><div class="legend"><span class="brand">Brand demands</span><span class="partner">Partner demands</span><span class="external">External context</span></div><p class="note">Qualitative metaphor. Geometry and motion are illustrative, not measured force. WebGL, if enabled, uses opaque primitive assemblies, procedural lighting and optional projected 3D anchors; not optical simulation or measured force.</p>'+(issues?'<details open class="warning"><summary>Preview limitations</summary><ul>'+issues+'</ul></details>':'')+'<details><summary>Accessible scene inventory and links</summary><ul>'+summary+relations+'</ul></details><noscript><p>Static full scene shown. Interactive playback requires JavaScript.</p></noscript></main><script>'+script+'</script></html>';
  return {html,report:{renderedHTML:true,browserVerified:false,releaseReady:false,planIssues:warnings,objectCount:plan.objects.length,linkCount:plan.links.length,sceneCount:plan.scenes.length,renderers:[...new Set(plan.slots.map(s=>s.renderer))],scope:'HTML/SVG/CSS/embedded raster; optional restricted WebGL opaque primitive with direct BRDF approximation; no aesthetic certification'}};
 }

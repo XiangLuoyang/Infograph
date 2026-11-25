@@ -1,0 +1,174 @@
+{
+  "source": {
+    "kind": "synthetic",
+    "id": "neutral-tension-v1",
+    "width": 1200,
+    "height": 800
+  },
+  "objects": [
+    {
+      "id": "background",
+      "role": "environment",
+      "label": "background",
+      "bounds": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "depth": 0,
+      "essential": false,
+      "provenance": "authored",
+      "sourceNote": "synthetic fixture; no measured data",
+      "fidelity": "photoreal",
+      "dynamic": false
+    },
+    {
+      "id": "hub",
+      "role": "entity",
+      "label": "hub",
+      "bounds": [
+        0.35,
+        0.35,
+        0.3,
+        0.3
+      ],
+      "depth": 2,
+      "essential": true,
+      "provenance": "authored",
+      "sourceNote": "synthetic fixture; no measured data",
+      "fidelity": "spatial",
+      "dynamic": true,
+      "ports": {
+        "left": [
+          0,
+          0.5
+        ],
+        "right": [
+          1,
+          0.5
+        ]
+      },
+      "material": {
+        "family": "metal",
+        "roughness": 0.45,
+        "metalness": 0.7,
+        "opacity": 1
+      }
+    },
+    {
+      "id": "anchorA",
+      "role": "anchor",
+      "label": "anchorA",
+      "bounds": [
+        0.05,
+        0.4,
+        0.12,
+        0.15
+      ],
+      "depth": 1,
+      "essential": true,
+      "provenance": "authored",
+      "sourceNote": "synthetic fixture; no measured data",
+      "fidelity": "flat",
+      "dynamic": false,
+      "ports": {
+        "p": [
+          1,
+          0.5
+        ]
+      }
+    },
+    {
+      "id": "anchorB",
+      "role": "anchor",
+      "label": "anchorB",
+      "bounds": [
+        0.83,
+        0.4,
+        0.12,
+        0.15
+      ],
+      "depth": 1,
+      "essential": true,
+      "provenance": "authored",
+      "sourceNote": "synthetic fixture; no measured data",
+      "fidelity": "flat",
+      "dynamic": false,
+      "ports": {
+        "p": [
+          0,
+          0.5
+        ]
+      }
+    },
+    {
+      "id": "label",
+      "role": "label",
+      "label": "label",
+      "bounds": [
+        0.37,
+        0.45,
+        0.26,
+        0.08
+      ],
+      "depth": 3,
+      "essential": true,
+      "provenance": "authored",
+      "sourceNote": "synthetic fixture; no measured data",
+      "fidelity": "flat",
+      "dynamic": false
+    }
+  ],
+  "links": [
+    {
+      "id": "cableA",
+      "from": {
+        "object": "anchorA",
+        "port": "p"
+      },
+      "to": {
+        "object": "hub",
+        "port": "left"
+      },
+      "kind": "constraint"
+    },
+    {
+      "id": "cableB",
+      "from": {
+        "object": "anchorB",
+        "port": "p"
+      },
+      "to": {
+        "object": "hub",
+        "port": "right"
+      },
+      "kind": "constraint"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "initial",
+      "intent": "Anchor attention",
+      "visible": [
+        "background",
+        "hub",
+        "label"
+      ]
+    },
+    {
+      "id": "complete",
+      "intent": "Reveal competing constraints",
+      "visible": [
+        "background",
+        "hub",
+        "label",
+        "anchorA",
+        "anchorB",
+        "cableA",
+        "cableB"
+      ]
+    }
+  ],
+  "staticScene": "complete"
+}

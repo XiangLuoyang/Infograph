@@ -18,3 +18,5 @@ Truth, privacy, domain accuracy and accessibility override aesthetics. Explicit 
 For substantive tasks follow references/execution-gates.md before final rendering and review. Missing or stale required evidence blocks declared eligibility; do not fabricate records.
 
 For substantive artifacts review actual evidence and output using references/critique-protocol.md; prioritize material defects over polish, record unknown checks and stop at the revision budget.
+
+For reference-image or concept-to-code reconstruction, load `references/reference-reconstruction.md` before implementation. Use its authored object manifest, renderer routing and evidence ledger; preserve essential labels and stable identity, disclose unsupported fidelity, and do not confuse planning with rendered output or human aesthetic approval.

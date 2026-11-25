@@ -1,3 +1,4 @@
+import {captureVisual} from './visual-capture.mjs';
 import {stressLayout} from './studio-layout-audit.mjs';
 import {auditContrast} from './studio-contrast.mjs';
 import {auditAccessibility} from './studio-accessibility.mjs';
@@ -38,6 +39,7 @@ try{for(const [name,button,error] of cases)for(const [width,height] of [[1440,90
  const [download]=await Promise.all([page.waitForEvent('download'),page.click(button)]);
  const file=await download.path();assert.ok(file);const data=JSON.parse(await readFile(file,'utf8'));assert.equal(data.kind,'infograph-studio-output');assert.equal(data.version,'1.0');assert.equal(data.studio,name);assert.equal(data.status,'generated');assert.ok(data.payload&&typeof data.payload==='object'&&!Array.isArray(data.payload));assert.equal(data.validation.browser,'not-run');
  const p=data.payload;
+ r.visualCapture=await captureVisual(page,browser,{caseId:name+'-'+width,fixture:{scenario:'specialist-interaction-v1',name},state:await page.locator('body').evaluate(body=>Array.from(body.querySelectorAll('input,select,textarea')).map(e=>[e.id,e.name,e.value,e.checked??null])),captureMode:offline?'offline':'http',path:resolve(out,name+'-'+width+'-candidate.png')});
  if(name==='color'){assert.equal(p.parameters.relation,'magnitude');assert.equal(p.parameters.vision,'deutan');assert.equal(p.parameters.intent,'monitor');assert.deepEqual(p,JSON.parse(await page.locator('#contract').textContent()))}
  if(name==='typography'){assert.equal(p.input.base,20);assert.equal(p.input.precision,2);assert.deepEqual(p,JSON.parse(await page.locator('#contract').textContent()))}
  if(name==='composition'){assert.equal(p.geometryInput.width,420);assert.equal(p.geometryInput.root.children[1].axis,'column')}

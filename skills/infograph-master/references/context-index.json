@@ -1,0 +1,95 @@
+{
+  "version": "0.1",
+  "unit": "utf8-bytes",
+  "groups": {
+    "core": [
+      {
+        "path": "references/acceptance.md",
+        "bytes": 843,
+        "sha": "97a304ea66b15ce16686f9395ae151490e75935b"
+      }
+    ],
+    "standard": [
+      {
+        "path": "references/router.md",
+        "bytes": 1874,
+        "sha": "40db9dafedc600b45e0e2df28c6ef5e9951578a8"
+      },
+      {
+        "path": "references/visual-design.md",
+        "bytes": 4052,
+        "sha": "76371da858ed8f089151eba77bf00c2752f09353"
+      }
+    ],
+    "narrative": [
+      {
+        "path": "repo:skills/narrative-design/SKILL.md",
+        "bytes": 2953,
+        "sha": "71bacc08c179e65080094f960f96a274d5c09058"
+      }
+    ],
+    "color": [
+      {
+        "path": "visual-intelligence/color-foundations.md",
+        "bytes": 969,
+        "sha": "8716ae172ef758c33889266f764d3f3a667a63dc"
+      }
+    ],
+    "typography": [
+      {
+        "path": "visual-intelligence/typography-foundations.md",
+        "bytes": 1814,
+        "sha": "c82f004a3b2b41567a25d81bd3a32f624558a4b1"
+      }
+    ],
+    "composition": [
+      {
+        "path": "visual-intelligence/composition-fundamentals.md",
+        "bytes": 953,
+        "sha": "950cdd5dd294e8c25e2cd2e7ff83a87307b9e99e"
+      }
+    ],
+    "material": [
+      {
+        "path": "visual-intelligence/material-foundations.md",
+        "bytes": 916,
+        "sha": "bbcbdb8910e041209da6d9d68856c98368cf62ae"
+      }
+    ],
+    "motion": [
+      {
+        "path": "visual-intelligence/motion-foundations.md",
+        "bytes": 794,
+        "sha": "7ec307201a888b921a5cdebd010487adedf61b91"
+      }
+    ],
+    "representation": [
+      {
+        "path": "visual-intelligence/representation-foundations.md",
+        "bytes": 848,
+        "sha": "4cfdfba3fe83755b8f0e31f658bd30aaa20fccec"
+      }
+    ],
+    "runtime": [
+      {
+        "path": "engine/runtime.md",
+        "bytes": 816,
+        "sha": "370ed1b9ce1ddabaa3665e152e42cdca757f85d6"
+      }
+    ],
+    "studio": [
+      {
+        "path": "engine/art-direction-guide.md",
+        "bytes": 660,
+        "sha": "128f8e5f36c819575fba4c56e95b7083fab6c4c8"
+      }
+    ]
+  },
+  "policy": {
+    "mandatory": [
+      "core"
+    ],
+    "optionalBudgetBytes": 24000,
+    "wholeCatalogDefault": false
+  }
+}

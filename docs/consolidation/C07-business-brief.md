@@ -1,0 +1,2 @@
+# C07-B Business Data and Brief
+Editable JSON rows, unit, title, subtitle, claim, note; confirmation reset on any brief edit, previous preview invalidated. Validate 1–20 nonnegative finite rows, unique labels <=18 chars, explicit unit and claim/note. Seven isolated checks passed. Fixed blocked state label. Confirmation is user attestation, not semantic verification; no CSV, evidence IDs, automated claim checks or browser/native execution. Fixed bar adapter only. Next C07-C controls.

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "candidate": "V1.2-RC1",
+  "purpose": "Run all five workflows on this commit; no release authorization",
+  "releaseAuthorized": false,
+  "manualGates": [
+    "G09",
+    "G10"
+  ],
+  "modelEffectiveness": "not-run"
+}

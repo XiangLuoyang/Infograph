@@ -29,3 +29,6 @@ Phase 3c browser QA at 03774bb failed the final warm/cool pixel-difference asser
 
 ## Phase 4
 948db42 passed all four CI workflows, including lighting and art direction browser tests. Added reference pair review engine, image-hash-bound annotations/observations, region and relationship diagnostics, scoped repairs and an injected-defect browser fixture. New CI pending. Original REAL-001 concept and HTML have not yet been compared; no aesthetic improvement claim. Next execute actual case, not more renderer expansion.
+
+## Phase 5a: real-case replay
+A private, reference-informed freeform hybrid variant was generated and locally tested. See [V4-REPLAY.md](V4-REPLAY.md). Actual functional checks passed; human aesthetics and full native-engine replay pending. The original and rendered private artifacts are intentionally not in the public repository.

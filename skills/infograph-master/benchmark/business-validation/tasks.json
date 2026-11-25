@@ -3,70 +3,36 @@
     "id": "T01",
     "fixture": "markets",
     "brief": "Executive regional performance report with schematic 3D market view, attainment and display coverage, linked selection; clearly label schematic geography.",
-    "checks": [
-      "total revenue 270",
-      "total target 280",
-      "attainment 96.428571%",
-      "display coverage 85/107",
-      "TH WOS 17",
-      "VN attainment 80%"
-    ]
+    "rules": "Revenue and target are synthetic USD millions for one month; stock and weeklySales are units; WOS=stock/weeklySales; aggregate attainment and coverage use summed denominators. Select a market to reveal its metrics."
   },
   {
     "id": "T02",
     "fixture": "inventory",
     "brief": "Inventory risk dashboard, adjustable inbound scenario, WOS and exceptions; threshold above 12 weeks is high risk.",
-    "checks": [
-      "P1 WOS 17; with inbound 19",
-      "P2 WOS 6",
-      "P3 zero denominator undefined",
-      "P4 missing sales undefined",
-      "no forecast claim"
-    ]
+    "rules": "Stock and inbound are units; weeklySales is units/week. Scenario WOS=(stock+inbound*multiplier)/weeklySales, multiplier 0–1, default 0; distinguish zero from missing."
   },
   {
     "id": "T03",
     "fixture": "pricing",
     "brief": "Interactive price waterfall with retail and distributor margins calculated on each party's selling price; freight and service paid by distributor.",
-    "checks": [
-      "retail buy price 800",
-      "retail gross profit 200",
-      "distributor buy price 680",
-      "distributor gross profit 120",
-      "distributor contribution 70"
-    ]
+    "rules": "All values per unit; margin rates adjustable 0–0.4, default supplied values; show recalculated prices and contribution."
   },
   {
     "id": "T04",
     "fixture": "partners",
     "brief": "Partner scorecard with equal weights across four metrics, no imputation, rank only complete records, show risk tradeoffs.",
-    "checks": [
-      "A 83.75",
-      "B 80",
-      "C incomplete not ranked",
-      "B compliance 60"
-    ]
+    "rules": "Metrics are 0–100; arithmetic mean of four metrics; show missing explicitly; no ranking incomplete records."
   },
   {
     "id": "T05",
     "fixture": "process",
     "brief": "Readable cross-functional swimlane with branches, shared revision path, and resubmission loop.",
-    "checks": [
-      "6 nodes",
-      "7 directed edges",
-      "no invented transitions",
-      "all lane ownership preserved"
-    ]
+    "rules": "Preserve every directed edge and label; use lane ownership; provide node selection with incoming/outgoing transitions."
   },
   {
     "id": "T06",
     "fixture": "assembly",
     "brief": "Schematic exploded assembly with adjustable separation multiplier 0 to 2, reset to 1, all supplied dimensions and IDs preserved; not manufacturing drawing.",
-    "checks": [
-      "4 parts",
-      "at multiplier 2 z offsets 0,24,40,72",
-      "reset offsets 0,12,20,36",
-      "no invented parts"
-    ]
+    "rules": "Scale supplied offsets, not dimensions; default multiplier 1; label schematic and units."
   }
 ]

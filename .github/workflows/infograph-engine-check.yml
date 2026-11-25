@@ -6,6 +6,7 @@ on:
       - 'skills/infograph-master/visual-intelligence/**'
       - '.github/workflows/infograph-engine-check.yml'
       - 'scripts/**'
+      - 'skills/narrative-design/templates/**'
   workflow_dispatch:
 permissions:
   contents: read
@@ -51,3 +52,10 @@ jobs:
       - name: Static dependency audit
         working-directory: .
         run: node scripts/audit-dependencies.mjs
+
+      - name: Install contract validator
+        working-directory: .
+        run: python -m pip install jsonschema==4.23.0
+      - name: Validate registered contracts
+        working-directory: .
+        run: python scripts/validate-contracts.py

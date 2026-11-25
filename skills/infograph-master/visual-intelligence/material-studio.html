@@ -1,73 +1,8 @@
 <!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Infograph Material Studio</title><style>*{box-sizing:border-box}body{margin:0;background:#e8ebe6;color:#263b32;font:15px system-ui,sans-serif}header{padding:24px;border-bottom:1px solid #aab8ae}h1{font:32px Georgia,serif;margin:0}main{display:grid;grid-template-columns:minmax(230px,300px) minmax(0,1fr);gap:24px;padding:24px;max-width:1200px;margin:auto}aside{display:grid;gap:10px;align-content:start}label{display:grid;gap:4px}select,input,button{font:inherit;max-width:100%;padding:7px}button{cursor:pointer}#preview{padding:clamp(16px,4vw,48px);min-height:460px;overflow-wrap:anywhere}#frame{display:grid;padding:12px;grid-template-columns:repeat(2,minmax(0,1fr))}#frame section,#overlay{padding:16px}strong.metric{display:block;font:clamp(28px,5vw,52px) Georgia,serif;font-variant-numeric:tabular-nums}#overlay{margin-top:16px}#status{white-space:pre-wrap;font-size:13px}small{display:block} @media(max-width:650px){main{grid-template-columns:1fr;padding:12px}#frame{grid-template-columns:1fr}}</style><header><h1>Material Studio</h1><small>Infograph / Visual Intelligence · 合成数据</small></header><main><aside id="controls"></aside><div><article id="preview"><small>REGIONAL BUSINESS REVIEW</small><h2>Growth and inventory</h2><p>区域销售达成与库存分布</p><div id="frame"><section class="data"><small>销售目标达成率</small><strong class="metric">101.9%</strong>326M / 320M</section><section class="data"><small>区域库存</small><strong class="metric">86K</strong>合成数据</section></div><section id="overlay"><small>泰国库存占比</small><strong class="metric">41.9%</strong>36K / 86K</section></article><pre id="status" role="status"></pre><button id="export">导出 JSON</button></div></main><script type="module">
+import catalog from './industrial-materials.json' with {type:'json'};
 import {renderMaterial} from './material-renderer.mjs';
 import {materialComposition} from './material-composition.mjs';
 import {industrialPlan} from './industrial-plan.mjs';
-const catalog=[
-  {
-    "id": "brushed-aluminum",
-    "substance": "metal",
-    "finish": "brushed",
-    "bg": "#c5cdd0",
-    "ink": "#24343b",
-    "shine": 0.45
-  },
-  {
-    "id": "bead-blasted-metal",
-    "substance": "metal",
-    "finish": "blasted",
-    "bg": "#b8c0c2",
-    "ink": "#25353a",
-    "shine": 0.12
-  },
-  {
-    "id": "polished-steel",
-    "substance": "metal",
-    "finish": "polished",
-    "bg": "#d6dde0",
-    "ink": "#26343b",
-    "shine": 0.8
-  },
-  {
-    "id": "anodized-metal",
-    "substance": "metal",
-    "finish": "anodized",
-    "bg": "#56676b",
-    "ink": "#ffffff",
-    "shine": 0.25
-  },
-  {
-    "id": "clear-glass",
-    "substance": "glass",
-    "finish": "clear",
-    "bg": "#eaf2f1",
-    "ink": "#233b35",
-    "shine": 0.7
-  },
-  {
-    "id": "frosted-glass",
-    "substance": "glass",
-    "finish": "frosted",
-    "bg": "#e0eae6",
-    "ink": "#233b35",
-    "shine": 0.2
-  },
-  {
-    "id": "matte-polymer",
-    "substance": "polymer",
-    "finish": "matte",
-    "bg": "#d8ddd7",
-    "ink": "#293b31",
-    "shine": 0.08
-  },
-  {
-    "id": "glazed-ceramic",
-    "substance": "ceramic",
-    "finish": "glazed",
-    "bg": "#f0eee5",
-    "ink": "#343b35",
-    "shine": 0.45
-  }
-];
 const presets={"editorial":["paper","matte","bead-blasted-metal","glass"],"architectural":["stone","matte","frosted-glass","glass"],"instrument":["metal","matte","anodized-metal","matte"],"archive":["paper","paper","matte-polymer","paper"]};
 function studioPlan(p){const base=renderMaterial({material:p.base,detail:p.detail,backend:p.backend,seed:p.seed,strength:p.strength});const primary=renderMaterial({material:p.primary});const overlay=renderMaterial({material:p.overlay});const industrial=industrialPlan({preset:p.frame,edge:p.edge,assembly:p.assembly,texture:p.strength,gap:p.gap},catalog);const composition=materialComposition({surfaces:[{id:'base',role:'foundation',material:p.base,area:1,essential:false,translucent:false},{id:'data',role:'primary',material:p.primary,area:.5,essential:true,translucent:false},{id:'frame',role:'secondary',material:p.frame,area:.6,essential:false,translucent:false},...(p.showOverlay?[{id:'detail',role:'secondary',material:p.overlay,area:.1,essential:true,translucent:false}]:[])],relations:p.showOverlay?[{from:'detail',to:'data',type:'adjacent'}]:[]});return {profile:p,base,primary,overlay,industrial,composition,lighting:{x:Math.round(Math.cos(p.angle*Math.PI/180)*p.shadow),y:Math.round(Math.sin(p.angle*Math.PI/180)*p.shadow)}};}
 const defaults={base:'paper',primary:'matte',frame:'bead-blasted-metal',overlay:'glass',detail:'texture',backend:'auto',seed:42,strength:.3,edge:'rounded',assembly:'inset',gap:8,angle:45,shadow:6,showOverlay:true};

@@ -1,0 +1,12 @@
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hex=s=>{if(!/^#[0-9a-f]{6}$/i.test(s))throw Error('invalid color');return s};
+const num=(x,min,max)=>{if(!Number.isFinite(x)||x<min||x>max)throw Error('invalid numeric token');return x};
+const font=s=>{if(typeof s!=='string'||! /^[\p{L}\p{N} ,"_-]+$/u.test(s))throw Error('invalid font');return s};
+export function renderUnified(d){
+ const t=d.color.tokens,p=d.type.roles,m=d.material.css,b=d.layout.boxes.find(x=>x.id==='main');
+ if(!b||d.chart.status!=='rendered'||d.chart.backend!=='svg'||typeof d.chart.svg!=='string'||!d.material.requirementMet)throw Error('unsupported render input');
+ const width=num(b.width,240,2400),height=num(b.height,120,2400);
+ if(!d.chart.svg.includes('viewBox="0 0 '+width+' '+height+'"'))throw Error('chart geometry mismatch');
+ const image='data:image/svg+xml,'+encodeURIComponent(d.chart.svg);
+ return '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data:; style-src \'unsafe-inline\'"><title>'+esc(d.title)+'</title><style> *{box-sizing:border-box}body{margin:0;background:'+hex(t.canvas)+';color:'+hex(t.text)+';font-family:'+font(d.type.families.body)+';font-size:'+num(p.body.size,10,32)+'px;line-height:'+num(p.body.lineHeight,1,2.5)+'}main{max-width:'+width+'px;margin:auto;padding:24px}header{border-bottom:1px solid '+hex(t.muted)+';padding-bottom:20px}h1,h2{font-family:'+font(d.type.families.heading)+';line-height:1.2}h1{font-size:clamp(26px,5vw,'+num(p.display.size,26,90)+'px);margin:12px 0}h2{font-size:'+num(p.heading.size,16,48)+'px}small{color:'+hex(t.muted)+'}figure{margin:24px 0;background:'+hex(t.surface)+';padding:16px;border:1px solid #d7ded7}img{display:block;width:100%;height:auto}figcaption{overflow-wrap:anywhere}aside{background:'+hex(m.backgroundColor)+';color:'+hex(m.color)+';padding:18px;border-left:3px solid '+hex(t.accent)+'}footer{margin-top:24px;font-size:12px}@media(max-width:480px){main{padding:12px}figure{padding:8px}}</style></head><body><main><header><small>'+esc(d.subtitle)+'</small><h1>'+esc(d.title)+'</h1></header><section><h2>'+esc(d.claim)+'</h2><figure><img alt="'+esc(d.chart.summary)+'" src="'+esc(image)+'"><figcaption>'+esc(d.chart.summary)+'</figcaption></figure><aside>'+esc(d.note)+'</aside></section><footer>候选原型 · 未经浏览器及业务语义验收 · 不自动授权发布</footer></main></body></html>';
+}

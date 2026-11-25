@@ -6,6 +6,7 @@ on:
       - 'skills/infograph-master/visual-intelligence/**'
       - '.github/workflows/infograph-browser-qa.yml'
       - 'scripts/build-studios.mjs'
+      - 'scripts/verify-studios.mjs'
   workflow_dispatch:
 permissions:
   contents: read
@@ -27,6 +28,7 @@ jobs:
         run: |
           npm install --no-save --no-package-lock esbuild@0.25.5
           node scripts/build-studios.mjs
+          node scripts/verify-studios.mjs
       - run: node browser-qa.mjs
       - run: node studio-browser-qa.mjs
         if: always()

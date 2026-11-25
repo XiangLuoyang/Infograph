@@ -28,3 +28,15 @@ for(const task of Object.keys(applicability.tasks)){
 }
 assert.equal(pairs.length,6);
 console.log(JSON.stringify({mode:'mock',runs:records.length,anonymousPackets:publicReview.length,pairs,realModelRuns:0,qualityConclusion:null,sandbox:'not-run'}));
+
+import {scoreBusiness} from './score-business.mjs';
+const rubric=read('../rubric.json');
+const empty=scoreBusiness(schedule,[],applicability,rubric);
+assert(empty.pairs.every(p=>p.status==='not-run'&&p.delta===null));
+const synthetic=schedule.map(r=>({runId:r.id,hardFailReview:'complete',hardFails:[],scores:Object.fromEntries(Object.keys(rubric.weights).filter(k=>applicability.tasks[r.task][k]).map(k=>[k,3]))}));
+const equal=scoreBusiness(schedule,synthetic,applicability,rubric);
+assert(equal.records.every(r=>r.score===60));assert(equal.pairs.every(p=>p.delta.vsBaseline===0&&p.delta.vsV11===0));
+synthetic[0].hardFails=['material numerical error'];
+assert(scoreBusiness(schedule,synthetic,applicability,rubric).pairs.some(p=>p.status==='fail'&&p.delta===null));
+assert.throws(()=>scoreBusiness(schedule,[synthetic[0],synthetic[0]],applicability,rubric));
+console.log('Synthetic rubric regression passed; no model quality measurements');

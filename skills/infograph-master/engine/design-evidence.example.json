@@ -1,0 +1,267 @@
+{
+  "input": {
+    "designId": "demo",
+    "revision": 6,
+    "report": {
+      "results": [
+        {
+          "id": "layout",
+          "status": "generated",
+          "input": {
+            "width": 800,
+            "height": 400,
+            "root": {
+              "id": "main"
+            }
+          },
+          "trace": [],
+          "output": {
+            "status": "generated",
+            "payload": {
+              "width": 800,
+              "height": 400,
+              "boxes": [
+                {
+                  "id": "main",
+                  "x": 16,
+                  "y": 16,
+                  "width": 768,
+                  "height": 368,
+                  "depth": 0,
+                  "leaf": true
+                }
+              ],
+              "scope": "rectangular geometry only"
+            }
+          }
+        },
+        {
+          "id": "chart",
+          "status": "generated",
+          "input": {
+            "id": "VIZ-0002",
+            "data": {
+              "unit": "k",
+              "rows": [
+                {
+                  "label": "Supply",
+                  "value": 70
+                },
+                {
+                  "label": "Sales",
+                  "value": 61
+                }
+              ]
+            },
+            "width": 768,
+            "height": 368
+          },
+          "trace": [
+            {
+              "from": "layout",
+              "path": [
+                "boxes",
+                "0",
+                "width"
+              ],
+              "to": "width",
+              "type": "number",
+              "value": 768
+            },
+            {
+              "from": "layout",
+              "path": [
+                "boxes",
+                "0",
+                "height"
+              ],
+              "to": "height",
+              "type": "number",
+              "value": 368
+            }
+          ],
+          "output": {
+            "status": "generated",
+            "payload": {
+              "status": "rendered",
+              "id": "VIZ-0002",
+              "backend": "svg",
+              "summary": "Supply: 70 k; Sales: 61 k",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 768 368\" role=\"img\"><title>bar</title><desc>Supply: 70 k; Sales: 61 k</desc><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><g font-family=\"sans-serif\" font-size=\"11\" fill=\"#243b30\"><text x=\"8\" y=\"42\">Supply</text><rect x=\"140\" y=\"30\" width=\"573\" height=\"22\" fill=\"#426b58\"/><text x=\"717\" y=\"42\">70</text><text x=\"8\" y=\"188.5\">Sales</text><rect x=\"140\" y=\"176.5\" width=\"499.3285714285714\" height=\"22\" fill=\"#426b58\"/><text x=\"643.3285714285714\" y=\"188.5\">61</text></g></svg>",
+              "warnings": [
+                "No browser geometry or visual audit performed"
+              ]
+            }
+          }
+        },
+        {
+          "id": "palette",
+          "status": "generated",
+          "output": {
+            "version": "1.0",
+            "kind": "infograph-studio-output",
+            "studio": "color",
+            "status": "generated",
+            "payload": {
+              "tokens": {
+                "canvas": "#edf9ef",
+                "surface": "#ffffff",
+                "text": "#19221b",
+                "muted": "#49534b",
+                "accent": "#2c5c38"
+              },
+              "audit": [
+                {
+                  "foreground": "text",
+                  "background": "canvas",
+                  "ratio": 15.083980925723173,
+                  "pass": true
+                },
+                {
+                  "foreground": "text",
+                  "background": "surface",
+                  "ratio": 16.33006041791831,
+                  "pass": true
+                },
+                {
+                  "foreground": "muted",
+                  "background": "canvas",
+                  "ratio": 7.397454697909859,
+                  "pass": true
+                },
+                {
+                  "foreground": "muted",
+                  "background": "surface",
+                  "ratio": 8.0085544227702,
+                  "pass": true
+                },
+                {
+                  "foreground": "accent",
+                  "background": "canvas",
+                  "ratio": 7.197462338513898,
+                  "pass": true
+                },
+                {
+                  "foreground": "accent",
+                  "background": "surface",
+                  "ratio": 7.792040802914802,
+                  "pass": true
+                }
+              ],
+              "scope": "opaque sRGB normal text contrast only"
+            },
+            "limitations": [
+              "opaque sRGB normal text contrast only"
+            ],
+            "evidence": [],
+            "validation": {
+              "browser": "not-run",
+              "semantic": "not-run",
+              "audience": "not-run"
+            }
+          }
+        }
+      ]
+    },
+    "scopes": [
+      {
+        "blockId": "b:A1",
+        "layoutTask": "layout",
+        "boxId": "main",
+        "chartTask": "chart",
+        "colorTask": "palette"
+      }
+    ]
+  },
+  "output": {
+    "designId": "demo",
+    "revision": 6,
+    "blocks": {
+      "b:A1": {
+        "availableWidth": 768
+      }
+    },
+    "observations": [
+      {
+        "blockId": "b:A1",
+        "field": "availableWidth",
+        "value": 768,
+        "source": "algorithm-output",
+        "task": "layout",
+        "path": [
+          "boxes",
+          "main",
+          "width"
+        ],
+        "scope": "planned geometry, not measured text space",
+        "eligible": true
+      },
+      {
+        "blockId": "b:A1",
+        "field": "requestedChartWidth",
+        "value": 768,
+        "source": "algorithm-output",
+        "task": "chart",
+        "path": [
+          "input",
+          "width"
+        ],
+        "scope": "renderer request, not minimum required width",
+        "eligible": false
+      },
+      {
+        "blockId": "b:A1",
+        "field": "paletteMinContrast",
+        "value": 7.197462338513898,
+        "source": "algorithm-output",
+        "task": "palette",
+        "path": [
+          "audit"
+        ],
+        "scope": "opaque palette pairs only, not effective page contrast",
+        "eligible": false
+      },
+      {
+        "blockId": "b:A1",
+        "field": "taskStatus",
+        "value": "generated",
+        "source": "algorithm-output",
+        "task": "layout",
+        "path": [
+          "status"
+        ],
+        "scope": "execution status, not visual validation",
+        "eligible": false
+      },
+      {
+        "blockId": "b:A1",
+        "field": "taskStatus",
+        "value": "generated",
+        "source": "algorithm-output",
+        "task": "chart",
+        "path": [
+          "status"
+        ],
+        "scope": "execution status, not visual validation",
+        "eligible": false
+      },
+      {
+        "blockId": "b:A1",
+        "field": "taskStatus",
+        "value": "generated",
+        "source": "algorithm-output",
+        "task": "palette",
+        "path": [
+          "status"
+        ],
+        "scope": "execution status, not visual validation",
+        "eligible": false
+      }
+    ],
+    "limitations": [
+      "task-to-block scope is caller supplied",
+      "algorithm outputs are not browser measurements",
+      "no cryptographic provenance or semantic truth verification"
+    ]
+  }
+}

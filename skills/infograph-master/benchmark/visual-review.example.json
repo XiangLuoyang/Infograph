@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "artifactId": "synthetic-example-not-reviewed",
+  "reviewer": "example-only",
+  "scope": "screenshots-only",
+  "visualScore": null,
+  "rationale": "Illustrative record only; no artifact has been evaluated.",
+  "observations": [
+    {
+      "dimension": "composition",
+      "kind": "unverified",
+      "location": "Example: KPI header",
+      "observation": "Inspect whether the primary metric dominates secondary labels.",
+      "consequence": "Hierarchy cannot be established without the actual screenshot.",
+      "severity": "unknown",
+      "repair": null,
+      "confidence": "low"
+    }
+  ]
+}

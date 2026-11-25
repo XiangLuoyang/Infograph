@@ -1,0 +1,152 @@
+{
+  "title": "区域供销观察",
+  "subtitle": "合成数据 · 设计引擎原型",
+  "claim": "供货高于终端销售 9 千台",
+  "note": "本期供货与销售的差额不等于库存变化；缺少期初库存及其他流转数据。",
+  "color": {
+    "tokens": {
+      "canvas": "#edf9ef",
+      "surface": "#ffffff",
+      "text": "#19221b",
+      "muted": "#49534b",
+      "accent": "#2c5c38"
+    },
+    "audit": [
+      {
+        "foreground": "text",
+        "background": "canvas",
+        "ratio": 15.083980925723173,
+        "pass": true
+      },
+      {
+        "foreground": "text",
+        "background": "surface",
+        "ratio": 16.33006041791831,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "canvas",
+        "ratio": 7.397454697909859,
+        "pass": true
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "ratio": 8.0085544227702,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "canvas",
+        "ratio": 7.197462338513898,
+        "pass": true
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "ratio": 7.792040802914802,
+        "pass": true
+      }
+    ],
+    "scope": "opaque sRGB normal text contrast only"
+  },
+  "type": {
+    "direction": "editorial",
+    "locale": "zh-CN",
+    "families": {
+      "heading": "Georgia, \"Noto Serif CJK SC\", \"Songti SC\", serif",
+      "body": "system-ui, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"
+    },
+    "roles": {
+      "note": {
+        "size": 12.8,
+        "lineHeight": 1.6,
+        "weight": 400
+      },
+      "body": {
+        "size": 16,
+        "lineHeight": 1.6,
+        "weight": 400
+      },
+      "label": {
+        "size": 16,
+        "lineHeight": 1.6,
+        "weight": 500
+      },
+      "subheading": {
+        "size": 20,
+        "lineHeight": 1.6,
+        "weight": 500
+      },
+      "heading": {
+        "size": 25,
+        "lineHeight": 1.2,
+        "weight": 600
+      },
+      "display": {
+        "size": 39.1,
+        "lineHeight": 1.2,
+        "weight": 400
+      },
+      "metric": {
+        "size": 48.8,
+        "lineHeight": 1.2,
+        "weight": 600
+      }
+    },
+    "numeric": {
+      "variant": "tabular-nums lining-nums",
+      "alignment": "end",
+      "unitPolicy": "explicit consistent units and precision"
+    },
+    "reading": {
+      "maxInlineSize": "36em",
+      "lineBreak": "strict",
+      "wordBreak": "normal",
+      "overflowWrap": "anywhere"
+    },
+    "scope": "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+  },
+  "material": {
+    "requested": "css",
+    "actual": "css",
+    "css": {
+      "backgroundColor": "#f5f2e8",
+      "color": "#29382f",
+      "backgroundImage": "none"
+    },
+    "svg": null,
+    "warnings": [],
+    "requirementMet": true,
+    "opaqueFallback": true,
+    "essential": true,
+    "scope": "decorative opaque CSS/SVG only; no physical rendering"
+  },
+  "layout": {
+    "width": 960,
+    "height": 400,
+    "boxes": [
+      {
+        "id": "main",
+        "x": 16,
+        "y": 16,
+        "width": 928,
+        "height": 368,
+        "depth": 0,
+        "leaf": true
+      }
+    ],
+    "scope": "rectangular geometry only"
+  },
+  "chart": {
+    "status": "rendered",
+    "id": "VIZ-0002",
+    "backend": "svg",
+    "summary": "Supply: 70 k; Sales: 61 k",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 928 368\" role=\"img\"><title>bar</title><desc>Supply: 70 k; Sales: 61 k</desc><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><g font-family=\"sans-serif\" font-size=\"11\" fill=\"#243b30\"><text x=\"8\" y=\"42\">Supply</text><rect x=\"140\" y=\"30\" width=\"733\" height=\"22\" fill=\"#426b58\"/><text x=\"877\" y=\"42\">70</text><text x=\"8\" y=\"188.5\">Sales</text><rect x=\"140\" y=\"176.5\" width=\"638.7571428571429\" height=\"22\" fill=\"#426b58\"/><text x=\"782.7571428571429\" y=\"188.5\">61</text></g></svg>",
+    "warnings": [
+      "No browser geometry or visual audit performed"
+    ]
+  }
+}

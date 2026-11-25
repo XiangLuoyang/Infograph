@@ -1,0 +1,63 @@
+{
+  "version": "0.1",
+  "dimensions": [
+    {
+      "id": "evidence",
+      "checks": [
+        "traceability",
+        "metric-integrity",
+        "claim-support"
+      ]
+    },
+    {
+      "id": "narrative",
+      "checks": [
+        "central-question",
+        "progression",
+        "decision-closure"
+      ]
+    },
+    {
+      "id": "representation",
+      "checks": [
+        "relation-fit",
+        "encoding-integrity",
+        "domain-accuracy"
+      ]
+    },
+    {
+      "id": "visual",
+      "checks": [
+        "hierarchy",
+        "composition",
+        "legibility",
+        "art-direction"
+      ]
+    },
+    {
+      "id": "interaction",
+      "checks": [
+        "task-fit",
+        "essential-visibility",
+        "accessible-alternative"
+      ]
+    },
+    {
+      "id": "engineering",
+      "checks": [
+        "runtime",
+        "responsive",
+        "export-integrity"
+      ]
+    }
+  ],
+  "severity": [
+    "blocker",
+    "major",
+    "minor"
+  ],
+  "policy": {
+    "maxRevisions": 3,
+    "releaseAuthorized": false
+  }
+}

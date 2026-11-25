@@ -78,3 +78,14 @@ jobs:
       - name: Validate registered contracts
         working-directory: .
         run: python scripts/validate-contracts.py
+
+      - name: Archive Python dependency evidence
+        working-directory: .
+        run: |
+          mkdir -p audit-output
+          python scripts/audit-python-dependencies.py > audit-output/python-inventory.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-dependency-inventory
+          path: audit-output/python-inventory.json
+          if-no-files-found: error

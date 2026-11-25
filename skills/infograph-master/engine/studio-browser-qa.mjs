@@ -41,7 +41,26 @@ try{for(const [name,button,error] of cases)for(const [width,height] of [[1440,90
  if(name==='typography'){assert.equal(p.input.base,20);assert.equal(p.input.precision,2);assert.deepEqual(p,JSON.parse(await page.locator('#contract').textContent()))}
  if(name==='composition'){assert.equal(p.geometryInput.width,420);assert.equal(p.geometryInput.root.children[1].axis,'column')}
  if(name==='material')assert.equal(p.profile.showOverlay,false);
- if(name==='motion'){assert.equal(p.view.reduced,true);assert.equal(p.view.state.parameters.supply,24);assert.equal(p.view.simulation.end,42);await page.click('#reset');assert.equal(await page.locator('#parameterValue').innerText(),'18K');assert.equal(await page.locator('#stock').innerText(),'56K');assert.equal(await page.evaluate(()=>window.qaAnimationCalls),0);r.reducedMotion='verified-no-animation-calls'}
+ if(name==='motion'){assert.equal(p.view.reduced,true);assert.equal(p.view.state.parameters.supply,24);assert.equal(p.view.simulation.end,42);await page.click('#reset');assert.equal(await page.locator('#parameterValue').innerText(),'18K');assert.equal(await page.locator('#stock').innerText(),'56K');assert.equal(await page.evaluate(()=>window.qaAnimationCalls),0);r.reducedMotion='verified-no-animation-calls';
+ const normal=await browser.newPage({viewport:{width,height},acceptDownloads:true,reducedMotion:'no-preference'});
+ try{
+ if(offline)await normal.context().setOffline(true);
+ await normal.goto(page.url());
+ assert.equal(await normal.locator('#reduce').isChecked(),false);
+ await normal.evaluate(()=>{window.qaAnimationCalls=0;const original=Element.prototype.animate;Element.prototype.animate=function(...args){window.qaAnimationCalls++;return original.apply(this,args)}});
+ await normal.click('[data-scene="gap"]');await normal.click('.market[data-id="TH"]');
+ await normal.locator('#filters input[value="VN"]').uncheck();
+ await normal.locator('#parameter').fill('30');await normal.click('#undo');await normal.locator('#parameter').fill('24');
+ const [normalDownload]=await Promise.all([normal.waitForEvent('download'),normal.click('#export')]);
+ const v=JSON.parse(await readFile(await normalDownload.path(),'utf8')).payload.view;
+ for(const k of ['state','projection','simulation','visible','visited','staticOrder','canUndo'])assert.deepEqual(v[k],p.view[k],'motion parity: '+k);
+ assert.equal(v.reduced,false);assert.ok(await normal.evaluate(()=>window.qaAnimationCalls)>0,'normal mode never animated');
+ await normal.locator('#reduce').check();
+ const count=await normal.evaluate(()=>window.qaAnimationCalls);
+ await normal.click('#reset');assert.equal(await normal.evaluate(()=>window.qaAnimationCalls),count);
+ r.motionParity='verified';
+ }finally{await normal.close()}
+ }
  if(name==='representation'){assert.equal(p.data.rows[0].value,22);assert.equal(p.result.status,'rendered');const [svg]=await Promise.all([page.waitForEvent('download'),page.click('#svg')]);assert.equal(await readFile(await svg.path(),'utf8'),p.result.svg)}
  r.contrast=await auditContrast(page);r.accessibility=await auditAccessibility(page);assert.deepEqual(errors,[]);r.status='pass';
  }catch(e){r.failure=String(e)}finally{await page.screenshot({path:resolve(out,name+'-'+width+'.png'),fullPage:true}).catch(e=>{r.status='fail';r.screenshotError=String(e)});results.push(r);await page.close()}

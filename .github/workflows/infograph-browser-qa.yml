@@ -8,6 +8,7 @@ on:
       - 'scripts/build-studios.mjs'
       - 'scripts/verify-studios.mjs'
       - 'scripts/audit-installed-dependencies.mjs'
+      - 'scripts/audit-studio-distribution.mjs'
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,6 +35,7 @@ jobs:
           node scripts/audit-installed-dependencies.mjs node_modules standalone-build > skills/infograph-master/engine/qa-output/npm-build-inventory.json
           node scripts/build-studios.mjs
           node scripts/verify-studios.mjs
+          node scripts/audit-studio-distribution.mjs > skills/infograph-master/engine/qa-output/studio-distribution.json
       - run: node contrast-browser-test.mjs
       - run: node layout-browser-test.mjs
       - run: node visual-diff-test.mjs

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {detectConflicts} from './conflict-engine.mjs';
+const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
+const d=read('./specialist-ir.example.json'),m=read('./design-object-model.json'),r=read('./cross-domain-rules.json'),f=read('./conflict.example.json');
+assert.deepEqual(detectConflicts(d,m,r,f.facts),f.report);
+assert.equal(detectConflicts(d,m,r).status,'incomplete');
+const good={'b:A1':{normalTextContrast:4.5,availableWidth:320,requiredWidth:320,requiredFields:['value'],availableFields:['value'],essentialVisibleInitially:true,reducedMotionAlternative:true,narrativeFocus:'risk',visualFocus:'risk'}};
+assert.equal(detectConflicts(d,m,r,good).status,'declared-checks-satisfied');
+d.outputs[0].contract.status='blocked';assert.equal(detectConflicts(d,m,r,good).status,'blocked');

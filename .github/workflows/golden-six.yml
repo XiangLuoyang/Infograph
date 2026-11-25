@@ -2,6 +2,7 @@ name: Golden Six SVG quality gates
 on:
   push:
     paths:
+      - 'docs/consolidation/candidate-trigger.json'
       - "examples/golden-six/index.html"
       - "examples/golden-six/infograph-gold.js"
       - "tests/golden-six.*"

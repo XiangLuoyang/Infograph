@@ -21,3 +21,6 @@ Prior revision 8f71b50 passed browser QA, engine checks and distribution audit. 
 
 ## Phase 3c
 5660338 passed engine, browser, distribution and benchmark smoke CI. Added bounded sampled LDR studio environment texture, roughness-dependent sampling, directional ground-plane mesh projection with stencil union and controlled render variants. New CI pending. No full HDRI/IBL, shadow map, self-shadow, soft shadows or aesthetic verification; next prioritize visual review and reusable art directions over expanding a custom general-purpose engine.
+
+## Phase 3d
+Added executable industrial/cinematic/architectural parameter bundles and neutral same-content gallery, preserving object IDs, link semantics and scene order. Added matched screenshot tests and human review protocol. Phase 3c engine/distribution passed; browser was still running during initial inspection. No user approval or full REAL-001 rerun.

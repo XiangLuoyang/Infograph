@@ -48,6 +48,8 @@ jobs:
         if: always()
       - run: node reference-lighting-browser-qa.mjs
         if: always()
+      - run: node reference-art-browser-qa.mjs
+        if: always()
       - run: node studio-browser-qa.mjs
         if: always()
       - run: node studio-browser-qa.mjs --offline

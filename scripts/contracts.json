@@ -1,0 +1,17 @@
+[
+  {
+    "id": "design-v2",
+    "schema": "skills/infograph-master/engine/design-v2.schema.json",
+    "fixture": "skills/infograph-master/engine/design-v2.example.json"
+  },
+  {
+    "id": "storyboard",
+    "schema": "skills/narrative-design/templates/storyboard.schema.json",
+    "fixture": "skills/narrative-design/templates/storyboard.json"
+  },
+  {
+    "id": "representation-ontology",
+    "schema": "skills/infograph-master/visual-intelligence/representation-ontology-array.schema.json",
+    "fixture": "skills/infograph-master/visual-intelligence/representation-ontology.json"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "version": "0.1",
+  "common": "Use the original task and data exactly. Preserve factual accuracy, privacy, accessibility and required functionality. Do not claim tests not performed. Return the requested HTML deliverable.",
+  "modules": {
+    "narrative": "For authored reports, identify the central question and evidence-supported thesis. Compare candidate story spines; organize scenes by reader cognitive before/after. Use evidence-linked storyboard, progressive explanation and decision closure. For monitoring prioritize lookup instead of forcing a story.",
+    "visual": "Choose representation from data relationship and task. Compare distinct compositions and art directions. Use semantic color roles, restrained accent area, typographic hierarchy, spacing rhythm, coherent material and motion only when useful. Maintain legibility and accessible alternatives.",
+    "gates": "Before final rendering record current-revision brief, evidence definitions, task-specific plan, representation rationale and design specification. For substantial work compare alternatives. Missing required records block declared eligibility; never fabricate references. Record artifact and validation limitations.",
+    "critique": "Review the actual artifact from evidence, narrative or task fit, representation, visual, interaction and engineering perspectives. Prioritize blocker, major, minor defects. Revise and recheck current revision, at most three rounds; stop on repeated defect signature or exhausted budget. Unknown checks remain unknown."
+  }
+}

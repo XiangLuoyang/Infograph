@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "dimensions": [
+    "evidence",
+    "narrative",
+    "visual",
+    "representation",
+    "interaction",
+    "engineering"
+  ],
+  "tasks": {
+    "T01": {
+      "evidence": true,
+      "narrative": true,
+      "visual": true,
+      "representation": true,
+      "interaction": true,
+      "engineering": true,
+      "reader": "Identify weakest attainment and coverage market; select it."
+    },
+    "T02": {
+      "evidence": true,
+      "narrative": false,
+      "visual": true,
+      "representation": true,
+      "interaction": true,
+      "engineering": true,
+      "reader": "Identify high-risk SKU and distinguish zero from missing sales; adjust inbound."
+    },
+    "T03": {
+      "evidence": true,
+      "narrative": false,
+      "visual": true,
+      "representation": true,
+      "interaction": true,
+      "engineering": true,
+      "reader": "Find distributor contribution and change retail margin."
+    },
+    "T04": {
+      "evidence": true,
+      "narrative": false,
+      "visual": true,
+      "representation": true,
+      "interaction": false,
+      "engineering": true,
+      "reader": "Identify highest complete score and explain excluded partner."
+    },
+    "T05": {
+      "evidence": true,
+      "narrative": false,
+      "visual": true,
+      "representation": true,
+      "interaction": true,
+      "engineering": true,
+      "reader": "Trace credit failure through resubmission and identify owners."
+    },
+    "T06": {
+      "evidence": true,
+      "narrative": false,
+      "visual": true,
+      "representation": true,
+      "interaction": true,
+      "engineering": true,
+      "reader": "Identify battery and change separation then reset."
+    }
+  },
+  "note": "Narrative means authored decision thesis, not basic information hierarchy. T04 requires no interactive control; optional interactions are qualitative observations. Reviewer-only file; do not mount in model environment."
+}

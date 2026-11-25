@@ -1,3 +1,4 @@
+import {stressLayout} from './studio-layout-audit.mjs';
 import {auditContrast} from './studio-contrast.mjs';
 import {auditAccessibility} from './studio-accessibility.mjs';
 import {chromium} from 'playwright';
@@ -62,7 +63,7 @@ try{for(const [name,button,error] of cases)for(const [width,height] of [[1440,90
  }finally{await normal.close()}
  }
  if(name==='representation'){assert.equal(p.data.rows[0].value,22);assert.equal(p.result.status,'rendered');const [svg]=await Promise.all([page.waitForEvent('download'),page.click('#svg')]);assert.equal(await readFile(await svg.path(),'utf8'),p.result.svg)}
- r.contrast=await auditContrast(page);r.accessibility=await auditAccessibility(page);assert.deepEqual(errors,[]);r.status='pass';
+ r.layout=await stressLayout(page);r.contrast=await auditContrast(page);r.accessibility=await auditAccessibility(page);assert.deepEqual(errors,[]);r.status='pass';
  }catch(e){r.failure=String(e)}finally{await page.screenshot({path:resolve(out,name+'-'+width+'.png'),fullPage:true}).catch(e=>{r.status='fail';r.screenshotError=String(e)});results.push(r);await page.close()}
 }}finally{await browser.close();server.close();await writeFile(resolve(out,'report.json'),JSON.stringify(results,null,2))}
 console.log(JSON.stringify({offline,passed:results.filter(r=>r.status==='pass').length,total:results.length,failures:results.filter(r=>r.status!=='pass')},null,2));

@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'skills/infograph-master/engine/**'
+      - 'skills/infograph-master/visual-intelligence/**'
       - '.github/workflows/infograph-browser-qa.yml'
   workflow_dispatch:
 permissions:
@@ -21,6 +22,8 @@ jobs:
       - run: npm install --no-save --no-package-lock playwright@1.51.1
       - run: npx playwright install --with-deps chromium
       - run: node browser-qa.mjs
+      - run: node studio-browser-qa.mjs
+        if: always()
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -40,6 +40,7 @@ jobs:
       - run: node test-conflict-engine.mjs
       - run: node test-resolution-engine.mjs
       - run: node test-unified-compiler.mjs
+      - run: node test-specialist-execution.mjs
 
       - name: Visual intelligence tests
         working-directory: skills/infograph-master/visual-intelligence

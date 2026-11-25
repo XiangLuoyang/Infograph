@@ -1,0 +1,140 @@
+{
+  "synthetic": true,
+  "schedule": [
+    {
+      "runId": "R1",
+      "model": "M1",
+      "task": "B03",
+      "rep": 1,
+      "arm": "baseline"
+    },
+    {
+      "runId": "R2",
+      "model": "M1",
+      "task": "B03",
+      "rep": 1,
+      "arm": "full"
+    },
+    {
+      "runId": "R3",
+      "model": "M1",
+      "task": "B03",
+      "rep": 2,
+      "arm": "baseline"
+    },
+    {
+      "runId": "R4",
+      "model": "M1",
+      "task": "B03",
+      "rep": 2,
+      "arm": "full"
+    }
+  ],
+  "records": [
+    {
+      "runId": "R1",
+      "status": "completed",
+      "score": 60,
+      "cost": 1
+    },
+    {
+      "runId": "R2",
+      "status": "completed",
+      "score": 75,
+      "cost": 2
+    },
+    {
+      "runId": "R3",
+      "status": "failed"
+    },
+    {
+      "runId": "R4",
+      "status": "completed",
+      "score": 80
+    }
+  ],
+  "result": {
+    "left": "baseline",
+    "right": "full",
+    "arms": {
+      "baseline": {
+        "planned": 2,
+        "observed": 2,
+        "failed": 1,
+        "pending": 0,
+        "failureRate": 0.5
+      },
+      "full": {
+        "planned": 2,
+        "observed": 2,
+        "failed": 0,
+        "pending": 0,
+        "failureRate": 0
+      }
+    },
+    "pairs": [
+      {
+        "block": [
+          "M1",
+          "B03",
+          1
+        ],
+        "left": "R1",
+        "right": "R2",
+        "status": "recorded",
+        "delta": {
+          "score": 15,
+          "elapsedSeconds": null,
+          "inputTokens": null,
+          "outputTokens": null,
+          "cost": 1
+        }
+      },
+      {
+        "block": [
+          "M1",
+          "B03",
+          2
+        ],
+        "left": "R3",
+        "right": "R4",
+        "status": "recorded",
+        "delta": {
+          "score": null,
+          "elapsedSeconds": null,
+          "inputTokens": null,
+          "outputTokens": null,
+          "cost": null
+        }
+      }
+    ],
+    "metrics": {
+      "score": {
+        "n": 1,
+        "meanDelta": 15
+      },
+      "elapsedSeconds": {
+        "n": 0,
+        "meanDelta": null
+      },
+      "inputTokens": {
+        "n": 0,
+        "meanDelta": null
+      },
+      "outputTokens": {
+        "n": 0,
+        "meanDelta": null
+      },
+      "cost": {
+        "n": 1,
+        "meanDelta": 1
+      }
+    },
+    "inference": "descriptive-only",
+    "limitations": [
+      "Scores must use identical predeclared rubric and applicability.",
+      "Complete-pair deltas exclude failures; inspect arm failure rates separately.",
+      "Model slots must be pinned to actual identical model settings before comparison."
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "version": "0.1",
+  "profiles": {
+    "repository": {
+      "fileAccess": true,
+      "execution": true,
+      "browser": false
+    },
+    "reader": {
+      "fileAccess": true,
+      "execution": false,
+      "browser": false
+    },
+    "inline": {
+      "fileAccess": false,
+      "execution": false,
+      "browser": false
+    },
+    "verifiedBrowser": {
+      "fileAccess": true,
+      "execution": true,
+      "browser": true
+    }
+  },
+  "families": [
+    "GPT",
+    "Claude",
+    "Gemini",
+    "GLM",
+    "DeepSeek",
+    "Qwen"
+  ],
+  "policy": "Capabilities must be confirmed per host/session; family names do not imply capabilities."
+}

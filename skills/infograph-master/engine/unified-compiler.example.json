@@ -1,0 +1,575 @@
+{
+  "version": "0.1",
+  "ir": {
+    "version": "3.0",
+    "id": "demo",
+    "revision": 6,
+    "graph": {
+      "version": "0.1",
+      "objects": [
+        {
+          "id": "brief",
+          "type": "Brief",
+          "audience": "Regional management",
+          "purpose": "Assess whether supply pacing warrants review",
+          "thesis": "Supply exceeds sell-through in the observed period; target stock is unknown.",
+          "spine": "Question"
+        },
+        {
+          "id": "e:E1",
+          "source": "Synthetic monthly data: supply 70k, sell-through 61k",
+          "definition": "Units, same period and scope",
+          "limitation": "No returns or transfers data",
+          "type": "Evidence"
+        },
+        {
+          "id": "s:A1",
+          "type": "Scene",
+          "question": "Does supply match sell-through?",
+          "before": "Knows sales result",
+          "after": "Understands flow gap",
+          "transition": "Orient to evidence"
+        },
+        {
+          "id": "c:A1",
+          "type": "Claim",
+          "text": "Supply exceeds sell-through by 9k units."
+        },
+        {
+          "id": "b:A1",
+          "type": "Block",
+          "role": "primary",
+          "task": "Compare two quantities",
+          "interactionNote": "Optional source detail"
+        },
+        {
+          "id": "target0",
+          "type": "Color",
+          "strategy": "demo"
+        },
+        {
+          "id": "target1",
+          "type": "Typography",
+          "strategy": "demo"
+        },
+        {
+          "id": "target2",
+          "type": "Layout",
+          "strategy": "demo"
+        },
+        {
+          "id": "target3",
+          "type": "Material",
+          "strategy": "demo"
+        },
+        {
+          "id": "target4",
+          "type": "Motion",
+          "strategy": "demo"
+        },
+        {
+          "id": "target5",
+          "type": "Representation",
+          "form": "VIZ-0002"
+        }
+      ],
+      "links": [
+        {
+          "from": "s:A1",
+          "type": "serves",
+          "to": "brief"
+        },
+        {
+          "from": "s:A1",
+          "type": "contains",
+          "to": "b:A1"
+        },
+        {
+          "from": "b:A1",
+          "type": "expresses",
+          "to": "c:A1"
+        },
+        {
+          "from": "e:E1",
+          "type": "supports",
+          "to": "c:A1"
+        },
+        {
+          "from": "b:A1",
+          "type": "uses",
+          "to": "target0"
+        },
+        {
+          "from": "b:A1",
+          "type": "uses",
+          "to": "target1"
+        },
+        {
+          "from": "b:A1",
+          "type": "uses",
+          "to": "target2"
+        },
+        {
+          "from": "b:A1",
+          "type": "uses",
+          "to": "target3"
+        },
+        {
+          "from": "b:A1",
+          "type": "uses",
+          "to": "target4"
+        },
+        {
+          "from": "b:A1",
+          "type": "uses",
+          "to": "target5"
+        }
+      ]
+    },
+    "outputs": [
+      {
+        "targetId": "target0",
+        "contract": {
+          "version": "1.0",
+          "kind": "infograph-studio-output",
+          "studio": "color",
+          "status": "generated",
+          "payload": {
+            "demo": true
+          },
+          "limitations": [],
+          "evidence": [],
+          "validation": {
+            "browser": "not-run",
+            "semantic": "not-run",
+            "audience": "not-run"
+          }
+        }
+      },
+      {
+        "targetId": "target1",
+        "contract": {
+          "version": "1.0",
+          "kind": "infograph-studio-output",
+          "studio": "typography",
+          "status": "generated",
+          "payload": {
+            "demo": true
+          },
+          "limitations": [],
+          "evidence": [],
+          "validation": {
+            "browser": "not-run",
+            "semantic": "not-run",
+            "audience": "not-run"
+          }
+        }
+      },
+      {
+        "targetId": "target2",
+        "contract": {
+          "version": "1.0",
+          "kind": "infograph-studio-output",
+          "studio": "composition",
+          "status": "generated",
+          "payload": {
+            "demo": true
+          },
+          "limitations": [],
+          "evidence": [],
+          "validation": {
+            "browser": "not-run",
+            "semantic": "not-run",
+            "audience": "not-run"
+          }
+        }
+      },
+      {
+        "targetId": "target3",
+        "contract": {
+          "version": "1.0",
+          "kind": "infograph-studio-output",
+          "studio": "material",
+          "status": "generated",
+          "payload": {
+            "demo": true
+          },
+          "limitations": [],
+          "evidence": [],
+          "validation": {
+            "browser": "not-run",
+            "semantic": "not-run",
+            "audience": "not-run"
+          }
+        }
+      },
+      {
+        "targetId": "target4",
+        "contract": {
+          "version": "1.0",
+          "kind": "infograph-studio-output",
+          "studio": "motion",
+          "status": "generated",
+          "payload": {
+            "demo": true
+          },
+          "limitations": [],
+          "evidence": [],
+          "validation": {
+            "browser": "not-run",
+            "semantic": "not-run",
+            "audience": "not-run"
+          }
+        }
+      },
+      {
+        "targetId": "target5",
+        "contract": {
+          "version": "1.0",
+          "kind": "infograph-studio-output",
+          "studio": "representation",
+          "status": "generated",
+          "payload": {
+            "demo": true
+          },
+          "limitations": [],
+          "evidence": [],
+          "validation": {
+            "browser": "not-run",
+            "semantic": "not-run",
+            "audience": "not-run"
+          }
+        }
+      }
+    ],
+    "validation": {
+      "required": [
+        "browser",
+        "semantic"
+      ],
+      "results": []
+    },
+    "migration": {
+      "source": "storyboard",
+      "original": {
+        "audience": "Regional management",
+        "purpose": "Assess whether supply pacing warrants review",
+        "thesis": "Supply exceeds sell-through in the observed period; target stock is unknown.",
+        "spine": "Question",
+        "evidence": [
+          {
+            "id": "E1",
+            "source": "Synthetic monthly data: supply 70k, sell-through 61k",
+            "definition": "Units, same period and scope",
+            "limitation": "No returns or transfers data"
+          }
+        ],
+        "acts": [
+          {
+            "id": "A1",
+            "question": "Does supply match sell-through?",
+            "claim": "Supply exceeds sell-through by 9k units.",
+            "before": "Knows sales result",
+            "after": "Understands flow gap",
+            "visual_task": "Compare two quantities",
+            "transition": "Orient to evidence",
+            "interaction": "Optional source detail",
+            "evidence_ids": [
+              "E1"
+            ]
+          }
+        ]
+      },
+      "assumptions": [
+        "one primary block per act; thesis retained as brief metadata, not certified claim"
+      ]
+    }
+  },
+  "conflict": {
+    "revision": 6,
+    "designId": "demo",
+    "results": [
+      {
+        "ruleId": "C01",
+        "domain": "perceptual",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared effective contrast; no browser measurement"
+      },
+      {
+        "ruleId": "C02",
+        "domain": "spatial",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared comparable widths in CSS px"
+      },
+      {
+        "ruleId": "C03",
+        "domain": "semantic",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared field presence only"
+      },
+      {
+        "ruleId": "C04",
+        "domain": "narrative",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared initial visibility"
+      },
+      {
+        "ruleId": "C05",
+        "domain": "interaction",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "satisfied",
+        "detail": "declared reduced-motion alternative"
+      },
+      {
+        "ruleId": "C06",
+        "domain": "capability",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "satisfied",
+        "detail": "bound output status; not renderer readiness"
+      },
+      {
+        "ruleId": "C07",
+        "domain": "perceptual",
+        "severity": "soft",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared focus identity"
+      }
+    ],
+    "status": "blocked",
+    "scope": "caller-declared facts; no measurement, truth or release certification"
+  },
+  "resolution": {
+    "designId": "demo",
+    "revision": 6,
+    "proposals": [
+      {
+        "ruleId": "C01",
+        "blockId": "b:A1",
+        "severity": "hard",
+        "status": "conflict",
+        "candidates": [
+          {
+            "id": "adjust-text",
+            "action": "Adjust foreground token",
+            "affectedIds": [
+              "target0"
+            ],
+            "cost": 1
+          },
+          {
+            "id": "local-backing",
+            "action": "Add opaque local backing",
+            "affectedIds": [
+              "target0",
+              "target3"
+            ],
+            "cost": 2
+          },
+          {
+            "id": "replace-material",
+            "action": "Replace translucent material",
+            "affectedIds": [
+              "target0",
+              "target3"
+            ],
+            "cost": 3
+          }
+        ],
+        "requires": [
+          "explicit selection",
+          "new design revision",
+          "recompute specialist outputs",
+          "fresh conflict check"
+        ],
+        "automatic": false
+      },
+      {
+        "ruleId": "C02",
+        "blockId": "b:A1",
+        "severity": "hard",
+        "status": "conflict",
+        "candidates": [
+          {
+            "id": "reflow",
+            "action": "Reflow layout",
+            "affectedIds": [
+              "target2"
+            ],
+            "cost": 1
+          },
+          {
+            "id": "split-block",
+            "action": "Split content while retaining essential conclusion",
+            "affectedIds": [
+              "target1",
+              "target2"
+            ],
+            "cost": 2
+          }
+        ],
+        "requires": [
+          "explicit selection",
+          "new design revision",
+          "recompute specialist outputs",
+          "fresh conflict check"
+        ],
+        "automatic": false
+      },
+      {
+        "ruleId": "C03",
+        "blockId": "b:A1",
+        "severity": "hard",
+        "status": "conflict",
+        "candidates": [
+          {
+            "id": "request-data",
+            "action": "Request verified missing fields",
+            "affectedIds": [
+              "target5"
+            ],
+            "cost": 1
+          },
+          {
+            "id": "reselect-form",
+            "action": "Select expression supported by evidence",
+            "affectedIds": [
+              "target5"
+            ],
+            "cost": 2
+          }
+        ],
+        "requires": [
+          "explicit selection",
+          "new design revision",
+          "recompute specialist outputs",
+          "fresh conflict check"
+        ],
+        "automatic": false
+      },
+      {
+        "ruleId": "C04",
+        "blockId": "b:A1",
+        "severity": "hard",
+        "status": "conflict",
+        "candidates": [
+          {
+            "id": "show-essential",
+            "action": "Expose essential conclusion initially",
+            "affectedIds": [
+              "target2",
+              "target4"
+            ],
+            "cost": 1
+          }
+        ],
+        "requires": [
+          "explicit selection",
+          "new design revision",
+          "recompute specialist outputs",
+          "fresh conflict check"
+        ],
+        "automatic": false
+      },
+      {
+        "ruleId": "C07",
+        "blockId": "b:A1",
+        "severity": "soft",
+        "status": "conflict",
+        "candidates": [
+          {
+            "id": "align-emphasis",
+            "action": "Align visual emphasis to narrative focus",
+            "affectedIds": [
+              "target0",
+              "target1",
+              "target2"
+            ],
+            "cost": 1
+          }
+        ],
+        "requires": [
+          "explicit selection",
+          "new design revision",
+          "recompute specialist outputs",
+          "fresh conflict check"
+        ],
+        "automatic": false
+      }
+    ],
+    "scope": "heuristic proposal order; not proven repair or authorization"
+  },
+  "status": "blocked",
+  "releaseAuthorized": false,
+  "limitations": [
+    "declared facts are not independently verified",
+    "specialist payloads are not executed",
+    "no rendering or automatic repair"
+  ]
+}

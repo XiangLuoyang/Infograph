@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "arms": [
+    {
+      "id": "baseline",
+      "revision": null,
+      "entry": null
+    },
+    {
+      "id": "v1.1",
+      "revision": "fae321cb7e6632d3dc45e3f4c7d2f47c1bd26517",
+      "entry": "skills/infograph-master/SKILL.md",
+      "activation": "Use opt-in V1.1 engineering assets."
+    },
+    {
+      "id": "v1.2",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "entry": "skills/infograph-master/SKILL.md",
+      "activation": "Use Infograph Master skill."
+    }
+  ],
+  "policy": {
+    "allowPrefixes": [
+      "skills/",
+      "catalog/",
+      "research/",
+      "assets/",
+      "examples/",
+      "docs/"
+    ],
+    "denySegments": [
+      "benchmark",
+      "business-validation",
+      ".git"
+    ],
+    "denyPrefixes": [
+      "docs/consolidation/"
+    ],
+    "allowRoot": [
+      "README.md"
+    ],
+    "network": false,
+    "readOnly": true,
+    "closure": "pending verification",
+    "note": "Allowlist is a packaging policy, not an enforced sandbox. Review remaining files for embedded answers and required references before execution."
+  }
+}

@@ -18,3 +18,6 @@ Use a clipped, local focal-object raster asset from the concept, independently e
 
 ## Review and next gate
 Human aesthetic approval not obtained. Source-to-candidate material appearance qualitatively closer because the focal asset reuses reference pixels; this is not evidence that the renderer synthesizes more realistic geometry. Independent reference fidelity, complete accessibility and controlled A/B comparisons remain unrun. Retain Partial Pass status. Next: obtain user feedback on actual artifact; if needed compare a native-rendered variant and a reference-hybrid variant using the same semantic content and time budget. Do not expand engine solely to increase coverage. Phase 4 IoU floating-point precision failure was addressed by clamping to [0,1] in 500fb68; rerun CI status must be checked separately.
+
+## Subsequent user feedback
+See [V4-USER-REVIEW.md](V4-USER-REVIEW.md). Focal asset direction positively assessed; overall aesthetic approval not granted; layout and interaction unchanged, peripheral visual styling regressed, user reported white-on-white text. Revision required. Prior functional results are retained, not retroactively reclassified as aesthetic or accessibility approval.

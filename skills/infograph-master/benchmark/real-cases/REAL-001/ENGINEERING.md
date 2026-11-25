@@ -32,3 +32,6 @@ Phase 3c browser QA at 03774bb failed the final warm/cool pixel-difference asser
 
 ## Phase 5a: real-case replay
 A private, reference-informed freeform hybrid variant was generated and locally tested. See [V4-REPLAY.md](V4-REPLAY.md). Actual functional checks passed; human aesthetics and full native-engine replay pending. The original and rendered private artifacts are intentionally not in the public repository.
+
+## Phase 5a user feedback
+The actual user approved the focal asset improvement, found layout and interaction unchanged/mediocre, and reported regression in cable/label styling plus white-on-white text. See [V4-USER-REVIEW.md](V4-USER-REVIEW.md). Case remains partial pass; aesthetic and legibility gates not passed. Local mobile layout diagnosis and theme sampling recorded; exact white-on-white cause not reproduced. Prioritize V5 case repair over new engine work.

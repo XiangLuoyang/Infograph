@@ -1,0 +1,2 @@
+# C07-C Specialist controls
+Nine controls: hue, chroma, dark, direction, base, density, material, width, height. Shared validation, master task inputs, state whitelist and HTML form wired. Seven isolated validator assertions passed; native integration regression registered but not executed. UI edits invalidate preview; form values committed at run, not continuously reflected in draft. Fixed bar renderer colors, flat material colors only, width/height planned not actual viewport, no full layout or motion. Next C07-D preview and inspector.

@@ -1,0 +1,49 @@
+{
+  "task": "B10",
+  "answerKeySha": "9c7b4afe8fd51cbd1d707ce8765687c7c8a121e4",
+  "observations": [
+    {
+      "field": "at80",
+      "value": 72,
+      "unit": "thousand",
+      "ref": "fixture:80"
+    },
+    {
+      "field": "at100",
+      "value": 86,
+      "unit": "thousand",
+      "ref": "fixture:100"
+    },
+    {
+      "field": "at120",
+      "value": 100,
+      "unit": "thousand",
+      "ref": "fixture:120"
+    }
+  ],
+  "result": {
+    "task": "B10",
+    "checks": [
+      {
+        "field": "at80",
+        "status": "observed-match",
+        "ref": "fixture:80"
+      },
+      {
+        "field": "at100",
+        "status": "observed-match",
+        "ref": "fixture:100"
+      },
+      {
+        "field": "at120",
+        "status": "observed-match",
+        "ref": "fixture:120"
+      }
+    ],
+    "status": "observed-match",
+    "claims": "not-run",
+    "visualEncoding": "not-run",
+    "releaseAuthorized": false,
+    "scope": "reviewer-transcribed observations; not independent extraction"
+  }
+}

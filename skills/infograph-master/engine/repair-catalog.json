@@ -1,0 +1,110 @@
+{
+  "C01": [
+    [
+      "adjust-text",
+      "Adjust foreground token",
+      [
+        "Color"
+      ],
+      1
+    ],
+    [
+      "local-backing",
+      "Add opaque local backing",
+      [
+        "Material",
+        "Color"
+      ],
+      2
+    ],
+    [
+      "replace-material",
+      "Replace translucent material",
+      [
+        "Material",
+        "Color"
+      ],
+      3
+    ]
+  ],
+  "C02": [
+    [
+      "reflow",
+      "Reflow layout",
+      [
+        "Layout"
+      ],
+      1
+    ],
+    [
+      "split-block",
+      "Split content while retaining essential conclusion",
+      [
+        "Layout",
+        "Typography"
+      ],
+      2
+    ]
+  ],
+  "C03": [
+    [
+      "request-data",
+      "Request verified missing fields",
+      [
+        "Representation"
+      ],
+      1
+    ],
+    [
+      "reselect-form",
+      "Select expression supported by evidence",
+      [
+        "Representation"
+      ],
+      2
+    ]
+  ],
+  "C04": [
+    [
+      "show-essential",
+      "Expose essential conclusion initially",
+      [
+        "Layout",
+        "Motion",
+        "Interaction"
+      ],
+      1
+    ]
+  ],
+  "C05": [
+    [
+      "static-alternative",
+      "Provide equivalent static interaction",
+      [
+        "Motion",
+        "Interaction"
+      ],
+      1
+    ]
+  ],
+  "C06": [
+    [
+      "inspect-output",
+      "Inspect specialist failure or missing output",
+      [],
+      1
+    ]
+  ],
+  "C07": [
+    [
+      "align-emphasis",
+      "Align visual emphasis to narrative focus",
+      [
+        "Color",
+        "Layout",
+        "Typography"
+      ],
+      1
+    ]
+  ]
+}

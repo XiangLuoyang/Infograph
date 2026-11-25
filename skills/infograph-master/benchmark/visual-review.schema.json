@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "artifactId",
+    "reviewer",
+    "scope",
+    "observations",
+    "visualScore",
+    "rationale"
+  ],
+  "properties": {
+    "version": {
+      "const": "1.0"
+    },
+    "artifactId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "enum": [
+        "screenshots-only",
+        "runnable-artifact"
+      ]
+    },
+    "visualScore": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 5
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dimension",
+          "kind",
+          "location",
+          "observation",
+          "consequence",
+          "severity",
+          "repair",
+          "confidence"
+        ],
+        "properties": {
+          "dimension": {
+            "enum": [
+              "color",
+              "typography",
+              "composition",
+              "material",
+              "representation-craft",
+              "art-direction"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "strength",
+              "defect",
+              "preference",
+              "unverified"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "consequence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "enum": [
+              "none",
+              "minor",
+              "major",
+              "critical",
+              "unknown"
+            ]
+          },
+          "repair": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

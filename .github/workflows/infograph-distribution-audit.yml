@@ -17,8 +17,12 @@ jobs:
           mkdir -p audit-output
           node scripts/audit-distribution.mjs > audit-output/distribution.json
           node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('audit-output/distribution.json')); if(r.revision!==process.env.GITHUB_SHA || r.scanned+r.excluded.length!==r.tracked) throw Error('inventory mismatch'); console.log(JSON.stringify({revision:r.revision,tracked:r.tracked,scanned:r.scanned,excluded:r.excluded,withUrls:r.rows.filter(x=>x.urls.length).length,withMarkers:r.rows.filter(x=>x.markers.length).length},null,2))"
+      - name: Audit skill paths and knowledge index (diagnostic)
+        run: |
+          node scripts/audit-skill-portability.mjs > audit-output/skill-paths.json || echo 'Skill path audit requires review'
+          node scripts/audit-knowledge-index.mjs > audit-output/knowledge-index.json || echo 'Knowledge index audit requires review'
       - uses: actions/upload-artifact@v4
         with:
           name: distribution-inventory
-          path: audit-output/distribution.json
+          path: audit-output/
           if-no-files-found: error

@@ -1,0 +1,160 @@
+{
+  "designId": "demo",
+  "revision": 6,
+  "proposals": [
+    {
+      "ruleId": "C01",
+      "blockId": "b:A1",
+      "severity": "hard",
+      "status": "conflict",
+      "candidates": [
+        {
+          "id": "adjust-text",
+          "action": "Adjust foreground token",
+          "affectedIds": [
+            "target0"
+          ],
+          "cost": 1
+        },
+        {
+          "id": "local-backing",
+          "action": "Add opaque local backing",
+          "affectedIds": [
+            "target0",
+            "target3"
+          ],
+          "cost": 2
+        },
+        {
+          "id": "replace-material",
+          "action": "Replace translucent material",
+          "affectedIds": [
+            "target0",
+            "target3"
+          ],
+          "cost": 3
+        }
+      ],
+      "requires": [
+        "explicit selection",
+        "new design revision",
+        "recompute specialist outputs",
+        "fresh conflict check"
+      ],
+      "automatic": false
+    },
+    {
+      "ruleId": "C02",
+      "blockId": "b:A1",
+      "severity": "hard",
+      "status": "conflict",
+      "candidates": [
+        {
+          "id": "reflow",
+          "action": "Reflow layout",
+          "affectedIds": [
+            "target2"
+          ],
+          "cost": 1
+        },
+        {
+          "id": "split-block",
+          "action": "Split content while retaining essential conclusion",
+          "affectedIds": [
+            "target1",
+            "target2"
+          ],
+          "cost": 2
+        }
+      ],
+      "requires": [
+        "explicit selection",
+        "new design revision",
+        "recompute specialist outputs",
+        "fresh conflict check"
+      ],
+      "automatic": false
+    },
+    {
+      "ruleId": "C03",
+      "blockId": "b:A1",
+      "severity": "hard",
+      "status": "conflict",
+      "candidates": [
+        {
+          "id": "request-data",
+          "action": "Request verified missing fields",
+          "affectedIds": [
+            "target5"
+          ],
+          "cost": 1
+        },
+        {
+          "id": "reselect-form",
+          "action": "Select expression supported by evidence",
+          "affectedIds": [
+            "target5"
+          ],
+          "cost": 2
+        }
+      ],
+      "requires": [
+        "explicit selection",
+        "new design revision",
+        "recompute specialist outputs",
+        "fresh conflict check"
+      ],
+      "automatic": false
+    },
+    {
+      "ruleId": "C04",
+      "blockId": "b:A1",
+      "severity": "hard",
+      "status": "conflict",
+      "candidates": [
+        {
+          "id": "show-essential",
+          "action": "Expose essential conclusion initially",
+          "affectedIds": [
+            "target2",
+            "target4"
+          ],
+          "cost": 1
+        }
+      ],
+      "requires": [
+        "explicit selection",
+        "new design revision",
+        "recompute specialist outputs",
+        "fresh conflict check"
+      ],
+      "automatic": false
+    },
+    {
+      "ruleId": "C07",
+      "blockId": "b:A1",
+      "severity": "soft",
+      "status": "conflict",
+      "candidates": [
+        {
+          "id": "align-emphasis",
+          "action": "Align visual emphasis to narrative focus",
+          "affectedIds": [
+            "target0",
+            "target1",
+            "target2"
+          ],
+          "cost": 1
+        }
+      ],
+      "requires": [
+        "explicit selection",
+        "new design revision",
+        "recompute specialist outputs",
+        "fresh conflict check"
+      ],
+      "automatic": false
+    }
+  ],
+  "scope": "heuristic proposal order; not proven repair or authorization"
+}

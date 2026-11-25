@@ -1,0 +1,194 @@
+[
+  {
+    "runId": "R0001",
+    "model": "M01",
+    "task": "B02",
+    "rep": 1,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0002",
+    "model": "M01",
+    "task": "B02",
+    "rep": 1,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0003",
+    "model": "M01",
+    "task": "B02",
+    "rep": 2,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0004",
+    "model": "M01",
+    "task": "B02",
+    "rep": 2,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0005",
+    "model": "M01",
+    "task": "B02",
+    "rep": 3,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0006",
+    "model": "M01",
+    "task": "B02",
+    "rep": 3,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0007",
+    "model": "M01",
+    "task": "B03",
+    "rep": 1,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0008",
+    "model": "M01",
+    "task": "B03",
+    "rep": 1,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0009",
+    "model": "M01",
+    "task": "B03",
+    "rep": 2,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0010",
+    "model": "M01",
+    "task": "B03",
+    "rep": 2,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0011",
+    "model": "M01",
+    "task": "B03",
+    "rep": 3,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0012",
+    "model": "M01",
+    "task": "B03",
+    "rep": 3,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0013",
+    "model": "M01",
+    "task": "B07",
+    "rep": 1,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0014",
+    "model": "M01",
+    "task": "B07",
+    "rep": 1,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0015",
+    "model": "M01",
+    "task": "B07",
+    "rep": 2,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0016",
+    "model": "M01",
+    "task": "B07",
+    "rep": 2,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0017",
+    "model": "M01",
+    "task": "B07",
+    "rep": 3,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0018",
+    "model": "M01",
+    "task": "B07",
+    "rep": 3,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0019",
+    "model": "M01",
+    "task": "B10",
+    "rep": 1,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0020",
+    "model": "M01",
+    "task": "B10",
+    "rep": 1,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0021",
+    "model": "M01",
+    "task": "B10",
+    "rep": 2,
+    "arm": "baseline",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0022",
+    "model": "M01",
+    "task": "B10",
+    "rep": 2,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0023",
+    "model": "M01",
+    "task": "B10",
+    "rep": 3,
+    "arm": "full",
+    "status": "not-run"
+  },
+  {
+    "runId": "R0024",
+    "model": "M01",
+    "task": "B10",
+    "rep": 3,
+    "arm": "baseline",
+    "status": "not-run"
+  }
+]

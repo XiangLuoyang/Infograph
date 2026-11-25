@@ -1,0 +1,116 @@
+{
+  "version": "0.1",
+  "objects": [
+    {
+      "id": "brief",
+      "type": "Brief",
+      "audience": "regional management",
+      "purpose": "review supply pacing"
+    },
+    {
+      "id": "e1",
+      "type": "Evidence",
+      "source": "synthetic monthly fixture",
+      "definition": "supply 70k and sell-through 61k, same period"
+    },
+    {
+      "id": "c1",
+      "type": "Claim",
+      "text": "Supply exceeds sell-through by 9k units."
+    },
+    {
+      "id": "s1",
+      "type": "Scene",
+      "question": "Does supply match sell-through?",
+      "before": "knows sales",
+      "after": "knows flow gap"
+    },
+    {
+      "id": "b1",
+      "type": "Block",
+      "role": "primary",
+      "task": "compare magnitude"
+    },
+    {
+      "id": "r1",
+      "type": "Representation",
+      "form": "VIZ-0002"
+    },
+    {
+      "id": "enc1",
+      "type": "Encoding",
+      "channel": "length",
+      "field": "quantity"
+    },
+    {
+      "id": "k1",
+      "type": "Constraint",
+      "rule": "same units and period",
+      "severity": "hard"
+    },
+    {
+      "id": "d1",
+      "type": "Decision",
+      "rationale": "Compare two additive quantities on common baseline",
+      "status": "proposed"
+    },
+    {
+      "id": "v1",
+      "type": "Validation",
+      "check": "browser",
+      "status": "not-run"
+    }
+  ],
+  "links": [
+    {
+      "from": "e1",
+      "type": "supports",
+      "to": "c1"
+    },
+    {
+      "from": "s1",
+      "type": "contains",
+      "to": "b1"
+    },
+    {
+      "from": "b1",
+      "type": "expresses",
+      "to": "c1"
+    },
+    {
+      "from": "b1",
+      "type": "uses",
+      "to": "r1"
+    },
+    {
+      "from": "r1",
+      "type": "encodes",
+      "to": "enc1"
+    },
+    {
+      "from": "k1",
+      "type": "governs",
+      "to": "r1"
+    },
+    {
+      "from": "d1",
+      "type": "selects",
+      "to": "r1"
+    },
+    {
+      "from": "d1",
+      "type": "justifiedBy",
+      "to": "k1"
+    },
+    {
+      "from": "v1",
+      "type": "checks",
+      "to": "b1"
+    },
+    {
+      "from": "s1",
+      "type": "serves",
+      "to": "brief"
+    }
+  ]
+}

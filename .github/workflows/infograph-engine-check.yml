@@ -42,6 +42,7 @@ jobs:
       - run: node test-reference-geometry.mjs
       - run: node test-reference-lighting3d.mjs
       - run: node test-reference-art-direction.mjs
+      - run: node test-reference-pair-review.mjs
 
       - run: node test-integration.mjs
       - run: node test-specialist-ir-adapter.mjs

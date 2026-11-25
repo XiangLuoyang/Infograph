@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {executeSpecialist as run} from './specialist-execution.mjs';
+assert.equal(run('color',{hue:150}).status,'generated');
+assert.equal(run('typography',{}).status,'generated');
+assert.equal(run('composition',{width:800,height:400,root:{id:'main'}}).status,'generated');
+assert.equal(run('material',{material:'paper'}).status,'generated');
+assert.equal(run('material',{detail:'3d'}).status,'unsupported');
+assert.equal(run('representation',{id:'VIZ-0002',data:{unit:'k',rows:[{label:'Supply',value:70},{label:'Sales',value:61}]}}).status,'generated');
+assert.equal(run('representation',{id:'missing'}).status,'unsupported');
+assert.equal(run('color',{hue:'bad'}).status,'invalid-data');
+assert.throws(()=>run('unknown',{}));

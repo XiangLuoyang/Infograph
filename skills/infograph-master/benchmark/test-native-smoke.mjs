@@ -3,7 +3,7 @@ import {readFile,mkdir,mkdtemp,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {planRuns,runOne} from './run-pilot.mjs';
+import {planRuns,runOne,validateResume} from './run-pilot.mjs';
 import {collectRuns} from './collect-runs.mjs';
 import {analyzePairs} from './benchmark-analytics.mjs';
 import {scoreRun} from './score.mjs';
@@ -18,6 +18,14 @@ for(const p of [first,second]){
  const record=await runOne(p,{baseUrl:'https://mock.invalid/v1',key:'mock-only',model:'mock-model',out:runs,fetcher:async()=>new Response(JSON.stringify({model:'mock-model',usage:{prompt_tokens:100,completion_tokens:50},choices:[{finish_reason:'stop',message:{content:'<!doctype html><html><meta name="viewport" content="width=device-width"><body><h1>Synthetic smoke fixture</h1></body></html>'}}]}))});
  assert.equal(record.status,'completed');assert.equal(record.inputTokens,100);records.push(record);
 }
+for(const p of [first,second])assert.equal((await validateResume(p,{out:runs,model:'mock-model'})).status,'completed');
+await assert.rejects(validateResume(first,{out:runs,model:'different-model'}),/settings mismatch/);
+await assert.rejects(validateResume({...first,promptHash:'wrong'},{out:runs,model:'mock-model'}),/identity mismatch/);
+const artifact=join(runs,first.runId,'artifact.html'),original=await readFile(artifact,'utf8');
+await writeFile(artifact,original.replace('Synthetic','Modified'));
+await assert.rejects(validateResume(first,{out:runs,model:'mock-model'}),/artifact mismatch/);
+await writeFile(artifact,original);
+const fixture=await read('analytics.example.json');assert.deepEqual(analyzePairs(fixture.schedule,fixture.records),fixture.result);
 execFileSync(process.execPath,[new URL('evaluate-artifacts.mjs',import.meta.url).pathname,runs,screens],{stdio:'inherit',timeout:120000});
 const report=JSON.parse(await readFile(join(screens,'engineering-report.json'),'utf8'));assert.equal(report.results.length,2);assert.ok(report.results.every(r=>r.status==='observed-pass'&&r.cases.length===2));
 assert.equal(await buildReview(runs,screens,blind),2);

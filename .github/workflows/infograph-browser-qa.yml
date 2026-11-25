@@ -32,6 +32,10 @@ jobs:
         if: always()
       - run: node studio-browser-qa.mjs --offline
         if: always()
+      - run: node master-browser-qa.mjs
+        if: always()
+      - run: node master-browser-qa.mjs --offline
+        if: always()
       - uses: actions/upload-artifact@v4
         if: always()
         with:

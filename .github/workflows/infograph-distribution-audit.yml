@@ -21,6 +21,7 @@ jobs:
         run: |
           node scripts/audit-skill-portability.mjs > audit-output/skill-paths.json || echo 'Skill path audit requires review'
           node scripts/audit-knowledge-index.mjs > audit-output/knowledge-index.json || echo 'Knowledge index audit requires review'
+          node --input-type=module -e "import fs from 'node:fs'; for(const f of ['skill-paths','knowledge-index']) {try {const r=JSON.parse(fs.readFileSync('audit-output/'+f+'.json')); console.log(f,JSON.stringify(r.missing??r.issues));} catch(e){console.log(f,e.message)}}"
       - uses: actions/upload-artifact@v4
         with:
           name: distribution-inventory

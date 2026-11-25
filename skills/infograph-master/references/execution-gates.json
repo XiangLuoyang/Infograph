@@ -1,0 +1,76 @@
+[
+  {
+    "id": "G01",
+    "stage": "brief",
+    "requires": [
+      "audience",
+      "purpose",
+      "delivery"
+    ],
+    "applies": "all"
+  },
+  {
+    "id": "G02",
+    "stage": "evidence",
+    "requires": [
+      "source-map",
+      "metric-definitions",
+      "limitations"
+    ],
+    "applies": "all"
+  },
+  {
+    "id": "G03",
+    "stage": "narrative",
+    "requires": [
+      "thesis",
+      "evidence-links",
+      "storyboard"
+    ],
+    "applies": "authored"
+  },
+  {
+    "id": "G04",
+    "stage": "monitoring",
+    "requires": [
+      "metric-priorities",
+      "lookup-tasks",
+      "alert-rules"
+    ],
+    "applies": "monitor"
+  },
+  {
+    "id": "G05",
+    "stage": "design",
+    "requires": [
+      "representation-rationale",
+      "design-spec"
+    ],
+    "applies": "all"
+  },
+  {
+    "id": "G06",
+    "stage": "design",
+    "requires": [
+      "alternative-directions"
+    ],
+    "applies": "substantial"
+  },
+  {
+    "id": "G07",
+    "stage": "build",
+    "requires": [
+      "artifact"
+    ],
+    "applies": "all"
+  },
+  {
+    "id": "G08",
+    "stage": "review",
+    "requires": [
+      "validation-log",
+      "limitations-disclosure"
+    ],
+    "applies": "all"
+  }
+]

@@ -1,5 +1,5 @@
 import {readFile,mkdir,writeFile,access} from 'node:fs/promises';
-import {join} from 'node:path';
+import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 const read=async p=>JSON.parse(await readFile(new URL(p,import.meta.url),'utf8'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
@@ -38,10 +38,10 @@ async function main(){
  const args=process.argv.slice(2);const execute=args.includes('--execute');const val=(k,d)=>{const i=args.indexOf(k);return i<0?d:args[i+1]};
  const schedule=await read('./pilot-schedule.json'),base=(await read('./baseline-packets.json')).packets,enh=(await read('./enhanced-packets.json')).packets;
  const out=val('--out','benchmark-local'),limit=Number(val('--limit','1')),arm=val('--arm','all'),model=process.env.BENCH_MODEL,baseUrl=process.env.BENCH_BASE_URL,key=process.env.BENCH_API_KEY;
- const plan=planRuns(schedule,base,enh,{limit:24,arm});const pending=[];for(const p of plan){try{await access(join(out,p.runId))}catch(e){if(e.code!=='ENOENT')throw e;pending.push(p)}}
+ const plan=planRuns(schedule,base,enh,{limit:24,arm});const pending=[];for(const p of plan){try{await access(join(out,p.runId,'record.json'))}catch(e){if(e.code!=='ENOENT')throw e;try{await access(join(out,p.runId));throw Error('Incomplete run directory: '+p.runId)}catch(inner){if(inner.code!=='ENOENT')throw inner}pending.push(p)}}
  if(!Number.isInteger(limit)||limit<1||limit>24)throw Error('invalid limit');const selected=pending.slice(0,limit);
  console.log(JSON.stringify({execute,model:model??null,selected:selected.map(({prompt,...p})=>p)},null,2));if(!execute)return;
  if(!key||!model||!baseUrl||!baseUrl.startsWith('https://'))throw Error('set BENCH_API_KEY, BENCH_MODEL, HTTPS BENCH_BASE_URL');
  await mkdir(out,{recursive:true});for(const p of selected){const result=await runOne(p,{baseUrl,key,model,out});console.log(result.runId,result.status);if(result.status==='failed')break;}
 }
-if(process.argv[1]&&import.meta.url===new URL('file:'+process.argv[1]).href)main().catch(e=>{console.error(e.message);process.exitCode=1});
+if(process.argv[1]&&import.meta.url===new URL('file:'+resolve(process.argv[1])).href)main().catch(e=>{console.error(e.message);process.exitCode=1});

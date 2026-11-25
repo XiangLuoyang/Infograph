@@ -25,4 +25,5 @@ try{for(const [name,button,error] of cases)for(const [width,height] of [[1440,90
  assert.deepEqual(errors,[]);r.status='pass';
  }catch(e){r.failure=String(e)}finally{await page.screenshot({path:resolve(out,name+'-'+width+'.png'),fullPage:true}).catch(e=>{r.status='fail';r.screenshotError=String(e)});results.push(r);await page.close()}
 }}finally{await browser.close();server.close();await writeFile(resolve(out,'report.json'),JSON.stringify(results,null,2))}
+console.log(JSON.stringify({offline,passed:results.filter(r=>r.status==='pass').length,total:results.length,failures:results.filter(r=>r.status!=='pass')},null,2));
 if(results.some(r=>r.status!=='pass'))process.exitCode=1;

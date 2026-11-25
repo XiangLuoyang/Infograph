@@ -1,0 +1,81 @@
+{
+  "source": {
+    "tasks": "fc7f7989f26a781d44dce06c7931ce68a5a2e0fb",
+    "fixtures": "9ac0901419d5228862ffdc616d0ee8fcf958733b",
+    "schedule": "c18b5b4db0199030aa1ecca5e2727ce79c46b344"
+  },
+  "packets": [
+    {
+      "runId": "R0002",
+      "task": "B02",
+      "status": "not-run",
+      "prompt": "Create a monitoring dashboard for revenue, inventory and supply gap.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0004",
+      "task": "B02",
+      "status": "not-run",
+      "prompt": "Create a monitoring dashboard for revenue, inventory and supply gap.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0005",
+      "task": "B02",
+      "status": "not-run",
+      "prompt": "Create a monitoring dashboard for revenue, inventory and supply gap.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0008",
+      "task": "B03",
+      "status": "not-run",
+      "prompt": "Create an executive report explaining why revenue attainment alone is insufficient to assess channel health. Include a decision request.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0010",
+      "task": "B03",
+      "status": "not-run",
+      "prompt": "Create an executive report explaining why revenue attainment alone is insufficient to assess channel health. Include a decision request.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0012",
+      "task": "B03",
+      "status": "not-run",
+      "prompt": "Create an executive report explaining why revenue attainment alone is insufficient to assess channel health. Include a decision request.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0014",
+      "task": "B07",
+      "status": "not-run",
+      "prompt": "Show the supplied channel process with branches and shared downstream steps.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"nodes\": [\n    \"order\",\n    \"review\",\n    \"approve\",\n    \"reject\",\n    \"ship\",\n    \"close\"\n  ],\n  \"edges\": [\n    [\n      \"order\",\n      \"review\"\n    ],\n    [\n      \"review\",\n      \"approve\"\n    ],\n    [\n      \"review\",\n      \"reject\"\n    ],\n    [\n      \"approve\",\n      \"ship\"\n    ],\n    [\n      \"ship\",\n      \"close\"\n    ],\n    [\n      \"reject\",\n      \"close\"\n    ]\n  ]\n}"
+    },
+    {
+      "runId": "R0016",
+      "task": "B07",
+      "status": "not-run",
+      "prompt": "Show the supplied channel process with branches and shared downstream steps.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"nodes\": [\n    \"order\",\n    \"review\",\n    \"approve\",\n    \"reject\",\n    \"ship\",\n    \"close\"\n  ],\n  \"edges\": [\n    [\n      \"order\",\n      \"review\"\n    ],\n    [\n      \"review\",\n      \"approve\"\n    ],\n    [\n      \"review\",\n      \"reject\"\n    ],\n    [\n      \"approve\",\n      \"ship\"\n    ],\n    [\n      \"ship\",\n      \"close\"\n    ],\n    [\n      \"reject\",\n      \"close\"\n    ]\n  ]\n}"
+    },
+    {
+      "runId": "R0017",
+      "task": "B07",
+      "status": "not-run",
+      "prompt": "Show the supplied channel process with branches and shared downstream steps.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"nodes\": [\n    \"order\",\n    \"review\",\n    \"approve\",\n    \"reject\",\n    \"ship\",\n    \"close\"\n  ],\n  \"edges\": [\n    [\n      \"order\",\n      \"review\"\n    ],\n    [\n      \"review\",\n      \"approve\"\n    ],\n    [\n      \"review\",\n      \"reject\"\n    ],\n    [\n      \"approve\",\n      \"ship\"\n    ],\n    [\n      \"ship\",\n      \"close\"\n    ],\n    [\n      \"reject\",\n      \"close\"\n    ]\n  ]\n}"
+    },
+    {
+      "runId": "R0019",
+      "task": "B10",
+      "status": "not-run",
+      "prompt": "Create an interactive comparison of supply scenarios with fixed sell-through and explicit assumptions. Allow supply adjustment from 80% to 120% of observed supply; show conditional stock relative to observed ending stock, holding other flows unchanged.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0021",
+      "task": "B10",
+      "status": "not-run",
+      "prompt": "Create an interactive comparison of supply scenarios with fixed sell-through and explicit assumptions. Allow supply adjustment from 80% to 120% of observed supply; show conditional stock relative to observed ending stock, holding other flows unchanged.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    },
+    {
+      "runId": "R0024",
+      "task": "B10",
+      "status": "not-run",
+      "prompt": "Create an interactive comparison of supply scenarios with fixed sell-through and explicit assumptions. Allow supply adjustment from 80% to 120% of observed supply; show conditional stock relative to observed ending stock, holding other flows unchanged.\nUse only the synthetic data below. Return one self-contained HTML file with inline CSS and JavaScript, no external dependencies. Make units and assumptions explicit; do not invent missing facts. Required controls must work. Use a fresh session; no external research.\n{\n  \"period\": \"synthetic month\",\n  \"revenueUnit\": \"million currency units\",\n  \"quantityUnit\": \"thousand units\",\n  \"columns\": [\n    \"market\",\n    \"target\",\n    \"actual\",\n    \"supply\",\n    \"sellThrough\",\n    \"endStock\"\n  ],\n  \"rows\": [\n    [\n      \"Thailand\",\n      100,\n      108,\n      24,\n      18,\n      36\n    ],\n    [\n      \"Vietnam\",\n      80,\n      76,\n      17,\n      16,\n      20\n    ],\n    [\n      \"Malaysia\",\n      65,\n      70,\n      14,\n      14,\n      12\n    ],\n    [\n      \"Singapore\",\n      40,\n      42,\n      8,\n      8,\n      6\n    ],\n    [\n      \"Cambodia\",\n      20,\n      18,\n      4,\n      3,\n      7\n    ],\n    [\n      \"Myanmar\",\n      15,\n      12,\n      3,\n      2,\n      5\n    ]\n  ],\n  \"missing\": [\n    \"openingStock\",\n    \"transfers\",\n    \"targetWOS\"\n  ],\n  \"weeksPerMonth\": 4.333333333333333\n}"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {diffRGBA} from './visual-diff.mjs';
+const image=(w,h)=>({width:w,height:h,data:new Uint8Array(w*h*4).fill(255)});
+const a=image(10,10),b=image(10,10);
+assert.equal(diffRGBA(a,b).changed,0);
+b.data[(3*10+2)*4]=0;
+const r=diffRGBA(a,b);assert.equal(r.status,'review-required');assert.equal(r.changed,1);assert.deepEqual(r.bounds,{left:2,right:2,top:3,bottom:3});
+assert.equal(diffRGBA(a,b,{maxChangedFraction:.01}).status,'within-tolerance');
+assert.equal(diffRGBA(a,image(11,10)).status,'dimension-mismatch');
+b.data[(3*10+2)*4]=250;assert.equal(diffRGBA(a,b).changed,0);
+assert.throws(()=>diffRGBA(a,b,{channelTolerance:-1}));
+console.log('visual diff fixtures passed');

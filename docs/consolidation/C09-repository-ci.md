@@ -1,0 +1,2 @@
+# C09-E8 Repository CI
+Added test-native-smoke.mjs and infograph-benchmark-smoke.yml. Workflow run 45565222266 at commit 00a70cdaa19efdcb17597e4f2c341fadc06e85e2: observed completed / failure. Tests use mock responses and synthetic scores only; no paid model requests. Prior engine CI success and browser QA failure observed in run listing; not audited here. No claim of pass without completed success. Remaining P0 settings/resume validation and score normalization open.

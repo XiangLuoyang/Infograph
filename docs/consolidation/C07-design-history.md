@@ -1,0 +1,2 @@
+# C07-E Design History
+Explicit save of current successful render, 20 in-memory snapshots FIFO, defensive copy, field diff, restore to draft with confirmation reset and fresh computation, HTML/config/report export. Eight isolated assertions passed; inline script syntax checked. No persistence, import, visual diff, browser or native tests. Restore does not replay repair patches; snapshot export retains original result. Next C07-F acceptance.

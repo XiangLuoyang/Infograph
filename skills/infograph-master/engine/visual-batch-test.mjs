@@ -1,0 +1,33 @@
+import {PNG} from 'pngjs';
+import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const root=await mkdtemp(join(tmpdir(),'visual-batch-'));
+const json=(p,v)=>writeFile(p,JSON.stringify(v));
+const read=async p=>JSON.parse(await readFile(p,'utf8'));
+const run=(...args)=>spawnSync(process.execPath,[new URL('./visual-batch.mjs',import.meta.url).pathname,...args],{encoding:'utf8'});
+const hash=b=>createHash('sha256').update(b).digest('hex');
+const capture={caseId:'test',browser:'chromium',browserVersion:'test',platform:'test',fontFingerprint:'a'.repeat(64),fixtureHash:'b'.repeat(64),stateHash:'c'.repeat(64),viewportWidth:10,viewportHeight:10,deviceScaleFactor:1,reducedMotion:'reduce',captureMode:'http',revision:'d'.repeat(40)};
+try{
+ const dir=join(root,'candidate');await mkdir(dir);
+ const file=join(dir,'test-candidate.png'),empty=join(root,'empty.json'),approval=join(root,'approval.json'),base=join(root,'baseline');
+ const png=PNG.sync.write({width:10,height:10,data:Buffer.alloc(400,255)});
+ await writeFile(file,png);await json(file+'.json',{...capture,screenshotHash:hash(png)});await json(empty,{version:1,entries:[]});
+ await json(approval,{reviewer:'fixture',reason:'test only',timestamp:'2026-01-01T00:00:00Z',screenshotHashes:[hash(png)]});
+ let r=run('register',empty,dir,base,approval);assert.equal(r.status,0,r.stderr);
+ const registry=join(base,'registry.json');assert.equal((await read(registry)).entries.length,1);
+ r=run('compare',registry,dir,join(root,'same'));assert.equal(r.status,0,r.stderr);
+ assert.equal((await read(join(root,'same','summary.json')))[0].status,'within-tolerance');
+ r=run('compare',empty,dir,join(root,'missing'));assert.equal(r.status,1);assert.equal((await read(join(root,'missing','summary.json')))[0].status,'missing-baseline');
+ const changed=PNG.sync.read(png);changed.data[0]=0;const next=PNG.sync.write(changed);
+ await writeFile(file,next);await json(file+'.json',{...capture,revision:'e'.repeat(40),screenshotHash:hash(next)});
+ r=run('compare',registry,dir,join(root,'changed'));assert.equal(r.status,1);assert.equal((await read(join(root,'changed','summary.json')))[0].status,'review-required');
+ r=run('register',registry,dir,join(root,'unapproved'),approval);assert.notEqual(r.status,0);
+ await json(approval,{reviewer:'fixture',reason:'test update',timestamp:'2026-01-02T00:00:00Z',screenshotHashes:[hash(next)]});
+ const updated=join(root,'updated');r=run('register',registry,dir,updated,approval);assert.equal(r.status,0,r.stderr);
+ const entries=(await read(join(updated,'registry.json'))).entries;assert.equal(entries.length,2);assert.equal(entries[1].supersedes,entries[0].id);assert.equal(hash(await readFile(join(updated,'images',entries[0].screenshotHash+'.png'))),hash(png));
+ console.log('visual batch persistence fixtures passed');
+}finally{await rm(root,{recursive:true,force:true})}

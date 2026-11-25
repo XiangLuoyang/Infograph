@@ -1,0 +1,44 @@
+[
+  {
+    "id": "C01",
+    "domain": "perceptual",
+    "severity": "hard",
+    "description": "text contrast at least 4.5:1 for declared normal text"
+  },
+  {
+    "id": "C02",
+    "domain": "spatial",
+    "severity": "hard",
+    "description": "available width at least measured required width"
+  },
+  {
+    "id": "C03",
+    "domain": "semantic",
+    "severity": "hard",
+    "description": "representation required fields present"
+  },
+  {
+    "id": "C04",
+    "domain": "narrative",
+    "severity": "hard",
+    "description": "essential conclusion visible initially"
+  },
+  {
+    "id": "C05",
+    "domain": "interaction",
+    "severity": "hard",
+    "description": "reduced motion alternative available"
+  },
+  {
+    "id": "C06",
+    "domain": "capability",
+    "severity": "hard",
+    "description": "specialist output generated"
+  },
+  {
+    "id": "C07",
+    "domain": "perceptual",
+    "severity": "soft",
+    "description": "emphasis matches declared narrative focus"
+  }
+]

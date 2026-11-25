@@ -4,7 +4,7 @@ Run browser QA on the pinned Linux CI environment. Download the successful run a
 
 From the engine directory, install the pinned dependencies used by browser QA. Create an initial registry containing {"version":1,"entries":[]}.
 
-Review every candidate at native size against its task and interaction state. Record reviewer, reason, ISO timestamp and screenshotHashes (exact SHA-256 values of the approved candidate set). Approval is a human workflow record, not authenticated authorization.
+Review every candidate at native size against its task and interaction state. Record reviewer, reason, ISO timestamp and captures (array of complete approved candidate sidecar objects, including caseId, captureMode, revision, screenshotHash and environment/state fingerprints). Identical PNGs across different cases or modes are permitted; each capture must be separately approved. The former screenshotHashes-only format is rejected. Approval is a human workflow record, not authenticated authorization.
 
 Register into a new empty directory:
 ```sh

@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {planTasks,affectedTasks,executeTasks} from './task-scheduler.mjs';
+const {tasks,report}=JSON.parse(readFileSync(new URL('./task-scheduler.example.json',import.meta.url),'utf8'));
+const actual=executeTasks(tasks);
+assert.deepEqual(actual.order,report.order);
+assert.deepEqual(actual.results.map(r=>r.status),report.results.map(r=>r.status));
+assert.equal(actual.status,'incomplete');
+assert.deepEqual(affectedTasks(tasks,['chart']),['chart','layout']);
+assert.throws(()=>planTasks([{...tasks[0],dependsOn:['layout']}]));
+assert.throws(()=>planTasks([{...tasks[0],dependsOn:['missing']}]));
+assert.throws(()=>planTasks([tasks[0],tasks[0]]));
+assert.equal(executeTasks(tasks,()=>{throw Error('engine failure')}).results[0].status,'error');

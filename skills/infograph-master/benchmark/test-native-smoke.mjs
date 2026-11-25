@@ -6,6 +6,7 @@ import {execFileSync} from 'node:child_process';
 import {planRuns,runOne,validateResume} from './run-pilot.mjs';
 import {collectRuns} from './collect-runs.mjs';
 import {analyzePairs} from './benchmark-analytics.mjs';
+import {normalizeReview} from './normalize-review.mjs';
 import {scoreRun} from './score.mjs';
 import {buildReview} from './blind-review.mjs';
 const read=async n=>JSON.parse(await readFile(new URL(n,import.meta.url),'utf8'));
@@ -33,3 +34,16 @@ const manifest=JSON.parse(await readFile(join(blind,'review','manifest.json'),'u
 const normalized=records.map(r=>({...r,score:scoreRun({hardFails:[],applicable:Object.keys(rubric.weights),scores:Object.fromEntries(Object.keys(rubric.weights).map(k=>[k,r.arm==='full'?4:3]))},rubric).score}));
 const result=analyzePairs(schedule,collectRuns(schedule,normalized).records);assert.equal(result.metrics.score.meanDelta,20);assert.equal(result.metrics.score.n,1);
 await writeFile(join(root,'smoke-result.json'),JSON.stringify({synthetic:true,status:'passed',result},null,2));console.log('Synthetic integration smoke passed',root);
+
+const blindKey=JSON.parse(await readFile(join(blind,'PRIVATE-key.json'),'utf8'));
+const item=blindKey[0],ratings=Object.fromEntries(Object.keys(rubric.weights).map(k=>[k,4]));
+const input={review:{version:'0.1',scope:'screenshots-only',reviewer:'synthetic',records:[{id:item.blindId,task:item.task,scores:ratings}]},key:blindKey,records,applicability:{[item.task]:Object.keys(rubric.weights)},adjudications:{},rubric};
+assert.equal(normalizeReview(input)[0].status,'not-run');
+input.adjudications[item.runId]={hardFailReview:'complete',hardFails:[]};
+assert.equal(normalizeReview(input)[0].status,'not-run');
+input.adjudications[item.runId].verifiedScores={interaction:4,engineering:4};
+assert.equal(normalizeReview(input)[0].score,80);
+input.adjudications[item.runId].hardFails=[rubric.hardFails[0]];
+assert.equal(normalizeReview(input)[0].status,'fail');
+input.review.records[0].scores.visual=6;
+assert.throws(()=>normalizeReview(input),/invalid review rating/);

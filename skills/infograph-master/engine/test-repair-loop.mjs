@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {repairLoop} from './repair-loop.mjs';
+const {input}=JSON.parse(readFileSync(new URL('./repair-loop.example.json',import.meta.url),'utf8'));
+const out=repairLoop(input);
+assert.equal(out.status,'recomputed-unverified');
+assert.equal(out.history[1].evidence.blocks['b:A1'].availableWidth,928);
+assert.equal(out.history[1].report.results[1].input.width,928);
+assert.equal(input.tasks[0].input.width,800);
+assert.equal(out.releaseAuthorized,false);
+assert.equal(repairLoop({...input,maxIterations:0}).status,'budget-exhausted');
+assert.equal(repairLoop({...input,patches:[...input.patches,{revision:1,taskId:'layout',field:'width',value:800}]}).status,'cycle-stopped');
+assert.throws(()=>repairLoop({...input,patches:[{...input.patches[0],revision:99}]}));

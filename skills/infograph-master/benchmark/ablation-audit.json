@@ -1,0 +1,113 @@
+{
+  "source": "96c0d2c3e01caa1507bff658495ec7c16da88953",
+  "audit": [
+    {
+      "task": "B02",
+      "paths": [
+        "SKILL.md",
+        "references/context-guide.md",
+        "references/execution-gates.md",
+        "references/critique-protocol.md",
+        "references/acceptance.md",
+        "references/visual-design.md",
+        "references/router.md",
+        "visual-intelligence/color-foundations.md",
+        "visual-intelligence/semantic-color.md",
+        "visual-intelligence/color-art.md",
+        "visual-intelligence/typography-foundations.md",
+        "visual-intelligence/composition-fundamentals.md",
+        "visual-intelligence/material-foundations.md",
+        "visual-intelligence/motion-foundations.md",
+        "visual-intelligence/representation-foundations.md"
+      ],
+      "signals": {
+        "narrative": 12,
+        "visual": 18,
+        "gates": 10,
+        "critique": 11
+      }
+    },
+    {
+      "task": "B03",
+      "paths": [
+        "SKILL.md",
+        "references/context-guide.md",
+        "references/execution-gates.md",
+        "references/critique-protocol.md",
+        "references/acceptance.md",
+        "references/visual-design.md",
+        "references/router.md",
+        "visual-intelligence/color-foundations.md",
+        "visual-intelligence/semantic-color.md",
+        "visual-intelligence/color-art.md",
+        "visual-intelligence/typography-foundations.md",
+        "visual-intelligence/composition-fundamentals.md",
+        "visual-intelligence/material-foundations.md",
+        "visual-intelligence/motion-foundations.md",
+        "visual-intelligence/representation-foundations.md",
+        "repo:skills/narrative-design/SKILL.md"
+      ],
+      "signals": {
+        "narrative": 25,
+        "visual": 18,
+        "gates": 10,
+        "critique": 11
+      }
+    },
+    {
+      "task": "B07",
+      "paths": [
+        "SKILL.md",
+        "references/context-guide.md",
+        "references/execution-gates.md",
+        "references/critique-protocol.md",
+        "references/acceptance.md",
+        "references/visual-design.md",
+        "references/router.md",
+        "visual-intelligence/color-foundations.md",
+        "visual-intelligence/semantic-color.md",
+        "visual-intelligence/color-art.md",
+        "visual-intelligence/typography-foundations.md",
+        "visual-intelligence/composition-fundamentals.md",
+        "visual-intelligence/material-foundations.md",
+        "visual-intelligence/motion-foundations.md",
+        "visual-intelligence/representation-foundations.md",
+        "visual-intelligence/network-intelligence.md"
+      ],
+      "signals": {
+        "narrative": 12,
+        "visual": 18,
+        "gates": 10,
+        "critique": 11
+      }
+    },
+    {
+      "task": "B10",
+      "paths": [
+        "SKILL.md",
+        "references/context-guide.md",
+        "references/execution-gates.md",
+        "references/critique-protocol.md",
+        "references/acceptance.md",
+        "references/visual-design.md",
+        "references/router.md",
+        "visual-intelligence/color-foundations.md",
+        "visual-intelligence/semantic-color.md",
+        "visual-intelligence/color-art.md",
+        "visual-intelligence/typography-foundations.md",
+        "visual-intelligence/composition-fundamentals.md",
+        "visual-intelligence/material-foundations.md",
+        "visual-intelligence/motion-foundations.md",
+        "visual-intelligence/representation-foundations.md",
+        "repo:skills/narrative-design/SKILL.md"
+      ],
+      "signals": {
+        "narrative": 25,
+        "visual": 18,
+        "gates": 10,
+        "critique": 11
+      }
+    }
+  ],
+  "limitation": "keyword counts are overlap indicators, not semantic proof"
+}

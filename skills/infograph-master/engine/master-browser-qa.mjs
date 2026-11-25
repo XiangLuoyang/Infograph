@@ -26,7 +26,16 @@ try{for(const width of [1440,390]){const page=await browser.newPage({viewport:{w
  await page.locator('#confirm').check();await page.locator('#run').click();await page.waitForFunction(()=>document.querySelector('#status').textContent==='rendered-unverified');assert.equal(await page.locator('#preview').getAttribute('srcdoc'),originalHTML);
  await page.locator('#claim').fill('');assert.equal(await page.locator('#confirm').isChecked(),false);assert.equal(await page.locator('#save').isDisabled(),true);assert.equal(await page.locator('#preview').getAttribute('srcdoc'),'');assert.deepEqual(errors,[]);
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'horizontal overflow');
- await mkdir('qa-output',{recursive:true});await page.screenshot({path:'qa-output/master-'+(offline?'offline':'http')+'-'+width+'.png',fullPage:true});report.push({width,status:'pass',layout:await stressLayout(page),contrast:await auditContrast(page),accessibility:await auditAccessibility(page)});
+ const contentStress=[];
+ for(const claim of ['东南亚渠道经营分析：库存结构与零售覆盖率变化及下一阶段资源配置建议','Southeast Asian distribution performance and inventory allocation recommendations for the next operating quarter','การวิเคราะห์ผลการดำเนินงานและการจัดสรรสินค้าคงคลังในภูมิภาคเอเชียตะวันออกเฉียงใต้','Phân tích hiệu quả kinh doanh và phân bổ hàng tồn kho tại Đông Nam Á','RegionalChannelPerformanceAndInventoryAllocationWithoutWordBreaks'.repeat(3)]){
+ await page.locator('#claim').fill(claim);await page.locator('#confirm').check();await page.locator('#run').click();
+ await page.waitForFunction(()=>document.querySelector('#status').textContent==='rendered-unverified');
+ const frame=page.frameLocator('#preview');await frame.locator('body').waitFor();
+ const result=await frame.locator('body').evaluate((body,claim)=>({claimPresent:body.textContent.includes(claim),width:body.ownerDocument.documentElement.clientWidth,scrollWidth:body.ownerDocument.documentElement.scrollWidth}),claim);
+ contentStress.push({claim,...result});
+ }
+ await page.locator('#claim').fill('');
+ await mkdir('qa-output',{recursive:true});await page.screenshot({path:'qa-output/master-'+(offline?'offline':'http')+'-'+width+'.png',fullPage:true});report.push({width,status:'pass',contentStress,layout:await stressLayout(page),contrast:await auditContrast(page),accessibility:await auditAccessibility(page)});
  }catch(e){report.push({width,status:'fail',error:String(e),pageErrors:errors})}finally{await page.close()}}
 }finally{await browser.close();server.close();await mkdir('qa-output',{recursive:true});await writeFile('qa-output/master-'+(offline?'offline':'http')+'.json',JSON.stringify(report,null,2))}
 if(report.some(x=>x.status!=='pass'))process.exitCode=1;

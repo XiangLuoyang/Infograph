@@ -28,8 +28,10 @@ await mkdir(out,{recursive:true});
 if(command==='register'){
  if(!approvalPath)throw Error('explicit approval file required');
  const approval=await json(approvalPath);let next=registry;
- const approved=new Set(approval.screenshotHashes||[]);
- if(approved.size!==rows.length||rows.some(r=>!approved.has(r.capture.screenshotHash)))throw Error('approval must identify exact candidate hashes');
+ const identity=c=>JSON.stringify([c.caseId,c.captureMode,c.revision,c.screenshotHash,c.browser,c.browserVersion,c.platform,c.fontFingerprint,c.fixtureHash,c.stateHash,c.viewportWidth,c.viewportHeight,c.deviceScaleFactor,c.reducedMotion]);
+ if(!Array.isArray(approval.captures))throw Error('explicit capture approvals required');
+ const approved=new Set(approval.captures.map(identity));
+ if(approval.captures.length!==rows.length||approved.size!==rows.length||rows.some(r=>!approved.has(identity(r.capture))))throw Error('approval must identify exact candidate captures');
  await mkdir(join(out,'images'),{recursive:true});
  for(const r of rows){next=registerBaseline(next,r.capture,r.png,approval);const e=next.entries.at(-1);await writeFile(join(out,'images',e.screenshotHash+'.png'),r.png,{flag:'wx'}).catch(async err=>{if(err.code!=='EEXIST'||hash(await readFile(join(out,'images',e.screenshotHash+'.png')))!==e.screenshotHash)throw err});}
  for(const e of registry.entries){if(!/^[a-f0-9]{64}$/.test(e.screenshotHash))throw Error('invalid baseline hash');const png=await readFile(join(dirname(registryPath),'images',e.screenshotHash+'.png'));if(hash(png)!==e.screenshotHash)throw Error('old baseline corrupted');await writeFile(join(out,'images',e.screenshotHash+'.png'),png,{flag:'wx'}).catch(async err=>{if(err.code!=='EEXIST'||hash(await readFile(join(out,'images',e.screenshotHash+'.png')))!==e.screenshotHash)throw err});}

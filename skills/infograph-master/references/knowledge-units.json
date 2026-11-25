@@ -1,0 +1,155 @@
+{
+  "version": "0.1",
+  "units": [
+    {
+      "id": "K1-1",
+      "path": "references/acceptance.md",
+      "sha": "97a304ea66b15ce16686f9395ae151490e75935b",
+      "startLine": 1,
+      "endLine": 4,
+      "heading": "Acceptance",
+      "tags": [
+        "验收",
+        "evidence",
+        "accessibility",
+        "validation"
+      ],
+      "mandatory": true,
+      "bytes": 842,
+      "content": "# Acceptance\nBlocking: incorrect numbers, unsupported causal claims, hidden material caveats, unauthorized data disclosure, broken essential controls, misleading domain geometry or units. Repair before claiming completion.\nCheck evidence lineage and totals; chart axes, labels, scales and color semantics; contrast and keyboard focus; no clipping/overlap at target widths; typography and hierarchy; material legibility; meaningful motion and reduced-motion; filters, drilldown, reset, exports, empty/missing/extreme data; console errors and offline dependencies. Inspect real screenshots if browser available, otherwise explicitly mark visual QA untested. For narrative reports use skills/narrative-design/tests/protocol.md; for monitoring use lookup and alert tasks. Record pass/fail/not-run, evidence and fix. Do not fabricate test results."
+    },
+    {
+      "id": "K2-1",
+      "path": "visual-intelligence/color-foundations.md",
+      "sha": "8716ae172ef758c33889266f764d3f3a667a63dc",
+      "startLine": 1,
+      "endLine": 4,
+      "heading": "Color intelligence V1.2",
+      "tags": [
+        "配色",
+        "对比度",
+        "contrast",
+        "palette"
+      ],
+      "mandatory": false,
+      "bytes": 969,
+      "content": "# Color intelligence V1.2\nSeparate atmosphere from data semantics: categorical identity, ordered magnitude, signed deviation, status. Unknown differs from zero. Status needs text or shape. Choose hue and chroma by context, not universal emotional claims. Generate in OKLCH, reduce chroma to fit sRGB, measure contrast after quantization. Fixed lightness recipes and binary chroma reduction are not optimal gamut mapping. WCAG AA normal text 4.5:1, large text 3:1, relevant non-text UI 3:1 subject to exceptions. Audit composited backgrounds and states separately. Sequential scale is not certified CVD safe. Categorical/diverging and CVD simulation pending.\nReference starting points, not freshly retrieved: https://www.w3.org/TR/WCAG22/ ; https://www.w3.org/TR/css-color-4/ ; https://bottosson.github.io/posts/oklab/ ; https://colorbrewer2.org/ ; doi:10.1038/s41467-020-19160-7.\nTwelve candidate themes, 72 opaque text pairs checked. No browser or audience validation."
+    },
+    {
+      "id": "K3-1",
+      "path": "visual-intelligence/semantic-color.md",
+      "sha": "248c2e338cd6249b1c3707b9b247376aee82b69d",
+      "startLine": 1,
+      "endLine": 2,
+      "heading": "Semantic color",
+      "tags": [
+        "语义色彩",
+        "色觉",
+        "categorical",
+        "diverging",
+        "cvd"
+      ],
+      "mandatory": false,
+      "bytes": 875,
+      "content": "# Semantic color\nCategorical: stable IDs, unordered hues, direct labels or shapes. Greedy maximin search across normal and three full-severity simulated vision modes; deterministic but not globally optimal. Background contrast filter 3:1 is a candidate graphic check, not text certification. Diverging: odd count, neutral midpoint, symmetric OKLCH lightness schedule; map to meaningful numeric center and explicit bounds, disclose asymmetric domains. Unknown separate from zero. Status: use text/icons and domain meaning, never infer good/bad from sign alone. CVD simulation uses Machado et al. 2009 full-severity matrices in linear sRGB, clips output; not a clinical model or guarantee. OKLab Euclidean distances are heuristics, no universal pass threshold. Reference: https://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html (not freshly retrieved)."
+    },
+    {
+      "id": "K4-1",
+      "path": "visual-intelligence/color-art.md",
+      "sha": "04c7aa9876c674ccf943c45ee040db9d6091e1cc",
+      "startLine": 1,
+      "endLine": 2,
+      "heading": "Color art direction",
+      "tags": [
+        "低调",
+        "和谐",
+        "面积",
+        "harmony",
+        "art direction"
+      ],
+      "mandatory": false,
+      "bytes": 1083,
+      "content": "# Color art direction\nHarmony is a compositional hypothesis, not a universal beauty law. Six hue relationships: monochrome, analogous, complementary, split complementary, triadic, neutral plus accent. Use neutral/support/accent area guide 75/20/5 only as starting heuristic, not measured pixel coverage. Visual weight depends on area, local contrast, saturation, position and surrounding content. Reserve high contrast for focal claims. Warm/cool meanings vary by culture and context. Preserve supplied brand hex exactly; restrict role if contrast fails, do not silently recolor. Keep semantic data palettes independent. Overlay helper approximates encoded sRGB source-over on one opaque backdrop; actual browser compositing, blur, gradients and layered materials need inspection. Eight candidate directions are generated, not reverse-engineered or audience validated. References for later reading: Josef Albers Interaction of Color; Johannes Itten The Art of Color; CSS Compositing and Blending Level 1 https://www.w3.org/TR/compositing-1/. No fresh source review in this increment."
+    },
+    {
+      "id": "K5-1",
+      "path": "visual-intelligence/typography-foundations.md",
+      "sha": "c82f004a3b2b41567a25d81bd3a32f624558a4b1",
+      "startLine": 1,
+      "endLine": 7,
+      "heading": "Typography foundations V1.2",
+      "tags": [
+        "字体",
+        "字号",
+        "typography"
+      ],
+      "mandatory": false,
+      "bytes": 1814,
+      "content": "# Typography foundations V1.2\nTypography is information hierarchy, not font decoration. Establish semantic roles before styling: display, heading, subheading, body, label, note, metric. Use size, weight, spacing, alignment and position before adding color. Do not force every role onto every page.\nThree initial directions: editorial (serif headings, sans body), Swiss-inspired (sans hierarchy, grid), technical (compact sans, aligned numbers). These are candidate recipes, not historical reproductions. Font stacks are fallbacks, not bundled fonts; actual availability and CJK glyph coverage vary.\nNumbers: use tabular lining figures for comparable columns if supported; align values by consistent units/precision, show minus signs and missing values explicitly; do not round away material differences. Large display metrics can use proportional figures. Decimal alignment needs layout support, not merely tabular figures.\nChinese/mixed: preserve punctuation and language-specific line breaking, avoid blanket letter spacing, avoid forced breaks inside Latin words and units where feasible; use lang attributes for language runs. 36em Chinese and 65ch English are starting measure heuristics, not accessibility requirements. CSS overflow-wrap anywhere is emergency wrapping. Test long labels, zoom, font fallback and narrow screens.\nReference reading queue (not freshly retrieved): https://www.w3.org/TR/clreq/ ; https://www.w3.org/TR/css-text-3/ ; https://www.w3.org/TR/css-fonts-4/ ; https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html ; Robert Bringhurst, The Elements of Typographic Style; Josef Müller-Brockmann, Grid Systems in Graphic Design.\nThe module generates candidate tokens and CSS. It does not measure glyphs, enforce actual line length, guarantee font features or certify accessibility."
+    },
+    {
+      "id": "K6-1",
+      "path": "visual-intelligence/composition-fundamentals.md",
+      "sha": "950cdd5dd294e8c25e2cd2e7ff83a87307b9e99e",
+      "startLine": 1,
+      "endLine": 2,
+      "heading": "Composition fundamentals",
+      "tags": [
+        "构图",
+        "布局",
+        "composition"
+      ],
+      "mandatory": false,
+      "bytes": 953,
+      "content": "# Composition fundamentals\nEight candidate principles: proximity, similarity, figure-ground, continuity, closure, visual weight, balance, tension. Distinguish semantic relationships, geometric placement and perceptual response. Start with intended focal claim, supporting evidence, reading order and constraints; then generate alternative compositions. The audit computes bounding-box intersections, canvas overflow and area × declared emphasis centroid only. It cannot measure actual attention, typography, contrast, perceived balance or beauty. Intentional overlap requires review. Reference reading queue (not freshly retrieved): Wertheimer, Laws of Organization in Perceptual Forms; Rudolf Arnheim, Art and Visual Perception; Colin Ware, Information Visualization: Perception for Design; Wagemans et al., A Century of Gestalt Psychology in Visual Perception, 2012, doi:10.1037/a0029333. Seven inline logic checks passed; no browser or reader study."
+    },
+    {
+      "id": "K7-1",
+      "path": "visual-intelligence/material-foundations.md",
+      "sha": "bbcbdb8910e041209da6d9d68856c98368cf62ae",
+      "startLine": 1,
+      "endLine": 2,
+      "heading": "Material perception foundations",
+      "tags": [
+        "材质",
+        "玻璃",
+        "material"
+      ],
+      "mandatory": false,
+      "bytes": 916,
+      "content": "# Material perception foundations\nDistinguish physical material, perceptual cues and semantic associations. Ten cue categories; six normalized design descriptors with three illustrative profiles. Values are authored examples, not measured optical properties. Roughness changes highlight spread under fixed illumination; alpha is not optical transmission; metalness is a rendering workflow parameter; texture and relief are distinct. Semantic associations depend on audience and context. Keep essential text on stable readable surfaces. Reading queue (not freshly retrieved): Fleming, Visual perception of materials and their properties (2014), doi:10.1016/j.visres.2013.11.004; Pharr et al., Physically Based Rendering, https://pbr-book.org/4ed/; Khronos glTF 2.0 specification, https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html. Ten inline checks passed; no optical simulation, CSS renderer or reader study."
+    },
+    {
+      "id": "K8-1",
+      "path": "visual-intelligence/motion-foundations.md",
+      "sha": "7ec307201a888b921a5cdebd010487adedf61b91",
+      "startLine": 1,
+      "endLine": 2,
+      "heading": "Motion perception foundations",
+      "tags": [
+        "动画",
+        "交互",
+        "motion"
+      ],
+      "mandatory": false,
+      "bytes": 794,
+      "content": "# Motion perception foundations\nEight candidate semantic roles, not an exhaustive perceptual taxonomy. Preserve object identity, distinguish actual data change from camera movement, keep essential facts visible without animation. Evidence references required for causal, temporal and transformation claims; references are not verified. Reduced-motion plan sets effective duration to zero; runtime must implement it. Durations are authored, not empirically optimized. Reading queue: https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html ; Heer and Robertson, Animated Transitions in Statistical Data Graphics (2007); Tversky et al., Animation: Can It Facilitate? (2002). References not freshly reviewed. Nine inline checks passed; no browser, perception or audience tests."
+    },
+    {
+      "id": "K9-1",
+      "path": "visual-intelligence/representation-foundations.md",
+      "sha": "4cfdfba3fe83755b8f0e31f658bd30aaa20fccec",
+      "startLine": 1,
+      "endLine": 2,
+      "heading": "Representation foundations",
+      "tags": [
+        "图表",
+        "编码",
+        "representation"
+      ],
+      "mandatory": false,
+      "bytes": 848,
+      "content": "# Representation foundations\nSix layers: information ontology, relational structure, cognitive task, visual encoding, representation, rendering. Sixteen candidate relation/task mappings; not exhaustive and not a replacement for the existing catalog. Position and length are preferred candidates for precise magnitude comparison; geographic position and physical geometry carry domain semantics. Missing fields block eligibility, but declarations do not establish truth, compatible units, geometry validity or causal identification. No renderer or catalog audit. 33 inline checks passed. Reading queue (not freshly reviewed): Bertin, Semiology of Graphics; Cleveland & McGill (1984), Graphical Perception; Mackinlay (1986), Automating the Design of Graphical Presentations; Munzner, Visualization Analysis and Design; Wilkinson, Grammar of Graphics."
+    }
+  ]
+}

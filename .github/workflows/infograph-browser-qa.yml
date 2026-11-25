@@ -7,6 +7,7 @@ on:
       - '.github/workflows/infograph-browser-qa.yml'
       - 'scripts/build-studios.mjs'
       - 'scripts/verify-studios.mjs'
+      - 'scripts/audit-installed-dependencies.mjs'
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,11 +23,15 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --no-save --no-package-lock playwright@1.51.1 pngjs@7.0.0
+      - run: |
+          mkdir -p qa-output
+          node ../../../scripts/audit-installed-dependencies.mjs node_modules browser-test > qa-output/npm-browser-inventory.json
       - run: npx playwright install --with-deps chromium
       - name: Build standalone studios
         working-directory: .
         run: |
           npm install --no-save --no-package-lock esbuild@0.25.5
+          node scripts/audit-installed-dependencies.mjs node_modules standalone-build > skills/infograph-master/engine/qa-output/npm-build-inventory.json
           node scripts/build-studios.mjs
           node scripts/verify-studios.mjs
       - run: node contrast-browser-test.mjs

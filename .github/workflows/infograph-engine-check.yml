@@ -52,6 +52,7 @@ jobs:
       - run: node test-studio-controls.mjs
       - run: node test-studio-preview.mjs
       - run: node test-studio-history.mjs
+      - run: node test-execution-gates.mjs
 
       - name: Visual intelligence tests
         working-directory: skills/infograph-master/visual-intelligence

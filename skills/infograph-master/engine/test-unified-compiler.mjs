@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {compileUnified} from './unified-compiler.mjs';
+const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
+const ir=read('./specialist-ir.example.json'),deps={model:read('./design-object-model.json'),rules:read('./cross-domain-rules.json'),catalog:read('./repair-catalog.json')},facts={designId:ir.id,revision:ir.revision,blocks:read('./conflict.example.json').facts};
+assert.deepEqual(compileUnified({ir,facts},deps),read('./unified-compiler.example.json'));
+assert.equal(compileUnified({ir},deps).status,'incomplete');
+assert.throws(()=>compileUnified({ir,facts:{...facts,revision:99}},deps));
+assert.throws(()=>compileUnified({ir,storyboard:{}},deps));
+assert.throws(()=>compileUnified({},deps));
+const storyboard=read('../../narrative-design/templates/storyboard.json');
+assert.equal(compileUnified({storyboard,id:'fresh'},deps).status,'incomplete');

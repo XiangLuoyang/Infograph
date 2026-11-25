@@ -1,0 +1,115 @@
+{
+  "inline": {
+    "version": "0.1",
+    "family": "GLM",
+    "capabilities": {
+      "fileAccess": false,
+      "execution": false,
+      "browser": false
+    },
+    "mode": "inline",
+    "instructions": [
+      "Preserve all core constraints. Treat unavailable specialist references as missing knowledge, not as loaded. Never invent evidence or test results.",
+      "Code execution unavailable: mark executable checks not-run.",
+      "Browser unavailable: mark visual/browser checks not-run.",
+      "Use embedded core text; request necessary specialist excerpts or narrow scope."
+    ],
+    "manifest": [
+      {
+        "path": "SKILL.md",
+        "sha": "e6043433b3598849a3d53d98359d7b9c5300a508",
+        "bytes": 2551
+      },
+      {
+        "path": "references/context-guide.md",
+        "sha": "8fd56a93ce7f853fb39f4f5aff32f3ef569a39a7",
+        "bytes": 1745
+      },
+      {
+        "path": "references/execution-gates.md",
+        "sha": "69eb2bb1551f67ca00af4ea3e62191bf082bcc5d",
+        "bytes": 939
+      },
+      {
+        "path": "references/critique-protocol.md",
+        "sha": "cefa39e05377d33a159b34f28fd2265f99fdb04d",
+        "bytes": 1178
+      },
+      {
+        "path": "references/acceptance.md",
+        "sha": "97a304ea66b15ce16686f9395ae151490e75935b",
+        "bytes": 843
+      }
+    ],
+    "inline": [
+      {
+        "path": "SKILL.md",
+        "content": "---\nname: infograph-master\ndescription: Create evidence-grounded visualizations, business dashboards, narrative reports, maps, diagrams and custom interactive HTML. Route by task to visual design, narrative, specialist and engineering assets.\n---\n# Infograph Master V1.1\nUse the full repository; paths below are relative to this skill unless stated. Do not copy this file alone. Read references/context-guide.md first. Use its compact index to choose initial references; consult references/modes.md only for deeper domain routes. Always load references/acceptance.md; budget cannot waive blocking requirements. Default to Standard for dashboards, Express for a single simple chart. Combine modes when needed; Runtime is optional, never a creativity constraint.\n\n## Execution\n1. Identify audience, task, decision, delivery, time budget and data permissions. Ask only for blocking inputs.\n2. Reconcile source, units, grain, period, denominators and missingness. Separate facts, inference, assumptions and unknowns.\n3. For authored reports establish thesis, evidence and cognitive progression; for monitoring/exploration prioritize user tasks. Do not force a story.\n4. Choose representation by information relationship and domain. For substantial work compare two genuinely different art directions, then specify color, type, layout, material, chart, interaction and motion.\n5. Build the requested artifact with shared data/state, meaningful controls, visible essential evidence, responsive reading order and accessible alternatives. Do not stop at a proposal unless requested.\n6. Apply references/acceptance.md proportionately. Fix blockers and report actual checks, untested items and limitations.\n\nTruth, privacy, domain accuracy and accessibility override aesthetics. Explicit user constraints override defaults. No unauthorized external installation or upload. Never invent evidence, claim causality from correlation, or claim tested superiority without results. Prefer freeform or specialist rendering for unsupported tasks; never bypass invalid data. Keep deliverables proportional: brief, evidence map, design rationale, artifact and validation log can be compact.\n\nFor substantive tasks follow references/execution-gates.md before final rendering and review. Missing or stale required evidence blocks declared eligibility; do not fabricate records.\n\nFor substantive artifacts review actual evidence and output using references/critique-protocol.md; prioritize material defects over polish, record unknown checks and stop at the revision budget.\n"
+      },
+      {
+        "path": "references/context-guide.md",
+        "content": "# Context loading V0.1\nAlways read acceptance.md. Select initial groups from context-index.json: standard for dashboard, narrative for authored report, color/typography/composition/material/motion/representation for relevant specialist decisions, runtime for supported repeatable output, studio for custom art direction. Express uses relevant visual-design section. Use engine/context-plan.mjs planContext with ordered groups; default optional budget 24000 UTF-8 bytes, not tokens. Mandatory acceptance excluded from optional budget. Root SKILL and index overhead also excluded. Deferred required knowledge must be loaded before execution or scope reduced; never waive evidence or domain checks. Index is 12 initial references, not complete inventory; consult modes.md for deeper routes. SHA and size recorded from fetched content, refresh when changed. No measured model adherence or token savings.\n\nC08-B: use engine/task-router.mjs routeTask(text, declared) as an advisory keyword baseline. Confirm ambiguous purpose/domain/relation/delivery only if blocking; explicit declarations override signals. Feed ordered groups to planContext; load specialistReference separately when relevant, never omit required domain guidance due to budget. No runtime authorization or semantic classification guarantee.\n\nC08-C: retrieveKnowledge in engine/knowledge-retrieval.mjs uses references/knowledge-units.json for source-anchored lexical retrieval. Required paths bypass optional budget; missing required paths block completeness. Check source SHA before relying on cached text. Nine initial documents each contain one heading, so this seed is document-granular; deeper segmentation pending. Do not treat retrieval as exhaustive or semantic verification."
+      },
+      {
+        "path": "references/execution-gates.md",
+        "content": "# Execution gates V0.1\nFor substantive tasks maintain a revision-tagged record for each applicable requirement in references/execution-gates.json. Each record has key, revision, status (pass/fail/not-run), ref (actual artifact location or inspectable evidence). Before final artifact generation inspect pre-build gates with engine/execution-gates.mjs auditExecution; missing/stale/failed records block declared eligibility. Report/decision needs thesis, evidence links and storyboard; monitor needs metric priorities, lookup tasks and alert rules (explicit no-alert rationale acceptable). Alternative directions required for substantial tasks. Draft prototypes may be used to investigate, not represented as completed artifacts. Review actual references, truth and quality separately; a declared pass is not independent verification. Never invent refs. No automatic enforcement in external model hosts. Release authorization remains false."
+      },
+      {
+        "path": "references/critique-protocol.md",
+        "content": "# Critique protocol V0.1\nReview actual artifact and evidence in six perspectives using critique-rubric.json. Record each check with dimension, check, revision, status, ref; failed checks require severity, issue and concrete repair. Not-applicable needs rationale and cannot waive evidence. Blocker: incorrect or unsupported material claim, unsafe disclosure, misleading geometry, broken essential task. Major: reader cannot follow main argument, meaningful task impaired, substantial visual or responsive defect. Minor: localized polish without material comprehension impact. For authored reports use naked-title and retell tests; distinguish self-review from actual reader tests. For monitoring assess lookup and alert tasks instead of forcing a story. Inspect screenshots only when actually available. Run critiquePlan; repair highest severity first, increment revision and re-review. Default three revisions, stop on repeated check/severity signature or exhausted budget; repeated signature is a conservative proxy, not proof of no improvement. Never claim independent verification from self-reported records. Unknown checks remain incomplete. No automatic repair or release."
+      },
+      {
+        "path": "references/acceptance.md",
+        "content": "# Acceptance\nBlocking: incorrect numbers, unsupported causal claims, hidden material caveats, unauthorized data disclosure, broken essential controls, misleading domain geometry or units. Repair before claiming completion.\nCheck evidence lineage and totals; chart axes, labels, scales and color semantics; contrast and keyboard focus; no clipping/overlap at target widths; typography and hierarchy; material legibility; meaningful motion and reduced-motion; filters, drilldown, reset, exports, empty/missing/extreme data; console errors and offline dependencies. Inspect real screenshots if browser available, otherwise explicitly mark visual QA untested. For narrative reports use skills/narrative-design/tests/protocol.md; for monitoring use lookup and alert tasks. Record pass/fail/not-run, evidence and fix. Do not fabricate test results.\n"
+      }
+    ],
+    "releaseAuthorized": false,
+    "validation": "not-run"
+  },
+  "repository": {
+    "version": "0.1",
+    "family": "GPT",
+    "capabilities": {
+      "fileAccess": true,
+      "execution": true,
+      "browser": false
+    },
+    "mode": "repository",
+    "instructions": [
+      "Preserve all core constraints. Treat unavailable specialist references as missing knowledge, not as loaded. Never invent evidence or test results.",
+      "Run available tests and record observed results.",
+      "Browser unavailable: mark visual/browser checks not-run.",
+      "Resolve referenced files from the repository before use."
+    ],
+    "manifest": [
+      {
+        "path": "SKILL.md",
+        "sha": "e6043433b3598849a3d53d98359d7b9c5300a508",
+        "bytes": 2551
+      },
+      {
+        "path": "references/context-guide.md",
+        "sha": "8fd56a93ce7f853fb39f4f5aff32f3ef569a39a7",
+        "bytes": 1745
+      },
+      {
+        "path": "references/execution-gates.md",
+        "sha": "69eb2bb1551f67ca00af4ea3e62191bf082bcc5d",
+        "bytes": 939
+      },
+      {
+        "path": "references/critique-protocol.md",
+        "sha": "cefa39e05377d33a159b34f28fd2265f99fdb04d",
+        "bytes": 1178
+      },
+      {
+        "path": "references/acceptance.md",
+        "sha": "97a304ea66b15ce16686f9395ae151490e75935b",
+        "bytes": 843
+      }
+    ],
+    "inline": [],
+    "releaseAuthorized": false,
+    "validation": "not-run"
+  }
+}

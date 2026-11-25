@@ -9,3 +9,6 @@
 | Reference-based QA | Review ledger and blocked missing evidence, existing screenshot comparison guidance | Capture matched scene states, inspect visual differences and functional/accessibility checks |
 
 No formal REAL-001 rerun yet; no promotion to golden case. Keep private original assets outside public repository. Do not expand taxonomy before testing a running hybrid prototype.
+
+## Phase 2 implementation
+Added standalone layered renderer and neutral 14-link fixture, offline embedded raster, deterministic labels, geometric links, shared scene state and static fallback. CI captures three viewport sizes and tests actual anchor alignment, playback, pause, reduced motion and reset. No private input, PBR or real reference fidelity claim. Five objectives and business narrative are not part of this engineering-only fixture; a full REAL-001 rerun remains pending.

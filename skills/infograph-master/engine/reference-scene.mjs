@@ -16,12 +16,12 @@ export function compileReference(input,capabilities={}){
   requireThat(validId(o.id)&&!ids.has(o.id)&&["environment","entity","anchor","label","connector","instrument","ornament"].includes(o.role)&&nonempty(o.label)&&typeof o.essential==="boolean","invalid or duplicate object");
   requireThat(Array.isArray(o.bounds)&&o.bounds.length===4&&o.bounds.every(unit)&&o.bounds[2]>0&&o.bounds[3]>0&&o.bounds[0]+o.bounds[2]<=1.00000001&&o.bounds[1]+o.bounds[3]<=1.00000001,"invalid bounds "+o.id);
   requireThat(Number.isInteger(o.depth)&&o.depth>=0&&["observed","inferred","authored"].includes(o.provenance)&&nonempty(o.sourceNote),"missing provenance/depth "+o.id);
-  requireThat(["flat","surface","photoreal","spatial","optical"].includes(o.fidelity)&&typeof o.dynamic==="boolean","invalid fidelity/dynamic");
+  requireThat(["flat","surface","raster","photoreal","spatial","optical"].includes(o.fidelity)&&typeof o.dynamic==="boolean","invalid fidelity/dynamic");
   const ports=o.ports??{};requireThat(ports&&typeof ports==="object"&&!Array.isArray(ports)&&Object.entries(ports).every(([k,p])=>validId(k)&&Array.isArray(p)&&p.length===2&&p.every(unit)),"invalid ports "+o.id);
   if(o.material){requireThat(["paper","metal","stone","glass","matte"].includes(o.material.family)&&unit(o.material.roughness)&&unit(o.material.metalness)&&unit(o.material.opacity),"invalid material "+o.id)}
   if(o.role==="label")requireThat(o.fidelity==="flat","labels must be deterministic flat text");
   ids.set(o.id,o);
-  let preferred=o.role==="label"?"html":o.role==="connector"||o.role==="anchor"?"svg":o.fidelity==="spatial"||o.fidelity==="optical"?"webgl":o.fidelity==="photoreal"?(o.dynamic?"webgl":"raster"):o.fidelity==="surface"?"css":"svg";
+  let preferred=o.role==="label"?"html":o.role==="connector"||o.role==="anchor"?"svg":o.fidelity==="spatial"||o.fidelity==="optical"?"webgl":o.fidelity==="raster"?"raster":o.fidelity==="photoreal"?(o.dynamic?"webgl":"raster"):o.fidelity==="surface"?"css":"svg";
   let renderer=available[preferred]?preferred:available.svg&&o.role!=="label"?"svg":available.html&&o.role==="label"?"html":null;
   if(o.role==="label"&&!available.html)renderer=null;
   let degraded=renderer!==preferred;
@@ -39,17 +39,17 @@ export function compileReference(input,capabilities={}){
  return {source:{...src},objects:input.objects,slots:slots.sort((a,b)=>a.depth-b.depth),links,scenes:input.scenes,staticScene:input.staticScene,issues,planningReady:!issues.some(i=>i.severity==="blocking"),rendered:false,releaseReady:false,scope:"authored reference decomposition and renderer routing; not computer vision or fidelity certification"};
 }
 
-export function resolveAnchor(object,port,transform={}){
+export function resolveAnchor(object,port,transform={},aspect=1){
  requireThat(object&&Object.hasOwn(object.ports??{},port),"unknown port");
  const [x,y,w,h]=object.bounds,[u,v]=object.ports[port],{dx=0,dy=0,rotation=0,scale=1}=transform;
- requireThat([dx,dy,rotation,scale].every(Number.isFinite)&&scale>0,"invalid transform");
- const a=rotation*Math.PI/180,px=(u-.5)*w*scale,py=(v-.5)*h*scale;
- return [x+w/2+dx+px*Math.cos(a)-py*Math.sin(a),y+h/2+dy+px*Math.sin(a)+py*Math.cos(a)];
+ requireThat([dx,dy,rotation,scale].every(Number.isFinite)&&scale>0&&Number.isFinite(aspect)&&aspect>0,"invalid transform or aspect");
+ const a=rotation*Math.PI/180,px=(u-.5)*w*scale*aspect,py=(v-.5)*h*scale;
+ return [x+w/2+dx+(px*Math.cos(a)-py*Math.sin(a))/aspect,y+h/2+dy+px*Math.sin(a)+py*Math.cos(a)];
 }
 
-export function planLinks(plan,transforms={}){
+export function planLinks(plan,transforms={},aspect=1){
  const objects=new Map(plan.objects.map(o=>[o.id,o]));
- return plan.links.map(l=>({id:l.id,kind:l.kind,from:resolveAnchor(objects.get(l.from.object),l.from.port,transforms[l.from.object]),to:resolveAnchor(objects.get(l.to.object),l.to.port,transforms[l.to.object])}));
+ return plan.links.map(l=>({id:l.id,kind:l.kind,from:resolveAnchor(objects.get(l.from.object),l.from.port,transforms[l.from.object],aspect),to:resolveAnchor(objects.get(l.to.object),l.to.port,transforms[l.to.object],aspect)}));
 }
 
 export function fidelityReview(plan,records=[]){

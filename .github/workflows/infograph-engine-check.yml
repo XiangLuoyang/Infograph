@@ -37,6 +37,7 @@ jobs:
       - run: node test-hybrid.mjs
       - run: node test-reference-scene.mjs
       - run: node test-reference-surface.mjs
+      - run: node test-reference-renderer.mjs
 
       - run: node test-integration.mjs
       - run: node test-specialist-ir-adapter.mjs

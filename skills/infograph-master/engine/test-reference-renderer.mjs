@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {buildReferenceHTML,validateRaster} from './reference-renderer.mjs';
+import {referenceDemo} from './reference-renderer-fixture.mjs';
+import {resolveAnchor} from './reference-scene.mjs';
+const {manifest,options}=referenceDemo(),{html,report}=buildReferenceHTML(manifest,options);
+assert.equal(report.objectCount,17);assert.equal(report.linkCount,14);assert.equal(report.sceneCount,16);
+assert.deepEqual([...report.renderers].sort(),['css','html','raster','svg']);assert.equal(report.browserVerified,false);
+assert.match(html,/data:image\/png;base64,/);assert.match(html,/data-scene="reveal14"/);assert.match(html,/<noscript>/);assert.ok(!html.includes('https://'));
+assert.throws(()=>validateRaster({...options.assets.env,sha256:'bad'}));
+assert.throws(()=>buildReferenceHTML(manifest,{...options,assets:{}}));
+assert.throws(()=>buildReferenceHTML(manifest,{...options,transforms:{initial:{env:{dx:.1}}}}));
+const malicious=structuredClone(manifest);malicious.objects[2].label='</script><script>alert(1)</script>';assert.ok(!buildReferenceHTML(malicious,options).html.includes('</script><script>alert(1)'));
+const spatial=structuredClone(manifest);spatial.objects[1].fidelity='spatial';assert.throws(()=>buildReferenceHTML(spatial,options));assert.ok(buildReferenceHTML(spatial,{...options,allowDegraded:true}).report.planIssues.length);
+const o={bounds:[.2,.2,.4,.4],ports:{right:[1,.5]}};
+const [x,y]=resolveAnchor(o,'right',{rotation:90},1.5);assert.ok(Math.abs(x-.4)<1e-9&&Math.abs(y-.7)<1e-9);
+console.log('Reference renderer checks: 16');

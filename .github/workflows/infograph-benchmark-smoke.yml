@@ -24,6 +24,7 @@ jobs:
       - run: node skills/infograph-master/benchmark/business-validation/test-prepare.mjs
       - run: node skills/infograph-master/benchmark/business-validation/test-arms.mjs
       - run: node skills/infograph-master/benchmark/business-validation/mock-experiment.mjs
+      - run: node skills/infograph-master/benchmark/business-validation/mock-capture.mjs
       - run: node skills/infograph-master/benchmark/test-native-smoke.mjs
         env:
           SMOKE_OUT: ${{ runner.temp }}/infograph-smoke

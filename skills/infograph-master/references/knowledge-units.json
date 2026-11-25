@@ -4,9 +4,9 @@
     {
       "id": "K1-1",
       "path": "references/acceptance.md",
-      "sha": "97a304ea66b15ce16686f9395ae151490e75935b",
+      "sha": "c1387e0153935e7b113be30a1e0059c10d995da2",
       "startLine": 1,
-      "endLine": 4,
+      "endLine": 3,
       "heading": "Acceptance",
       "tags": [
         "验收",
@@ -15,8 +15,8 @@
         "validation"
       ],
       "mandatory": true,
-      "bytes": 842,
-      "content": "# Acceptance\nBlocking: incorrect numbers, unsupported causal claims, hidden material caveats, unauthorized data disclosure, broken essential controls, misleading domain geometry or units. Repair before claiming completion.\nCheck evidence lineage and totals; chart axes, labels, scales and color semantics; contrast and keyboard focus; no clipping/overlap at target widths; typography and hierarchy; material legibility; meaningful motion and reduced-motion; filters, drilldown, reset, exports, empty/missing/extreme data; console errors and offline dependencies. Inspect real screenshots if browser available, otherwise explicitly mark visual QA untested. For narrative reports use skills/narrative-design/tests/protocol.md; for monitoring use lookup and alert tasks. Record pass/fail/not-run, evidence and fix. Do not fabricate test results."
+      "bytes": 847,
+      "content": "# Acceptance\nBlocking: incorrect numbers, unsupported causal claims, hidden material caveats, unauthorized data disclosure, broken essential controls, misleading domain geometry or units. Repair before claiming completion.\nCheck evidence lineage and totals; chart axes, labels, scales and color semantics; contrast and keyboard focus; no clipping/overlap at target widths; typography and hierarchy; material legibility; meaningful motion and reduced-motion; filters, drilldown, reset, exports, empty/missing/extreme data; console errors and offline dependencies. Inspect real screenshots if browser available, otherwise explicitly mark visual QA untested. For narrative reports use repo:skills/narrative-design/tests/protocol.md; for monitoring use lookup and alert tasks. Record pass/fail/not-run, evidence and fix. Do not fabricate test results."
     },
     {
       "id": "K2-1",

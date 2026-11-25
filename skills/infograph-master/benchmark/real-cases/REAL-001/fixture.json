@@ -1,0 +1,63 @@
+{
+  "id": "REAL-001",
+  "version": 1,
+  "classification": "sanitized synthetic derivative of a real workflow; no actual business metrics",
+  "audience": "executive presentation",
+  "task": "Create an interactive transition slide from regional overview to market-level operating analysis. Start with one stable operating entity; progressively reveal conflicting stakeholder constraints; resolve to five qualitative operating objectives; provide linked market-example emphasis.",
+  "groups": [
+    {
+      "id": "brand",
+      "label": "Brand-side demands",
+      "nodes": [
+        "Sales",
+        "Established product lines",
+        "Retail",
+        "Online commerce",
+        "New offerings",
+        "Channel governance"
+      ]
+    },
+    {
+      "id": "partner",
+      "label": "Partner-side demands",
+      "nodes": [
+        "Corporate financial expectations",
+        "Department resource requests",
+        "Peer market priorities"
+      ]
+    },
+    {
+      "id": "external",
+      "label": "External environment",
+      "nodes": [
+        "Regulatory requirements",
+        "Commercial premises",
+        "Macroeconomy",
+        "Major customers",
+        "Digital platforms"
+      ]
+    }
+  ],
+  "objectives": [
+    "Brand evaluation",
+    "Internal evaluation",
+    "Customer feedback",
+    "Return and profitability",
+    "Collaboration assessment"
+  ],
+  "constraints": [
+    "14 distinct nodes, 3 groups, 5 objectives",
+    "No quantitative scores, measured force or causal inference without evidence",
+    "Stable entity identity and connections across scene transitions",
+    "Use qualitative emphasis only; market-example selection does not establish causal attribution",
+    "Readable static fallback, keyboard controls, reset, reduced motion, responsive layout"
+  ],
+  "marketExample": {
+    "id": "market-a",
+    "highlight": [
+      "Sales"
+    ],
+    "note": "Illustrative selection only; no real market data or causal attribution."
+  },
+  "reference": "For reference-guided arm, supply a new neutral mechanical concept image under identical conditions; do not use the original confidential artwork."
+}

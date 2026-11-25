@@ -5,6 +5,7 @@ on:
       - 'skills/infograph-master/engine/**'
       - 'skills/infograph-master/visual-intelligence/**'
       - '.github/workflows/infograph-engine-check.yml'
+      - 'scripts/**'
   workflow_dispatch:
 permissions:
   contents: read
@@ -43,3 +44,10 @@ jobs:
       - name: JavaScript syntax checks
         working-directory: skills/infograph-master
         run: find engine visual-intelligence -type f -name '*.mjs' -exec node --check {} \;
+
+      - name: Dependency audit self-test
+        working-directory: .
+        run: node scripts/test-audit-dependencies.mjs
+      - name: Static dependency audit
+        working-directory: .
+        run: node scripts/audit-dependencies.mjs

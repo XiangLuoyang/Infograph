@@ -1,0 +1,9 @@
+# Business validation protocol (exploratory, not run)
+
+Six tasks × three arms × one repetition = 18 artifacts. Separate from the existing 24-run formal pilot. Use one exact model snapshot, reasoning settings, output token limit, time limit, tools and fresh context per run. Record actual input/output tokens, latency, failures and repair turns. No paid execution without authorization.
+
+Arms: baseline (no Infograph), V1.1 (verified immutable historical revision), V1.2 (RC1 0c4f90768f80baf16d560a323c437ed8d96463c2). V1.1 revision is unresolved; do not substitute current main. Pin and hash each skill bundle before execution. Both skill arms receive equivalent read-only access to their own version's required design assets, excluding benchmark answers, prior outputs and repository history. Baseline receives no skill. No network or general repository access in model environment. Log bundle sizes and access; different context cost is part of the treatment.
+
+Run prepare.mjs with a new output directory. Coordinator alone reads PRIVATE-schedule.json and assigns skill bundle. Send only individual prompt and allowed bundle to model; never mount the preparation directory or answer key. Randomized order is deterministic from the declared seed; anonymous IDs are not a secrecy mechanism. Reviewers receive newly randomized IDs and artifacts with arm metadata removed. Record potential unblinding from style or embedded signatures. No post-hoc exclusion of failed runs.
+
+Use existing benchmark rubric and visual review protocol. Report paired per-task differences, hard failures, token/time costs, and qualitative creativity observations separately. Predeclare applicable dimensions; do not convert missing review to zero. No statistical superiority claim from one repetition. Real model versions, V1.1 revision, execution budget and reviewers remain unconfirmed.

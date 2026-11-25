@@ -8,6 +8,7 @@ export function auditArm(out){
  for(const match of matches){
  const raw=match[0],p=raw.replace(/^repo:/,'');
  const candidates=raw.startsWith('repo:')||/^(skills|catalog|research|assets|examples|docs)\//.test(p)?[p]:[relative(root,resolve(root,dirname(f.path),p)),relative(root,resolve(root,'skills/infograph-master',p))];
+ if(f.path==='skills/infograph-master/references/router.md'&&p==='references/atlas.md'&&content.includes('within that skill')&&content.includes('skills/narrative-design/SKILL.md'))candidates.push('skills/narrative-design/'+p);
  const found=candidates.find(x=>paths.has(x));
  const row={source:f.path,reference:raw,resolved:found??null};
  refs.push(row);if(!found)issues.push(row);

@@ -1,0 +1,2 @@
+# C07-F Master Studio integration
+Standalone builder extended to seventh studio with embedded fixture and manifest hash; history native regression registered; browser QA HTTP/offline × 1440/390 checks confirmation, rendering, live width, save/compare, three downloads, restore invalidation and overflow. Build and browser not executed; CI results unavailable. Candidate delivery 6/6, acceptance open. No release authorization. Next C08 skill loading and adherence.

@@ -1,0 +1,178 @@
+{
+  "input": {
+    "revision": 1,
+    "reviews": [
+      {
+        "dimension": "evidence",
+        "check": "traceability",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:traceability"
+      },
+      {
+        "dimension": "evidence",
+        "check": "metric-integrity",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:metric-integrity"
+      },
+      {
+        "dimension": "evidence",
+        "check": "claim-support",
+        "revision": 1,
+        "status": "fail",
+        "ref": "synthetic:claim-support",
+        "severity": "blocker",
+        "issue": "Claim lacks evidence",
+        "repair": "Remove or substantiate claim"
+      },
+      {
+        "dimension": "narrative",
+        "check": "central-question",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:central-question"
+      },
+      {
+        "dimension": "narrative",
+        "check": "progression",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:progression"
+      },
+      {
+        "dimension": "narrative",
+        "check": "decision-closure",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:decision-closure"
+      },
+      {
+        "dimension": "representation",
+        "check": "relation-fit",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:relation-fit"
+      },
+      {
+        "dimension": "representation",
+        "check": "encoding-integrity",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:encoding-integrity"
+      },
+      {
+        "dimension": "representation",
+        "check": "domain-accuracy",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:domain-accuracy"
+      },
+      {
+        "dimension": "visual",
+        "check": "hierarchy",
+        "revision": 1,
+        "status": "fail",
+        "ref": "synthetic:hierarchy",
+        "severity": "minor",
+        "issue": "Weak hierarchy",
+        "repair": "Adjust heading hierarchy"
+      },
+      {
+        "dimension": "visual",
+        "check": "composition",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:composition"
+      },
+      {
+        "dimension": "visual",
+        "check": "legibility",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:legibility"
+      },
+      {
+        "dimension": "visual",
+        "check": "art-direction",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:art-direction"
+      },
+      {
+        "dimension": "interaction",
+        "check": "task-fit",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:task-fit"
+      },
+      {
+        "dimension": "interaction",
+        "check": "essential-visibility",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:essential-visibility"
+      },
+      {
+        "dimension": "interaction",
+        "check": "accessible-alternative",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:accessible-alternative"
+      },
+      {
+        "dimension": "engineering",
+        "check": "runtime",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:runtime"
+      },
+      {
+        "dimension": "engineering",
+        "check": "responsive",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:responsive"
+      },
+      {
+        "dimension": "engineering",
+        "check": "export-integrity",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:export-integrity"
+      }
+    ]
+  },
+  "result": {
+    "revision": 1,
+    "attempt": 0,
+    "status": "repair-required",
+    "findings": [
+      {
+        "key": "evidence:claim-support",
+        "severity": "blocker",
+        "issue": "Claim lacks evidence",
+        "repair": "Remove or substantiate claim",
+        "ref": "synthetic:claim-support"
+      },
+      {
+        "key": "visual:hierarchy",
+        "severity": "minor",
+        "issue": "Weak hierarchy",
+        "repair": "Adjust heading hierarchy",
+        "ref": "synthetic:hierarchy"
+      }
+    ],
+    "unknown": [],
+    "signature": "[[\"evidence:claim-support\",\"blocker\"],[\"visual:hierarchy\",\"minor\"]]",
+    "next": {
+      "key": "evidence:claim-support",
+      "severity": "blocker",
+      "issue": "Claim lacks evidence",
+      "repair": "Remove or substantiate claim",
+      "ref": "synthetic:claim-support"
+    },
+    "releaseAuthorized": false,
+    "scope": "declared critique only; inspect actual evidence and artifacts"
+  }
+}

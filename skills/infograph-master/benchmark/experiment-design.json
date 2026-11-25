@@ -1,0 +1,80 @@
+{
+  "version": "0.2",
+  "status": "planned-not-run",
+  "pilot": {
+    "tasks": [
+      "B02",
+      "B03",
+      "B07",
+      "B10"
+    ],
+    "arms": [
+      "baseline",
+      "full"
+    ],
+    "repetitions": 3,
+    "modelSlots": [
+      "M01"
+    ],
+    "total": 24
+  },
+  "expanded": {
+    "tasks": [
+      "B02",
+      "B03",
+      "B07",
+      "B10"
+    ],
+    "arms": [
+      "baseline",
+      "full",
+      "minus-narrative",
+      "minus-visual",
+      "minus-gates",
+      "minus-critique"
+    ],
+    "repetitions": 3,
+    "modelSlots": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "M06"
+    ],
+    "total": 432
+  },
+  "controls": [
+    "same model snapshot and reasoning settings within block",
+    "same task and synthetic fixture",
+    "same tool access and output constraints",
+    "fresh context",
+    "fixed maximum elapsed time and output budget",
+    "record actual input tokens separately",
+    "blind artifact reviewers"
+  ],
+  "ablation": {
+    "narrative": "remove optional narrative guidance only; preserve truth and user task",
+    "visual": "remove optional visual intelligence guidance; preserve accessibility",
+    "gates": "remove explicit execution gate protocol; preserve truth and acceptance",
+    "critique": "remove structured critique loop; preserve basic final checks"
+  },
+  "primary": [
+    "hard-failure rate",
+    "B03/B10 narrative rating",
+    "independent reader task accuracy"
+  ],
+  "secondary": [
+    "visual rating",
+    "lookup time",
+    "elapsed time",
+    "input/output tokens",
+    "repair turns"
+  ],
+  "notes": [
+    "B08 excluded from pilot because existing IR runtime favors repository access",
+    "No model versions or reviewers confirmed",
+    "Three repetitions exploratory only",
+    "Ablation must use independently assembled prompts; removing a file alone does not establish removal of its guidance"
+  ]
+}

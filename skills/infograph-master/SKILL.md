@@ -14,3 +14,5 @@ Use the full repository; paths below are relative to this skill unless stated. D
 6. Apply references/acceptance.md proportionately. Fix blockers and report actual checks, untested items and limitations.
 
 Truth, privacy, domain accuracy and accessibility override aesthetics. Explicit user constraints override defaults. No unauthorized external installation or upload. Never invent evidence, claim causality from correlation, or claim tested superiority without results. Prefer freeform or specialist rendering for unsupported tasks; never bypass invalid data. Keep deliverables proportional: brief, evidence map, design rationale, artifact and validation log can be compact.
+
+For substantive tasks follow references/execution-gates.md before final rendering and review. Missing or stale required evidence blocks declared eligibility; do not fabricate records.

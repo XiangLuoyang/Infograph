@@ -1,0 +1,2 @@
+# C08-C Knowledge retrieval
+Nine source documents, nine heading-level units, 9094 UTF-8 bytes, source path/blob/line range and tags. All seed documents have one heading, so actual granularity remains document-level. Lexical tag ranking, mandatory acceptance and explicit required paths bypass optional budget, missing required paths incomplete. Seven isolated assertions passed. No semantic search, automatic refresh, actual model injection or native tests. Next C08-D execution gates.

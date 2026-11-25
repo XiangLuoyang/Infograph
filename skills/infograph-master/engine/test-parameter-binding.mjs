@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {executeBoundTasks} from './parameter-binding.mjs';
+const {tasks}=JSON.parse(readFileSync(new URL('./parameter-binding.example.json',import.meta.url),'utf8'));
+const out=executeBoundTasks(tasks);
+assert.equal(out.status,'generated');
+assert.equal(out.results[1].input.width,768);
+assert.equal(out.results[1].input.height,368);
+assert.ok(out.results[1].output.payload.svg.includes('768 368'));
+assert.equal(out.results[1].trace.length,2);
+const bad=JSON.parse(JSON.stringify(tasks));bad[1].bindings[0].path=['missing'];assert.equal(executeBoundTasks(bad).results[1].status,'error');
+bad[1].bindings[0].path=['__proto__'];assert.throws(()=>executeBoundTasks(bad));

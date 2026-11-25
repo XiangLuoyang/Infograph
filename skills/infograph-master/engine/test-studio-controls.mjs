@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {designControls} from './studio-controls.mjs';
+import {runMaster} from './master-engine.mjs';
+import {readFileSync} from 'node:fs';
+assert.equal(designControls().width,800);
+assert.throws(()=>designControls({dark:'false'}));
+assert.throws(()=>designControls({width:200}));
+const d=JSON.parse(readFileSync(new URL('./master-engine.example.json',import.meta.url),'utf8'));
+const out=runMaster({...d,patches:[],dark:true,direction:'swiss',material:'stone',width:1000});
+assert.equal(out.status,'rendered-unverified');
+assert.ok(out.html.includes('max-width:968px'));
+assert.ok(out.html.includes('#d1d0c8'));
+assert.ok(out.html.includes('Helvetica Neue'));

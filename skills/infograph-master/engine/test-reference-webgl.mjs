@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {buildReferenceHTML} from './reference-renderer.mjs';
+import {referenceDemo} from './reference-renderer-fixture.mjs';
+import {validateWebGLObject} from './reference-webgl.mjs';
+const {manifest,options}=referenceDemo(),hub=manifest.objects.find(o=>o.id==='hub');
+hub.fidelity='spatial';hub.geometry={preset:'mechanical-hub'};hub.material.metalness=.75;
+assert.doesNotThrow(()=>validateWebGLObject(hub));
+assert.throws(()=>buildReferenceHTML(manifest,options));
+const result=buildReferenceHTML(manifest,{...options,webgl:true});assert.ok(result.report.renderers.includes('webgl'));assert.match(result.html,/<canvas aria-hidden="true"/);assert.match(result.html,/3D requires WebGL/);assert.equal(result.report.browserVerified,false);
+hub.material.opacity=.5;assert.throws(()=>buildReferenceHTML(manifest,{...options,webgl:true}));hub.material.opacity=1;hub.geometry.preset='unknown';assert.throws(()=>buildReferenceHTML(manifest,{...options,webgl:true}));
+console.log('Reference WebGL contract checks passed');

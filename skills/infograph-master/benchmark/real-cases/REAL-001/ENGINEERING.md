@@ -12,3 +12,6 @@ No formal REAL-001 rerun yet; no promotion to golden case. Keep private original
 
 ## Phase 2 implementation
 Added standalone layered renderer and neutral 14-link fixture, offline embedded raster, deterministic labels, geometric links, shared scene state and static fallback. CI captures three viewport sizes and tests actual anchor alignment, playback, pause, reduced motion and reset. No private input, PBR or real reference fidelity claim. Five objectives and business narrative are not part of this engineering-only fixture; a full REAL-001 rerun remains pending.
+
+## Phase 3 implementation
+Phase 2 first browser run failed: SVG `.hidden` property did not apply the hidden attribute; fix uses `toggleAttribute` and retains prior regression. Added restricted native WebGL mechanical mesh, direct-light metallic shading, orthographic view, procedural reflection and context-loss fallback, with separate unit and browser tests. This is not a general model loader, physical simulation or full PBR pipeline. CI and human review pending at submission.

@@ -44,6 +44,8 @@ jobs:
       - run: node visual-batch-test.mjs
       - run: node browser-qa.mjs
       - run: node reference-browser-qa.mjs
+      - run: node reference-webgl-browser-qa.mjs
+        if: always()
       - run: node studio-browser-qa.mjs
         if: always()
       - run: node studio-browser-qa.mjs --offline

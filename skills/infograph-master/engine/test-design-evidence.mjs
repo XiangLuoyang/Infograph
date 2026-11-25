@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {extractEvidence} from './design-evidence.mjs';
+const {input,output}=JSON.parse(readFileSync(new URL('./design-evidence.example.json',import.meta.url),'utf8'));
+const actual=extractEvidence(input);
+assert.deepEqual(JSON.parse(JSON.stringify(actual)),output);
+assert.equal(actual.blocks['b:A1'].availableWidth,768);
+assert.equal(Object.hasOwn(actual.blocks['b:A1'],'requiredWidth'),false);
+assert.equal(Object.hasOwn(actual.blocks['b:A1'],'normalTextContrast'),false);
+assert.equal(extractEvidence({...input,scopes:[{blockId:'b:A1',layoutTask:'missing'}]}).observations.length,0);

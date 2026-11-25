@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "markets": [
+    {
+      "id": "TH",
+      "target": 100,
+      "revenue": 90,
+      "stock": 1700,
+      "weeklySales": 100,
+      "stores": 40,
+      "displayed": 30
+    },
+    {
+      "id": "MY",
+      "target": 80,
+      "revenue": 88,
+      "stock": 600,
+      "weeklySales": 100,
+      "stores": 25,
+      "displayed": 25
+    },
+    {
+      "id": "VN",
+      "target": 60,
+      "revenue": 48,
+      "stock": 900,
+      "weeklySales": 75,
+      "stores": 30,
+      "displayed": 18
+    },
+    {
+      "id": "SG",
+      "target": 40,
+      "revenue": 44,
+      "stock": 200,
+      "weeklySales": 50,
+      "stores": 12,
+      "displayed": 12
+    }
+  ],
+  "inventory": [
+    {
+      "id": "P1",
+      "stock": 1700,
+      "weeklySales": 100,
+      "inbound": 200
+    },
+    {
+      "id": "P2",
+      "stock": 600,
+      "weeklySales": 100,
+      "inbound": 0
+    },
+    {
+      "id": "P3",
+      "stock": 50,
+      "weeklySales": 0,
+      "inbound": 0
+    },
+    {
+      "id": "P4",
+      "stock": 100,
+      "weeklySales": null,
+      "inbound": 20
+    }
+  ],
+  "pricing": {
+    "currency": "USD",
+    "rrp": 1000,
+    "retailMargin": 0.2,
+    "distributorMargin": 0.15,
+    "freight": 30,
+    "service": 20
+  },
+  "partners": [
+    {
+      "id": "A",
+      "sales": 90,
+      "coverage": 80,
+      "compliance": 95,
+      "service": 70
+    },
+    {
+      "id": "B",
+      "sales": 75,
+      "coverage": 95,
+      "compliance": 60,
+      "service": 90
+    },
+    {
+      "id": "C",
+      "sales": 85,
+      "coverage": 70,
+      "compliance": 90,
+      "service": null
+    }
+  ],
+  "process": {
+    "nodes": [
+      [
+        "n1",
+        "Sales",
+        "Submit request"
+      ],
+      [
+        "n2",
+        "Channel",
+        "Review"
+      ],
+      [
+        "n3",
+        "Finance",
+        "Credit check"
+      ],
+      [
+        "n4",
+        "Channel",
+        "Revise request"
+      ],
+      [
+        "n5",
+        "Operations",
+        "Allocate"
+      ],
+      [
+        "n6",
+        "Sales",
+        "Notify"
+      ]
+    ],
+    "edges": [
+      [
+        "n1",
+        "n2",
+        ""
+      ],
+      [
+        "n2",
+        "n3",
+        "approved"
+      ],
+      [
+        "n2",
+        "n4",
+        "revise"
+      ],
+      [
+        "n4",
+        "n1",
+        "resubmit"
+      ],
+      [
+        "n3",
+        "n5",
+        "pass"
+      ],
+      [
+        "n3",
+        "n4",
+        "fail"
+      ],
+      [
+        "n5",
+        "n6",
+        ""
+      ]
+    ]
+  },
+  "assembly": {
+    "units": "mm",
+    "parts": [
+      {
+        "id": "base",
+        "size": [
+          80,
+          50,
+          8
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "board",
+        "size": [
+          70,
+          40,
+          3
+        ],
+        "offset": [
+          0,
+          0,
+          12
+        ]
+      },
+      {
+        "id": "battery",
+        "size": [
+          40,
+          30,
+          10
+        ],
+        "offset": [
+          0,
+          0,
+          20
+        ]
+      },
+      {
+        "id": "cover",
+        "size": [
+          80,
+          50,
+          6
+        ],
+        "offset": [
+          0,
+          0,
+          36
+        ]
+      }
+    ]
+  }
+}

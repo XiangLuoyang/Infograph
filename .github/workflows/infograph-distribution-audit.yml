@@ -17,12 +17,15 @@ jobs:
           mkdir -p audit-output
           node scripts/audit-distribution.mjs > audit-output/distribution.json
           node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('audit-output/distribution.json')); if(r.revision!==process.env.GITHUB_SHA || r.scanned+r.excluded.length!==r.tracked) throw Error('inventory mismatch'); console.log(JSON.stringify({revision:r.revision,tracked:r.tracked,scanned:r.scanned,excluded:r.excluded,withUrls:r.rows.filter(x=>x.urls.length).length,withMarkers:r.rows.filter(x=>x.markers.length).length},null,2))"
-      - name: Audit skill paths and knowledge index (diagnostic)
+      - name: Audit skill paths and knowledge index (required)
         run: |
-          node scripts/audit-skill-portability.mjs > audit-output/skill-paths.json || echo 'Skill path audit requires review'
-          node scripts/audit-knowledge-index.mjs > audit-output/knowledge-index.json || echo 'Knowledge index audit requires review'
+          status=0
+          node scripts/audit-skill-portability.mjs > audit-output/skill-paths.json || status=1
+          node scripts/audit-knowledge-index.mjs > audit-output/knowledge-index.json || status=1
           node --input-type=module -e "import fs from 'node:fs'; for(const f of ['skill-paths','knowledge-index']) {try {const r=JSON.parse(fs.readFileSync('audit-output/'+f+'.json')); console.log(f,JSON.stringify(r.missing??r.issues));} catch(e){console.log(f,e.message)}}"
+          exit "$status"
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: distribution-inventory
           path: audit-output/

@@ -1,0 +1,285 @@
+{
+  "version": "3.0",
+  "id": "demo",
+  "revision": 6,
+  "graph": {
+    "version": "0.1",
+    "objects": [
+      {
+        "id": "brief",
+        "type": "Brief",
+        "audience": "Regional management",
+        "purpose": "Assess whether supply pacing warrants review",
+        "thesis": "Supply exceeds sell-through in the observed period; target stock is unknown.",
+        "spine": "Question"
+      },
+      {
+        "id": "e:E1",
+        "source": "Synthetic monthly data: supply 70k, sell-through 61k",
+        "definition": "Units, same period and scope",
+        "limitation": "No returns or transfers data",
+        "type": "Evidence"
+      },
+      {
+        "id": "s:A1",
+        "type": "Scene",
+        "question": "Does supply match sell-through?",
+        "before": "Knows sales result",
+        "after": "Understands flow gap",
+        "transition": "Orient to evidence"
+      },
+      {
+        "id": "c:A1",
+        "type": "Claim",
+        "text": "Supply exceeds sell-through by 9k units."
+      },
+      {
+        "id": "b:A1",
+        "type": "Block",
+        "role": "primary",
+        "task": "Compare two quantities",
+        "interactionNote": "Optional source detail"
+      },
+      {
+        "id": "target0",
+        "type": "Color",
+        "strategy": "demo"
+      },
+      {
+        "id": "target1",
+        "type": "Typography",
+        "strategy": "demo"
+      },
+      {
+        "id": "target2",
+        "type": "Layout",
+        "strategy": "demo"
+      },
+      {
+        "id": "target3",
+        "type": "Material",
+        "strategy": "demo"
+      },
+      {
+        "id": "target4",
+        "type": "Motion",
+        "strategy": "demo"
+      },
+      {
+        "id": "target5",
+        "type": "Representation",
+        "form": "VIZ-0002"
+      }
+    ],
+    "links": [
+      {
+        "from": "s:A1",
+        "type": "serves",
+        "to": "brief"
+      },
+      {
+        "from": "s:A1",
+        "type": "contains",
+        "to": "b:A1"
+      },
+      {
+        "from": "b:A1",
+        "type": "expresses",
+        "to": "c:A1"
+      },
+      {
+        "from": "e:E1",
+        "type": "supports",
+        "to": "c:A1"
+      },
+      {
+        "from": "b:A1",
+        "type": "uses",
+        "to": "target0"
+      },
+      {
+        "from": "b:A1",
+        "type": "uses",
+        "to": "target1"
+      },
+      {
+        "from": "b:A1",
+        "type": "uses",
+        "to": "target2"
+      },
+      {
+        "from": "b:A1",
+        "type": "uses",
+        "to": "target3"
+      },
+      {
+        "from": "b:A1",
+        "type": "uses",
+        "to": "target4"
+      },
+      {
+        "from": "b:A1",
+        "type": "uses",
+        "to": "target5"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "targetId": "target0",
+      "contract": {
+        "version": "1.0",
+        "kind": "infograph-studio-output",
+        "studio": "color",
+        "status": "generated",
+        "payload": {
+          "demo": true
+        },
+        "limitations": [],
+        "evidence": [],
+        "validation": {
+          "browser": "not-run",
+          "semantic": "not-run",
+          "audience": "not-run"
+        }
+      }
+    },
+    {
+      "targetId": "target1",
+      "contract": {
+        "version": "1.0",
+        "kind": "infograph-studio-output",
+        "studio": "typography",
+        "status": "generated",
+        "payload": {
+          "demo": true
+        },
+        "limitations": [],
+        "evidence": [],
+        "validation": {
+          "browser": "not-run",
+          "semantic": "not-run",
+          "audience": "not-run"
+        }
+      }
+    },
+    {
+      "targetId": "target2",
+      "contract": {
+        "version": "1.0",
+        "kind": "infograph-studio-output",
+        "studio": "composition",
+        "status": "generated",
+        "payload": {
+          "demo": true
+        },
+        "limitations": [],
+        "evidence": [],
+        "validation": {
+          "browser": "not-run",
+          "semantic": "not-run",
+          "audience": "not-run"
+        }
+      }
+    },
+    {
+      "targetId": "target3",
+      "contract": {
+        "version": "1.0",
+        "kind": "infograph-studio-output",
+        "studio": "material",
+        "status": "generated",
+        "payload": {
+          "demo": true
+        },
+        "limitations": [],
+        "evidence": [],
+        "validation": {
+          "browser": "not-run",
+          "semantic": "not-run",
+          "audience": "not-run"
+        }
+      }
+    },
+    {
+      "targetId": "target4",
+      "contract": {
+        "version": "1.0",
+        "kind": "infograph-studio-output",
+        "studio": "motion",
+        "status": "generated",
+        "payload": {
+          "demo": true
+        },
+        "limitations": [],
+        "evidence": [],
+        "validation": {
+          "browser": "not-run",
+          "semantic": "not-run",
+          "audience": "not-run"
+        }
+      }
+    },
+    {
+      "targetId": "target5",
+      "contract": {
+        "version": "1.0",
+        "kind": "infograph-studio-output",
+        "studio": "representation",
+        "status": "generated",
+        "payload": {
+          "demo": true
+        },
+        "limitations": [],
+        "evidence": [],
+        "validation": {
+          "browser": "not-run",
+          "semantic": "not-run",
+          "audience": "not-run"
+        }
+      }
+    }
+  ],
+  "validation": {
+    "required": [
+      "browser",
+      "semantic"
+    ],
+    "results": []
+  },
+  "migration": {
+    "source": "storyboard",
+    "original": {
+      "audience": "Regional management",
+      "purpose": "Assess whether supply pacing warrants review",
+      "thesis": "Supply exceeds sell-through in the observed period; target stock is unknown.",
+      "spine": "Question",
+      "evidence": [
+        {
+          "id": "E1",
+          "source": "Synthetic monthly data: supply 70k, sell-through 61k",
+          "definition": "Units, same period and scope",
+          "limitation": "No returns or transfers data"
+        }
+      ],
+      "acts": [
+        {
+          "id": "A1",
+          "question": "Does supply match sell-through?",
+          "claim": "Supply exceeds sell-through by 9k units.",
+          "before": "Knows sales result",
+          "after": "Understands flow gap",
+          "visual_task": "Compare two quantities",
+          "transition": "Orient to evidence",
+          "interaction": "Optional source detail",
+          "evidence_ids": [
+            "E1"
+          ]
+        }
+      ]
+    },
+    "assumptions": [
+      "one primary block per act; thesis retained as brief metadata, not certified claim"
+    ]
+  }
+}

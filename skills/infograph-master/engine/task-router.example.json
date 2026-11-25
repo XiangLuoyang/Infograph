@@ -71,7 +71,7 @@
     "q": "库存监控看板，支持筛选",
     "declared": {},
     "result": {
-      "purpose": null,
+      "purpose": "monitor",
       "domain": "business",
       "relation": null,
       "delivery": null,
@@ -90,12 +90,6 @@
             "matched": [
               "监控"
             ]
-          },
-          {
-            "id": "explore",
-            "matched": [
-              "筛选"
-            ]
           }
         ],
         "domain": [
@@ -109,7 +103,6 @@
         "relation": []
       },
       "unresolved": [
-        "purpose",
         "relation",
         "delivery"
       ],
@@ -173,10 +166,12 @@
       "delivery": null,
       "groups": [
         "standard",
-        "representation"
+        "representation",
+        "narrative"
       ],
       "modes": [
-        "Standard"
+        "Standard",
+        "Narrative"
       ],
       "signals": {
         "purpose": [

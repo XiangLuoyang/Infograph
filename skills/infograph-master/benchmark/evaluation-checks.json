@@ -1,0 +1,46 @@
+{
+  "version": "0.1",
+  "checks": [
+    {
+      "id": "E01",
+      "method": "browser",
+      "criterion": "initial render without page errors"
+    },
+    {
+      "id": "E02",
+      "method": "browser",
+      "criterion": "no document horizontal overflow at 1440 and 390 px"
+    },
+    {
+      "id": "E03",
+      "method": "browser",
+      "criterion": "no attempted external requests"
+    },
+    {
+      "id": "F01",
+      "method": "reviewer",
+      "criterion": "compare visible metrics and units to answer-key.json"
+    },
+    {
+      "id": "F02",
+      "method": "reviewer",
+      "criterion": "check unsupported claims and assumptions"
+    },
+    {
+      "id": "I01",
+      "method": "reviewer",
+      "criterion": "exercise actual required controls including B10 80/100/120 percent"
+    },
+    {
+      "id": "N01",
+      "method": "blind-reader",
+      "criterion": "retell thesis and identify decision request"
+    },
+    {
+      "id": "V01",
+      "method": "blind-reviewer",
+      "criterion": "hierarchy, composition, legibility and visual encoding"
+    }
+  ],
+  "policy": "Do not turn observed-pass into semantic or release pass."
+}

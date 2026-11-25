@@ -34,11 +34,19 @@ export async function runOne(p,{baseUrl,key,model,out,maxTokens=8192,timeout=180
  }catch(e){record.failure=String(e.message).split(key).join('[redacted]')}
  record.elapsedSeconds=(Date.now()-start)/1000;await writeFile(join(dir,'record.json'),JSON.stringify(record,null,2),{flag:'wx'});return record;
 }
+export async function validateResume(p,{out,model,maxTokens=8192}){
+ const dir=join(out,p.runId),load=async name=>readFile(join(dir,name),'utf8');
+ const record=JSON.parse(await load('record.json')),settings=JSON.parse(await load('settings.json')),prompt=await load('prompt.txt');
+ if(record.runId!==p.runId||record.task!==p.task||record.arm!==p.arm||record.modelSlot!==p.model||record.promptHash!==p.promptHash||hash(prompt)!==p.promptHash||!['completed','failed'].includes(record.status))throw Error('Resume identity mismatch: '+p.runId);
+ if(typeof settings.model!=='string'||!settings.model||settings.max_tokens!==maxTokens||settings.temperature!==0.2||(model&&settings.model!==model))throw Error('Resume settings mismatch: '+p.runId);
+ if(record.status==='completed'){const html=await load('artifact.html');extractHTML(html);if(hash(html)!==record.artifactHash)throw Error('Resume artifact mismatch: '+p.runId)}
+ return record;
+}
 async function main(){
  const args=process.argv.slice(2);const execute=args.includes('--execute');const val=(k,d)=>{const i=args.indexOf(k);return i<0?d:args[i+1]};
  const schedule=await read('./pilot-schedule.json'),base=(await read('./baseline-packets.json')).packets,enh=(await read('./enhanced-packets.json')).packets;
  const out=val('--out','benchmark-local'),limit=Number(val('--limit','1')),arm=val('--arm','all'),model=process.env.BENCH_MODEL,baseUrl=process.env.BENCH_BASE_URL,key=process.env.BENCH_API_KEY;
- const plan=planRuns(schedule,base,enh,{limit:24,arm});const pending=[];for(const p of plan){try{await access(join(out,p.runId,'record.json'))}catch(e){if(e.code!=='ENOENT')throw e;try{await access(join(out,p.runId));throw Error('Incomplete run directory: '+p.runId)}catch(inner){if(inner.code!=='ENOENT')throw inner}pending.push(p)}}
+ const plan=planRuns(schedule,base,enh,{limit:24,arm});const pending=[];for(const p of plan){try{await access(join(out,p.runId,'record.json'));await validateResume(p,{out,model})}catch(e){if(e.code!=='ENOENT')throw e;try{await access(join(out,p.runId));throw Error('Incomplete run directory: '+p.runId)}catch(inner){if(inner.code!=='ENOENT')throw inner}pending.push(p)}}
  if(!Number.isInteger(limit)||limit<1||limit>24)throw Error('invalid limit');const selected=pending.slice(0,limit);
  console.log(JSON.stringify({execute,model:model??null,selected:selected.map(({prompt,...p})=>p)},null,2));if(!execute)return;
  if(!key||!model||!baseUrl||!baseUrl.startsWith('https://'))throw Error('set BENCH_API_KEY, BENCH_MODEL, HTTPS BENCH_BASE_URL');

@@ -1,0 +1,302 @@
+[
+  {
+    "q": "东南亚经营汇报HTML，地图展示销售排名，低调配色",
+    "declared": {
+      "purpose": "report",
+      "domain": "geospatial",
+      "relation": "comparison"
+    },
+    "result": {
+      "purpose": "report",
+      "domain": "geospatial",
+      "relation": "comparison",
+      "delivery": "html",
+      "groups": [
+        "standard",
+        "representation",
+        "narrative",
+        "color"
+      ],
+      "modes": [
+        "Standard",
+        "Narrative",
+        "Specialist"
+      ],
+      "signals": {
+        "purpose": [
+          {
+            "id": "report",
+            "matched": [
+              "汇报"
+            ]
+          }
+        ],
+        "domain": [
+          {
+            "id": "geospatial",
+            "matched": [
+              "地图"
+            ]
+          },
+          {
+            "id": "business",
+            "matched": [
+              "经营",
+              "销售"
+            ]
+          }
+        ],
+        "relation": [
+          {
+            "id": "comparison",
+            "matched": [
+              "排名"
+            ]
+          },
+          {
+            "id": "spatial",
+            "matched": [
+              "地图"
+            ]
+          }
+        ]
+      },
+      "unresolved": [],
+      "specialistReference": "visual-intelligence/geospatial-intelligence.md",
+      "status": "advisory",
+      "runtimeAuthorized": false
+    }
+  },
+  {
+    "q": "库存监控看板，支持筛选",
+    "declared": {},
+    "result": {
+      "purpose": null,
+      "domain": "business",
+      "relation": null,
+      "delivery": null,
+      "groups": [
+        "standard",
+        "representation",
+        "motion"
+      ],
+      "modes": [
+        "Standard"
+      ],
+      "signals": {
+        "purpose": [
+          {
+            "id": "monitor",
+            "matched": [
+              "监控"
+            ]
+          },
+          {
+            "id": "explore",
+            "matched": [
+              "筛选"
+            ]
+          }
+        ],
+        "domain": [
+          {
+            "id": "business",
+            "matched": [
+              "库存"
+            ]
+          }
+        ],
+        "relation": []
+      },
+      "unresolved": [
+        "purpose",
+        "relation",
+        "delivery"
+      ],
+      "specialistReference": null,
+      "status": "advisory",
+      "runtimeAuthorized": false
+    }
+  },
+  {
+    "q": "工程爆炸图解释装配原理",
+    "declared": {},
+    "result": {
+      "purpose": "explain",
+      "domain": "engineering",
+      "relation": null,
+      "delivery": null,
+      "groups": [
+        "standard",
+        "representation"
+      ],
+      "modes": [
+        "Standard",
+        "Specialist"
+      ],
+      "signals": {
+        "purpose": [
+          {
+            "id": "explain",
+            "matched": [
+              "解释",
+              "原理"
+            ]
+          }
+        ],
+        "domain": [
+          {
+            "id": "engineering",
+            "matched": [
+              "爆炸图"
+            ]
+          }
+        ],
+        "relation": []
+      },
+      "unresolved": [
+        "relation",
+        "delivery"
+      ],
+      "specialistReference": "visual-intelligence/engineering-intelligence.md",
+      "status": "advisory",
+      "runtimeAuthorized": false
+    }
+  },
+  {
+    "q": "经营汇报与预警",
+    "declared": {},
+    "result": {
+      "purpose": null,
+      "domain": "business",
+      "relation": null,
+      "delivery": null,
+      "groups": [
+        "standard",
+        "representation"
+      ],
+      "modes": [
+        "Standard"
+      ],
+      "signals": {
+        "purpose": [
+          {
+            "id": "monitor",
+            "matched": [
+              "预警"
+            ]
+          },
+          {
+            "id": "report",
+            "matched": [
+              "汇报"
+            ]
+          }
+        ],
+        "domain": [
+          {
+            "id": "business",
+            "matched": [
+              "经营"
+            ]
+          }
+        ],
+        "relation": []
+      },
+      "unresolved": [
+        "purpose",
+        "relation",
+        "delivery"
+      ],
+      "specialistReference": null,
+      "status": "advisory",
+      "runtimeAuthorized": false
+    }
+  },
+  {
+    "q": "销售趋势PDF",
+    "declared": {},
+    "result": {
+      "purpose": null,
+      "domain": "business",
+      "relation": "temporal",
+      "delivery": "pdf",
+      "groups": [
+        "standard",
+        "representation"
+      ],
+      "modes": [
+        "Standard"
+      ],
+      "signals": {
+        "purpose": [],
+        "domain": [
+          {
+            "id": "business",
+            "matched": [
+              "销售"
+            ]
+          }
+        ],
+        "relation": [
+          {
+            "id": "temporal",
+            "matched": [
+              "趋势"
+            ]
+          }
+        ]
+      },
+      "unresolved": [
+        "purpose"
+      ],
+      "specialistReference": null,
+      "status": "advisory",
+      "runtimeAuthorized": false
+    }
+  },
+  {
+    "q": "流程图HTML，交互动画",
+    "declared": {},
+    "result": {
+      "purpose": null,
+      "domain": "network",
+      "relation": "flow",
+      "delivery": "html",
+      "groups": [
+        "standard",
+        "representation",
+        "motion"
+      ],
+      "modes": [
+        "Standard",
+        "Specialist"
+      ],
+      "signals": {
+        "purpose": [],
+        "domain": [
+          {
+            "id": "network",
+            "matched": [
+              "流程图"
+            ]
+          }
+        ],
+        "relation": [
+          {
+            "id": "flow",
+            "matched": [
+              "流程"
+            ]
+          }
+        ]
+      },
+      "unresolved": [
+        "purpose"
+      ],
+      "specialistReference": "visual-intelligence/network-intelligence.md",
+      "status": "advisory",
+      "runtimeAuthorized": false
+    }
+  }
+]

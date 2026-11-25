@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-save --no-package-lock playwright@1.51.1
+      - run: npm install --no-save --no-package-lock playwright@1.51.1 pngjs@7.0.0
       - run: npx playwright install --with-deps chromium
       - name: Build standalone studios
         working-directory: .
@@ -32,6 +32,7 @@ jobs:
       - run: node contrast-browser-test.mjs
       - run: node layout-browser-test.mjs
       - run: node visual-diff-test.mjs
+      - run: node visual-compare-test.mjs
       - run: node browser-qa.mjs
       - run: node studio-browser-qa.mjs
         if: always()

@@ -2,6 +2,7 @@ name: Infograph browser QA
 on:
   push:
     paths:
+      - 'docs/consolidation/candidate-trigger.json'
       - 'skills/infograph-master/engine/**'
       - 'skills/infograph-master/visual-intelligence/**'
       - '.github/workflows/infograph-browser-qa.yml'

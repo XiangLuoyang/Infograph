@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'skills/infograph-master/engine/**'
+      - 'skills/infograph-master/visual-intelligence/**'
       - '.github/workflows/infograph-engine-check.yml'
   workflow_dispatch:
 permissions:
@@ -18,6 +19,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - run: python -m unittest test_engine test_compiler
       - run: python engine.py design.example.json
       - run: python compiler.py design.example.json
@@ -30,3 +34,12 @@ jobs:
       - run: node test-hybrid.mjs
 
       - run: node test-integration.mjs
+
+      - name: Visual intelligence tests
+        working-directory: skills/infograph-master/visual-intelligence
+        run: |
+          set -e
+          for f in test-*.mjs; do node "$f"; done
+      - name: JavaScript syntax checks
+        working-directory: skills/infograph-master
+        run: find engine visual-intelligence -type f -name '*.mjs' -exec node --check {} \;

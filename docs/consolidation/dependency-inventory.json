@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "status": "review-pending",
+  "inventoryEvidence": {
+    "run": 45569374822,
+    "tracked": 525,
+    "scanned": 516,
+    "excluded": 9,
+    "withUrls": 95,
+    "withMarkers": 2
+  },
+  "dependencies": [
+    {
+      "name": "playwright",
+      "versions": [
+        "1.51.1",
+        "1.56.0"
+      ],
+      "scope": "test",
+      "expectedLicense": "Apache-2.0",
+      "verified": false
+    },
+    {
+      "name": "pngjs",
+      "versions": [
+        "7.0.0"
+      ],
+      "scope": "test and visual comparison CLI",
+      "expectedLicense": "MIT",
+      "verified": false
+    },
+    {
+      "name": "esbuild",
+      "versions": [
+        "0.25.5"
+      ],
+      "scope": "build",
+      "expectedLicense": "MIT",
+      "verified": false
+    },
+    {
+      "name": "jsonschema",
+      "versions": [
+        "4.23.0"
+      ],
+      "scope": "test",
+      "expectedLicense": "MIT",
+      "verified": false
+    },
+    {
+      "name": "Chromium",
+      "scope": "test browser",
+      "expectedLicense": "multiple",
+      "verified": false
+    },
+    {
+      "name": "GitHub Actions",
+      "versions": [
+        "checkout@v4",
+        "setup-node@v4",
+        "setup-python@v5",
+        "upload-artifact@v4"
+      ],
+      "scope": "CI",
+      "verified": false
+    },
+    {
+      "name": "Ubuntu browser dependencies",
+      "scope": "CI",
+      "verified": false
+    }
+  ],
+  "projectLicense": null,
+  "transitiveDependencies": "not-yet-inventoried",
+  "bundledRuntime": "requires bundle inspection",
+  "policy": "Expected license identifiers are hypotheses pending package metadata and license text verification; no redistribution authorization."
+}

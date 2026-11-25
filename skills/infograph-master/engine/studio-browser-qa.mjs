@@ -21,7 +21,7 @@ try{for(const [name,button,error] of cases)for(const [width,height] of [[1440,90
  if(error)assert.equal((await page.locator(error).innerText()).trim(),'');
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'horizontal overflow');
  const [download]=await Promise.all([page.waitForEvent('download'),page.click(button)]);
- const file=await download.path();assert.ok(file);const data=JSON.parse(await readFile(file,'utf8'));assert.ok(data&&typeof data==='object');
+ const file=await download.path();assert.ok(file);const data=JSON.parse(await readFile(file,'utf8'));assert.equal(data.kind,'infograph-studio-output');assert.equal(data.version,'1.0');assert.equal(data.studio,name);assert.equal(data.status,'generated');assert.ok(data.payload&&typeof data.payload==='object'&&!Array.isArray(data.payload));assert.equal(data.validation.browser,'not-run');
  assert.deepEqual(errors,[]);r.status='pass';
  }catch(e){r.failure=String(e)}finally{await page.screenshot({path:resolve(out,name+'-'+width+'.png'),fullPage:true}).catch(e=>{r.status='fail';r.screenshotError=String(e)});results.push(r);await page.close()}
 }}finally{await browser.close();server.close();await writeFile(resolve(out,'report.json'),JSON.stringify(results,null,2))}

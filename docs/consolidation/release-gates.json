@@ -7,65 +7,82 @@
       "id": "G01",
       "name": "Native engine and specialist unit tests",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595875"
+      ]
     },
     {
       "id": "G02",
       "name": "Static dependency and syntax audit",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595875"
+      ]
     },
     {
       "id": "G03",
       "name": "Registered JSON Schema validation",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595875"
+      ]
     },
     {
       "id": "G04",
-      "name": "Six standalone builds and manifest verification",
+      "name": "Seven standalone builds and manifest verification",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595963"
+      ]
     },
     {
       "id": "G05",
       "name": "12 HTTP studio browser cases",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595963"
+      ]
     },
     {
       "id": "G06",
       "name": "12 offline studio browser cases",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595963"
+      ]
     },
     {
       "id": "G07",
       "name": "Golden Six browser regression",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595963",
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595898"
+      ]
     },
     {
       "id": "G08",
       "name": "Studio interaction transitions and export semantics",
       "required": true,
-      "status": "not-run",
-      "revision": null,
-      "evidence": []
+      "status": "pass",
+      "revision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595963"
+      ]
     },
     {
       "id": "G09",
@@ -73,7 +90,9 @@
       "required": true,
       "status": "not-run",
       "revision": null,
-      "evidence": []
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595963 (automated diagnostics only; manual review pending)"
+      ]
     },
     {
       "id": "G10",
@@ -81,7 +100,11 @@
       "required": true,
       "status": "not-run",
       "revision": null,
-      "evidence": []
+      "evidence": [
+        "https://github.com/XiangLuoyang/Infograph/actions/runs/45573595920 (inventory only; rights review pending)"
+      ]
     }
-  ]
+  ],
+  "candidateRevision": "0c4f90768f80baf16d560a323c437ed8d96463c2",
+  "releaseAuthorized": false
 }

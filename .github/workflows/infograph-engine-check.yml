@@ -47,6 +47,7 @@ jobs:
       - run: node test-repair-loop.mjs
       - run: node test-unified-renderer.mjs
       - run: node test-master-engine.mjs
+      - run: node test-master-studio-state.mjs
 
       - name: Visual intelligence tests
         working-directory: skills/infograph-master/visual-intelligence

@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {normalizeLighting3D,studioEnvironment,directionalKey,projectShadowPoint} from './reference-lighting3d.mjs';
+import {buildReferenceHTML} from './reference-renderer.mjs';
+import {assemblyDemo} from './reference-assembly-fixture.mjs';
+const env=studioEnvironment(),cool=studioEnvironment({variant:'cool'});
+assert.equal(env.rgb.length,64*32*3);assert.notEqual(env.sha256,cool.sha256);assert.equal(studioEnvironment().sha256,env.sha256);
+const spec=normalizeLighting3D({environment:env,shadow:{opacity:.42},keyElevation:58});
+assert.equal(spec.environment.sha256,env.sha256);assert.equal(spec.shadow.opacity,.42);
+assert.throws(()=>normalizeLighting3D({environment:{...env,sha256:'wrong'}}));assert.throws(()=>normalizeLighting3D({environment:{...env,width:63}}));
+assert.throws(()=>normalizeLighting3D({shadow:{opacity:1.1}}));assert.throws(()=>normalizeLighting3D({keyElevation:0}));
+const key=directionalKey(90,45);assert.ok(Math.abs(Math.hypot(...key)-1)<1e-12);
+const p=projectShadowPoint([1,2,3],0,key);assert.ok(Math.abs(p[0]+1)<1e-12&&p[1]===0&&Math.abs(p[2]-3)<1e-12);
+const {manifest,options}=assemblyDemo(),r=buildReferenceHTML(manifest,{...options,lighting3d:spec});assert.equal(r.report.lighting3d.planarShadow,true);assert.equal(r.report.lighting3d.environment.sha256,env.sha256);assert.equal(r.report.browserVerified,false);assert.match(r.html,/gl-planar-shadow/);
+assert.throws(()=>buildReferenceHTML(manifest,{...options,webgl:false,lighting3d:spec}));
+console.log('Reference lighting contracts passed');

@@ -40,6 +40,7 @@ jobs:
       - run: node test-reference-renderer.mjs
       - run: node test-reference-webgl.mjs
       - run: node test-reference-geometry.mjs
+      - run: node test-reference-lighting3d.mjs
 
       - run: node test-integration.mjs
       - run: node test-specialist-ir-adapter.mjs

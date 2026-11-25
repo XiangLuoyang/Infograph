@@ -18,3 +18,6 @@ Phase 2 first browser run failed: SVG `.hidden` property did not apply the hidde
 
 ## Phase 3b
 Prior revision 8f71b50 passed browser QA, engine checks and distribution audit. Added bounded configurable box/cylinder assemblies, orthographic camera shared between CPU and GPU, authored 3D ports projected into SVG coordinates with 2D fallback on context loss, and neutral 26-part fixture. New CI pending; no aesthetic claim. Remaining: real environment maps, cast shadows, arbitrary geometry and actual reference-based comparison.
+
+## Phase 3c
+5660338 passed engine, browser, distribution and benchmark smoke CI. Added bounded sampled LDR studio environment texture, roughness-dependent sampling, directional ground-plane mesh projection with stencil union and controlled render variants. New CI pending. No full HDRI/IBL, shadow map, self-shadow, soft shadows or aesthetic verification; next prioritize visual review and reusable art directions over expanding a custom general-purpose engine.

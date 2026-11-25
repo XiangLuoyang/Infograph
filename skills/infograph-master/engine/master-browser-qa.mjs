@@ -1,3 +1,4 @@
+import {auditContrast} from './studio-contrast.mjs';
 import {auditAccessibility} from './studio-accessibility.mjs';
 import {chromium} from 'playwright';
 import {createServer} from 'node:http';
@@ -24,7 +25,7 @@ try{for(const width of [1440,390]){const page=await browser.newPage({viewport:{w
  await page.locator('#confirm').check();await page.locator('#run').click();await page.waitForFunction(()=>document.querySelector('#status').textContent==='rendered-unverified');assert.equal(await page.locator('#preview').getAttribute('srcdoc'),originalHTML);
  await page.locator('#claim').fill('');assert.equal(await page.locator('#confirm').isChecked(),false);assert.equal(await page.locator('#save').isDisabled(),true);assert.equal(await page.locator('#preview').getAttribute('srcdoc'),'');assert.deepEqual(errors,[]);
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'horizontal overflow');
- await mkdir('qa-output',{recursive:true});await page.screenshot({path:'qa-output/master-'+(offline?'offline':'http')+'-'+width+'.png',fullPage:true});report.push({width,status:'pass',accessibility:await auditAccessibility(page)});
+ await mkdir('qa-output',{recursive:true});await page.screenshot({path:'qa-output/master-'+(offline?'offline':'http')+'-'+width+'.png',fullPage:true});report.push({width,status:'pass',contrast:await auditContrast(page),accessibility:await auditAccessibility(page)});
  }catch(e){report.push({width,status:'fail',error:String(e),pageErrors:errors})}finally{await page.close()}}
 }finally{await browser.close();server.close();await mkdir('qa-output',{recursive:true});await writeFile('qa-output/master-'+(offline?'offline':'http')+'.json',JSON.stringify(report,null,2))}
 if(report.some(x=>x.status!=='pass'))process.exitCode=1;

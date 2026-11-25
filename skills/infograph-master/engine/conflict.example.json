@@ -1,0 +1,141 @@
+{
+  "facts": {
+    "b:A1": {
+      "normalTextContrast": 3.2,
+      "availableWidth": 240,
+      "requiredWidth": 320,
+      "requiredFields": [
+        "source",
+        "target",
+        "quantity"
+      ],
+      "availableFields": [
+        "quantity"
+      ],
+      "essentialVisibleInitially": false,
+      "reducedMotionAlternative": true,
+      "narrativeFocus": "risk",
+      "visualFocus": "revenue"
+    }
+  },
+  "report": {
+    "revision": 6,
+    "designId": "demo",
+    "results": [
+      {
+        "ruleId": "C01",
+        "domain": "perceptual",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared effective contrast; no browser measurement"
+      },
+      {
+        "ruleId": "C02",
+        "domain": "spatial",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared comparable widths in CSS px"
+      },
+      {
+        "ruleId": "C03",
+        "domain": "semantic",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared field presence only"
+      },
+      {
+        "ruleId": "C04",
+        "domain": "narrative",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared initial visibility"
+      },
+      {
+        "ruleId": "C05",
+        "domain": "interaction",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "satisfied",
+        "detail": "declared reduced-motion alternative"
+      },
+      {
+        "ruleId": "C06",
+        "domain": "capability",
+        "severity": "hard",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "satisfied",
+        "detail": "bound output status; not renderer readiness"
+      },
+      {
+        "ruleId": "C07",
+        "domain": "perceptual",
+        "severity": "soft",
+        "blockId": "b:A1",
+        "targetIds": [
+          "target0",
+          "target1",
+          "target2",
+          "target3",
+          "target4",
+          "target5"
+        ],
+        "status": "conflict",
+        "detail": "declared focus identity"
+      }
+    ],
+    "status": "blocked",
+    "scope": "caller-declared facts; no measurement, truth or release certification"
+  }
+}

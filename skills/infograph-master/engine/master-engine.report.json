@@ -1,0 +1,910 @@
+{
+  "status": "recomputed-unverified",
+  "tasks": [
+    {
+      "id": "color",
+      "studio": "color",
+      "dependsOn": [],
+      "input": {
+        "hue": 150
+      }
+    },
+    {
+      "id": "type",
+      "studio": "typography",
+      "dependsOn": [],
+      "input": {}
+    },
+    {
+      "id": "material",
+      "studio": "material",
+      "dependsOn": [],
+      "input": {
+        "material": "paper"
+      }
+    },
+    {
+      "id": "layout",
+      "studio": "composition",
+      "dependsOn": [],
+      "input": {
+        "width": 960,
+        "height": 400,
+        "root": {
+          "id": "main"
+        }
+      }
+    },
+    {
+      "id": "chart",
+      "studio": "representation",
+      "dependsOn": [
+        "layout"
+      ],
+      "input": {
+        "id": "VIZ-0002",
+        "data": {
+          "unit": "k",
+          "rows": [
+            {
+              "label": "Supply",
+              "value": 70
+            },
+            {
+              "label": "Sales",
+              "value": 61
+            }
+          ]
+        }
+      },
+      "bindings": [
+        {
+          "from": "layout",
+          "path": [
+            "boxes",
+            "0",
+            "width"
+          ],
+          "to": "width",
+          "type": "number"
+        },
+        {
+          "from": "layout",
+          "path": [
+            "boxes",
+            "0",
+            "height"
+          ],
+          "to": "height",
+          "type": "number"
+        }
+      ]
+    }
+  ],
+  "acceptedRevision": 1,
+  "history": [
+    {
+      "revision": 0,
+      "report": {
+        "order": [
+          "color",
+          "type",
+          "material",
+          "layout",
+          "chart"
+        ],
+        "results": [
+          {
+            "id": "color",
+            "status": "generated",
+            "input": {
+              "hue": 150
+            },
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "color",
+              "status": "generated",
+              "payload": {
+                "tokens": {
+                  "canvas": "#edf9ef",
+                  "surface": "#ffffff",
+                  "text": "#19221b",
+                  "muted": "#49534b",
+                  "accent": "#2c5c38"
+                },
+                "audit": [
+                  {
+                    "foreground": "text",
+                    "background": "canvas",
+                    "ratio": 15.083980925723173,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "text",
+                    "background": "surface",
+                    "ratio": 16.33006041791831,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "muted",
+                    "background": "canvas",
+                    "ratio": 7.397454697909859,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "muted",
+                    "background": "surface",
+                    "ratio": 8.0085544227702,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "accent",
+                    "background": "canvas",
+                    "ratio": 7.197462338513898,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "accent",
+                    "background": "surface",
+                    "ratio": 7.792040802914802,
+                    "pass": true
+                  }
+                ],
+                "scope": "opaque sRGB normal text contrast only"
+              },
+              "limitations": [
+                "opaque sRGB normal text contrast only"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "type",
+            "status": "generated",
+            "input": {},
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "typography",
+              "status": "generated",
+              "payload": {
+                "direction": "editorial",
+                "locale": "zh-CN",
+                "families": {
+                  "heading": "Georgia, \"Noto Serif CJK SC\", \"Songti SC\", serif",
+                  "body": "system-ui, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"
+                },
+                "roles": {
+                  "note": {
+                    "size": 12.8,
+                    "lineHeight": 1.6,
+                    "weight": 400
+                  },
+                  "body": {
+                    "size": 16,
+                    "lineHeight": 1.6,
+                    "weight": 400
+                  },
+                  "label": {
+                    "size": 16,
+                    "lineHeight": 1.6,
+                    "weight": 500
+                  },
+                  "subheading": {
+                    "size": 20,
+                    "lineHeight": 1.6,
+                    "weight": 500
+                  },
+                  "heading": {
+                    "size": 25,
+                    "lineHeight": 1.2,
+                    "weight": 600
+                  },
+                  "display": {
+                    "size": 39.1,
+                    "lineHeight": 1.2,
+                    "weight": 400
+                  },
+                  "metric": {
+                    "size": 48.8,
+                    "lineHeight": 1.2,
+                    "weight": 600
+                  }
+                },
+                "numeric": {
+                  "variant": "tabular-nums lining-nums",
+                  "alignment": "end",
+                  "unitPolicy": "explicit consistent units and precision"
+                },
+                "reading": {
+                  "maxInlineSize": "36em",
+                  "lineBreak": "strict",
+                  "wordBreak": "normal",
+                  "overflowWrap": "anywhere"
+                },
+                "scope": "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+              },
+              "limitations": [
+                "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "material",
+            "status": "generated",
+            "input": {
+              "material": "paper"
+            },
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "material",
+              "status": "generated",
+              "payload": {
+                "requested": "css",
+                "actual": "css",
+                "css": {
+                  "backgroundColor": "#f5f2e8",
+                  "color": "#29382f",
+                  "backgroundImage": "none"
+                },
+                "svg": null,
+                "warnings": [],
+                "requirementMet": true,
+                "opaqueFallback": true,
+                "essential": true,
+                "scope": "decorative opaque CSS/SVG only; no physical rendering"
+              },
+              "limitations": [
+                "decorative opaque CSS/SVG only; no physical rendering"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "layout",
+            "status": "generated",
+            "input": {
+              "width": 800,
+              "height": 400,
+              "root": {
+                "id": "main"
+              }
+            },
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "composition",
+              "status": "generated",
+              "payload": {
+                "width": 800,
+                "height": 400,
+                "boxes": [
+                  {
+                    "id": "main",
+                    "x": 16,
+                    "y": 16,
+                    "width": 768,
+                    "height": 368,
+                    "depth": 0,
+                    "leaf": true
+                  }
+                ],
+                "scope": "rectangular geometry only"
+              },
+              "limitations": [
+                "rectangular geometry only"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "chart",
+            "status": "generated",
+            "input": {
+              "id": "VIZ-0002",
+              "data": {
+                "unit": "k",
+                "rows": [
+                  {
+                    "label": "Supply",
+                    "value": 70
+                  },
+                  {
+                    "label": "Sales",
+                    "value": 61
+                  }
+                ]
+              },
+              "width": 768,
+              "height": 368
+            },
+            "trace": [
+              {
+                "from": "layout",
+                "path": [
+                  "boxes",
+                  "0",
+                  "width"
+                ],
+                "to": "width",
+                "type": "number",
+                "value": 768
+              },
+              {
+                "from": "layout",
+                "path": [
+                  "boxes",
+                  "0",
+                  "height"
+                ],
+                "to": "height",
+                "type": "number",
+                "value": 368
+              }
+            ],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "representation",
+              "status": "generated",
+              "payload": {
+                "status": "rendered",
+                "id": "VIZ-0002",
+                "backend": "svg",
+                "summary": "Supply: 70 k; Sales: 61 k",
+                "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 768 368\" role=\"img\"><title>bar</title><desc>Supply: 70 k; Sales: 61 k</desc><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><g font-family=\"sans-serif\" font-size=\"11\" fill=\"#243b30\"><text x=\"8\" y=\"42\">Supply</text><rect x=\"140\" y=\"30\" width=\"573\" height=\"22\" fill=\"#426b58\"/><text x=\"717\" y=\"42\">70</text><text x=\"8\" y=\"188.5\">Sales</text><rect x=\"140\" y=\"176.5\" width=\"499.3285714285714\" height=\"22\" fill=\"#426b58\"/><text x=\"643.3285714285714\" y=\"188.5\">61</text></g></svg>",
+                "warnings": [
+                  "No browser geometry or visual audit performed"
+                ]
+              },
+              "limitations": [
+                "computed output; not browser validated",
+                "No browser geometry or visual audit performed"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          }
+        ],
+        "status": "generated"
+      },
+      "evidence": {
+        "designId": "master-demo",
+        "revision": 0,
+        "blocks": {
+          "main": {
+            "availableWidth": 768
+          }
+        },
+        "observations": [
+          {
+            "blockId": "main",
+            "field": "availableWidth",
+            "value": 768,
+            "source": "algorithm-output",
+            "task": "layout",
+            "path": [
+              "boxes",
+              "main",
+              "width"
+            ],
+            "scope": "planned geometry, not measured text space",
+            "eligible": true
+          },
+          {
+            "blockId": "main",
+            "field": "requestedChartWidth",
+            "value": 768,
+            "source": "algorithm-output",
+            "task": "chart",
+            "path": [
+              "input",
+              "width"
+            ],
+            "scope": "renderer request, not minimum required width",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "paletteMinContrast",
+            "value": 7.197462338513898,
+            "source": "algorithm-output",
+            "task": "color",
+            "path": [
+              "audit"
+            ],
+            "scope": "opaque palette pairs only, not effective page contrast",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "taskStatus",
+            "value": "generated",
+            "source": "algorithm-output",
+            "task": "layout",
+            "path": [
+              "status"
+            ],
+            "scope": "execution status, not visual validation",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "taskStatus",
+            "value": "generated",
+            "source": "algorithm-output",
+            "task": "chart",
+            "path": [
+              "status"
+            ],
+            "scope": "execution status, not visual validation",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "taskStatus",
+            "value": "generated",
+            "source": "algorithm-output",
+            "task": "color",
+            "path": [
+              "status"
+            ],
+            "scope": "execution status, not visual validation",
+            "eligible": false
+          }
+        ],
+        "limitations": [
+          "task-to-block scope is caller supplied",
+          "algorithm outputs are not browser measurements",
+          "no cryptographic provenance or semantic truth verification"
+        ]
+      }
+    },
+    {
+      "revision": 1,
+      "report": {
+        "order": [
+          "color",
+          "type",
+          "material",
+          "layout",
+          "chart"
+        ],
+        "results": [
+          {
+            "id": "color",
+            "status": "generated",
+            "input": {
+              "hue": 150
+            },
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "color",
+              "status": "generated",
+              "payload": {
+                "tokens": {
+                  "canvas": "#edf9ef",
+                  "surface": "#ffffff",
+                  "text": "#19221b",
+                  "muted": "#49534b",
+                  "accent": "#2c5c38"
+                },
+                "audit": [
+                  {
+                    "foreground": "text",
+                    "background": "canvas",
+                    "ratio": 15.083980925723173,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "text",
+                    "background": "surface",
+                    "ratio": 16.33006041791831,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "muted",
+                    "background": "canvas",
+                    "ratio": 7.397454697909859,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "muted",
+                    "background": "surface",
+                    "ratio": 8.0085544227702,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "accent",
+                    "background": "canvas",
+                    "ratio": 7.197462338513898,
+                    "pass": true
+                  },
+                  {
+                    "foreground": "accent",
+                    "background": "surface",
+                    "ratio": 7.792040802914802,
+                    "pass": true
+                  }
+                ],
+                "scope": "opaque sRGB normal text contrast only"
+              },
+              "limitations": [
+                "opaque sRGB normal text contrast only"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "type",
+            "status": "generated",
+            "input": {},
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "typography",
+              "status": "generated",
+              "payload": {
+                "direction": "editorial",
+                "locale": "zh-CN",
+                "families": {
+                  "heading": "Georgia, \"Noto Serif CJK SC\", \"Songti SC\", serif",
+                  "body": "system-ui, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"
+                },
+                "roles": {
+                  "note": {
+                    "size": 12.8,
+                    "lineHeight": 1.6,
+                    "weight": 400
+                  },
+                  "body": {
+                    "size": 16,
+                    "lineHeight": 1.6,
+                    "weight": 400
+                  },
+                  "label": {
+                    "size": 16,
+                    "lineHeight": 1.6,
+                    "weight": 500
+                  },
+                  "subheading": {
+                    "size": 20,
+                    "lineHeight": 1.6,
+                    "weight": 500
+                  },
+                  "heading": {
+                    "size": 25,
+                    "lineHeight": 1.2,
+                    "weight": 600
+                  },
+                  "display": {
+                    "size": 39.1,
+                    "lineHeight": 1.2,
+                    "weight": 400
+                  },
+                  "metric": {
+                    "size": 48.8,
+                    "lineHeight": 1.2,
+                    "weight": 600
+                  }
+                },
+                "numeric": {
+                  "variant": "tabular-nums lining-nums",
+                  "alignment": "end",
+                  "unitPolicy": "explicit consistent units and precision"
+                },
+                "reading": {
+                  "maxInlineSize": "36em",
+                  "lineBreak": "strict",
+                  "wordBreak": "normal",
+                  "overflowWrap": "anywhere"
+                },
+                "scope": "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+              },
+              "limitations": [
+                "candidate CSS tokens; font availability, glyph coverage, actual line breaks and zoom require browser review"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "material",
+            "status": "generated",
+            "input": {
+              "material": "paper"
+            },
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "material",
+              "status": "generated",
+              "payload": {
+                "requested": "css",
+                "actual": "css",
+                "css": {
+                  "backgroundColor": "#f5f2e8",
+                  "color": "#29382f",
+                  "backgroundImage": "none"
+                },
+                "svg": null,
+                "warnings": [],
+                "requirementMet": true,
+                "opaqueFallback": true,
+                "essential": true,
+                "scope": "decorative opaque CSS/SVG only; no physical rendering"
+              },
+              "limitations": [
+                "decorative opaque CSS/SVG only; no physical rendering"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "layout",
+            "status": "generated",
+            "input": {
+              "width": 960,
+              "height": 400,
+              "root": {
+                "id": "main"
+              }
+            },
+            "trace": [],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "composition",
+              "status": "generated",
+              "payload": {
+                "width": 960,
+                "height": 400,
+                "boxes": [
+                  {
+                    "id": "main",
+                    "x": 16,
+                    "y": 16,
+                    "width": 928,
+                    "height": 368,
+                    "depth": 0,
+                    "leaf": true
+                  }
+                ],
+                "scope": "rectangular geometry only"
+              },
+              "limitations": [
+                "rectangular geometry only"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          },
+          {
+            "id": "chart",
+            "status": "generated",
+            "input": {
+              "id": "VIZ-0002",
+              "data": {
+                "unit": "k",
+                "rows": [
+                  {
+                    "label": "Supply",
+                    "value": 70
+                  },
+                  {
+                    "label": "Sales",
+                    "value": 61
+                  }
+                ]
+              },
+              "width": 928,
+              "height": 368
+            },
+            "trace": [
+              {
+                "from": "layout",
+                "path": [
+                  "boxes",
+                  "0",
+                  "width"
+                ],
+                "to": "width",
+                "type": "number",
+                "value": 928
+              },
+              {
+                "from": "layout",
+                "path": [
+                  "boxes",
+                  "0",
+                  "height"
+                ],
+                "to": "height",
+                "type": "number",
+                "value": 368
+              }
+            ],
+            "output": {
+              "version": "1.0",
+              "kind": "infograph-studio-output",
+              "studio": "representation",
+              "status": "generated",
+              "payload": {
+                "status": "rendered",
+                "id": "VIZ-0002",
+                "backend": "svg",
+                "summary": "Supply: 70 k; Sales: 61 k",
+                "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 928 368\" role=\"img\"><title>bar</title><desc>Supply: 70 k; Sales: 61 k</desc><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><g font-family=\"sans-serif\" font-size=\"11\" fill=\"#243b30\"><text x=\"8\" y=\"42\">Supply</text><rect x=\"140\" y=\"30\" width=\"733\" height=\"22\" fill=\"#426b58\"/><text x=\"877\" y=\"42\">70</text><text x=\"8\" y=\"188.5\">Sales</text><rect x=\"140\" y=\"176.5\" width=\"638.7571428571429\" height=\"22\" fill=\"#426b58\"/><text x=\"782.7571428571429\" y=\"188.5\">61</text></g></svg>",
+                "warnings": [
+                  "No browser geometry or visual audit performed"
+                ]
+              },
+              "limitations": [
+                "computed output; not browser validated",
+                "No browser geometry or visual audit performed"
+              ],
+              "evidence": [],
+              "validation": {
+                "browser": "not-run",
+                "semantic": "not-run",
+                "audience": "not-run"
+              }
+            }
+          }
+        ],
+        "status": "generated"
+      },
+      "evidence": {
+        "designId": "master-demo",
+        "revision": 1,
+        "blocks": {
+          "main": {
+            "availableWidth": 928
+          }
+        },
+        "observations": [
+          {
+            "blockId": "main",
+            "field": "availableWidth",
+            "value": 928,
+            "source": "algorithm-output",
+            "task": "layout",
+            "path": [
+              "boxes",
+              "main",
+              "width"
+            ],
+            "scope": "planned geometry, not measured text space",
+            "eligible": true
+          },
+          {
+            "blockId": "main",
+            "field": "requestedChartWidth",
+            "value": 928,
+            "source": "algorithm-output",
+            "task": "chart",
+            "path": [
+              "input",
+              "width"
+            ],
+            "scope": "renderer request, not minimum required width",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "paletteMinContrast",
+            "value": 7.197462338513898,
+            "source": "algorithm-output",
+            "task": "color",
+            "path": [
+              "audit"
+            ],
+            "scope": "opaque palette pairs only, not effective page contrast",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "taskStatus",
+            "value": "generated",
+            "source": "algorithm-output",
+            "task": "layout",
+            "path": [
+              "status"
+            ],
+            "scope": "execution status, not visual validation",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "taskStatus",
+            "value": "generated",
+            "source": "algorithm-output",
+            "task": "chart",
+            "path": [
+              "status"
+            ],
+            "scope": "execution status, not visual validation",
+            "eligible": false
+          },
+          {
+            "blockId": "main",
+            "field": "taskStatus",
+            "value": "generated",
+            "source": "algorithm-output",
+            "task": "color",
+            "path": [
+              "status"
+            ],
+            "scope": "execution status, not visual validation",
+            "eligible": false
+          }
+        ],
+        "limitations": [
+          "task-to-block scope is caller supplied",
+          "algorithm outputs are not browser measurements",
+          "no cryptographic provenance or semantic truth verification"
+        ]
+      },
+      "patch": {
+        "revision": 0,
+        "taskId": "layout",
+        "field": "width",
+        "value": 960
+      }
+    }
+  ],
+  "releaseAuthorized": false
+}

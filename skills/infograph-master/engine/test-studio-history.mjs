@@ -1,0 +1,3 @@
+import assert from 'node:assert/strict';
+import {createHistory,compareSnapshots,exportSnapshot} from './studio-history.mjs';
+const h=createHistory(2),v={version:1,draft:{title:'A',hue:150},result:{status:'rendered-unverified',releaseAuthorized:false,html:'<html></html>',repair:{}}};const a=h.save(v),b=h.save({...v,draft:{title:'A',hue:210}});assert.equal(compareSnapshots(h.get(a),h.get(b))[0].field,'hue');assert.equal(exportSnapshot(h.get(a),'html').content,v.result.html);assert.equal(JSON.parse(exportSnapshot(h.get(a),'config').content).payload.hue,150);h.get(a).input.hue=0;assert.equal(h.get(a).input.hue,150);h.save(v);assert.throws(()=>h.get(a));assert.throws(()=>h.save({...v,result:null}));

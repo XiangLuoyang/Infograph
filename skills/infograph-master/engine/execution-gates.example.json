@@ -1,0 +1,247 @@
+{
+  "input": {
+    "revision": 1,
+    "purpose": "report",
+    "substantial": true,
+    "records": [
+      {
+        "key": "audience",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:audience"
+      },
+      {
+        "key": "purpose",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:purpose"
+      },
+      {
+        "key": "delivery",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:delivery"
+      },
+      {
+        "key": "source-map",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:source-map"
+      },
+      {
+        "key": "metric-definitions",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:metric-definitions"
+      },
+      {
+        "key": "limitations",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:limitations"
+      },
+      {
+        "key": "thesis",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:thesis"
+      },
+      {
+        "key": "evidence-links",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:evidence-links"
+      },
+      {
+        "key": "metric-priorities",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:metric-priorities"
+      },
+      {
+        "key": "lookup-tasks",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:lookup-tasks"
+      },
+      {
+        "key": "alert-rules",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:alert-rules"
+      },
+      {
+        "key": "representation-rationale",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:representation-rationale"
+      },
+      {
+        "key": "design-spec",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:design-spec"
+      },
+      {
+        "key": "alternative-directions",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:alternative-directions"
+      },
+      {
+        "key": "artifact",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:artifact"
+      },
+      {
+        "key": "validation-log",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:validation-log"
+      },
+      {
+        "key": "limitations-disclosure",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:limitations-disclosure"
+      }
+    ]
+  },
+  "result": {
+    "revision": 1,
+    "gates": [
+      {
+        "id": "G01",
+        "stage": "brief",
+        "checks": [
+          {
+            "key": "audience",
+            "status": "pass",
+            "ref": "fixture:audience"
+          },
+          {
+            "key": "purpose",
+            "status": "pass",
+            "ref": "fixture:purpose"
+          },
+          {
+            "key": "delivery",
+            "status": "pass",
+            "ref": "fixture:delivery"
+          }
+        ],
+        "status": "declared-pass"
+      },
+      {
+        "id": "G02",
+        "stage": "evidence",
+        "checks": [
+          {
+            "key": "source-map",
+            "status": "pass",
+            "ref": "fixture:source-map"
+          },
+          {
+            "key": "metric-definitions",
+            "status": "pass",
+            "ref": "fixture:metric-definitions"
+          },
+          {
+            "key": "limitations",
+            "status": "pass",
+            "ref": "fixture:limitations"
+          }
+        ],
+        "status": "declared-pass"
+      },
+      {
+        "id": "G03",
+        "stage": "narrative",
+        "checks": [
+          {
+            "key": "thesis",
+            "status": "pass",
+            "ref": "fixture:thesis"
+          },
+          {
+            "key": "evidence-links",
+            "status": "pass",
+            "ref": "fixture:evidence-links"
+          },
+          {
+            "key": "storyboard",
+            "status": "missing",
+            "ref": null
+          }
+        ],
+        "status": "blocked"
+      },
+      {
+        "id": "G05",
+        "stage": "design",
+        "checks": [
+          {
+            "key": "representation-rationale",
+            "status": "pass",
+            "ref": "fixture:representation-rationale"
+          },
+          {
+            "key": "design-spec",
+            "status": "pass",
+            "ref": "fixture:design-spec"
+          }
+        ],
+        "status": "declared-pass"
+      },
+      {
+        "id": "G06",
+        "stage": "design",
+        "checks": [
+          {
+            "key": "alternative-directions",
+            "status": "pass",
+            "ref": "fixture:alternative-directions"
+          }
+        ],
+        "status": "declared-pass"
+      },
+      {
+        "id": "G07",
+        "stage": "build",
+        "checks": [
+          {
+            "key": "artifact",
+            "status": "pass",
+            "ref": "fixture:artifact"
+          }
+        ],
+        "status": "declared-pass"
+      },
+      {
+        "id": "G08",
+        "stage": "review",
+        "checks": [
+          {
+            "key": "validation-log",
+            "status": "pass",
+            "ref": "fixture:validation-log"
+          },
+          {
+            "key": "limitations-disclosure",
+            "status": "pass",
+            "ref": "fixture:limitations-disclosure"
+          }
+        ],
+        "status": "declared-pass"
+      }
+    ],
+    "blockers": [
+      "G03"
+    ],
+    "buildEligible": false,
+    "reviewComplete": false,
+    "releaseAuthorized": false,
+    "scope": "declared records only; references and claims not independently verified"
+  }
+}

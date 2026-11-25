@@ -45,6 +45,7 @@ jobs:
       - run: node test-parameter-binding.mjs
       - run: node test-design-evidence.mjs
       - run: node test-repair-loop.mjs
+      - run: node test-unified-renderer.mjs
 
       - name: Visual intelligence tests
         working-directory: skills/infograph-master/visual-intelligence

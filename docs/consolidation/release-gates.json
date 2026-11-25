@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "release": "V1.2 consolidation",
+  "policy": "All required gates must pass on the same candidate revision with evidence; not-run blocks release.",
+  "gates": [
+    {
+      "id": "G01",
+      "name": "Native engine and specialist unit tests",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G02",
+      "name": "Static dependency and syntax audit",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G03",
+      "name": "Registered JSON Schema validation",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G04",
+      "name": "Six standalone builds and manifest verification",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G05",
+      "name": "12 HTTP studio browser cases",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G06",
+      "name": "12 offline studio browser cases",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G07",
+      "name": "Golden Six browser regression",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G08",
+      "name": "Studio interaction transitions and export semantics",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G09",
+      "name": "Visual review of screenshots and accessibility",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    },
+    {
+      "id": "G10",
+      "name": "License and distribution review",
+      "required": true,
+      "status": "not-run",
+      "revision": null,
+      "evidence": []
+    }
+  ]
+}

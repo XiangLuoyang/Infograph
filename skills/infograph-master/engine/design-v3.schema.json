@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "version",
+    "id",
+    "revision",
+    "graph",
+    "outputs",
+    "validation",
+    "migration"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "3.0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "graph": {
+      "type": "object",
+      "required": [
+        "version",
+        "objects",
+        "links"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "0.1"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "type"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "enum": [
+                  "Brief",
+                  "Evidence",
+                  "Claim",
+                  "Scene",
+                  "Block",
+                  "Representation",
+                  "Encoding",
+                  "Layout",
+                  "Typography",
+                  "Color",
+                  "Material",
+                  "Motion",
+                  "Interaction",
+                  "Constraint",
+                  "Decision",
+                  "Validation"
+                ]
+              }
+            }
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "from",
+              "type",
+              "to"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "type": "string",
+                "minLength": 1
+              },
+              "to": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "enum": [
+                  "supports",
+                  "contains",
+                  "expresses",
+                  "uses",
+                  "encodes",
+                  "governs",
+                  "selects",
+                  "justifiedBy",
+                  "checks",
+                  "advances",
+                  "serves"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "targetId",
+          "contract"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contract": {
+            "type": "object",
+            "required": [
+              "version",
+              "kind",
+              "studio",
+              "status",
+              "payload",
+              "limitations",
+              "evidence",
+              "validation"
+            ],
+            "properties": {
+              "version": {
+                "const": "1.0"
+              },
+              "kind": {
+                "const": "infograph-studio-output"
+              },
+              "studio": {
+                "enum": [
+                  "color",
+                  "typography",
+                  "composition",
+                  "material",
+                  "motion",
+                  "representation"
+                ]
+              },
+              "status": {
+                "enum": [
+                  "generated",
+                  "blocked",
+                  "unsupported",
+                  "invalid-data",
+                  "choose"
+                ]
+              },
+              "payload": {
+                "type": "object"
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "evidence": {
+                "type": "array"
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "browser",
+                  "semantic",
+                  "audience"
+                ],
+                "properties": {
+                  "browser": {
+                    "const": "not-run"
+                  },
+                  "semantic": {
+                    "const": "not-run"
+                  },
+                  "audience": {
+                    "const": "not-run"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "required",
+        "results"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "check",
+              "status",
+              "revision"
+            ],
+            "properties": {
+              "check": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "not-run"
+                ]
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "evidenceId": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "migration": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  }
+}

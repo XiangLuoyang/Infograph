@@ -29,6 +29,7 @@ jobs:
           npm install --no-save --no-package-lock esbuild@0.25.5
           node scripts/build-studios.mjs
           node scripts/verify-studios.mjs
+      - run: node contrast-browser-test.mjs
       - run: node browser-qa.mjs
       - run: node studio-browser-qa.mjs
         if: always()

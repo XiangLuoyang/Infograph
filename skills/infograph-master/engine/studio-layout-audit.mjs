@@ -12,7 +12,22 @@ export async function auditLayout(page){
  if(!scrollable)issues.push({kind:'control-outside-viewport',tag:e.tagName,id:e.id||null,left:r.left,right:r.right});
  }
  }
- return {width:innerWidth,height:innerHeight,documentWidth:root.scrollWidth,overflow:root.scrollWidth>innerWidth+2,issues,scope:'DOM geometry diagnostic; excludes SVG text, occlusion, intentional truncation adjudication and pixel-level checks'};
+ const svgIssues=[];let svgLabels=0;
+ for(const svg of document.querySelectorAll('svg')){
+ if(!visible(svg)||svg.ownerSVGElement)continue;
+ const bounds=svg.getBoundingClientRect(),labels=[];
+ for(const e of svg.querySelectorAll('text')){
+ if(!visible(e)||!e.textContent.trim())continue;
+ const r=e.getBoundingClientRect();if(r.width<=0||r.height<=0)continue;
+ const label={text:e.textContent.trim().slice(0,120),id:e.id||null,left:r.left,right:r.right,top:r.top,bottom:r.bottom};labels.push(label);svgLabels++;
+ if(r.left<bounds.left-2||r.right>bounds.right+2||r.top<bounds.top-2||r.bottom>bounds.bottom+2)svgIssues.push({kind:'svg-label-outside-viewport',svg:svg.id||null,label});
+ }
+ for(let i=0;i<labels.length;i++)for(let j=i+1;j<labels.length;j++){
+ const a=labels[i],b=labels[j],w=Math.min(a.right,b.right)-Math.max(a.left,b.left),h=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top);
+ if(w>2&&h>2&&w*h/Math.min((a.right-a.left)*(a.bottom-a.top),(b.right-b.left)*(b.bottom-b.top))>.1)svgIssues.push({kind:'svg-label-overlap-candidate',svg:svg.id||null,labels:[a,b],intersection:w*h});
+ }
+ }
+ return {svgLabels,svgIssues,width:innerWidth,height:innerHeight,documentWidth:root.scrollWidth,overflow:root.scrollWidth>innerWidth+2,issues,scope:'DOM geometry diagnostic; includes SVG text bounding-box candidates; excludes occlusion, intentional overlap adjudication and pixel-level checks'};
  });
 }
 export async function stressLayout(page){

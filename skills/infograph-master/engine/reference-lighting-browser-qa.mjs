@@ -24,5 +24,5 @@ try{
  assert.ok(shadow.shadow>15,JSON.stringify(shadow));assert.ok(shadow.objectMaskChanges<Math.max(20,shadow.opaque*.02),JSON.stringify(shadow));assert.ok(shadow.changed<Math.max(5,shadow.opaque*.005),JSON.stringify(shadow));
  assert.ok(combined.shadow>15&&combined.changed>combined.opaque*.02,JSON.stringify(combined));assert.ok(combined.objectMaskChanges<Math.max(20,combined.opaque*.02),JSON.stringify(combined));
  let warmCool=0;for(let i=0;i<a.rgba.length;i+=4)if(a.rgba[i+3]>230&&Math.abs(results.environment.rgba[i]-results.cool.rgba[i])+Math.abs(results.environment.rgba[i+1]-results.cool.rgba[i+1])+Math.abs(results.environment.rgba[i+2]-results.cool.rgba[i+2])>6)warmCool++;
- assert.ok(warmCool>20);await writeFile(resolve(dir,'report.json'),JSON.stringify({status:'passed',environment:env,shadow,combined,cool,warmCool,scope:'observed pixel differences at matched viewport; not human aesthetic or physical accuracy validation'},null,2));
+ assert.ok(warmCool>20,JSON.stringify({warmCool,env,shadow,combined,cool}));await writeFile(resolve(dir,'report.json'),JSON.stringify({status:'passed',environment:env,shadow,combined,cool,warmCool,scope:'observed pixel differences at matched viewport; not human aesthetic or physical accuracy validation'},null,2));
 }finally{await browser.close()}

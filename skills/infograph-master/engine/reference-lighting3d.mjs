@@ -40,8 +40,8 @@ export function studioEnvironment({variant='warm',strength=1}={}){
   const u=(x+.5)/width,v=(y+.5)/height,wrap=(a,b)=>Math.min(Math.abs(a-b),1-Math.abs(a-b));
   const panel=(cx,cy,sx,sy)=>Math.exp(-((wrap(u,cx)/sx)**6+((v-cy)/sy)**6));
   const a=panel(.22,.67,.12,.18),b=panel(.76,.57,.055,.24),c=panel(.52,.87,.19,.055);
-  const base=18+18*Math.max(0,Math.sin(v*Math.PI)),colors=variant==='warm'?[[240,196,132],[115,185,245],[200,220,235]]:[[115,210,250],[230,155,125],[180,220,255]];
-  for(let k=0;k<3;k++)rgb.push(Math.round(Math.min(255,base+a*colors[0][k]+b*colors[1][k]+c*colors[2][k])));
+  const base=18+18*Math.max(0,Math.sin(v*Math.PI)),tint=variant==='warm'?[1.85,1.15,.65]:[.65,1.15,1.85],colors=variant==='warm'?[[240,196,132],[115,185,245],[200,220,235]]:[[115,210,250],[230,155,125],[180,220,255]];
+  for(let k=0;k<3;k++)rgb.push(Math.round(Math.min(255,base*tint[k]+a*colors[0][k]+b*colors[1][k]+c*colors[2][k])));
  }
  return {width,height,rgb,colorSpace:'srgb',permission:'cleared',source:'Procedural neutral studio environment / '+variant,sha256:createHash('sha256').update(Buffer.from(rgb)).digest('hex'),strength};
 }

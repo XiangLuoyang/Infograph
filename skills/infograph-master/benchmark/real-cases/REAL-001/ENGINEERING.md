@@ -24,3 +24,5 @@ Prior revision 8f71b50 passed browser QA, engine checks and distribution audit. 
 
 ## Phase 3d
 Added executable industrial/cinematic/architectural parameter bundles and neutral same-content gallery, preserving object IDs, link semantics and scene order. Added matched screenshot tests and human review protocol. Phase 3c engine/distribution passed; browser was still running during initial inspection. No user approval or full REAL-001 rerun.
+
+Phase 3c browser QA at 03774bb failed the final warm/cool pixel-difference assertion (earlier environment/shadow assertions completed). Strengthened ambient studio-map hue distinction without lowering the threshold; diagnostic counts added to failure output. Revalidation pending.

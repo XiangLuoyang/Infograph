@@ -1,0 +1,7 @@
+export function packageSkill(assets,capabilities,{family='unspecified'}={}){
+ for(const k of ['fileAccess','execution','browser'])if(typeof capabilities[k]!=='boolean')throw Error('declare '+k);
+ const required=['SKILL.md','references/context-guide.md','references/execution-gates.md','references/critique-protocol.md','references/acceptance.md'];
+ const files=required.map(path=>{const a=assets.find(x=>x.path===path);if(!a||typeof a.content!=='string'||!a.content.trim()||!a.sha)throw Error('missing '+path);return a});
+ const instructions=['Preserve all core constraints. Treat unavailable specialist references as missing knowledge, not as loaded. Never invent evidence or test results.',capabilities.execution?'Run available tests and record observed results.':'Code execution unavailable: mark executable checks not-run.',capabilities.browser?'Inspect actual browser output when available.':'Browser unavailable: mark visual/browser checks not-run.',capabilities.fileAccess?'Resolve referenced files from the repository before use.':'Use embedded core text; request necessary specialist excerpts or narrow scope.'];
+ return {version:'0.1',family,capabilities:{...capabilities},mode:capabilities.fileAccess?'repository':'inline',instructions,manifest:files.map(({path,sha,bytes})=>({path,sha,bytes})),inline:capabilities.fileAccess?[]:files.map(({path,content})=>({path,content})),releaseAuthorized:false,validation:'not-run'};
+}

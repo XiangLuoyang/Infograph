@@ -35,22 +35,34 @@
       "runId": "R1",
       "status": "completed",
       "score": 60,
-      "cost": 1
+      "cost": 1,
+      "task": "B03",
+      "arm": "baseline",
+      "modelSlot": "M1"
     },
     {
       "runId": "R2",
       "status": "completed",
       "score": 75,
-      "cost": 2
+      "cost": 2,
+      "task": "B03",
+      "arm": "full",
+      "modelSlot": "M1"
     },
     {
       "runId": "R3",
-      "status": "failed"
+      "status": "failed",
+      "task": "B03",
+      "arm": "baseline",
+      "modelSlot": "M1"
     },
     {
       "runId": "R4",
       "status": "completed",
-      "score": 80
+      "score": 80,
+      "task": "B03",
+      "arm": "full",
+      "modelSlot": "M1"
     }
   ],
   "result": {

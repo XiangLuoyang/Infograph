@@ -44,7 +44,7 @@ jobs:
           for f in test-*.mjs; do node "$f"; done
       - name: JavaScript syntax checks
         working-directory: skills/infograph-master
-        run: find engine visual-intelligence -type f -name '*.mjs' -exec node --check {} \;
+        run: find engine visual-intelligence -type f -name '*.mjs' -print0 | xargs -0 -r -n 1 node --check
 
       - name: Dependency audit self-test
         working-directory: .

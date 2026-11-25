@@ -1,5 +1,5 @@
 const clone=x=>JSON.parse(JSON.stringify(x));
-const fields=['rows','unit','title','subtitle','claim','note','width','height','hue'];
+const fields=['rows','unit','title','subtitle','claim','note','width','height','hue','chroma','dark','direction','base','density','material'];
 export function createStudioState(input){
  if(!input||typeof input.designId!=='string'||!input.designId)throw Error('designId required');
  let draft=clone(input),version=0,result=null,active=null,serial=0;

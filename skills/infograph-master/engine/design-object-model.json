@@ -1,0 +1,185 @@
+{
+  "version": "0.1",
+  "status": "candidate",
+  "types": {
+    "Brief": [
+      "audience",
+      "purpose"
+    ],
+    "Evidence": [
+      "source",
+      "definition"
+    ],
+    "Claim": [
+      "text"
+    ],
+    "Scene": [
+      "question",
+      "before",
+      "after"
+    ],
+    "Block": [
+      "role",
+      "task"
+    ],
+    "Representation": [
+      "form"
+    ],
+    "Encoding": [
+      "channel",
+      "field"
+    ],
+    "Layout": [
+      "strategy"
+    ],
+    "Typography": [
+      "strategy"
+    ],
+    "Color": [
+      "strategy"
+    ],
+    "Material": [
+      "strategy"
+    ],
+    "Motion": [
+      "strategy"
+    ],
+    "Interaction": [
+      "trigger"
+    ],
+    "Constraint": [
+      "rule",
+      "severity"
+    ],
+    "Decision": [
+      "rationale",
+      "status"
+    ],
+    "Validation": [
+      "check",
+      "status"
+    ]
+  },
+  "relations": {
+    "supports": [
+      [
+        "Evidence"
+      ],
+      [
+        "Claim"
+      ]
+    ],
+    "contains": [
+      [
+        "Scene"
+      ],
+      [
+        "Block"
+      ]
+    ],
+    "expresses": [
+      [
+        "Block"
+      ],
+      [
+        "Claim"
+      ]
+    ],
+    "uses": [
+      [
+        "Block"
+      ],
+      [
+        "Representation",
+        "Layout",
+        "Typography",
+        "Color",
+        "Material",
+        "Motion",
+        "Interaction"
+      ]
+    ],
+    "encodes": [
+      [
+        "Representation"
+      ],
+      [
+        "Encoding"
+      ]
+    ],
+    "governs": [
+      [
+        "Constraint"
+      ],
+      [
+        "Block",
+        "Representation",
+        "Layout",
+        "Typography",
+        "Color",
+        "Material",
+        "Motion",
+        "Interaction"
+      ]
+    ],
+    "selects": [
+      [
+        "Decision"
+      ],
+      [
+        "Representation",
+        "Layout",
+        "Typography",
+        "Color",
+        "Material",
+        "Motion",
+        "Interaction"
+      ]
+    ],
+    "justifiedBy": [
+      [
+        "Decision"
+      ],
+      [
+        "Evidence",
+        "Constraint"
+      ]
+    ],
+    "checks": [
+      [
+        "Validation"
+      ],
+      [
+        "Decision",
+        "Block",
+        "Representation",
+        "Scene"
+      ]
+    ],
+    "advances": [
+      [
+        "Scene"
+      ],
+      [
+        "Scene"
+      ]
+    ],
+    "serves": [
+      [
+        "Scene",
+        "Claim"
+      ],
+      [
+        "Brief"
+      ]
+    ]
+  },
+  "rules": [
+    "globally unique object IDs",
+    "typed directed links",
+    "claim requires evidence support or explicit hypothesis status",
+    "scene containment and advances acyclic",
+    "pass validation requires evidence reference",
+    "no implied rendering readiness"
+  ]
+}

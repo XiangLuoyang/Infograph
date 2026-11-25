@@ -10,7 +10,7 @@ export function compareBounds(a,b){
  assert(bound(a)&&bound(b),'invalid normalized bounds');
  const intersection=Math.max(0,Math.min(a[0]+a[2],b[0]+b[2])-Math.max(a[0],b[0]))*Math.max(0,Math.min(a[1]+a[3],b[1]+b[3])-Math.max(a[1],b[1]));
  const aa=a[2]*a[3],ba=b[2]*b[3];
- return {iou:intersection/(aa+ba-intersection),centerShift:Math.hypot(a[0]+a[2]/2-b[0]-b[2]/2,a[1]+a[3]/2-b[1]-b[3]/2),areaRatio:ba/aa};
+ return {iou:Math.max(0,Math.min(1,intersection/(aa+ba-intersection))),centerShift:Math.hypot(a[0]+a[2]/2-b[0]-b[2]/2,a[1]+a[3]/2-b[1]-b[3]/2),areaRatio:ba/aa};
 }
 const dimensions=['semantic','geometry','hierarchy','material','lighting','interaction','accessibility','aesthetics'];
 const routing={semantic:'semantic model / evidence',geometry:'geometry / layout / camera',hierarchy:'composition / typography',material:'surface / asset / renderer',lighting:'lighting / environment / shadow',interaction:'scene controller / anchor binding',accessibility:'label layout / contrast / keyboard / fallback',aesthetics:'art direction / human review'};

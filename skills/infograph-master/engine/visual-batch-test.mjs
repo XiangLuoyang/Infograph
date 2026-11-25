@@ -16,7 +16,7 @@ try{
  const file=join(dir,'test-candidate.png'),empty=join(root,'empty.json'),approval=join(root,'approval.json'),base=join(root,'baseline');
  const png=PNG.sync.write({width:10,height:10,data:Buffer.alloc(400,255)});
  await writeFile(file,png);await json(file+'.json',{...capture,screenshotHash:hash(png)});await json(empty,{version:1,entries:[]});
- await json(approval,{reviewer:'fixture',reason:'test only',timestamp:'2026-01-01T00:00:00Z',screenshotHashes:[hash(png)]});
+ await json(approval,{reviewer:'fixture',reason:'test only',timestamp:'2026-01-01T00:00:00Z',captures:[{...capture,screenshotHash:hash(png)}]});
  let r=run('register',empty,dir,base,approval);assert.equal(r.status,0,r.stderr);
  const registry=join(base,'registry.json');assert.equal((await read(registry)).entries.length,1);
  r=run('compare',registry,dir,join(root,'same'));assert.equal(r.status,0,r.stderr);
@@ -26,8 +26,17 @@ try{
  await writeFile(file,next);await json(file+'.json',{...capture,revision:'e'.repeat(40),screenshotHash:hash(next)});
  r=run('compare',registry,dir,join(root,'changed'));assert.equal(r.status,1);assert.equal((await read(join(root,'changed','summary.json')))[0].status,'review-required');
  r=run('register',registry,dir,join(root,'unapproved'),approval);assert.notEqual(r.status,0);
- await json(approval,{reviewer:'fixture',reason:'test update',timestamp:'2026-01-02T00:00:00Z',screenshotHashes:[hash(next)]});
+ await json(approval,{reviewer:'fixture',reason:'test update',timestamp:'2026-01-02T00:00:00Z',captures:[{...capture,revision:'e'.repeat(40),screenshotHash:hash(next)}]});
  const updated=join(root,'updated');r=run('register',registry,dir,updated,approval);assert.equal(r.status,0,r.stderr);
  const entries=(await read(join(updated,'registry.json'))).entries;assert.equal(entries.length,2);assert.equal(entries[1].supersedes,entries[0].id);assert.equal(hash(await readFile(join(updated,'images',entries[0].screenshotHash+'.png'))),hash(png));
+ const offline={...capture,captureMode:'offline',revision:'e'.repeat(40),screenshotHash:hash(next)};
+ const other=join(dir,'offline-candidate.png');await writeFile(other,next);await json(other+'.json',offline);
+ r=run('register',registry,dir,join(root,'partial'),approval);assert.notEqual(r.status,0);
+ const online={...offline,captureMode:'http'};
+ await json(approval,{reviewer:'fixture',reason:'both modes',timestamp:'2026-01-03T00:00:00Z',captures:[online,{...offline,stateHash:'f'.repeat(64)}]});
+ r=run('register',registry,dir,join(root,'wrong-state'),approval);assert.notEqual(r.status,0);
+ await json(approval,{reviewer:'fixture',reason:'both modes',timestamp:'2026-01-03T00:00:00Z',captures:[online,offline]});
+ const both=join(root,'both');r=run('register',registry,dir,both,approval);assert.equal(r.status,0,r.stderr);
+ assert.equal((await read(join(both,'registry.json'))).entries.length,3);
  console.log('visual batch persistence fixtures passed');
 }finally{await rm(root,{recursive:true,force:true})}

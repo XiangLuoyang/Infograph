@@ -36,6 +36,8 @@ jobs:
       - run: node test-hybrid.mjs
 
       - run: node test-integration.mjs
+      - run: node test-specialist-ir-adapter.mjs
+      - run: node test-conflict-engine.mjs
 
       - name: Visual intelligence tests
         working-directory: skills/infograph-master/visual-intelligence

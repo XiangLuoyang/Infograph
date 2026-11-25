@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runMaster} from './master-engine.mjs';
+const input=JSON.parse(readFileSync(new URL('./master-engine.example.json',import.meta.url),'utf8'));
+const out=runMaster(input);
+assert.equal(out.status,'rendered-unverified');
+assert.equal(out.repair.acceptedRevision,1);
+assert.ok(out.html.includes('max-width:928px'));
+assert.equal(out.releaseAuthorized,false);
+assert.equal(runMaster({...input,rows:[]}).status,'blocked');

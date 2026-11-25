@@ -1,0 +1,67 @@
+{
+  "B02": {
+    "target": 320,
+    "actual": 326,
+    "supply": 70,
+    "sellThrough": 61,
+    "endStock": 86,
+    "attainment": 1.01875,
+    "wos": 6.109289617486338,
+    "gap": 9,
+    "missing": [
+      "openingStock",
+      "transfers",
+      "targetWOS"
+    ]
+  },
+  "B03": {
+    "attainment": 1.01875,
+    "gap": 9,
+    "thailandStockShare": 0.4186046511627907,
+    "thailandGapShare": 0.6666666666666666,
+    "limitations": "No causal attribution, no inventory change inference, no target WOS."
+  },
+  "B07": {
+    "nodes": [
+      "order",
+      "review",
+      "approve",
+      "reject",
+      "ship",
+      "close"
+    ],
+    "edges": [
+      [
+        "order",
+        "review"
+      ],
+      [
+        "review",
+        "approve"
+      ],
+      [
+        "review",
+        "reject"
+      ],
+      [
+        "approve",
+        "ship"
+      ],
+      [
+        "ship",
+        "close"
+      ],
+      [
+        "reject",
+        "close"
+      ]
+    ]
+  },
+  "B10": {
+    "formula": "conditionalEndStock = observedEndStock + observedSupply*(multiplier-1)",
+    "at80": 72,
+    "at100": 86,
+    "at120": 100,
+    "assumption": "fixed sell-through and other flows; counterfactual, not forecast"
+  }
+}

@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {readFile,mkdir,mkdtemp,writeFile} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {planRuns,runOne} from './run-pilot.mjs';
+import {collectRuns} from './collect-runs.mjs';
+import {analyzePairs} from './benchmark-analytics.mjs';
+import {scoreRun} from './score.mjs';
+import {buildReview} from './blind-review.mjs';
+const read=async n=>JSON.parse(await readFile(new URL(n,import.meta.url),'utf8'));
+const schedule=await read('pilot-schedule.json'),base=(await read('baseline-packets.json')).packets,enh=(await read('enhanced-packets.json')).packets,rubric=await read('rubric.json');
+const plan=planRuns(schedule,base,enh,{limit:24});assert.equal(plan.length,24);
+const first=plan[0],second=plan.find(p=>p.model===first.model&&p.task===first.task&&p.rep===first.rep&&p.arm!==first.arm);assert.ok(second);
+const root=resolve(process.env.SMOKE_OUT||await mkdtemp(join(tmpdir(),'infograph-')));await mkdir(root,{recursive:true});const runs=join(root,'runs'),screens=join(root,'screens'),blind=join(root,'blind');await mkdir(runs);
+const records=[];
+for(const p of [first,second]){
+ const record=await runOne(p,{baseUrl:'https://mock.invalid/v1',key:'mock-only',model:'mock-model',out:runs,fetcher:async()=>new Response(JSON.stringify({model:'mock-model',usage:{prompt_tokens:100,completion_tokens:50},choices:[{finish_reason:'stop',message:{content:'<!doctype html><html><meta name="viewport" content="width=device-width"><body><h1>Synthetic smoke fixture</h1></body></html>'}}]}))});
+ assert.equal(record.status,'completed');assert.equal(record.inputTokens,100);records.push(record);
+}
+execFileSync(process.execPath,[new URL('evaluate-artifacts.mjs',import.meta.url).pathname,runs,screens],{stdio:'inherit',timeout:120000});
+const report=JSON.parse(await readFile(join(screens,'engineering-report.json'),'utf8'));assert.equal(report.results.length,2);assert.ok(report.results.every(r=>r.status==='observed-pass'&&r.cases.length===2));
+assert.equal(await buildReview(runs,screens,blind),2);
+const manifest=JSON.parse(await readFile(join(blind,'review','manifest.json'),'utf8'));assert.equal(manifest.items.length,2);assert.ok(manifest.items.every(x=>!('runId' in x)&&x.images.length===2));
+const normalized=records.map(r=>({...r,score:scoreRun({hardFails:[],applicable:Object.keys(rubric.weights),scores:Object.fromEntries(Object.keys(rubric.weights).map(k=>[k,r.arm==='full'?4:3]))},rubric).score}));
+const result=analyzePairs(schedule,collectRuns(schedule,normalized).records);assert.equal(result.metrics.score.meanDelta,20);assert.equal(result.metrics.score.n,1);
+await writeFile(join(root,'smoke-result.json'),JSON.stringify({synthetic:true,status:'passed',result},null,2));console.log('Synthetic integration smoke passed',root);

@@ -1,0 +1,24 @@
+name: Infograph distribution audit
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate tracked asset inventory
+        run: |
+          mkdir -p audit-output
+          node scripts/audit-distribution.mjs > audit-output/distribution.json
+          node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('audit-output/distribution.json')); if(r.revision!==process.env.GITHUB_SHA || r.scanned+r.excluded.length!==r.tracked) throw Error('inventory mismatch'); console.log(JSON.stringify({revision:r.revision,tracked:r.tracked,scanned:r.scanned,excluded:r.excluded,withUrls:r.rows.filter(x=>x.urls.length).length,withMarkers:r.rows.filter(x=>x.markers.length).length},null,2))"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distribution-inventory
+          path: audit-output/distribution.json
+          if-no-files-found: error

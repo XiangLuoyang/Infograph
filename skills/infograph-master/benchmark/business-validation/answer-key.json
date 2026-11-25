@@ -1,0 +1,42 @@
+{
+  "T01": [
+    "total revenue 270",
+    "total target 280",
+    "attainment 96.428571%",
+    "display coverage 85/107",
+    "TH WOS 17",
+    "VN attainment 80%"
+  ],
+  "T02": [
+    "P1 WOS 17; with inbound 19",
+    "P2 WOS 6",
+    "P3 zero denominator undefined",
+    "P4 missing sales undefined",
+    "no forecast claim"
+  ],
+  "T03": [
+    "retail buy price 800",
+    "retail gross profit 200",
+    "distributor buy price 680",
+    "distributor gross profit 120",
+    "distributor contribution 70"
+  ],
+  "T04": [
+    "A 83.75",
+    "B 80",
+    "C incomplete not ranked",
+    "B compliance 60"
+  ],
+  "T05": [
+    "6 nodes",
+    "7 directed edges",
+    "no invented transitions",
+    "all lane ownership preserved"
+  ],
+  "T06": [
+    "4 parts",
+    "at multiplier 2 z offsets 0,24,40,72",
+    "reset offsets 0,12,20,36",
+    "no invented parts"
+  ]
+}

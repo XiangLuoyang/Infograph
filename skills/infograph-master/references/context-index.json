@@ -5,8 +5,13 @@
     "core": [
       {
         "path": "references/acceptance.md",
-        "bytes": 848,
-        "sha": "c1387e0153935e7b113be30a1e0059c10d995da2"
+        "bytes": 1805,
+        "sha": "dabdf810560851f77ac12f51b7fcca0ebdd06bb2"
+      },
+      {
+        "path": "references/design-principles.md",
+        "bytes": 3949,
+        "sha": "7db6570004545e1f2d04ff967d0ac170b7406a28"
       }
     ],
     "standard": [

@@ -35,3 +35,6 @@ The real user assessed this iteration as a good improvement: reproduction of the
 5. Evaluate appearance and reference fidelity independently of interaction correctness. Do not mark this case golden until real user approval of aesthetics and independent functional checks.
 
 Use [fixture.json](fixture.json) and [REGRESSION.md](REGRESSION.md) for a future repeatable sanitized test. Original assets are not published; the sanitized fixture is a derivative, not an exact reconstruction of the private brief.
+
+## Later V4–V6 feedback
+See [PRINCIPLE-EVIDENCE.md](PRINCIPLE-EVIDENCE.md). V4 focal image was praised but peripheral styling regressed and the user reported unreadable text. V5/V6 targeted repairs; V6 received positive general owner feedback after viewing. Retain Partial Pass and freeze V6 as candidate baseline, not Golden Case. No controlled skill-effect or full host acceptance claim.

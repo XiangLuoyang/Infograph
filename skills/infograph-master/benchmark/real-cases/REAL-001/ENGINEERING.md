@@ -41,3 +41,6 @@ See [V5-REPAIR.md](V5-REPAIR.md). Approved focal asset held fixed; peripheral ch
 
 ## Phase 5c: V6 contextual focus
 See [V6-FOCUS.md](V6-FOCUS.md). V5 visual assets held fixed; desktop/mobile group and individual inspection added, with stage state kept separate from focus. Local layout, interaction and sampled active text checks passed. User approval and actual host remain pending.
+
+## Core principle consolidation
+Owner reported V6 much improved after viewing. Record positive feedback and candidate baseline without promoting to Golden Case. DP01–DP05 moved into main Skill execution and acceptance. See [PRINCIPLE-EVIDENCE.md](PRINCIPLE-EVIDENCE.md). Generalization remains untested.

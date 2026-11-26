@@ -38,6 +38,7 @@ jobs:
           node test-reconstruction-orchestrator.mjs
           node test-system-refactor.mjs
           node test-design-dna.mjs
+          node test-system-batch.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

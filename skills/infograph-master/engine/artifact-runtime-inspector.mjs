@@ -1,5 +1,6 @@
 // Trusted local standalone HTML only. Not a sandbox for hostile code.
-import {readFile} from 'node:fs/promises';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {validateRuntimePlan} from './reconstruction-runtime-core.mjs';
@@ -34,11 +35,12 @@ function collectProbe(el,kind){
  }
  return {status,partial,value};
 }
-export async function inspectRuntime(file,plan,{trusted=false}={}){
+export async function inspectRuntime(file,plan,{trusted=false,captureDir=null}={}){
  if(!trusted)throw Error('explicit trusted standalone HTML authorization required');
  validateRuntimePlan(plan);
  const bytes=await readFile(file);if(bytes.length>8*1024*1024)throw Error('input exceeds 8 MiB');
  const sourceRef='sha256:'+createHash('sha256').update(bytes).digest('hex');
+ if(captureDir)await mkdir(captureDir,{recursive:false});
  const browser=await chromium.launch();const states=[];
  try{for(const scenario of [{id:"baseline",steps:[]},...plan.scenarios]){
  const context=await browser.newContext({offline:true,serviceWorkers:'block',acceptDownloads:false,viewport:plan.viewport||{width:1440,height:900},reducedMotion:'reduce'});
@@ -49,6 +51,7 @@ export async function inspectRuntime(file,plan,{trusted=false}={}){
  await page.setContent(bytes.toString('utf8'),{waitUntil:'load',timeout:5000});
  for(const step of scenario.steps){const target=page.locator(step.selector);if(await target.count()!==1)throw Error("action target not unique");if(step.action==="click")await target.click();else await target.selectOption({value:step.value});if(step.waitFor)await page.locator(step.waitFor).waitFor({state:'visible',timeout:2500})}
  for(const p of plan.probes){let result;try{const loc=page.locator(p.selector),count=await loc.count();result=count!==1?{status:count===0?"missing":"ambiguous",partial:false,value:null}:await loc.evaluate(collectProbe,p.kind,{timeout:2500})}catch{result={status:"error",partial:false,value:null}}state.probes.push({...result,id:p.id,kind:p.kind,ref:sourceRef+"#"+scenario.id+"/"+p.id,selector:p.selector})}
+ if(captureDir){const png=await page.screenshot({animations:"disabled",timeout:5000});const digest=createHash("sha256").update(png).digest("hex");const filename=createHash("sha256").update(scenario.id).digest("hex").slice(0,24)+".png";await writeFile(join(captureDir,filename),png,{flag:"wx"});state.capture={filename,sha256:digest};}
  }catch(e){state.status="failed";state.failure=String(e).slice(0,500)}
  finally{if(errors.length||blocked.length)state.status=state.status==="failed"?"failed":"limited";await context.close();states.push(state)}
  }}finally{await browser.close()}

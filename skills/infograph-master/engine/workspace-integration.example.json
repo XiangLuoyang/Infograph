@@ -1,0 +1,1119 @@
+{
+  "revision": "integration-v1",
+  "contextRevision": "synthetic-pinned",
+  "scopePolicy": "pinned",
+  "story": {
+    "audience": "Synthetic fixture reader",
+    "purpose": "Explain a qualitative path restriction",
+    "thesis": "An illustrative control changes path availability; no measured flow.",
+    "spine": "Baseline to hypothetical restriction",
+    "evidence": [
+      {
+        "id": "E1",
+        "source": "Synthetic allocation demonstration; no measured forces or flow rates.",
+        "limitation": "Illustrative mechanism, no causal proof.",
+        "definition": "Synthetic qualitative evidence"
+      }
+    ],
+    "acts": [
+      {
+        "id": "A1",
+        "question": "What is the open path?",
+        "claim": "Illustrative open path.",
+        "before": "Knows control exists",
+        "after": "Understands open illustration",
+        "visual_task": "Inspect path",
+        "transition": "Compare states",
+        "interaction": "Inspect objects",
+        "evidence_ids": [
+          "E1"
+        ]
+      },
+      {
+        "id": "A2",
+        "question": "What does restriction mean?",
+        "claim": "Illustrative constrained path; no measured flow rate.",
+        "before": "Knows open path",
+        "after": "Understands restricted illustration",
+        "visual_task": "Inspect path",
+        "transition": "Compare states",
+        "interaction": "Inspect objects",
+        "evidence_ids": [
+          "E1"
+        ]
+      }
+    ]
+  },
+  "scene": {
+    "modePolicy": "shared-context",
+    "objects": [
+      {
+        "id": "valve",
+        "label": "valve",
+        "role": "Allocation control"
+      },
+      {
+        "id": "stream",
+        "label": "stream",
+        "role": "Path response"
+      },
+      {
+        "id": "indicator",
+        "label": "indicator",
+        "role": "State marker"
+      }
+    ],
+    "cues": [
+      {
+        "id": "A1",
+        "visible": [
+          "valve",
+          "stream",
+          "indicator"
+        ],
+        "focus": [
+          "valve"
+        ],
+        "nextDecision": "Review evidence",
+        "transitionReason": "Illustrate endpoint",
+        "staticReading": "Illustrative open path.",
+        "scopeLabel": "Synthetic qualitative mechanism",
+        "claimStatus": "hypothesis",
+        "transitionKind": "reveal",
+        "stateMeaning": "Qualitative mechanism only",
+        "holdMs": 6000
+      },
+      {
+        "id": "A2",
+        "visible": [
+          "valve",
+          "stream",
+          "indicator"
+        ],
+        "focus": [
+          "stream"
+        ],
+        "nextDecision": "Review evidence",
+        "transitionReason": "Illustrate endpoint",
+        "staticReading": "Illustrative constrained path; no measured flow rate.",
+        "scopeLabel": "Synthetic qualitative mechanism",
+        "claimStatus": "hypothesis",
+        "transitionKind": "state-change",
+        "stateMeaning": "Qualitative mechanism only",
+        "holdMs": 6000
+      }
+    ]
+  },
+  "choreography": {
+    "evidence": [
+      {
+        "id": "E1",
+        "source": "Synthetic allocation demonstration; no measured forces or flow rates.",
+        "limitation": "Illustrative mechanism, no causal proof."
+      }
+    ],
+    "objects": [
+      {
+        "id": "valve",
+        "role": "Allocation control",
+        "channels": [
+          {
+            "id": "angle",
+            "kind": "number",
+            "min": 0,
+            "max": 90,
+            "meaning": "Illustrative rotation",
+            "mapping": "qualitative",
+            "unit": "degrees"
+          }
+        ]
+      },
+      {
+        "id": "stream",
+        "role": "Path response",
+        "channels": [
+          {
+            "id": "opacity",
+            "kind": "number",
+            "min": 0,
+            "max": 1,
+            "meaning": "Illustrative visibility of path",
+            "mapping": "qualitative",
+            "unit": "ratio"
+          }
+        ]
+      },
+      {
+        "id": "indicator",
+        "role": "State marker",
+        "channels": [
+          {
+            "id": "status",
+            "kind": "enum",
+            "values": [
+              "normal",
+              "restricted"
+            ],
+            "meaning": "Illustrative state category",
+            "mapping": "qualitative",
+            "unit": "category"
+          }
+        ]
+      }
+    ],
+    "states": [
+      {
+        "id": "normal",
+        "reading": "Illustrative open path.",
+        "scope": "Synthetic qualitative mechanism",
+        "status": "hypothesis",
+        "evidenceIds": [
+          "E1"
+        ],
+        "values": {
+          "valve.angle": 0,
+          "stream.opacity": 1,
+          "indicator.status": "normal"
+        }
+      },
+      {
+        "id": "restricted",
+        "reading": "Illustrative constrained path; no measured flow rate.",
+        "scope": "Synthetic qualitative mechanism",
+        "status": "hypothesis",
+        "evidenceIds": [
+          "E1"
+        ],
+        "values": {
+          "valve.angle": 90,
+          "stream.opacity": 0.2,
+          "indicator.status": "restricted"
+        }
+      }
+    ],
+    "transitions": [
+      {
+        "id": "restrict",
+        "from": "normal",
+        "to": "restricted",
+        "trigger": "Manual scenario switch",
+        "semanticPayload": "Control changes, followed by illustrative path response; not a measured causal delay.",
+        "timingRationale": "Sequential staging emphasizes order, not physical timing.",
+        "staticAlternative": "Read the two endpoint diagrams and status.",
+        "evidenceIds": [
+          "E1"
+        ],
+        "tracks": [
+          {
+            "id": "turn",
+            "channel": "valve.angle",
+            "durationMs": 400,
+            "delayMs": 0,
+            "after": [],
+            "easing": "ease-in-out"
+          },
+          {
+            "id": "flow",
+            "channel": "stream.opacity",
+            "durationMs": 600,
+            "delayMs": 0,
+            "after": [
+              "turn"
+            ],
+            "easing": "linear"
+          },
+          {
+            "id": "status",
+            "channel": "indicator.status",
+            "durationMs": 0,
+            "delayMs": 0,
+            "after": [
+              "flow"
+            ],
+            "easing": "step-end"
+          }
+        ]
+      },
+      {
+        "id": "restore",
+        "from": "restricted",
+        "to": "normal",
+        "trigger": "Manual scenario switch",
+        "semanticPayload": "Control changes, followed by illustrative path response; not a measured causal delay.",
+        "timingRationale": "Sequential staging emphasizes order, not physical timing.",
+        "staticAlternative": "Read the two endpoint diagrams and status.",
+        "evidenceIds": [
+          "E1"
+        ],
+        "tracks": [
+          {
+            "id": "turn",
+            "channel": "valve.angle",
+            "durationMs": 400,
+            "delayMs": 0,
+            "after": [],
+            "easing": "ease-in-out"
+          },
+          {
+            "id": "flow",
+            "channel": "stream.opacity",
+            "durationMs": 600,
+            "delayMs": 0,
+            "after": [
+              "turn"
+            ],
+            "easing": "linear"
+          },
+          {
+            "id": "status",
+            "channel": "indicator.status",
+            "durationMs": 0,
+            "delayMs": 0,
+            "after": [
+              "flow"
+            ],
+            "easing": "step-end"
+          }
+        ]
+      }
+    ]
+  },
+  "concept": {
+    "intent": "Explain synthetic allocation mechanism",
+    "readerTask": "Understand path response",
+    "semanticRef": "synthetic:semantic",
+    "designDNARef": "synthetic:studio",
+    "selectionReason": "Industrial mechanism offers visible control and path; quantitative proof remains separate.",
+    "directions": [
+      {
+        "id": "plain",
+        "kind": "plain",
+        "silhouette": "chart",
+        "viewpoint": "front",
+        "composition": "two columns",
+        "palette": "neutral",
+        "materials": "none",
+        "lighting": "none",
+        "tradeoff": "precise but less embodied"
+      },
+      {
+        "id": "industrial",
+        "kind": "concept",
+        "silhouette": "valve and conduit",
+        "viewpoint": "three-quarter",
+        "composition": "left to right",
+        "palette": "teal bronze",
+        "materials": "metal and glass",
+        "lighting": "studio",
+        "tradeoff": "needs isolated components"
+      },
+      {
+        "id": "architectural",
+        "kind": "concept",
+        "silhouette": "sluice gate",
+        "viewpoint": "section",
+        "composition": "vertical",
+        "palette": "sand",
+        "materials": "stone and water",
+        "lighting": "daylight",
+        "tradeoff": "less compact"
+      }
+    ],
+    "selectedDirection": "industrial",
+    "source": {
+      "id": "study",
+      "origin": "authored",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "width": 1000,
+      "height": 600,
+      "permission": "local-only",
+      "ref": "synthetic placeholder hash; not a real image",
+      "rightsNote": "Synthetic test declaration only"
+    },
+    "semanticObjects": [
+      {
+        "id": "valve",
+        "meaning": "Allocation control"
+      },
+      {
+        "id": "stream",
+        "meaning": "Path response"
+      },
+      {
+        "id": "indicator",
+        "meaning": "State marker"
+      }
+    ],
+    "assets": [
+      {
+        "id": "plate",
+        "kind": "clean-plate",
+        "status": "ready",
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "production": "Synthetic declaration",
+        "sourceRef": "fixture",
+        "parentSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "ref": "fixture:plate",
+        "permission": "local-only"
+      },
+      {
+        "id": "part",
+        "kind": "isolated-part",
+        "status": "ready",
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "production": "Synthetic declaration",
+        "sourceRef": "fixture",
+        "parentSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "ref": "fixture:part",
+        "permission": "local-only"
+      },
+      {
+        "id": "mask",
+        "kind": "mask",
+        "status": "ready",
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "production": "Synthetic declaration",
+        "sourceRef": "fixture",
+        "parentSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "ref": "fixture:mask",
+        "permission": "local-only"
+      }
+    ],
+    "layers": [
+      {
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "essential": true,
+        "reason": "synthetic layer",
+        "occlusion": "authored order",
+        "material": "studio",
+        "lighting": "matched key",
+        "staticAlternative": "show endpoint",
+        "id": "base",
+        "depth": 0,
+        "label": "path",
+        "role": "entity",
+        "semanticIds": [
+          "stream"
+        ],
+        "backend": "raster",
+        "assetId": "plate",
+        "dynamic": false
+      },
+      {
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "essential": true,
+        "reason": "synthetic layer",
+        "occlusion": "authored order",
+        "material": "studio",
+        "lighting": "matched key",
+        "staticAlternative": "show endpoint",
+        "id": "wheel",
+        "depth": 1,
+        "label": "control",
+        "role": "entity",
+        "semanticIds": [
+          "valve"
+        ],
+        "backend": "raster",
+        "assetId": "part",
+        "dynamic": true,
+        "cleanPlateId": "plate",
+        "maskId": "mask",
+        "bakedOriginal": false,
+        "motionIntent": "rotate in plane",
+        "pivotOrDomain": "wheel center",
+        "motionMapping": "qualitative"
+      },
+      {
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "essential": true,
+        "reason": "synthetic layer",
+        "occlusion": "authored order",
+        "material": "studio",
+        "lighting": "matched key",
+        "staticAlternative": "show endpoint",
+        "id": "label",
+        "depth": 2,
+        "label": "scope and evidence",
+        "role": "label",
+        "semanticIds": [
+          "valve",
+          "stream",
+          "indicator"
+        ],
+        "backend": "html",
+        "dynamic": false
+      },
+      {
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "essential": true,
+        "reason": "synthetic layer",
+        "occlusion": "authored order",
+        "material": "studio",
+        "lighting": "matched key",
+        "staticAlternative": "show endpoint",
+        "id": "streamLayer",
+        "depth": 3,
+        "label": "Stream",
+        "role": "entity",
+        "semanticIds": [
+          "stream"
+        ],
+        "backend": "svg",
+        "dynamic": true,
+        "motionIntent": "Illustrative opacity",
+        "pivotOrDomain": "path",
+        "motionMapping": "qualitative"
+      },
+      {
+        "bounds": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "essential": true,
+        "reason": "synthetic layer",
+        "occlusion": "authored order",
+        "material": "studio",
+        "lighting": "matched key",
+        "staticAlternative": "show endpoint",
+        "id": "marker",
+        "depth": 4,
+        "label": "Marker",
+        "role": "entity",
+        "semanticIds": [
+          "indicator"
+        ],
+        "backend": "svg",
+        "dynamic": true,
+        "motionIntent": "Discrete state",
+        "pivotOrDomain": "marker",
+        "motionMapping": "qualitative"
+      }
+    ],
+    "scenes": [
+      {
+        "id": "overview",
+        "intent": "show all",
+        "visible": [
+          "base",
+          "wheel",
+          "label",
+          "streamLayer",
+          "marker"
+        ]
+      }
+    ],
+    "staticScene": "overview",
+    "links": [],
+    "conceptInspection": {
+      "conceptSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": "pass",
+      "ref": "synthetic declaration only; no actual image",
+      "reviewer": "synthetic tester"
+    }
+  },
+  "motion": {
+    "conceptSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "motionRevision": "m1",
+    "sceneRef": "synthetic:scene",
+    "inventory": [
+      {
+        "id": "frame",
+        "class": "static-structure",
+        "layerIds": [
+          "base"
+        ],
+        "essential": true,
+        "observedRef": "synthetic:frame",
+        "physicalRole": "support",
+        "staticAlternative": "fixed housing",
+        "expectations": [
+          {
+            "behavior": "none",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "rigid support"
+          }
+        ],
+        "implementations": []
+      },
+      {
+        "id": "valve",
+        "class": "rigid",
+        "layerIds": [
+          "wheel"
+        ],
+        "essential": true,
+        "observedRef": "synthetic:wheel",
+        "physicalRole": "allocation control",
+        "staticAlternative": "show endpoint",
+        "expectations": [
+          {
+            "behavior": "rotation",
+            "disposition": "required",
+            "intent": "business",
+            "reason": "illustrate control state"
+          },
+          {
+            "behavior": "translation",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "fixed mounting"
+          }
+        ],
+        "implementations": [
+          {
+            "id": "turn",
+            "behavior": "rotation",
+            "layerId": "wheel",
+            "renderer": "raster transform",
+            "geometryRule": "fixed planar pivot; preserve thickness",
+            "occlusionRule": "clip inside isolated part",
+            "reducedMotionRule": "endpoint",
+            "driver": "transition",
+            "channel": "valve.angle",
+            "mapping": "qualitative"
+          }
+        ]
+      },
+      {
+        "id": "label",
+        "class": "semantic-overlay",
+        "layerIds": [
+          "label"
+        ],
+        "essential": true,
+        "observedRef": "synthetic",
+        "physicalRole": "Static evidence",
+        "staticAlternative": "Read label",
+        "staticRationale": "Evidence stays visible",
+        "expectations": [
+          {
+            "behavior": "none",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "Always visible"
+          }
+        ],
+        "implementations": []
+      },
+      {
+        "id": "stream",
+        "class": "semantic-overlay",
+        "layerIds": [
+          "streamLayer"
+        ],
+        "essential": true,
+        "observedRef": "synthetic",
+        "physicalRole": "Qualitative indicator",
+        "staticAlternative": "Endpoint",
+        "expectations": [
+          {
+            "behavior": "reveal",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "Authored scenario indicator"
+          },
+          {
+            "behavior": "focus",
+            "disposition": "required",
+            "intent": "business",
+            "reason": "Authored scenario indicator"
+          },
+          {
+            "behavior": "value-step",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "Authored scenario indicator"
+          }
+        ],
+        "implementations": [
+          {
+            "id": "move",
+            "behavior": "focus",
+            "layerId": "streamLayer",
+            "renderer": "SVG",
+            "geometryRule": "Stable geometry",
+            "occlusionRule": "Retain readable overlay",
+            "reducedMotionRule": "Endpoint",
+            "driver": "transition",
+            "channel": "stream.opacity",
+            "mapping": "qualitative"
+          }
+        ]
+      },
+      {
+        "id": "indicator",
+        "class": "semantic-overlay",
+        "layerIds": [
+          "marker"
+        ],
+        "essential": true,
+        "observedRef": "synthetic",
+        "physicalRole": "Qualitative indicator",
+        "staticAlternative": "Endpoint",
+        "expectations": [
+          {
+            "behavior": "reveal",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "Authored scenario indicator"
+          },
+          {
+            "behavior": "focus",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "Authored scenario indicator"
+          },
+          {
+            "behavior": "value-step",
+            "disposition": "required",
+            "intent": "business",
+            "reason": "Authored scenario indicator"
+          }
+        ],
+        "implementations": [
+          {
+            "id": "move",
+            "behavior": "value-step",
+            "layerId": "marker",
+            "renderer": "SVG",
+            "geometryRule": "Stable geometry",
+            "occlusionRule": "Retain readable overlay",
+            "reducedMotionRule": "Endpoint",
+            "driver": "transition",
+            "channel": "indicator.status",
+            "mapping": "qualitative"
+          }
+        ]
+      }
+    ]
+  },
+  "atlas": {
+    "coverage": "complete-declared",
+    "discoveryRef": "synthetic atlas",
+    "inventory": [
+      {
+        "id": "ip",
+        "kind": "page",
+        "ref": "fixture"
+      },
+      {
+        "id": "it",
+        "kind": "page",
+        "ref": "fixture"
+      },
+      {
+        "id": "ia",
+        "kind": "slice",
+        "ref": "fixture"
+      },
+      {
+        "id": "ib",
+        "kind": "slice",
+        "ref": "fixture"
+      }
+    ],
+    "pages": [
+      {
+        "id": "analysis",
+        "title": "Analysis",
+        "task": "Inspect scenario",
+        "ref": "fixture",
+        "inventoryIds": [
+          "ip"
+        ]
+      },
+      {
+        "id": "ledger",
+        "title": "Ledger",
+        "task": "Lookup",
+        "ref": "fixture",
+        "inventoryIds": [
+          "it"
+        ]
+      }
+    ],
+    "slices": [
+      {
+        "id": "overview",
+        "pageId": "analysis",
+        "title": "Overview",
+        "task": "Read claim",
+        "ref": "fixture",
+        "inventoryIds": [
+          "ia"
+        ]
+      },
+      {
+        "id": "table",
+        "pageId": "ledger",
+        "title": "Table",
+        "task": "Lookup",
+        "ref": "fixture",
+        "inventoryIds": [
+          "ib"
+        ]
+      }
+    ]
+  },
+  "spatial": {
+    "revision": "layout-v1",
+    "atlasRef": "synthetic:atlas",
+    "designDNARef": "synthetic:dna",
+    "selectionReason": "Fixed on large screens; reflow when either dimension is small.",
+    "alternatives": [
+      {
+        "id": "fixed",
+        "mode": "fixed",
+        "tradeoff": "stable presentation, needs fit"
+      },
+      {
+        "id": "flow",
+        "mode": "flow",
+        "tradeoff": "readable narrow screen, more scrolling"
+      },
+      {
+        "id": "hybrid",
+        "mode": "hybrid",
+        "tradeoff": "fixed shell and scrolling workspace"
+      }
+    ],
+    "tiers": [
+      {
+        "id": "desktop",
+        "mode": "fixed",
+        "minWidth": 1100,
+        "minHeight": 700,
+        "reason": "presentation",
+        "gap": 12,
+        "padding": 16,
+        "shell": {
+          "header": 48,
+          "nav": 44,
+          "filters": 44
+        }
+      },
+      {
+        "id": "compact",
+        "mode": "hybrid",
+        "minWidth": 800,
+        "minHeight": 500,
+        "reason": "limited vertical room",
+        "gap": 12,
+        "padding": 12,
+        "shell": {
+          "header": 44,
+          "nav": 44,
+          "filters": 40
+        }
+      },
+      {
+        "id": "mobile",
+        "mode": "flow",
+        "minWidth": 0,
+        "minHeight": 0,
+        "reason": "natural reflow",
+        "gap": 12,
+        "padding": 12,
+        "shell": {
+          "header": 0,
+          "nav": 44,
+          "filters": 0
+        }
+      }
+    ],
+    "viewports": [
+      {
+        "id": "wide",
+        "width": 1440,
+        "height": 900,
+        "tierId": "desktop"
+      },
+      {
+        "id": "short",
+        "width": 1280,
+        "height": 600,
+        "tierId": "compact"
+      },
+      {
+        "id": "phone",
+        "width": 390,
+        "height": 844,
+        "tierId": "mobile"
+      }
+    ],
+    "pages": [
+      {
+        "id": "analysis",
+        "purpose": "presentation",
+        "returnPolicy": "remember slice",
+        "filterPolicy": "shared",
+        "sliceOrder": [
+          "overview"
+        ]
+      },
+      {
+        "id": "ledger",
+        "purpose": "lookup",
+        "returnPolicy": "remember slice",
+        "filterPolicy": "shared",
+        "sliceOrder": [
+          "table"
+        ]
+      }
+    ],
+    "slices": [
+      {
+        "id": "overview",
+        "claim": "Illustrative scenario",
+        "focusRegion": "hero",
+        "densityRationale": "one theme",
+        "preservationRef": "synthetic baseline",
+        "regions": [
+          {
+            "id": "hero",
+            "role": "hero",
+            "essential": true,
+            "task": "synthetic hero",
+            "microRule": "keep labels readable"
+          },
+          {
+            "id": "facts",
+            "role": "evidence",
+            "essential": true,
+            "task": "synthetic evidence",
+            "microRule": "keep labels readable"
+          }
+        ],
+        "readingOrder": [
+          "hero",
+          "facts"
+        ],
+        "variants": [
+          {
+            "id": "desktop",
+            "rows": [
+              [
+                "hero",
+                "facts"
+              ]
+            ],
+            "columns": [
+              2,
+              1
+            ],
+            "rowSizes": [
+              1
+            ],
+            "rationale": "synthetic task-led composition",
+            "scroll": {
+              "vertical": "none",
+              "regionId": null,
+              "horizontalRegions": [],
+              "reason": "lookup retains exact rows"
+            }
+          },
+          {
+            "id": "compact",
+            "rows": [
+              [
+                "hero"
+              ],
+              [
+                "facts"
+              ]
+            ],
+            "columns": [
+              1
+            ],
+            "rowSizes": [
+              "auto",
+              "auto"
+            ],
+            "rationale": "synthetic task-led composition",
+            "scroll": {
+              "vertical": "workspace",
+              "regionId": null,
+              "horizontalRegions": [],
+              "reason": "lookup retains exact rows"
+            }
+          },
+          {
+            "id": "mobile",
+            "rows": [
+              [
+                "hero"
+              ],
+              [
+                "facts"
+              ]
+            ],
+            "columns": [
+              1
+            ],
+            "rowSizes": [
+              "auto",
+              "auto"
+            ],
+            "rationale": "synthetic task-led composition",
+            "scroll": {
+              "vertical": "document",
+              "regionId": null,
+              "horizontalRegions": [],
+              "reason": "lookup retains exact rows"
+            }
+          }
+        ]
+      },
+      {
+        "id": "table",
+        "claim": "Exact lookup",
+        "focusRegion": "rows",
+        "densityRationale": "local lookup scroll",
+        "preservationRef": "synthetic baseline",
+        "regions": [
+          {
+            "id": "rows",
+            "role": "lookup",
+            "essential": true,
+            "task": "synthetic lookup",
+            "microRule": "keep labels readable"
+          }
+        ],
+        "readingOrder": [
+          "rows"
+        ],
+        "variants": [
+          {
+            "id": "desktop",
+            "rows": [
+              [
+                "rows"
+              ]
+            ],
+            "columns": [
+              1
+            ],
+            "rowSizes": [
+              1
+            ],
+            "rationale": "synthetic task-led composition",
+            "scroll": {
+              "vertical": "region",
+              "regionId": "rows",
+              "horizontalRegions": [
+                "rows"
+              ],
+              "reason": "lookup retains exact rows"
+            }
+          },
+          {
+            "id": "compact",
+            "rows": [
+              [
+                "rows"
+              ]
+            ],
+            "columns": [
+              1
+            ],
+            "rowSizes": [
+              "auto"
+            ],
+            "rationale": "synthetic task-led composition",
+            "scroll": {
+              "vertical": "workspace",
+              "regionId": null,
+              "horizontalRegions": [
+                "rows"
+              ],
+              "reason": "lookup retains exact rows"
+            }
+          },
+          {
+            "id": "mobile",
+            "rows": [
+              [
+                "rows"
+              ]
+            ],
+            "columns": [
+              1
+            ],
+            "rowSizes": [
+              "auto"
+            ],
+            "rationale": "synthetic task-led composition",
+            "scroll": {
+              "vertical": "document",
+              "regionId": null,
+              "horizontalRegions": [
+                "rows"
+              ],
+              "reason": "lookup retains exact rows"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "actBindings": {
+    "A1": "normal",
+    "A2": "restricted"
+  },
+  "sceneBindings": {
+    "A1": "overview",
+    "A2": "overview"
+  },
+  "routes": {
+    "director": {
+      "pageId": "analysis",
+      "sliceId": "overview"
+    },
+    "explorer": {
+      "pageId": "ledger",
+      "sliceId": "table"
+    }
+  }
+}

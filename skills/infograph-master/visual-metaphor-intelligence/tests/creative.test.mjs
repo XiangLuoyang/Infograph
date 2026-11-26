@@ -1,0 +1,41 @@
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import * as api from "../engine/creative.mjs";
+import {alignPerspective} from "../engine/exploration.mjs";
+const load=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),"utf8"));
+const objects=load("../ontology/objects.json"),ontology=load("../ontology/mechanisms.json"),{target,concept}=load("../benchmark/creative-fixture.json");
+function run(check,api,align,objects,ontology,target,concept){
+ const copy=x=>JSON.parse(JSON.stringify(x)),audit=c=>api.auditConcept(target,c,objects,ontology),mut=f=>{const c=copy(concept);f(c);return audit(c)};
+ check(audit(concept).eligibleForReview,"valid transform");
+ check(audit(concept).qualified.length===1,"generalization surfaced");
+ check(mut(c=>delete c.bindings[2].qualifierReview).issues.some(i=>i.code==="qualification-unreviewed"),"qualification required");
+ check(mut(c=>c.bindings.pop()).issues.some(i=>i.code==="essential-unmapped"),"missing edge");
+ check(mut(c=>[c.bindings[0].fromObject,c.bindings[0].toObject]=["s","b"]).issues.some(i=>i.code==="direction-or-identity"),"reverse mapping");
+ check(mut(c=>c.sceneObjects[0].anchors[0].nodeId="missing").issues.some(i=>i.code==="invalid-anchor"),"forged anchor");
+ check(mut(c=>c.sceneObjects.push({...c.sceneObjects[0],id:"clone"})).issues.some(i=>i.code==="duplicate-target-in-panel"),"duplicate target");
+ check(mut(c=>c.transitions[0].changedObjects=["ghost"]).issues.some(i=>i.code==="transition-unsafe"),"invalid state object");
+ check(mut(c=>c.transitions[0].quantitative=true).issues.some(i=>i.code==="transition-unsafe"),"uncalibrated motion");
+ check(mut(c=>c.quantitativeGeometry=true).issues.some(i=>i.code==="misleading-encoding"),"uncalibrated geometry");
+ check(mut(c=>c.counterexamples[0].status="unresolved").issues.some(i=>i.code==="counterexample-unresolved"),"counterexample gate");
+ check(mut(c=>c.evidenceKind="observed").issues.some(i=>i.code==="evidence-status"),"evidence promotion");
+ check(mut(c=>{c.operation="combine";c.sourceIds.push("thermostat")}).issues.some(i=>i.code==="hybrid-boundary"),"hybrid boundary");
+ check(mut(c=>{c.operation="juxtapose";c.sourceIds.push("thermostat")}).issues.some(i=>i.code==="juxtapose-panels"),"juxtapose separate panels");
+ const sub=copy(concept);sub.operation="substitute";sub.substitutions=[{objectId:"b",originalForm:"reaction wheel",replacementForm:"stylized flywheel",retainedFunction:"qualitative buffering",boundary:"not a physical equivalent",visualOnly:true}];check(audit(sub).eligibleForReview,"substitution candidate");
+ check(mut(c=>{c.operation="substitute";c.substitutions=[{objectId:"b",originalForm:"wheel",replacementForm:"plant",visualOnly:false}]}).issues.some(i=>i.code==="substitution-unsafe"),"unsafe substitution");
+ const rv=c=>({conceptId:c.id,revision:c.revision,reviewer:"synthetic",reviewerKind:"agent-self",ref:"synthetic",ratings:Object.fromEntries(["semanticFidelity","comprehension","visualPotential","styleFit","interactionFit","originality","feasibility"].map(k=>[k,{score:4,reason:"fixture"}])),sourceMechanismVerified:true,misleading:false,excessiveExplanation:false,styleConflict:false});
+ const alt=copy(sub);alt.id="wheel-sub";const cmp=api.compareConcepts(target,[concept,alt],objects,ontology,[rv(concept),rv(alt)]);check(cmp.comparisonReady&&cmp.eligibleIds.length===2,"comparison");
+ const bad=copy(alt);bad.quantitativeGeometry=true;const r=rv(bad);for(const a of Object.values(r.ratings))a.score=5;const c2=api.compareConcepts(target,[concept,bad],objects,ontology,[rv(concept),r]);check(c2.results[0].id===concept.id&&!c2.comparisonReady,"high score cannot override gate");
+ check(!api.compareConcepts(target,[concept],objects,ontology,[{...rv(concept),revision:0}]).results[0].eligible,"stale review");
+ check(!api.compareConcepts(target,[concept],objects,ontology,[{...rv(concept),misleading:true}]).results[0].eligible,"critic veto");
+ const aligned=align(target,objects,ontology);const routes=api.enumerateCreativeRoutes(target,aligned);check(routes.routes.some(x=>x.operation==="transform")&&routes.routes.every(x=>x.status==="authorship-required"),"route generation bounded and explicitly authored");
+ check(api.enumerateCreativeRoutes(target,aligned,{max:1}).routes.length===1,"route cap");
+ // Cross-source complement: thermostat regulates state, reaction wheel stores stock.
+ const t2={id:"joint",evidenceKind:"conceptual",evidenceRef:"synthetic:joint",nodes:[{id:"b",label:"buffer",role:"buffer"},{id:"s",label:"stock",role:"stock"},{id:"a",label:"active",role:"active"},{id:"out",label:"service",role:"state"}],edges:[{id:"j0",from:"b",predicate:"store",to:"s",essential:true},{id:"j1",from:"a",predicate:"support",to:"out",essential:true}]};
+ const a2=align(t2,objects,ontology);check(api.enumerateCreativeRoutes(t2,a2).routes.some(x=>x.operation==="combine"),"complementary sources");
+ const joint={...copy(concept),id:"joint-scene",targetId:t2.id,evidenceRef:t2.evidenceRef,operation:"combine",sourceIds:["reaction-wheel","failover"],integrationRationale:"two independent illustrative functions",hybridIsSchematic:true,sceneObjects:[["b","reaction-wheel","w"],["s","reaction-wheel","m"],["a","failover","p"],["out","failover","s"]].map(([id,sourceId,nodeId])=>({id,label:id,targetNode:id,panelId:"p",anchors:[{sourceId,nodeId}]})),bindings:[{targetEdge:"j0",sourceId:"reaction-wheel",sourceEdge:"e0",fromObject:"b",toObject:"s",interpretation:"buffer"},{targetEdge:"j1",sourceId:"failover",sourceEdge:"e0",fromObject:"a",toObject:"out",interpretation:"support"}]};
+ check(api.auditConcept(t2,joint,objects,ontology).eligibleForReview,"valid schematic combination");
+ const juxtapose=copy(joint);juxtapose.operation="juxtapose";juxtapose.panels.push({id:"q",label:"support"});juxtapose.sceneObjects.filter(x=>["a","out"].includes(x.id)).forEach(x=>x.panelId="q");check(api.auditConcept(t2,juxtapose,objects,ontology).eligibleForReview,"valid juxtaposition");
+ juxtapose.sceneObjects.find(x=>x.id==="out").panelId="p";check(api.auditConcept(t2,juxtapose,objects,ontology).issues.some(x=>x.code==="cross-panel-physical-edge"),"invalid cross-panel coupling");
+}
+run((ok,msg)=>assert.ok(ok,msg),api,alignPerspective,objects,ontology,target,concept);
+console.log("26 VMI creative assertions passed");

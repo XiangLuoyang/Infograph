@@ -1,0 +1,239 @@
+{
+  "target": {
+    "id": "buffer",
+    "evidenceRef": "synthetic:buffer",
+    "evidenceKind": "conceptual",
+    "nodes": [
+      {
+        "id": "b",
+        "label": "缓冲装置",
+        "role": "buffer"
+      },
+      {
+        "id": "s",
+        "label": "累积负担",
+        "role": "stock"
+      },
+      {
+        "id": "c",
+        "label": "业务状态",
+        "role": "state"
+      },
+      {
+        "id": "i",
+        "label": "干预措施",
+        "role": "actuator"
+      }
+    ],
+    "edges": [
+      {
+        "id": "t0",
+        "from": "b",
+        "predicate": "store",
+        "to": "s",
+        "essential": true
+      },
+      {
+        "id": "t1",
+        "from": "b",
+        "predicate": "regulate",
+        "to": "c",
+        "essential": true
+      },
+      {
+        "id": "t2",
+        "from": "i",
+        "predicate": "remove",
+        "to": "s",
+        "condition": "near-capacity",
+        "polarity": "negative",
+        "essential": true
+      }
+    ]
+  },
+  "concept": {
+    "id": "wheel-transform",
+    "revision": 1,
+    "targetId": "buffer",
+    "operation": "transform",
+    "intent": "explain limited buffering and relief",
+    "focalScene": "a reaction wheel with separate external relief",
+    "plainAlternative": "stock and intervention diagram",
+    "boundary": "angular momentum is not economic pressure",
+    "designDNARef": "synthetic:style",
+    "evidenceRef": "synthetic:buffer",
+    "evidenceKind": "conceptual",
+    "sourceIds": [
+      "reaction-wheel"
+    ],
+    "panels": [
+      {
+        "id": "p",
+        "label": "buffer system"
+      }
+    ],
+    "sceneObjects": [
+      {
+        "id": "b",
+        "label": "b",
+        "panelId": "p",
+        "targetNode": "b",
+        "anchors": [
+          {
+            "sourceId": "reaction-wheel",
+            "nodeId": "w"
+          }
+        ]
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "panelId": "p",
+        "targetNode": "s",
+        "anchors": [
+          {
+            "sourceId": "reaction-wheel",
+            "nodeId": "m"
+          }
+        ]
+      },
+      {
+        "id": "c",
+        "label": "c",
+        "panelId": "p",
+        "targetNode": "c",
+        "anchors": [
+          {
+            "sourceId": "reaction-wheel",
+            "nodeId": "a"
+          }
+        ]
+      },
+      {
+        "id": "i",
+        "label": "i",
+        "panelId": "p",
+        "targetNode": "i",
+        "anchors": [
+          {
+            "sourceId": "reaction-wheel",
+            "nodeId": "t"
+          }
+        ]
+      }
+    ],
+    "bindings": [
+      {
+        "targetEdge": "t0",
+        "sourceId": "reaction-wheel",
+        "sourceEdge": "e0",
+        "fromObject": "b",
+        "toObject": "s",
+        "interpretation": "qualitative relation"
+      },
+      {
+        "targetEdge": "t1",
+        "sourceId": "reaction-wheel",
+        "sourceEdge": "e1",
+        "fromObject": "b",
+        "toObject": "c",
+        "interpretation": "qualitative relation"
+      },
+      {
+        "targetEdge": "t2",
+        "sourceId": "reaction-wheel",
+        "sourceEdge": "e2",
+        "fromObject": "i",
+        "toObject": "s",
+        "interpretation": "qualitative relation",
+        "qualifierReview": {
+          "status": "accepted",
+          "reason": "unloading is a restricted case of removal in near-capacity scenario",
+          "evidenceRef": "synthetic:source-review"
+        }
+      }
+    ],
+    "states": [
+      {
+        "id": "normal",
+        "label": "buffer available",
+        "evidenceKind": "conceptual",
+        "evidenceRef": "synthetic:buffer"
+      },
+      {
+        "id": "relief",
+        "label": "relief applied",
+        "evidenceKind": "conceptual",
+        "evidenceRef": "synthetic:buffer"
+      }
+    ],
+    "transitions": [
+      {
+        "from": "normal",
+        "to": "relief",
+        "changedObjects": [
+          "s",
+          "i"
+        ],
+        "trigger": "illustrative near-capacity scenario",
+        "meaning": "relieve accumulated burden",
+        "staticAlternative": "two labeled static states",
+        "quantitative": false
+      }
+    ],
+    "quantitativeGeometry": false,
+    "unsupportedCausality": false,
+    "qualitativeLabel": true,
+    "stateDisclaimer": "not a measured state",
+    "counterexamples": [
+      {
+        "scenario": "no external relief available",
+        "failure": "buffer cannot be assumed to unload",
+        "mitigation": "show intervention as conditional",
+        "evidenceRef": "synthetic:buffer",
+        "status": "mitigated"
+      }
+    ]
+  },
+  "review": {
+    "conceptId": "wheel-transform",
+    "revision": 1,
+    "reviewer": "synthetic test",
+    "reviewerKind": "agent-self",
+    "ref": "synthetic rubric fixture",
+    "ratings": {
+      "semanticFidelity": {
+        "score": 4,
+        "reason": "synthetic rating for gate test"
+      },
+      "comprehension": {
+        "score": 4,
+        "reason": "synthetic rating for gate test"
+      },
+      "visualPotential": {
+        "score": 4,
+        "reason": "synthetic rating for gate test"
+      },
+      "styleFit": {
+        "score": 4,
+        "reason": "synthetic rating for gate test"
+      },
+      "interactionFit": {
+        "score": 4,
+        "reason": "synthetic rating for gate test"
+      },
+      "originality": {
+        "score": 4,
+        "reason": "synthetic rating for gate test"
+      },
+      "feasibility": {
+        "score": 4,
+        "reason": "synthetic rating for gate test"
+      }
+    },
+    "sourceMechanismVerified": true,
+    "misleading": false,
+    "excessiveExplanation": false,
+    "styleConflict": false
+  }
+}

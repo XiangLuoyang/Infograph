@@ -1,0 +1,118 @@
+{
+  "story": {
+    "audience": "Operations team",
+    "purpose": "Review synthetic resource allocation",
+    "thesis": "Different allocations yield different contribution scenarios; causal effects unknown.",
+    "spine": "Evidence to decision",
+    "evidence": [
+      {
+        "id": "E1",
+        "source": "Synthetic revenue 100, cost 60, expense 25",
+        "definition": "Same fictional period, arbitrary units",
+        "limitation": "Accounting identity, not causal proof"
+      },
+      {
+        "id": "E2",
+        "source": "Synthetic alternative expense 20; other inputs fixed",
+        "definition": "Scenario only",
+        "limitation": "No behavioral response model"
+      }
+    ],
+    "acts": [
+      {
+        "id": "A1",
+        "question": "What remains?",
+        "claim": "Contribution is 15 in the synthetic baseline.",
+        "before": "Knows revenue",
+        "after": "Knows baseline contribution",
+        "visual_task": "Trace accounting identity",
+        "transition": "Establish baseline",
+        "interaction": "Inspect cost or expense",
+        "evidence_ids": [
+          "E1"
+        ]
+      },
+      {
+        "id": "A2",
+        "question": "What if expense changes?",
+        "claim": "Holding other inputs fixed, contribution becomes 20.",
+        "before": "Knows baseline contribution",
+        "after": "Understands conditional scenario",
+        "visual_task": "Compare scenario",
+        "transition": "Isolate assumption",
+        "interaction": "Inspect scenario assumptions",
+        "evidence_ids": [
+          "E1",
+          "E2"
+        ]
+      }
+    ]
+  },
+  "scene": {
+    "modePolicy": "shared-context",
+    "objects": [
+      {
+        "id": "input",
+        "label": "Revenue",
+        "role": "input"
+      },
+      {
+        "id": "cost",
+        "label": "Cost",
+        "role": "deduction"
+      },
+      {
+        "id": "expense",
+        "label": "Expense",
+        "role": "deduction"
+      },
+      {
+        "id": "net",
+        "label": "Contribution",
+        "role": "output"
+      }
+    ],
+    "cues": [
+      {
+        "id": "A1",
+        "visible": [
+          "input",
+          "cost",
+          "expense",
+          "net"
+        ],
+        "focus": [
+          "net"
+        ],
+        "nextDecision": "Consider expense sensitivity",
+        "transitionReason": "Establish evidence",
+        "staticReading": "100 − 60 − 25 = 15",
+        "scopeLabel": "Synthetic baseline",
+        "claimStatus": "observation",
+        "transitionKind": "reveal",
+        "holdMs": 6000
+      },
+      {
+        "id": "A2",
+        "visible": [
+          "input",
+          "cost",
+          "expense",
+          "net"
+        ],
+        "focus": [
+          "expense",
+          "net"
+        ],
+        "nextDecision": "Validate behavioral response before action",
+        "transitionReason": "Compare conditional scenario",
+        "staticReading": "100 − 60 − 20 = 20; all else fixed",
+        "scopeLabel": "Synthetic scenario",
+        "claimStatus": "scenario",
+        "transitionKind": "state-change",
+        "stateMeaning": "Expense assumption changes, not measured physical flow",
+        "holdMs": 7000
+      }
+    ]
+  }
+}

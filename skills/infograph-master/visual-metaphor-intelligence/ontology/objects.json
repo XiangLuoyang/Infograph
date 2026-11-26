@@ -443,5 +443,368 @@
     "limits": [
       "Replacement may fail or be delayed; reliability requires assumptions about failure and switching, not just number of components."
     ]
+  },
+  {
+    "id": "reaction-wheel",
+    "name": "航天器反作用轮",
+    "domain": "astronomy",
+    "source": {
+      "url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "claim": "Reaction wheels store angular momentum and produce torque; external torques can desaturate them.",
+      "review": "Organization/publisher search excerpt inspected 2026-11-26; graph is authored abstraction."
+    },
+    "nodes": [
+      {
+        "id": "w",
+        "label": "反作用轮",
+        "role": "buffer"
+      },
+      {
+        "id": "m",
+        "label": "角动量",
+        "role": "stock"
+      },
+      {
+        "id": "a",
+        "label": "姿态",
+        "role": "state"
+      },
+      {
+        "id": "t",
+        "label": "外力矩装置",
+        "role": "actuator"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "from": "w",
+        "predicate": "store",
+        "to": "m"
+      },
+      {
+        "id": "e1",
+        "from": "w",
+        "predicate": "regulate",
+        "to": "a"
+      },
+      {
+        "id": "e2",
+        "from": "t",
+        "predicate": "unload",
+        "to": "m",
+        "condition": "near-capacity",
+        "polarity": "negative"
+      }
+    ],
+    "limits": [
+      "Conserved angular momentum has sign and axis; business quantities need not obey these laws."
+    ]
+  },
+  {
+    "id": "competitive-enzyme",
+    "name": "酶竞争性抑制",
+    "domain": "biochemistry",
+    "source": {
+      "url": "https://openstax.org/books/biology-2e/pages/6-5-enzymes",
+      "claim": "Inhibitor competes with substrate for binding at the active site.",
+      "review": "Organization/publisher search excerpt inspected 2026-11-26; graph is authored abstraction."
+    },
+    "nodes": [
+      {
+        "id": "i",
+        "label": "抑制剂",
+        "role": "competitor"
+      },
+      {
+        "id": "s",
+        "label": "底物",
+        "role": "competitor"
+      },
+      {
+        "id": "a",
+        "label": "活性位点",
+        "role": "shared-resource"
+      },
+      {
+        "id": "r",
+        "label": "反应活性",
+        "role": "state"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "from": "i",
+        "predicate": "compete",
+        "to": "s",
+        "condition": "shared-capacity"
+      },
+      {
+        "id": "e1",
+        "from": "i",
+        "predicate": "occupy",
+        "to": "a"
+      },
+      {
+        "id": "e2",
+        "from": "s",
+        "predicate": "occupy",
+        "to": "a"
+      },
+      {
+        "id": "e3",
+        "from": "i",
+        "predicate": "inhibit",
+        "to": "r",
+        "condition": "shared-capacity",
+        "polarity": "negative"
+      }
+    ],
+    "limits": [
+      "Competition depends on kinetics and concentrations; no intentional rivalry or guaranteed complete blockage."
+    ]
+  },
+  {
+    "id": "oxbow-cutoff",
+    "name": "河流曲流截弯",
+    "domain": "geoscience",
+    "source": {
+      "url": "https://eros.usgs.gov/earthshots/oxbow-lakes",
+      "claim": "A meandering river can cut off a bend and flow along a straighter route.",
+      "review": "Organization/publisher search excerpt inspected 2026-11-26; graph is authored abstraction."
+    },
+    "nodes": [
+      {
+        "id": "r",
+        "label": "河流",
+        "role": "flow"
+      },
+      {
+        "id": "b",
+        "label": "旧曲流",
+        "role": "route"
+      },
+      {
+        "id": "n",
+        "label": "新河道",
+        "role": "route"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "from": "r",
+        "predicate": "bypass",
+        "to": "b",
+        "condition": "cutoff"
+      },
+      {
+        "id": "e1",
+        "from": "r",
+        "predicate": "transfer",
+        "to": "n",
+        "condition": "cutoff"
+      }
+    ],
+    "limits": [
+      "Geomorphic processes differ from voluntary business decisions; shorter routes need not improve efficiency."
+    ]
+  },
+  {
+    "id": "resonant-drive",
+    "name": "受迫振动共振",
+    "domain": "physics",
+    "source": {
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-6-forced-oscillations",
+      "claim": "Response increases near natural frequency and depends on damping.",
+      "review": "Organization/publisher search excerpt inspected 2026-11-26; graph is authored abstraction."
+    },
+    "nodes": [
+      {
+        "id": "d",
+        "label": "周期激励",
+        "role": "actuator"
+      },
+      {
+        "id": "o",
+        "label": "振荡幅度",
+        "role": "state"
+      },
+      {
+        "id": "m",
+        "label": "阻尼机制",
+        "role": "actuator"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "from": "d",
+        "predicate": "drive",
+        "to": "o"
+      },
+      {
+        "id": "e1",
+        "from": "d",
+        "predicate": "amplify",
+        "to": "o",
+        "condition": "frequency-match",
+        "polarity": "positive"
+      },
+      {
+        "id": "e2",
+        "from": "m",
+        "predicate": "damp",
+        "to": "o",
+        "condition": "energy-dissipation",
+        "polarity": "negative"
+      }
+    ],
+    "limits": [
+      "Requires frequency alignment; generic positive feedback is not resonance."
+    ]
+  },
+  {
+    "id": "roundabout",
+    "name": "环岛入口让行",
+    "domain": "transport",
+    "source": {
+      "url": "https://highways.fhwa.dot.gov/safety/proven-safety-countermeasures/roundabouts",
+      "claim": "Entry yield gives circulating traffic priority.",
+      "review": "Organization/publisher search excerpt inspected 2026-11-26; graph is authored abstraction."
+    },
+    "nodes": [
+      {
+        "id": "c",
+        "label": "让行规则",
+        "role": "controller"
+      },
+      {
+        "id": "e",
+        "label": "入口车流",
+        "role": "flow"
+      },
+      {
+        "id": "r",
+        "label": "环岛车流",
+        "role": "flow"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "from": "c",
+        "predicate": "prioritize",
+        "to": "r",
+        "condition": "entry-yield"
+      },
+      {
+        "id": "e1",
+        "from": "c",
+        "predicate": "regulate",
+        "to": "e",
+        "condition": "entry-yield"
+      },
+      {
+        "id": "e2",
+        "from": "e",
+        "predicate": "converge",
+        "to": "r"
+      }
+    ],
+    "limits": [
+      "Priority and geometry do not guarantee no queues."
+    ]
+  },
+  {
+    "id": "failover",
+    "name": "自动故障切换",
+    "domain": "computing",
+    "source": {
+      "url": "https://csrc.nist.gov/glossary/term/failover",
+      "claim": "A redundant or standby system automatically takes over following failure.",
+      "review": "Organization/publisher search excerpt inspected 2026-11-26; graph is authored abstraction."
+    },
+    "nodes": [
+      {
+        "id": "p",
+        "label": "主系统",
+        "role": "active"
+      },
+      {
+        "id": "b",
+        "label": "备用系统",
+        "role": "standby"
+      },
+      {
+        "id": "s",
+        "label": "服务",
+        "role": "state"
+      },
+      {
+        "id": "c",
+        "label": "切换逻辑",
+        "role": "controller"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "from": "p",
+        "predicate": "support",
+        "to": "s"
+      },
+      {
+        "id": "e1",
+        "from": "b",
+        "predicate": "substitute",
+        "to": "p",
+        "condition": "primary-failure"
+      },
+      {
+        "id": "e2",
+        "from": "c",
+        "predicate": "switch",
+        "to": "b",
+        "condition": "primary-failure"
+      }
+    ],
+    "limits": [
+      "Detection, synchronization and common-mode faults affect recovery."
+    ]
+  },
+  {
+    "id": "forest-fuel-treatment",
+    "name": "森林可燃物治理",
+    "domain": "forestry",
+    "source": {
+      "url": "https://research.fs.usda.gov/treesearch/36541",
+      "claim": "Fuel treatments reduce surface fuel and modify crown characteristics to address fire behavior.",
+      "review": "Organization/publisher search excerpt inspected 2026-11-26; graph is authored abstraction."
+    },
+    "nodes": [
+      {
+        "id": "t",
+        "label": "治理措施",
+        "role": "actuator"
+      },
+      {
+        "id": "f",
+        "label": "地表可燃物",
+        "role": "stock"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e0",
+        "from": "t",
+        "predicate": "remove",
+        "to": "f"
+      }
+    ],
+    "limits": [
+      "Risk depends on weather, terrain and fuel structure; removing resources is not universally helpful."
+    ]
   }
 ]

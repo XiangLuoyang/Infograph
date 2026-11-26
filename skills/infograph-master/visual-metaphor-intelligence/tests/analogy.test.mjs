@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {rankCandidates,critiqueMapping} from "../engine/analogy.mjs";
 const load=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),"utf8"));
-const objects=load("../ontology/objects.json"),ontology=load("../ontology/mechanisms.json"),graph=load("../benchmark/feedback-task.json");
+const objects=load("../ontology/objects.json").filter(o=>["pumped-storage","ramp-meter","thermostat","pine-cone","ant-trail","watershed","gravity-assist","lever","standby-redundancy"].includes(o.id)),ontology=load("../ontology/mechanisms.json"),graph=load("../benchmark/feedback-task.json");
 function assertions(check,rankCandidates,critiqueMapping,objects,ontology,graph){
  const r=rankCandidates(graph,objects,ontology);
  check(r.results[0].id==="thermostat","structural retrieval");

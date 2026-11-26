@@ -1,0 +1,196 @@
+{
+  "competition": {
+    "id": "competition",
+    "nodes": [
+      {
+        "id": "a",
+        "label": "a",
+        "role": "competitor"
+      },
+      {
+        "id": "b",
+        "label": "b",
+        "role": "competitor"
+      },
+      {
+        "id": "site",
+        "label": "site",
+        "role": "shared-resource"
+      },
+      {
+        "id": "out",
+        "label": "out",
+        "role": "state"
+      }
+    ],
+    "edges": [
+      {
+        "id": "t0",
+        "from": "a",
+        "predicate": "compete",
+        "to": "b",
+        "essential": true,
+        "condition": "shared-capacity"
+      },
+      {
+        "id": "t1",
+        "from": "a",
+        "predicate": "occupy",
+        "to": "site",
+        "essential": true
+      },
+      {
+        "id": "t2",
+        "from": "b",
+        "predicate": "occupy",
+        "to": "site",
+        "essential": true
+      },
+      {
+        "id": "t3",
+        "from": "a",
+        "predicate": "restrict",
+        "to": "out",
+        "essential": true,
+        "condition": "shared-capacity",
+        "polarity": "negative"
+      }
+    ],
+    "rationale": "shared capacity contention",
+    "evidenceRef": "synthetic fixture",
+    "evidenceKind": "conceptual"
+  },
+  "buffer": {
+    "id": "buffer",
+    "nodes": [
+      {
+        "id": "b",
+        "label": "b",
+        "role": "buffer"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "role": "stock"
+      },
+      {
+        "id": "c",
+        "label": "c",
+        "role": "state"
+      },
+      {
+        "id": "i",
+        "label": "i",
+        "role": "actuator"
+      }
+    ],
+    "edges": [
+      {
+        "id": "t0",
+        "from": "b",
+        "predicate": "store",
+        "to": "s",
+        "essential": true
+      },
+      {
+        "id": "t1",
+        "from": "b",
+        "predicate": "regulate",
+        "to": "c",
+        "essential": true
+      },
+      {
+        "id": "t2",
+        "from": "i",
+        "predicate": "remove",
+        "to": "s",
+        "essential": true,
+        "condition": "near-capacity",
+        "polarity": "negative"
+      }
+    ],
+    "rationale": "absorption and relief",
+    "evidenceRef": "synthetic fixture",
+    "evidenceKind": "conceptual"
+  },
+  "fallback": {
+    "id": "fallback",
+    "nodes": [
+      {
+        "id": "a",
+        "label": "a",
+        "role": "active"
+      },
+      {
+        "id": "b",
+        "label": "b",
+        "role": "standby"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "role": "state"
+      },
+      {
+        "id": "c",
+        "label": "c",
+        "role": "controller"
+      }
+    ],
+    "edges": [
+      {
+        "id": "t0",
+        "from": "a",
+        "predicate": "support",
+        "to": "s",
+        "essential": true
+      },
+      {
+        "id": "t1",
+        "from": "b",
+        "predicate": "substitute",
+        "to": "a",
+        "essential": true,
+        "condition": "primary-failure"
+      },
+      {
+        "id": "t2",
+        "from": "c",
+        "predicate": "switch",
+        "to": "b",
+        "essential": true,
+        "condition": "primary-failure"
+      }
+    ],
+    "rationale": "service continuity",
+    "evidenceRef": "synthetic fixture",
+    "evidenceKind": "conceptual"
+  },
+  "broad": {
+    "id": "broad",
+    "nodes": [
+      {
+        "id": "a",
+        "label": "a",
+        "role": "actuator"
+      },
+      {
+        "id": "b",
+        "label": "b",
+        "role": "state"
+      }
+    ],
+    "edges": [
+      {
+        "id": "t0",
+        "from": "a",
+        "predicate": "regulate",
+        "to": "b",
+        "essential": true
+      }
+    ],
+    "rationale": "general regulation",
+    "evidenceRef": "synthetic fixture",
+    "evidenceKind": "conceptual"
+  }
+}

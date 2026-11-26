@@ -1,0 +1,40 @@
+import {readFileSync} from "node:fs";
+import {compileChoreography,choreographyInitial,choreographyFrame,choreographyGo,choreographySettle,directorChoreographyRequest} from "./interaction-choreography.mjs";
+const spec=JSON.parse(readFileSync(new URL("./interaction-choreography.example.json",import.meta.url),"utf8"));
+function testChoreography(spec,compileChoreography,choreographyInitial,choreographyFrame,choreographyGo,choreographySettle,directorChoreographyRequest){
+ const passed=[],ok=(v,s)=>{if(!v)throw Error(s);passed.push(s)},throws=(fn,s)=>{let caught=false;try{fn()}catch{caught=true}ok(caught,s)},copy=x=>JSON.parse(JSON.stringify(x));
+ const p=compileChoreography(spec);
+ ok(p.transitions[0].tracks[1].startMs===400&&p.transitions[0].durationMs===1000,"dependency timing compiled");
+ let bad=copy(spec);bad.transitions[0].tracks[0].after=["flow"];throws(()=>compileChoreography(bad),"cycles rejected");
+ bad=copy(spec);bad.transitions[0].tracks.pop();throws(()=>compileChoreography(bad),"changed channels must all be authored");
+ bad=copy(spec);bad.states[0].values["valve.angle"]=100;throws(()=>compileChoreography(bad),"bounds enforced");
+ bad=copy(spec);bad.transitions[0].tracks[2].easing="linear";throws(()=>compileChoreography(bad),"enum cannot interpolate");
+ bad=copy(spec);bad.objects[0].channels[0].mapping="calibrated";throws(()=>compileChoreography(bad),"calibrated channel requires evidence");
+ bad.objects[0].channels[0].evidenceId="E1";bad.objects[0].channels[0].calibration="Synthetic mapping";throws(()=>compileChoreography(bad),"calibrated values cannot interpolate");
+ bad=copy(spec);bad.transitions[0].evidenceIds=["unknown"];throws(()=>compileChoreography(bad),"unknown transition evidence rejected");
+ let s=choreographyInitial(p,"normal","context-1");
+ s=choreographyGo(p,s,{to:"restricted",nowMs:100});const oldEpoch=s.epoch;
+ let f=choreographyFrame(p,s,300);
+ ok(f.moving&&f.visualValues["valve.angle"]===45&&f.visualValues["stream.opacity"]===1,"first phase changes only valve");
+ ok(f.semantic.status==="hypothesis"&&f.semantic.reading.includes("constrained")&&f.transition.evidence.length===1,"target evidence and transitional visual state separated");
+ f=choreographyFrame(p,s,800);ok(Math.abs(f.visualValues["stream.opacity"]-0.6)<1e-8&&f.visualValues["valve.angle"]===90,"second phase changes stream");
+ const before=choreographyFrame(p,s,800).visualValues;
+ s=choreographyGo(p,s,{to:"normal",nowMs:800});f=choreographyFrame(p,s,800);
+ ok(f.visualValues["valve.angle"]===before["valve.angle"]&&f.visualValues["stream.opacity"]===before["stream.opacity"],"reverse retargets from current visual frame");
+ ok(choreographySettle(p,s,{epoch:oldEpoch,nowMs:2000})===s,"stale settle cannot cancel new animation");
+ ok(choreographySettle(p,s,{epoch:s.epoch,nowMs:1000})===s,"premature settle ignored");
+ s=choreographySettle(p,s,{epoch:s.epoch,nowMs:1800});ok(!s.active&&choreographyFrame(p,s,1800).visualValues["stream.opacity"]===1,"endpoint exact");
+ s=choreographyGo(p,s,{to:"restricted",nowMs:1900,reducedMotion:true});ok(!s.active&&choreographyFrame(p,s,1900).visualValues["valve.angle"]===90,"reduced motion cuts");
+ s=choreographyGo(p,s,{to:"normal",nowMs:2000,reducedMotion:false,contextRevision:"context-2"});ok(!s.active&&s.contextRevision==="context-2","scope change invalidates motion");
+ const v={actId:"A1",mode:"director",contextRevision:"c1",transition:"reveal",inspection:null};
+ ok(directorChoreographyRequest(v,{...v,inspection:"valve"},{A1:"normal"},0)===null,"inspection doesn't drive narrative animation");
+ ok(directorChoreographyRequest(v,{...v,actId:"A2",transition:"state-change"},{A1:"normal",A2:"restricted"},1).to==="restricted","director act mapped to endpoint");
+ ok(directorChoreographyRequest(v,{...v,contextRevision:"c2"},{A1:"normal"},2).cut,"director context change cuts");
+ bad=copy(spec);bad.transitions.pop();const one=compileChoreography(bad);let q=choreographyInitial(one,"restricted");q=choreographyGo(one,q,{to:"normal",nowMs:0});ok(!q.active,"unauthored reverse cuts rather than inventing motion");
+ // Three-state partial retarget: new edge cannot account for transient channels outside it.
+ bad=copy(spec);const mid=copy(bad.states[1]);mid.id="partial";mid.values["indicator.status"]="normal";bad.states.push(mid);
+ bad.transitions.push({id:"partialTransition",from:"restricted",to:"partial",trigger:"Switch",semanticPayload:"Marker only",timingRationale:"Explicit marker change",staticAlternative:"Show partial endpoint",evidenceIds:["E1"],tracks:[{id:"marker",channel:"indicator.status",durationMs:100,delayMs:0,after:[],easing:"step-end"}]});
+ const pp=compileChoreography(bad);let r=choreographyInitial(pp,"normal");r=choreographyGo(pp,r,{to:"restricted",nowMs:0});r=choreographyGo(pp,r,{to:"partial",nowMs:200});ok(!r.active&&choreographyFrame(pp,r,200).visualValues["valve.angle"]===90,"incomplete interrupted retarget cuts safely");
+ return passed;
+}
+for(const name of testChoreography(spec,compileChoreography,choreographyInitial,choreographyFrame,choreographyGo,choreographySettle,directorChoreographyRequest)) console.log('PASS',name);

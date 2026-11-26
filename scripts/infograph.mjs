@@ -4,7 +4,7 @@ import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-import {productionStages,productionEngines,dependencies,checkDependencies,evaluateProduction,productionStatus} from './execution-controller.mjs';
+import {productionStages,productionEngines,dependencies,additionalDependencies,checkDependencies,evaluateProduction,productionStatus} from './execution-controller.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const vmi=join(root,'skills/infograph-master/visual-metaphor-intelligence');
@@ -19,7 +19,7 @@ const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const stageNames=['vmi-explore','vmi-packet',...productionStages];
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','skills/manifest.json'];
+ const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -75,6 +75,7 @@ async function checkStage(dir,stage,run){
   assert(same(parsed.perspectives,prior.input.perspectives)&&r.discoveryOutputSha256===prior.receipt.outputSha256,'packet/discovery mismatch');
  }
  const prior={};for(const dep of dependencies(stage,run))prior[dep]=await checkStage(dir,dep,run);
+ for(const dep of additionalDependencies(stage,run,prior))prior[dep]=await checkStage(dir,dep,run);
  if(run.workflow==='production'){checkDependencies(stage,parsed,run,prior);assert(same(r.dependencies,Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,v.receipt.outputSha256]))),'dependency receipt mismatch');}
  const replay=encode(await evaluate(stage,parsed,run,prior));
  assert(hash(replay)===r.outputSha256,'engine replay differs');
@@ -97,6 +98,7 @@ async function runStage(dir,stage,inputPath){
    receipt.discoveryOutputSha256=prior.receipt.outputSha256;
   }
   const prior={};for(const dep of dependencies(stage,run))prior[dep]=await checkStage(dir,dep,run);
+ for(const dep of additionalDependencies(stage,run,prior))prior[dep]=await checkStage(dir,dep,run);
  if(run.workflow==='production'){checkDependencies(stage,parsed,run,prior);receipt.dependencies=Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,v.receipt.outputSha256]));}
  const output=await evaluate(stage,parsed,run,prior),bytes=encode(output);
   writeFileSync(join(sd,'output.json'),bytes,{flag:'wx'});

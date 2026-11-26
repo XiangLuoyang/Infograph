@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {evaluateSceneBatch,hasVmiPreview} from './execution-vmi.mjs';
+import {checkDelivery,prepareHandoff,verifyHandoff} from './execution-delivery.mjs';
 import {critiqueTask,submitCritique,critiqueStatus} from './execution-critique.mjs';
 import {bindArtifact,browserReview,artifactStatus} from './execution-artifact.mjs';
 import {authoringTask,hydrateInput} from './execution-authoring.mjs';
@@ -24,7 +25,7 @@ const stageNames=['reconstruction-prepare','reconstruction-plan','production-pla
 const rules=()=>json(join(root,'skills/infograph-master/references/execution-gates.json'));
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','skills/manifest.json'];
+ const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -220,6 +221,15 @@ async function main(){
   const dir=resolve(args[0]),r=critiqueStatus(dir,await verifiedDesign(dir));console.log(JSON.stringify(r,null,2));if(r.status!=='declared-design-review-complete')process.exitCode=1;return;
  }
  if(cmd==='retry-artifact'&&args.length===2){await forkArtifact(resolve(args[0]),resolve(args[1]));return}
+ if(cmd==='delivery-check'&&(args.length===2||args.length===3)){
+  const dir=resolve(args[0]),r=checkDelivery(dir,await verifiedDesign(dir),args[1],args[2]);console.log(JSON.stringify(r,null,2));if(!r.eligible)process.exitCode=1;return;
+ }
+ if(cmd==='prepare-handoff'&&args.length===4){
+  const dir=resolve(args[0]),r=prepareHandoff(dir,await verifiedDesign(dir),args[1],args[2],args[3]);console.log(JSON.stringify(r,null,2));return;
+ }
+ if(cmd==='verify-handoff'&&args.length===2){
+  const dir=resolve(args[0]),r=verifyHandoff(dir,await verifiedDesign(dir),args[1]);console.log(JSON.stringify(r,null,2));return;
+ }
  if(cmd==='run'&&args.length===3){await runStage(resolve(args[0]),args[1],args[2]);return}
  if(cmd==='status'&&args.length===1){
   const dir=resolve(args[0]),run=await context(dir),stages={};assert(run.workflow==='production','use start-workflow');
@@ -231,6 +241,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | verify-vmi <run-dir>');
+ throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

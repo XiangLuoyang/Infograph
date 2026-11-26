@@ -21,8 +21,10 @@ try{
  const good=setup('good',html);
  assert.equal(call(['artifact-status',good.run],false).status,'browser-pending');
  call(['browser-review',good.run],false);
+ call(['delivery-check',good.run,good.output],false);
  const pass=call(['browser-review','--trusted',good.run]);assert.equal(pass.cases.length,6);
  assert.equal(call(['artifact-status',good.run]).status,'browser-observed-pass');
+ call(['delivery-check',good.run,good.output],false);
  const draft=call(['critique-task',good.run]);assert.equal(draft.captures.length,6);assert.ok(draft.template.reviews.every(r=>r.status==='not-run'));
  const authored={...draft.template,reviewer:'synthetic test reviewer',reviewerKind:'agent-self',captureReviews:draft.template.captureReviews.map(x=>({...x,observation:'synthetic screenshot observation'})),reviews:draft.template.reviews.map(x=>({...x,status:'pass',ref:'synthetic fixture only',observation:'synthetic rubric observation',captureIds:[draft.captures[0].id]}))};
  call(['critique-submit',good.run,save('wrong-review.json',{...authored,outputSha256:'wrong'})],false);
@@ -34,10 +36,20 @@ try{
  const next=call(['critique-task',fork]),complete={...authored,...{outputSha256:next.template.outputSha256,reportSha256:next.template.reportSha256,captureReviews:next.template.captureReviews.map(x=>({...x,observation:'synthetic reviewed'}))}};
  assert.equal(call(['critique-submit',fork,save('complete.json',complete)]).status,'declared-design-review-complete');
  assert.equal(call(['critique-status',fork]).deliveryEligible,false);
+ assert.equal(call(['delivery-check',fork,repaired]).classification,'reviewed-candidate');
+ call(['delivery-check',fork,repaired,'unverified-draft'],false);
+ call(['delivery-check',good.run,good.output],false);
+ const unrelated=save('unrelated.html','<p>unreviewed</p>');call(['delivery-check',fork,unrelated],false);
+ const handoff=join(dir,'handoff');assert.equal(call(['prepare-handoff',fork,repaired,handoff,'reviewed-candidate']).releaseAuthorized,false);
+ assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);
+ const deliverable=join(handoff,'reviewed-candidate.html');writeFileSync(deliverable,'tampered');call(['verify-handoff',fork,handoff],false);
+ writeFileSync(deliverable,readFileSync(repaired));assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);
+ const manifest=join(handoff,'handoff.json'),originalManifest=readFileSync(manifest);writeFileSync(manifest,JSON.stringify({...JSON.parse(originalManifest),releaseAuthorized:true}));call(['verify-handoff',fork,handoff],false);writeFileSync(manifest,originalManifest);
  const cap=join(good.run,'artifact','browser','desktop--first.png');const png=readFileSync(cap);writeFileSync(cap,'tampered');call(['artifact-status',good.run],false);writeFileSync(cap,png);
  writeFileSync(good.output,html+'<!-- changed -->');call(['artifact-status',good.run],false);
  const bad=setup('bad',html.replace('width="100" height="50"','x="250" width="100" height="50"').replace('>30<','>30<')+'<div style="width:2000px">overflow</div>');
  const fail=call(['browser-review','--trusted',bad.run],false);assert.ok(fail.cases.some(c=>c.issues.some(x=>x.kind==='svg-viewbox-overflow')));assert.ok(fail.cases.some(c=>c.issues.some(x=>x.kind==='document-overflow-x')));
  assert.equal(call(['artifact-status',bad.run],false).status,'browser-observed-fail');
+ call(['delivery-check',bad.run,bad.output],false);call(['delivery-check',bad.run,bad.output,'unverified-draft'],false);
  console.log('P3a production browser, coverage, crop and hash tests passed');
 }finally{rmSync(dir,{recursive:true,force:true})}

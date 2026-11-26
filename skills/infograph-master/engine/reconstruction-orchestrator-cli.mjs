@@ -1,0 +1,10 @@
+import {readFileSync} from 'node:fs';
+import {prepareReconstruction,planReconstruction,reviewReconstruction} from './reconstruction-orchestrator.mjs';
+const read=p=>JSON.parse(readFileSync(p,'utf8'));const [mode,...args]=process.argv.slice(2);
+let out;
+if(mode==='prepare'&&args.length>=1&&args.length<=2)out=prepareReconstruction(read(args[0]),args[1]?read(args[1]):null);
+else if(mode==='plan'&&args.length===2)out=planReconstruction(read(args[0]),read(args[1]));
+else if(mode==='review'&&args.length===4)out=reviewReconstruction(read(args[0]),read(args[1]),read(args[2]),read(args[3]));
+else throw Error('usage: prepare source.ir.json [runtime.json] | plan prepared.json authored.json | review prepared.json authored.json after.json review.json');
+console.log(JSON.stringify(out,null,2));
+if(mode==='plan'&&!out.buildEligible&&!out.critiqueReady||mode==='review'&&!out.reviewComplete)process.exitCode=1;

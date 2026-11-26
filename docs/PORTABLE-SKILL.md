@@ -19,6 +19,7 @@ node scripts/audit-knowledge-index.mjs
 cd skills/infograph-master/engine
 node test-master-engine.mjs
 node test-skill-package.mjs
+node test-reconstruction-orchestrator.mjs
 ```
 
 Use skills/infograph-master/SKILL.md as the entry instruction and resolve repo: references from the portable root. Follow the context guide; do not inject the entire package into model context. Repository mode is preferred when file access is available; inline mode is a limited fallback. Host-specific installation, permissions and tool mappings remain unverified.
@@ -30,3 +31,6 @@ Distribution CI run 45570754629 at 97f4f4ce7d920b226435d41565efa7e59492be73 veri
 ## Distribution boundary
 
 Internal candidate only. Manifest hashes detect corruption relative to the manifest, not publisher authenticity. No public distribution authorization or root license has been established. Third-party assets and dependencies require review. The package includes source and documentation, not installed dependencies or built browser studios. Actual model effectiveness remains unmeasured. Do not claim V1.2 release acceptance from this test alone.
+
+## Existing-artifact redesign
+Use the latest full checkout/package, not an earlier downloaded SKILL.md. The skill entry routes existing dashboard optimization to references/reconstruction-entry.md (relative to the skill). A compact manual path works without Node/Playwright; the staged CLI provides declared evidence/plan checks where dependencies and tool access are available. The distribution test checks relocated orchestration logic, not real model adherence, browser behavior or automatic improvement. Do not mount benchmark answers in blind generation environments.

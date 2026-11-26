@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {evaluateSceneBatch,hasVmiPreview} from './execution-vmi.mjs';
+import {bindArtifact,browserReview,artifactStatus} from './execution-artifact.mjs';
 import {authoringTask,hydrateInput} from './execution-authoring.mjs';
 import {productionStages,productionEngines,dependencies,additionalDependencies,checkDependencies,evaluateProduction,productionStatus} from './execution-controller.mjs';
 
@@ -22,7 +23,7 @@ const stageNames=['reconstruction-prepare','reconstruction-plan','production-pla
 const rules=()=>json(join(root,'skills/infograph-master/references/execution-gates.json'));
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','skills/manifest.json'];
+ const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -151,6 +152,14 @@ async function forkRun(dir,stage,dest){
  const result={status:'forked',runDir:dest,retryStage:stage,inherited:[...copied],invalidated:stageNames.filter(s=>existsSync(join(dir,s))&&!copied.has(s)),releaseAuthorized:false};
  console.log(JSON.stringify(result,null,2));
 }
+async function verifiedDesign(dir){
+ const run=await context(dir),stages={},fingerprints={};
+ assert(run.workflow==='production','artifact review requires production workflow');
+ for(const stage of stageNames)if(existsSync(join(dir,stage))){const v=await checkStage(dir,stage,run);stages[stage]=v.output;fingerprints[stage]=v.receipt.outputSha256}
+ const status=productionStatus(run,stages);
+ assert(status.buildEligible===true,'pre-build eligibility required');
+ return {status,stages:fingerprints,sourceSha256:run.source.sha256,inventory:stages['production-plan'].specialists.inventory};
+}
 async function main(){
  const [cmd,...args]=process.argv.slice(2);
  if(cmd==='preflight'&&!args.length){
@@ -173,6 +182,18 @@ async function main(){
   console.log(JSON.stringify(result,null,2));return;
  }
  if(cmd==='retry'&&args.length===3){await forkRun(resolve(args[0]),args[1],resolve(args[2]));return}
+ if(cmd==='bind-artifact'&&args.length===3){
+  const dir=resolve(args[0]),design=await verifiedDesign(dir);
+  const r=bindArtifact(dir,args[1],args[2],design);console.log(JSON.stringify(r,null,2));return;
+ }
+ if(cmd==='browser-review'&&args.length===2&&args[0]==='--trusted'){
+  const dir=resolve(args[1]),design=await verifiedDesign(dir),r=await browserReview(dir,design);
+  console.log(JSON.stringify(r,null,2));if(r.status!=='observed-pass')process.exitCode=1;return;
+ }
+ if(cmd==='artifact-status'&&args.length===1){
+  const dir=resolve(args[0]),design=await verifiedDesign(dir),r=artifactStatus(dir,design);
+  console.log(JSON.stringify(r,null,2));if(r.status!=='browser-observed-pass')process.exitCode=1;return;
+ }
  if(cmd==='run'&&args.length===3){await runStage(resolve(args[0]),args[1],args[2]);return}
  if(cmd==='status'&&args.length===1){
   const dir=resolve(args[0]),run=await context(dir),stages={};assert(run.workflow==='production','use start-workflow');
@@ -184,6 +205,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | verify-vmi <run-dir>');
+ throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

@@ -35,3 +35,6 @@ A private, reference-informed freeform hybrid variant was generated and locally 
 
 ## Phase 5a user feedback
 The actual user approved the focal asset improvement, found layout and interaction unchanged/mediocre, and reported regression in cable/label styling plus white-on-white text. See [V4-USER-REVIEW.md](V4-USER-REVIEW.md). Case remains partial pass; aesthetic and legibility gates not passed. Local mobile layout diagnosis and theme sampling recorded; exact white-on-white cause not reproduced. Prioritize V5 case repair over new engine work.
+
+## Phase 5b: V5 targeted visual repair
+See [V5-REPAIR.md](V5-REPAIR.md). Approved focal asset held fixed; peripheral chains, callouts, mobile composition and contextual selection redesigned. Local functional and sampled contrast checks passed; user-reported actual host legibility and aesthetic acceptance remain open. No native renderer comparison.

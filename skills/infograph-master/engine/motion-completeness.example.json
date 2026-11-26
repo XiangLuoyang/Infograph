@@ -40,6 +40,12 @@
             "disposition": "required",
             "intent": "business",
             "reason": "illustrate control state"
+          },
+          {
+            "behavior": "translation",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "fixed mounting"
           }
         ],
         "implementations": [
@@ -79,6 +85,18 @@
             "disposition": "static",
             "intent": "none",
             "reason": "no measured fill-level model"
+          },
+          {
+            "behavior": "texture-flow",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "surface wave sufficient for this synthetic illustration; no measured flow or gas injection"
+          },
+          {
+            "behavior": "bubbles",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "surface wave sufficient for this synthetic illustration; no measured flow or gas injection"
           }
         ],
         "implementations": [

@@ -21,3 +21,5 @@ For substantive tasks follow references/execution-gates.md before final renderin
 For substantive artifacts review actual evidence and output using references/critique-protocol.md; prioritize material defects over polish, record unknown checks and stop at the revision budget.
 
 For reference-image or concept-to-code reconstruction, load `references/reference-reconstruction.md` before implementation. Use its authored object manifest, renderer routing and evidence ledger; preserve essential labels and stable identity, disclose unsupported fidelity, and do not confuse planning with rendered output or human aesthetic approval.
+
+For abstract business mechanisms or competing constraints where a physical analogy improves explanation, load `references/dynamic-visual-metaphor.md` before choosing a scene. Compare physical mechanisms, define semantic mappings and state transitions, separate qualitative motion from measured evidence, and preserve the accepted baseline. Use only when it serves the reader's task.

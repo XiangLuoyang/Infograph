@@ -1,0 +1,57 @@
+{
+  "id": "REAL-002",
+  "version": 1,
+  "classification": "sanitized qualitative derivative; no actual business metrics",
+  "audience": "executive decision report",
+  "task": "Explain how a sufficient aggregate resource pool can coexist with unmet replenishment due to possible misallocation, and connect cycle efficiency to potential downstream economic exposure and governance.",
+  "narrative": [
+    "decision thesis",
+    "aggregate sufficiency evidence",
+    "category/item detail availability",
+    "allocation mechanism",
+    "conditional downstream risk",
+    "governance actions"
+  ],
+  "objects": [
+    {
+      "id": "reservoir",
+      "meaning": "aggregate resource pool"
+    },
+    {
+      "id": "allocator",
+      "meaning": "allocation governance"
+    },
+    {
+      "id": "branch-a",
+      "meaning": "concentration and accumulation"
+    },
+    {
+      "id": "branch-b",
+      "meaning": "constrained replenishment"
+    },
+    {
+      "id": "return",
+      "meaning": "cycle efficiency"
+    }
+  ],
+  "states": [
+    {
+      "id": "normal",
+      "label": "Illustrative target",
+      "description": "balanced allocation and effective return"
+    },
+    {
+      "id": "risk",
+      "label": "Illustrative risk",
+      "description": "concentrated allocation, constrained branch, slower return"
+    }
+  ],
+  "constraints": [
+    "No private metrics or names; no invented exact values",
+    "Stable object identity across states",
+    "No calibrated flow, force, speed or causal claims",
+    "Show unavailable item-level detail as missing",
+    "Static fallback, readable labels, reversible keyboard/touch controls, reduced motion",
+    "Risk model separate from metaphor"
+  ]
+}

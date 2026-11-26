@@ -35,7 +35,8 @@ function inspectEssential(el){
 export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
  if(!trusted)throw Error('explicit trusted standalone HTML required');
  const bytes=await readFile(file);if(bytes.length>8*1024*1024)throw Error('HTML too large');
- const browser=await chromium.launch(),cases=[];
+ let browser;try{browser=await chromium.launch()}catch(e){throw Object.assign(new Error('Chromium launch failed: '+String(e.message??e)),{code:'BROWSER_LAUNCH_FAILED'})}
+ const cases=[];
  try{
   for(const viewport of plan.viewports)for(const c of plan.cases){
    const context=await browser.newContext({offline:true,serviceWorkers:'block',acceptDownloads:false,viewport:{width:viewport.width,height:viewport.height},reducedMotion:'reduce'});

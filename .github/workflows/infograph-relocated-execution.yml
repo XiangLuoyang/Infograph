@@ -1,0 +1,32 @@
+name: Infograph relocated execution package
+on:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'skills/**'
+      - 'docs/EXECUTION-ARCHITECTURE.md'
+      - '.github/workflows/infograph-relocated-execution.yml'
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'skills/**'
+      - 'docs/EXECUTION-ARCHITECTURE.md'
+      - '.github/workflows/infograph-relocated-execution.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  relocated:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node scripts/build-portable-skill.mjs
+      - run: node scripts/test-relocated-execution.mjs dist/portable-skill

@@ -54,7 +54,7 @@ export async function browserReview(dir,design){
  try{
   const {auditProductionHTML}=await import('../skills/infograph-master/engine/production-browser-audit.mjs');
   report=await auditProductionHTML(join(folder,'output.html'),plan,qa,{trusted:true});
- }catch(e){report={version:1,status:'blocked',reason:String(e.message??e),cases:[],scope:'browser not completed'}}
+ }catch(e){const unavailable=e.code==='BROWSER_LAUNCH_FAILED'||(e.code==='ERR_MODULE_NOT_FOUND'&&String(e.message).includes('playwright'));report={version:1,status:unavailable?'blocked':'error',reason:String(e.message??e),cases:[],scope:'browser not completed'}}
  const output={...report,outputSha256:receipt.outputSha256,planSha256:receipt.planSha256,releaseAuthorized:false};
  write(join(qa,'report.json'),output);
  write(join(qa,'receipt.json'),{version:1,reportSha256:hash(read(join(qa,'report.json'))),outputSha256:receipt.outputSha256,planSha256:receipt.planSha256,releaseAuthorized:false});
@@ -67,6 +67,7 @@ export function artifactStatus(dir,design){
  const qr=json(join(qa,'receipt.json')),bytes=read(join(qa,'report.json')),report=JSON.parse(bytes.toString('utf8'));
  ensure(qr.reportSha256===hash(bytes)&&qr.outputSha256===receipt.outputSha256&&qr.planSha256===receipt.planSha256&&report.outputSha256===receipt.outputSha256&&report.planSha256===receipt.planSha256,'browser evidence mismatch');
  if(report.status==='blocked')return {...result,status:'browser-blocked',reason:report.reason};
+ if(report.status==='error')return {...result,status:'browser-error',reason:report.reason};
  const expected=new Set(plan.viewports.flatMap(v=>plan.cases.map(c=>v.id+'--'+c.id))),seen=new Set();
  for(const c of report.cases){
   const key=c.viewportId+'--'+c.caseId;ensure(expected.has(key)&&!seen.has(key),'unknown or duplicate browser case');seen.add(key);

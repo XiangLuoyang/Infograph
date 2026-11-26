@@ -25,7 +25,7 @@ const stageNames=['reconstruction-prepare','reconstruction-plan','production-pla
 const rules=()=>json(join(root,'skills/infograph-master/references/execution-gates.json'));
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','skills/manifest.json'];
+ const paths=['skills/infograph-master/SKILL.md','skills/visual-metaphor-intelligence/SKILL.md','skills/narrative-design/SKILL.md','docs/EXECUTION-ARCHITECTURE.md','scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -37,7 +37,10 @@ function fingerprints(){
 async function preflight(){
  const errors=[];let version=null,revision=null,files=null;
  try{version=manifest().packageVersion;assert(typeof version==='string','package version missing')}catch(e){errors.push('manifest: '+e.message)}
- try{revision=execFileSync('git',['-C',root,'rev-parse','HEAD'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim()}catch{try{revision=json(join(root,'portable-manifest.json')).revision}catch{}}
+ try{
+  if(existsSync(join(root,'portable-manifest.json')))revision=json(join(root,'portable-manifest.json')).revision;
+  else if(existsSync(join(root,'.git')))revision=execFileSync('git',['-C',root,'rev-parse','HEAD'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim();
+ }catch(e){errors.push('revision: '+e.message)}
  if(Number(process.versions.node.split('.')[0])<22)errors.push('Node.js 22+ required');
  try{
   files=fingerprints();

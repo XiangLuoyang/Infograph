@@ -7,12 +7,12 @@ if(m.version!==1||m.releaseAuthorized!==false||m.entry!=='skills/infograph-maste
 const expected=new Set();
 for(const f of m.files){
  const p=resolve(root,f.path);
- if(relative(root,p)!==f.path||f.path.startsWith('..')||expected.has(f.path))throw Error('invalid manifest path');
+ if(relative(root,p).replaceAll('\\','/')!==f.path||f.path.startsWith('..')||expected.has(f.path))throw Error('invalid manifest path');
  expected.add(f.path);
  const b=await readFile(p);
  if(b.length!==f.bytes||createHash('sha256').update(b).digest('hex')!==f.sha256)throw Error('file mismatch '+f.path);
 }
-async function walk(dir){for(const e of await readdir(dir,{withFileTypes:true})){const p=resolve(dir,e.name),r=relative(root,p);if(e.isDirectory())await walk(p);else if(!e.isFile()||r!=='portable-manifest.json'&&!expected.has(r))throw Error('unexpected file '+r)}}
+async function walk(dir){for(const e of await readdir(dir,{withFileTypes:true})){const p=resolve(dir,e.name),r=relative(root,p).replaceAll('\\','/');if(e.isDirectory())await walk(p);else if(!e.isFile()||r!=='portable-manifest.json'&&!expected.has(r))throw Error('unexpected file '+r)}}
 await walk(root);
 if(!expected.has(m.entry))throw Error('missing entry');
 const registry=JSON.parse(await readFile(resolve(root,'skills/manifest.json'),'utf8'));

@@ -1,0 +1,250 @@
+{
+  "sourceRef": "synthetic dashboard source",
+  "baselineRef": "synthetic baseline",
+  "scope": "reinvent",
+  "inspection": "source-and-render",
+  "coverage": [
+    {
+      "layer": "data",
+      "status": "observed",
+      "ref": "fixture:data"
+    },
+    {
+      "layer": "business",
+      "status": "observed",
+      "ref": "fixture:business"
+    },
+    {
+      "layer": "information",
+      "status": "observed",
+      "ref": "fixture:information"
+    },
+    {
+      "layer": "narrative",
+      "status": "observed",
+      "ref": "fixture:narrative"
+    },
+    {
+      "layer": "visual",
+      "status": "observed",
+      "ref": "fixture:visual"
+    },
+    {
+      "layer": "interaction",
+      "status": "observed",
+      "ref": "fixture:interaction"
+    }
+  ],
+  "assets": [
+    {
+      "id": "a0",
+      "layer": "data",
+      "description": "aggregate and item metrics",
+      "ref": "fixture:data",
+      "status": "observed",
+      "essential": true,
+      "locked": true
+    },
+    {
+      "id": "a1",
+      "layer": "business",
+      "description": "allocation and cycle relationship",
+      "ref": "fixture:business",
+      "status": "observed",
+      "essential": true,
+      "locked": false
+    },
+    {
+      "id": "a2",
+      "layer": "information",
+      "description": "contrast aggregate sufficiency and unmet need",
+      "ref": "fixture:information",
+      "status": "observed",
+      "essential": true,
+      "locked": false
+    },
+    {
+      "id": "a3",
+      "layer": "narrative",
+      "description": "decision path",
+      "ref": "fixture:narrative",
+      "status": "observed",
+      "essential": true,
+      "locked": false
+    },
+    {
+      "id": "a4",
+      "layer": "visual",
+      "description": "existing chart arrangement",
+      "ref": "fixture:visual",
+      "status": "observed",
+      "essential": false,
+      "locked": false
+    },
+    {
+      "id": "a5",
+      "layer": "interaction",
+      "description": "item drilldown",
+      "ref": "fixture:interaction",
+      "status": "observed",
+      "essential": true,
+      "locked": false
+    }
+  ],
+  "intents": [
+    {
+      "id": "i1",
+      "statement": "Explain why adequate aggregate supply can coexist with unmet needs",
+      "status": "inferred",
+      "ref": "fixture:business and information",
+      "alternative": "monitor availability rather than explain mechanism",
+      "validation": "compare title and user task; confirm if decision changes",
+      "blocking": false
+    }
+  ],
+  "findings": [
+    {
+      "id": "f5",
+      "level": 5,
+      "status": "adequate",
+      "ref": "fixture:inspection",
+      "taskImpact": "reader must distinguish totals and distribution",
+      "repair": "retain or review",
+      "intentIds": [
+        "i1"
+      ]
+    },
+    {
+      "id": "f4",
+      "level": 4,
+      "status": "adequate",
+      "ref": "fixture:inspection",
+      "taskImpact": "reader must distinguish totals and distribution",
+      "repair": "retain or review",
+      "intentIds": [
+        "i1"
+      ]
+    },
+    {
+      "id": "f3",
+      "level": 3,
+      "status": "defect",
+      "ref": "fixture:inspection",
+      "taskImpact": "reader must distinguish totals and distribution",
+      "repair": "compare explanatory scene with charts",
+      "intentIds": [
+        "i1"
+      ]
+    },
+    {
+      "id": "f2",
+      "level": 2,
+      "status": "adequate",
+      "ref": "fixture:inspection",
+      "taskImpact": "reader must distinguish totals and distribution",
+      "repair": "retain or review",
+      "intentIds": [
+        "i1"
+      ]
+    },
+    {
+      "id": "f1",
+      "level": 1,
+      "status": "adequate",
+      "ref": "fixture:inspection",
+      "taskImpact": "reader must distinguish totals and distribution",
+      "repair": "retain or review",
+      "intentIds": [
+        "i1"
+      ]
+    }
+  ],
+  "options": [
+    {
+      "mode": "refine",
+      "concept": "improve existing chart labels",
+      "benefit": "support same task",
+      "tradeoff": "different change cost",
+      "reason": "compare semantic value and risk"
+    },
+    {
+      "mode": "restructure",
+      "concept": "align category comparisons",
+      "benefit": "support same task",
+      "tradeoff": "different change cost",
+      "reason": "compare semantic value and risk"
+    },
+    {
+      "mode": "reinvent",
+      "concept": "qualitative allocation and return mechanism paired with evidence",
+      "benefit": "support same task",
+      "tradeoff": "different change cost",
+      "reason": "compare semantic value and risk"
+    }
+  ],
+  "selected": "reinvent",
+  "selectionReason": "express mechanism while retaining evidence and controls",
+  "preservation": [
+    {
+      "assetId": "a0",
+      "action": "preserve",
+      "reason": "preserve semantic assets; replace nonessential chart arrangement",
+      "target": "new:a0",
+      "verification": "compare source and output"
+    },
+    {
+      "assetId": "a1",
+      "action": "preserve",
+      "reason": "preserve semantic assets; replace nonessential chart arrangement",
+      "target": "new:a1",
+      "verification": "compare source and output"
+    },
+    {
+      "assetId": "a2",
+      "action": "preserve",
+      "reason": "preserve semantic assets; replace nonessential chart arrangement",
+      "target": "new:a2",
+      "verification": "compare source and output"
+    },
+    {
+      "assetId": "a3",
+      "action": "preserve",
+      "reason": "preserve semantic assets; replace nonessential chart arrangement",
+      "target": "new:a3",
+      "verification": "compare source and output"
+    },
+    {
+      "assetId": "a4",
+      "action": "remove",
+      "reason": "preserve semantic assets; replace nonessential chart arrangement",
+      "target": "new:a4",
+      "verification": "compare source and output"
+    },
+    {
+      "assetId": "a5",
+      "action": "preserve",
+      "reason": "preserve semantic assets; replace nonessential chart arrangement",
+      "target": "new:a5",
+      "verification": "compare source and output"
+    }
+  ],
+  "routes": [
+    {
+      "ref": "references/dynamic-visual-metaphor.md",
+      "reason": "explain distribution mechanism",
+      "intentIds": [
+        "i1"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t1",
+      "intentId": "i1",
+      "baseline": "locate aggregate and item contrast",
+      "target": "explain contrast without inferring measured flow",
+      "method": "reader retell using matched evidence"
+    }
+  ],
+  "review": []
+}

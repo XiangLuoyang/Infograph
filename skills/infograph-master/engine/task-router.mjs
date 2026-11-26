@@ -7,6 +7,8 @@ export function routeTask(text,declared={}){
  const s=text.toLowerCase(),p=hits(s,purposes),d=hits(s,domains),rel=hits(s,relations);
  const choose=(k,dict,candidates)=>{if(declared[k]!==undefined){if(!Object.hasOwn(dict,declared[k]))throw Error('invalid '+k);return declared[k]}return candidates.length===1?candidates[0].id:null};
  const purpose=choose('purpose',purposes,p),domain=choose('domain',domains,d),relation=choose('relation',relations,rel);
+ const existingArtifact=declared.existingArtifact??(/(?:已有|现有|原有|之前|成品|半成品).*(?:看板|报告|html|dashboard)|(?:看板|报告|html|dashboard).*(?:优化|重构|改版|redesign|improve)|(?:existing|current|previous).*(?:dashboard|report|html)|(?:optimi[sz]e|redesign|refactor|improve).*(?:dashboard|report|html)/i.test(s));
+ if(typeof existingArtifact!=='boolean')throw Error('invalid existingArtifact');
  const groups=['standard','representation'];const modes=['Standard'];
  if(purpose==='report'||purpose==='decision'||(!purpose&&p.some(x=>['report','decision'].includes(x.id)))){groups.push('narrative');modes.push('Narrative')}
  if(domain&&domain!=='business'){modes.push('Specialist')}
@@ -18,5 +20,5 @@ export function routeTask(text,declared={}){
  if(/艺术方向|杂志风|art direction/.test(s)){groups.push('studio');modes.push('Studio')}
  const delivery=declared.delivery??(/html/.test(s)?'html':/ppt|幻灯片/.test(s)?'slides':/pdf/.test(s)?'pdf':null);
  if(delivery!==null&&!['html','slides','pdf','image','chart'].includes(delivery))throw Error('invalid delivery');
- return {purpose,domain,relation,delivery,groups:[...new Set(groups)],modes,signals:{purpose:p,domain:d,relation:rel},unresolved:['purpose','domain','relation','delivery'].filter(k=>({purpose,domain,relation,delivery})[k]===null),specialistReference:domain&&domain!=='business'?'visual-intelligence/'+domain+'-intelligence.md':null,status:'advisory',runtimeAuthorized:false};
+ return {...(existingArtifact?{revisionRoute:'reverse-design',requiredReferences:['references/reverse-design-reconstruction.md']}:{}),purpose,domain,relation,delivery,groups:[...new Set(groups)],modes,signals:{purpose:p,domain:d,relation:rel},unresolved:['purpose','domain','relation','delivery'].filter(k=>({purpose,domain,relation,delivery})[k]===null),specialistReference:domain&&domain!=='business'?'visual-intelligence/'+domain+'-intelligence.md':null,status:'advisory',runtimeAuthorized:false};
 }

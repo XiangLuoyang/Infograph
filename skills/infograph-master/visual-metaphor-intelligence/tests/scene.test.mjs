@@ -19,7 +19,10 @@ function test(check,api,input,styles){
  reject(()=>compile(styles[0],input.scene,{review:{...input.review,revision:0}}),"stale P3 review");
  const drift=clone(b);drift.semantic.objects[0].targetNode="different";reject(()=>api.renderSceneHTML([a,drift]),"semantic drift");
  sc=clone(input.scene);sc.title='<script>alert(1)</script>';check(api.renderSceneHTML([compile(styles[0],sc)]).includes("&lt;script&gt;"),"escaped labels");
+ s=clone(styles[0]);s.id='x"]{display:none}/*';reject(()=>compile(s),"unsafe style id");
+ s=clone(styles[0]);s.colors["bad;display"]="none";reject(()=>compile(s),"unexpected CSS token");
+ sc=clone(input.scene);sc.waypoints.mobile.t2=[[500,0]];reject(()=>compile(styles[0],sc),"bad connector waypoint");
  check(a.releaseAuthorized===false,"no release claim");
 }
 test((ok,msg)=>assert.ok(ok,msg),api,input,styles);
-console.log("20 VMI scene assertions passed");
+console.log("23 VMI scene assertions passed");

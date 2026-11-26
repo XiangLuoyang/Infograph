@@ -5,9 +5,10 @@ export function adaptDesignDNA(style,concept){
  const hex=x=>typeof x==="string"&&/^#[0-9a-f]{6}$/i.test(x);
  function luminance(x){const a=x.slice(1).match(/../g).map(s=>parseInt(s,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*a[0]+.7152*a[1]+.0722*a[2]}
  const contrast=(a,b)=>{const l=[luminance(a),luminance(b)].sort((x,y)=>y-x);return (l[0]+.05)/(l[1]+.05)};
- if(!style||style.baselineRef!==concept.designDNARef||!txt(style.id)||!txt(style.rationale)||!["inherit","variant"].includes(style.mode)||!txt(style.sampleRef))throw Error("style provenance required");
+ if(!style||style.baselineRef!==concept.designDNARef||!(typeof style.id==="string"&&/^[\p{L}\p{N}_-]{1,40}$/u.test(style.id))||!txt(style.rationale)||!["inherit","variant"].includes(style.mode)||!txt(style.sampleRef))throw Error("style provenance required");
  if(!["editorial","industrial"].includes(style.material)||!["sans","serif","mono"].includes(style.font)||!["none","soft"].includes(style.depth)||!Number.isInteger(style.radius)||style.radius<0||style.radius>24||!Number.isInteger(style.motionMs)||style.motionMs<0||style.motionMs>400)throw Error("unsupported style token");
  const colors=["background","surface","ink","muted","accent","warning","line","metal","highlight"];
+ if(!style.colors||Object.keys(style.colors).length!==colors.length||Object.keys(style.colors).some(k=>!colors.includes(k)))throw Error("unexpected color token");
  for(const k of colors)if(!hex(style.colors?.[k]))throw Error("invalid color "+k);
  for(const fg of ["ink","muted"])for(const bg of ["background","surface"])if(contrast(style.colors[fg],style.colors[bg])<4.5)throw Error("text contrast "+fg+"/"+bg);
  for(const fg of ["accent","warning","line"])if(contrast(style.colors[fg],style.colors.surface)<3)throw Error("nontext contrast "+fg);
@@ -46,6 +47,8 @@ export function compileScene({target,concept,review,objects,ontology,style,scene
  const stateMap=new Map(states.map(x=>[x.id,x]));
  for(const s of scene.states){if(!stateMap.has(s.id)||!txt(s.label)||!txt(s.explanation)||!Array.isArray(s.highlight)||new Set(s.highlight).size!==s.highlight.length||s.highlight.some(id=>!byId.has(id)))throw Error("invalid state");const transition=concept.transitions?.find(t=>t.to===s.id);if(transition&&s.highlight.some(id=>!transition.changedObjects.includes(id)))throw Error("state highlights violate transition contract")}
  if(!stateMap.has(scene.initialState))throw Error("invalid initial state");
+ const edgeIds=new Set(concept.bindings.map(b=>b.targetEdge));
+ for(const [k,rs] of Object.entries(scene.waypoints??{})){if(!Object.hasOwn(dims,k)||!rs||typeof rs!=="object")throw Error("invalid routing layout");for(const [id,pts] of Object.entries(rs)){if(!edgeIds.has(id)||!Array.isArray(pts)||pts.length>8||pts.some(q=>!Array.isArray(q)||q.length!==2||!q.every((v,i)=>checkNum(v,0,dims[k][i]))))throw Error("invalid routing waypoint")}}
  const mappings=concept.bindings.map(b=>({id:b.targetEdge,from:b.fromObject,to:b.toObject,relation:target.edges.find(e=>e.id===b.targetEdge).predicate,meaning:b.interpretation,sourceId:b.sourceId,sourceEdge:b.sourceEdge}));
  const semantic={conceptId:concept.id,revision:concept.revision,targetId:target.id,evidenceKind:concept.evidenceKind,evidenceRef:concept.evidenceRef,boundary:concept.boundary,objects:concept.sceneObjects.map(o=>({id:o.id,targetNode:o.targetNode,anchors:o.anchors,label:tn.get(o.targetNode).label})),mappings,states:states.map(s=>({id:s.id,evidenceKind:s.evidenceKind,evidenceRef:s.evidenceRef})),transitions:concept.transitions??[]};
  return {design,scene,semantic,plainAlternative:concept.plainAlternative,reviewRef:review.ref,capabilities:{svg:"implemented",html:"implemented",raster:"route-existing-reference-renderer",webgl:"route-existing-reference-webgl",canvas:"specialist-not-implemented"},releaseAuthorized:false,scope:"one-panel authored SVG primitives; qualitative highlights; no physical simulation or independent visual approval"};
@@ -66,8 +69,8 @@ export function renderSceneHTML(plans){
  function graph(k,W,H){
   const loc=new Map(c.objects.map(o=>[o.id,o[k]]));
   const connections=sem.mappings.map(m=>{const a=loc.get(m.from),b=loc.get(m.to),ax=a[0]+a[2]/2,ay=a[1]+a[3]/2,bx=b[0]+b[2]/2,by=b[1]+b[3]/2,dx=bx-ax,dy=by-ay;
-   const ta=1/Math.max(Math.abs(dx)/(a[2]/2+7),Math.abs(dy)/(a[3]/2+7)),tb=1/Math.max(Math.abs(dx)/(b[2]/2+9),Math.abs(dy)/(b[3]/2+9));
-   return `<path class="link" data-edge="${e(m.id)}" d="M${ax+dx*ta} ${ay+dy*ta} L${bx-dx*tb} ${by-dy*tb}" marker-end="url(#arrow-${k})"/>`}).join("");
+   const pts=c.waypoints?.[k]?.[m.id]??[],q=pts[0]??[bx,by],z=pts.at(-1)??[ax,ay];const ray=(x,y,box,other,pad)=>{const vx=other[0]-x,vy=other[1]-y,scale=1/Math.max(Math.abs(vx)/(box[2]/2+pad),Math.abs(vy)/(box[3]/2+pad));if(!Number.isFinite(scale))throw Error("degenerate connector");return [x+vx*scale,y+vy*scale]};const points=[ray(ax,ay,a,q,7),...pts,ray(bx,by,b,z,9)];
+   return `<path class="link" data-edge="${e(m.id)}" d="${points.map((q,i)=>(i?"L":"M")+q.join(" ")).join(" ")}" marker-end="url(#arrow-${k})"/>`}).join("");
   const obs=c.objects.map(o=>{const [x,y,w,h]=o[k],label=sem.objects.find(a=>a.id===o.id).label;return `<g data-object="${e(o.id)}" class="object"><rect class="halo" x="${x-4}" y="${y-4}" width="${w+8}" height="${h+8}" rx="10"/><svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 100 100">${o.shapes.map(shape).join("")}</svg><text x="${x+w/2}" y="${y+h+19}" class="object-label">${e(label)}</text></g>`}).join("");
   return `<svg class="scene ${k}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${e(c.staticSummary)}"><defs><marker id="arrow-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="var(--line)"/></marker></defs>${connections}${obs}</svg>`;
  }

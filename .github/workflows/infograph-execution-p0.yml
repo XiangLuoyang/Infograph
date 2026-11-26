@@ -1,0 +1,64 @@
+name: Infograph execution P0
+on:
+  push:
+    paths:
+      - 'scripts/infograph.mjs'
+      - 'scripts/test-infograph-execution.mjs'
+      - 'scripts/execution-controller.mjs'
+      - 'scripts/test-infograph-production.mjs'
+      - 'scripts/execution-specialists.mjs'
+      - 'scripts/test-infograph-specialists.mjs'
+      - 'scripts/execution-authoring.mjs'
+      - 'scripts/test-infograph-authoring.mjs'
+      - 'scripts/execution-vmi.mjs'
+      - 'scripts/test-infograph-vmi-batch.mjs'
+      - 'scripts/execution-delivery.mjs'
+      - 'scripts/test-infograph-delivery.mjs'
+      - 'skills/infograph-master/engine/**'
+      - 'skills/infograph-master/references/**'
+      - 'skills/infograph-master/visual-metaphor-intelligence/**'
+      - '.github/workflows/infograph-execution-p0.yml'
+  pull_request:
+    paths:
+      - 'scripts/infograph.mjs'
+      - 'scripts/test-infograph-execution.mjs'
+      - 'scripts/execution-controller.mjs'
+      - 'scripts/test-infograph-production.mjs'
+      - 'scripts/execution-specialists.mjs'
+      - 'scripts/test-infograph-specialists.mjs'
+      - 'scripts/execution-authoring.mjs'
+      - 'scripts/test-infograph-authoring.mjs'
+      - 'scripts/execution-vmi.mjs'
+      - 'scripts/test-infograph-vmi-batch.mjs'
+      - 'scripts/execution-delivery.mjs'
+      - 'scripts/test-infograph-delivery.mjs'
+      - 'skills/infograph-master/engine/**'
+      - 'skills/infograph-master/references/**'
+      - 'skills/infograph-master/visual-metaphor-intelligence/**'
+      - '.github/workflows/infograph-execution-p0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  execution:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node scripts/test-infograph-execution.mjs
+      - run: node scripts/test-infograph-production.mjs
+      - run: node scripts/test-infograph-specialists.mjs
+      - run: node scripts/test-infograph-authoring.mjs
+      - run: node scripts/test-infograph-vmi-batch.mjs
+      - run: node scripts/test-infograph-delivery.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/analogy.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/exploration.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/creative.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/scene.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/studio.test.mjs

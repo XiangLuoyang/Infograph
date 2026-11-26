@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {mkdtempSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+const cli=fileURLToPath(new URL('./infograph.mjs',import.meta.url));
+const packetPath=fileURLToPath(new URL('../skills/infograph-master/visual-metaphor-intelligence/benchmark/studio-packet.json',import.meta.url));
+const packet=JSON.parse(readFileSync(packetPath,'utf8'));
+const dir=mkdtempSync(join(tmpdir(),'infograph-exec-'));
+const call=(args,ok=true)=>{const r=spawnSync(process.execPath,[cli,...args],{encoding:'utf8'});assert.equal(r.status,ok?0:1,r.stderr||r.stdout);return r.stdout?JSON.parse(r.stdout):null};
+try{
+ const source=join(dir,'source.txt'),input=join(dir,'perspectives.json'),run=join(dir,'run');
+ writeFileSync(source,'synthetic source, never a production answer');
+ writeFileSync(input,JSON.stringify({perspectives:packet.perspectives}));
+ assert.equal(call(['preflight']).status,'available');
+ assert.equal(call(['start','redesign',source,run]).preflight.status,'available');
+ call(['verify-vmi',run],false);
+ assert.equal(call(['run',run,'vmi-explore',input]).status,'executed');
+ assert.equal(call(['run',run,'vmi-packet',packetPath]).previewAvailable,true);
+ const review=call(['verify-vmi',run]);assert.equal(review.status,'replayed');assert.equal(review.releaseAuthorized,false);
+ call(['run',run,'vmi-explore',input],false);
+ const output=join(run,'vmi-explore','output.json'),original=readFileSync(output);
+ writeFileSync(output,'{}');call(['verify-vmi',run],false);writeFileSync(output,original);
+ writeFileSync(source,'changed');call(['verify-vmi',run],false);writeFileSync(source,'synthetic source, never a production answer');
+ assert.equal(call(['verify-vmi',run]).status,'replayed');
+ const blocked=join(dir,'blocked');call(['start','create',source,blocked]);
+ assert.equal(call(['run',blocked,'vmi-packet',packetPath],false).status,'blocked');
+ const bad=join(dir,'bad'),badInput=join(dir,'bad.json');writeFileSync(badInput,'{');call(['start','create',source,bad]);
+ assert.equal(call(['run',bad,'vmi-explore',badInput],false).status,'blocked');
+ const incomplete=join(dir,'incomplete'),partial=join(dir,'partial.json');writeFileSync(partial,JSON.stringify({...packet,reviews:[]}));
+ call(['start','create',source,incomplete]);call(['run',incomplete,'vmi-explore',input]);
+ const receipt=call(['run',incomplete,'vmi-packet',partial]);assert.equal(receipt.status,'executed');assert.equal(receipt.previewAvailable,false);
+ assert.equal(call(['verify-vmi',incomplete]).previewAvailable,false);
+ console.log('P0 execution CLI integration tests passed');
+}finally{rmSync(dir,{recursive:true,force:true})}

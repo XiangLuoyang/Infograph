@@ -21,11 +21,15 @@ export function compileConceptArt(spec){
  if(!source||!id(source.id)||!["generated","authored","licensed","user-provided"].includes(source.origin)||!hash(source.sha256)||!Number.isInteger(source.width)||source.width<1||!Number.isInteger(source.height)||source.height<1||!["local-only","publication-cleared"].includes(source.permission))throw Error("invalid concept provenance");
  req(source,["ref","rightsNote"],"source");
  const assets=index(spec.assets,"assets"),issues=[];
+ const inspection=spec.conceptInspection;
+ if(!inspection||inspection.conceptSha!==source.sha256||!["pass","fail","not-run"].includes(inspection.status)||!txt(inspection.ref)||!txt(inspection.reviewer))throw Error("concept inspection must bind current source");
+ if(inspection.status!=="pass")issues.push({kind:"concept-inspection",status:inspection.status});
  for(const a of assets.values()){
   if(!["clean-plate","isolated-part","mask","texture","overlay","static-fallback","geometry"].includes(a.kind)||!["planned","ready"].includes(a.status)||!bounds(a.bounds))throw Error("invalid asset "+a.id);
   req(a,["production","sourceRef"],"asset "+a.id);
   if(a.parentSha!==source.sha256)throw Error("asset bound to different concept revision");
   if(a.status==="ready"&&(!hash(a.sha256)||!txt(a.ref)||!["local-only","publication-cleared"].includes(a.permission)))throw Error("ready asset lacks provenance "+a.id);
+  if(a.status==="ready"&&source.permission==="local-only"&&a.permission==="publication-cleared")throw Error("local-only source cannot grant publication rights");
   if(a.status==="planned")issues.push({kind:"asset-pending",id:a.id});
  }
  const semantic=index(spec.semanticObjects,"semantic objects");
@@ -43,11 +47,15 @@ export function compileConceptArt(spec){
   if(l.essential)for(const x of l.semanticIds)covered.add(x);
   if(!["html","svg","css","raster","webgl","custom-hybrid"].includes(l.backend))throw Error("unknown backend");
   if(l.role==="label"&&(l.backend!=="html"||l.assetId||l.maskId||l.dynamic))throw Error("labels must remain independent live HTML");
+  if(l.backend==="html"&&l.role!=="label")throw Error("reference HTML backend only supports labels");
+  if(["connector","anchor"].includes(l.role)&&l.backend!=="svg")throw Error("reference anchors/connectors require SVG");
   if(l.backend==="raster"){asset(l.assetId,l.dynamic?["isolated-part"]:["clean-plate","isolated-part","static-fallback"]);}
   if(l.backend==="webgl")asset(l.assetId,["geometry"]);
   if(l.backend==="custom-hybrid"){asset(l.assetId,["isolated-part","texture","overlay"]);custom.push(l.id);}
   if(l.dynamic){
    req(l,["motionIntent","pivotOrDomain","motionMapping"],"dynamic layer "+l.id);
+   if(!["qualitative","calibrated"].includes(l.motionMapping))throw Error("unknown motion mapping");
+   if(l.motionMapping==="calibrated"&&!txt(l.calibrationRef))throw Error("calibrated motion needs evidence mapping");
    if(l.backend==="raster"||l.backend==="custom-hybrid"){
     asset(l.cleanPlateId,["clean-plate"]);
     asset(l.maskId,["mask"]);
@@ -73,7 +81,7 @@ export function compileConceptArt(spec){
  const manifest=custom.length?null:{source:{kind:"image",id:source.id,width:source.width,height:source.height,sha256:source.sha256},objects:referenceObjects,links:spec.links??[],scenes:[...scenes.values()].map(s=>({...s})),staticScene:spec.staticScene};
  // Existing reference adapter requires link IDs to be visible with their endpoints; append only where both are visible.
  if(manifest){for(const s of manifest.scenes)s.visible=[...s.visible,...manifest.links.filter(l=>s.visible.includes(l.from.object)&&s.visible.includes(l.to.object)).map(l=>l.id)];}
- return JSON.parse(JSON.stringify({version:"0.1",source,selectedDirection:selected,semanticRef:spec.semanticRef,designDNARef:spec.designDNARef,layers:[...layers.values()].sort((a,b)=>a.depth-b.depth),assets:[...assets.values()],scenes:[...scenes.values()],staticScene:spec.staticScene,referenceManifest:manifest,customLayers:custom,issues,assetsDeclaredReady:issues.length===0,rendered:false,releaseAuthorized:false}));
+ return JSON.parse(JSON.stringify({version:"0.1",source,conceptInspection:inspection,selectedDirection:selected,semanticRef:spec.semanticRef,designDNARef:spec.designDNARef,layers:[...layers.values()].sort((a,b)=>a.depth-b.depth),assets:[...assets.values()],scenes:[...scenes.values()],staticScene:spec.staticScene,referenceManifest:manifest,customLayers:custom,issues,assetsDeclaredReady:!issues.some(i=>i.kind==="asset-pending"),productionDeclaredReady:issues.length===0,rendered:false,releaseAuthorized:false}));
 }
 
 export function reviewConceptArt(plan,{outputSha,records=[]}={}){
@@ -82,5 +90,5 @@ export function reviewConceptArt(plan,{outputSha,records=[]}={}){
  const required=[...dimensions.map(d=>"scene:"+d),...plan.layers.filter(l=>l.dynamic).map(l=>l.id+":motion"),...plan.layers.filter(l=>l.dynamic).map(l=>l.id+":occlusion")];
  const map=new Map();for(const r of records){if(!required.includes(r.key)||map.has(r.key))throw Error("unknown/duplicate review key");map.set(r.key,r)}
  const checks=required.map(key=>{const r=map.get(key);const status=!r?"missing":r.conceptSha!==plan.source.sha256||r.outputSha!==outputSha?"stale":!["pass","fail","not-run"].includes(r.status)?"invalid":r.status==="pass"&&(!r.ref?.trim?.()||!r.reviewer?.trim?.())?"missing-evidence":r.status;return {key,status}});
- return {checks,complete:plan.assetsDeclaredReady&&checks.every(c=>c.status==="pass"),releaseAuthorized:false,scope:"declared evidence only; not actual asset hash verification or visual assessment"};
+ return {checks,complete:plan.productionDeclaredReady&&checks.every(c=>c.status==="pass"),releaseAuthorized:false,scope:"declared evidence only; not actual asset hash verification or visual assessment"};
 }

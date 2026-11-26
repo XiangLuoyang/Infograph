@@ -1,0 +1,19 @@
+{
+  "intent": "Explain aggregate sufficiency alongside category-level deficits without asserting an unobserved cause.",
+  "mustPreserve": [
+    "120 allocated / 100 required",
+    "A 90/50; B 20/30; C 10/20",
+    "same month and unit",
+    "no causal or cycle evidence"
+  ],
+  "readerTasks": [
+    "Identify aggregate surplus (20)",
+    "Identify category deficits (B 10, C 10)",
+    "Explain why aggregate sufficiency does not prove every category sufficient"
+  ],
+  "hardFails": [
+    "invent cause or cycle data",
+    "lose category or change values"
+  ],
+  "designCheck": "A new relation-aware representation may help; no required metaphor."
+}

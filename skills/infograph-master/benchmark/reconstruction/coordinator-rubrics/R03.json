@@ -1,0 +1,20 @@
+{
+  "intent": "Understand dependency order and conditional risk from delayed guide to launch readiness.",
+  "mustPreserve": [
+    "Approval 10 May complete",
+    "Guide 12 May delayed depends on approval",
+    "Training 18 May pending depends on guide",
+    "Launch 20 May pending depends on training",
+    "planned dates; revised dates unknown"
+  ],
+  "readerTasks": [
+    "Reconstruct approval → guide → training → launch",
+    "Identify delayed milestone",
+    "State launch delay as possible not confirmed"
+  ],
+  "hardFails": [
+    "invent revised dates",
+    "reverse dependency or assert launch delay as fact"
+  ],
+  "designCheck": "Dependency topology or task order should clarify the risk without a false critical path computation."
+}

@@ -1,0 +1,19 @@
+{
+  "intent": "Locate priority exceptions and owners quickly; maintain functional filtering.",
+  "mustPreserve": [
+    "E01 P1 Team A 8h",
+    "E02 P1 Team B 3h",
+    "E03 P2 Team C 6h",
+    "All/P1/P2 filter with 3/2/1 count"
+  ],
+  "readerTasks": [
+    "Find oldest P1 (E01) and owner (Team A)",
+    "Filter P2 and identify E03",
+    "Reset to all three"
+  ],
+  "hardFails": [
+    "break filtering or lose owners/ages",
+    "force sequential narrative that makes lookup materially harder"
+  ],
+  "designCheck": "Negative control: preserve a functional task-first queue unless a concrete improvement is evidenced."
+}

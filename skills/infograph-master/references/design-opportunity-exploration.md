@@ -1,0 +1,19 @@
+# Design opportunity mining and design-space exploration (P0.4)
+
+This is the creative reasoning stage between intent recovery and rebuilding. It is not a style checklist. For every substantial existing-artifact revision read this reference before choosing a design. Keep source evidence, business inferences, and design hypotheses distinct.
+
+## Mine opportunities
+Read actual artifact, recovered intents and L5–L3 diagnoses. Look across modules for information relationships that the current representation conceals: aggregate vs detail, concentration, stock/flow and constraints, temporal change, trade-offs, exceptions, dependencies. Also look for excessive effort to complete the reader's task. Do not infer causal mechanisms from co-occurrence. Check same grain, period, units, denominator, missingness and direction before linking values. Record what the current artifact already does well.
+
+For each meaningful relation author a relationship record with id, type, statement, status (observed/hypothesis/unknown), ref, limit (what is unverified and how to validate), at least two asset IDs, intentId and findingIds. The source asset evidence, not a keyword, must justify the relationship. Unknowns yield investigation, not confident redesign. A good existing representation without evidence of task failure yields retain-or-test. A relationship hypothesis can inspire an illustrative scene, not replace factual evidence.
+
+Run `node engine/design-opportunity-cli.mjs reconstruction-with-relationships.json [exploration.json]`. The first input extends the reconstruction contract with relationships. See engine/design-exploration.example.json. The engine produces candidate design questions and routes conditioned on authored evidence; it does not discover business relationships autonomously or certify their truth.
+
+## Explore materially different designs
+For each candidate, strip away inherited charts, cards and layout. Author three concrete alternatives: refine, restructure, reinvent. Each has architecture, representation, interaction and readerPath (describe actual content/modules, not generic adjectives); benefit, tradeoff, evidencePlan, preservationPlan, readerTest, opportunityIds, routes. Compare how the reader would find an answer or form a decision; compare the current artifact too. Restructure must change information organization or reader task path; reinvent may introduce a new explanatory model, spatial construct or visual mechanism if supported. Changing colors or chart styles alone is refine. A metaphor is not inherently better.
+
+Use these capability routes only when applicable; read the actual reference before implementation. For authored decision reports consult the narrative skill; for charts consult representation foundations and atlas; for contextual investigation consult contextual-focus; for mechanism consult dynamic-visual-metaphor; for monitoring prioritize lookup and exceptions. Consider novel concepts outside these seeded families if evidence supports them.
+
+Select based on user scope, task value, evidence integrity, interaction preservation, design coherence and cost. For refine with high-level opportunities record explicit disposition; if no high-level defect, prefer retention or narrow repair unless a concrete non-defect rationale exists (e.g. user-requested new delivery medium). Do not force reinvention for well-functioning monitoring interfaces. For substantial high-level change produce concrete storyboard/wireframe or prototype with actual labels and state transitions, then render and test the selected direction. Compare same-content reader tasks and actual evidence; user feedback and controlled trials are separate. No mandatory aesthetic score.
+
+The exploration checker verifies declared fields and textual differences only; synonyms can game it. Human/model inspection of genuinely distinct concepts remains mandatory. This is not automatic design generation or a learned intent engine. 

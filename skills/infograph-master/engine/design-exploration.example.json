@@ -1,0 +1,113 @@
+{
+  "packet": {
+    "assets": [
+      {
+        "id": "total",
+        "status": "observed",
+        "ref": "synthetic:#total"
+      },
+      {
+        "id": "short",
+        "status": "observed",
+        "ref": "synthetic:#short"
+      }
+    ],
+    "intents": [
+      {
+        "id": "task",
+        "status": "inferred"
+      }
+    ],
+    "findings": [
+      {
+        "id": "defect",
+        "status": "defect",
+        "level": 3,
+        "intentIds": [
+          "task"
+        ],
+        "ref": "synthetic:layout",
+        "taskImpact": "reader cannot connect aggregate and local availability"
+      }
+    ],
+    "relationships": [
+      {
+        "id": "relation",
+        "type": "aggregate_detail",
+        "status": "observed",
+        "statement": "total and category availability are presented separately",
+        "ref": "synthetic:observed comparison",
+        "limit": "confirm common period and units",
+        "assetIds": [
+          "total",
+          "short"
+        ],
+        "intentId": "task",
+        "findingIds": [
+          "defect"
+        ]
+      }
+    ]
+  },
+  "exploration": {
+    "options": [
+      {
+        "id": "refine",
+        "mode": "refine",
+        "architecture": "retain summary cards and table",
+        "representation": "same cards and table",
+        "interaction": "retain filter",
+        "readerPath": "read cards then search table",
+        "benefit": "understand distribution",
+        "tradeoff": "cost and evidence risk vary",
+        "evidencePlan": "preserve common units",
+        "preservationPlan": "retain original table and filter",
+        "readerTest": "explain discrepancy without unsupported causality",
+        "opportunityIds": [],
+        "routes": [
+          "visual-intelligence/representation-foundations.md"
+        ]
+      },
+      {
+        "id": "restructure",
+        "mode": "restructure",
+        "architecture": "align total and item comparison",
+        "representation": "aligned evidence bars",
+        "interaction": "linked item detail",
+        "readerPath": "compare total and item evidence",
+        "benefit": "understand distribution",
+        "tradeoff": "cost and evidence risk vary",
+        "evidencePlan": "preserve common units",
+        "preservationPlan": "retain original table and filter",
+        "readerTest": "explain discrepancy without unsupported causality",
+        "opportunityIds": [
+          "relation"
+        ],
+        "routes": [
+          "visual-intelligence/representation-foundations.md"
+        ]
+      },
+      {
+        "id": "reinvent",
+        "mode": "reinvent",
+        "architecture": "sequence from contradiction to conditional mechanism",
+        "representation": "illustrative branch scene plus evidence table",
+        "interaction": "target/risk state with linked detail",
+        "readerPath": "understand discrepancy then verify",
+        "benefit": "understand distribution",
+        "tradeoff": "cost and evidence risk vary",
+        "evidencePlan": "preserve common units",
+        "preservationPlan": "retain original table and filter",
+        "readerTest": "explain discrepancy without unsupported causality",
+        "opportunityIds": [
+          "relation"
+        ],
+        "routes": [
+          "visual-intelligence/representation-foundations.md"
+        ]
+      }
+    ],
+    "selected": "restructure",
+    "reason": "observed contrast; mechanism not proven"
+  }
+}

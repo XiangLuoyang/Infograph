@@ -16,8 +16,10 @@ function tests(fixture,compileWorkspace,initialWorkspace,dispatchWorkspace,works
  b=copy(fixture);b.concept.layers.find(x=>x.id==="wheel").semanticIds=["stream"];throws(()=>compileWorkspace(b),"cross-layer semantic mismatch rejected");
  b=copy(fixture);b.actBindings.A2="missing";throws(()=>compileWorkspace(b),"unknown act state rejected");
  b=copy(fixture);b.routes.explorer.sliceId="missing";throws(()=>compileWorkspace(b),"unknown route rejected");
- const quality={revision:1,purpose:"explain",substantial:true,multiRoute:true,mixedModes:true,semanticInteraction:true,richScene:true,areas:[]};
+ const quality={workspaceRevision:p.revision,revision:1,purpose:"explain",substantial:true,multiRoute:true,mixedModes:true,semanticInteraction:true,richScene:true,areas:[]};
  const review=auditWorkspace(p,{revision:p.revision,outputSha:"b".repeat(64),quality});out.push(ok(!review.complete&&!review.releaseAuthorized,"missing actual evidence cannot pass"));
+ throws(()=>auditWorkspace(p,{revision:p.revision,outputSha:"b".repeat(64),quality:{...quality,richScene:false}}),"required integrated depth flags cannot be waived");
+ throws(()=>auditWorkspace(p,{revision:p.revision,outputSha:"b".repeat(64),quality:{...quality,workspaceRevision:"old"}}),"quality evidence must bind workspace revision");
  return out;
 }
 for(const x of tests(fixture,compileWorkspace,initialWorkspace,dispatchWorkspace,workspaceFrame,auditWorkspace))console.log('PASS',x);

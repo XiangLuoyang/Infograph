@@ -8,6 +8,8 @@ on:
       - 'scripts/test-infograph-production.mjs'
       - 'scripts/execution-specialists.mjs'
       - 'scripts/test-infograph-specialists.mjs'
+      - 'scripts/execution-authoring.mjs'
+      - 'scripts/test-infograph-authoring.mjs'
       - 'skills/infograph-master/engine/**'
       - 'skills/infograph-master/references/**'
       - 'skills/infograph-master/visual-metaphor-intelligence/**'
@@ -20,6 +22,8 @@ on:
       - 'scripts/test-infograph-production.mjs'
       - 'scripts/execution-specialists.mjs'
       - 'scripts/test-infograph-specialists.mjs'
+      - 'scripts/execution-authoring.mjs'
+      - 'scripts/test-infograph-authoring.mjs'
       - 'skills/infograph-master/engine/**'
       - 'skills/infograph-master/references/**'
       - 'skills/infograph-master/visual-metaphor-intelligence/**'
@@ -42,6 +46,7 @@ jobs:
       - run: node scripts/test-infograph-execution.mjs
       - run: node scripts/test-infograph-production.mjs
       - run: node scripts/test-infograph-specialists.mjs
+      - run: node scripts/test-infograph-authoring.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/analogy.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/exploration.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/creative.test.mjs

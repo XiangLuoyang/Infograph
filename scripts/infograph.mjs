@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import {readFileSync,writeFileSync,mkdirSync,readdirSync,existsSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,readdirSync,existsSync,cpSync,realpathSync} from 'node:fs';
 import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {authoringTask,hydrateInput} from './execution-authoring.mjs';
 import {productionStages,productionEngines,dependencies,additionalDependencies,checkDependencies,evaluateProduction,productionStatus} from './execution-controller.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
@@ -16,10 +17,11 @@ const write=(p,v)=>writeFileSync(p,encode(v),{flag:'wx'});
 const manifest=()=>json(join(root,'skills/manifest.json'));
 const assert=(ok,msg)=>{if(!ok)throw Error(msg)};
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
-const stageNames=['vmi-explore','vmi-packet',...productionStages];
+const stageNames=['reconstruction-prepare','reconstruction-plan','production-plan','vmi-explore','vmi-packet','specialist-plan'];
+const rules=()=>json(join(root,'skills/infograph-master/references/execution-gates.json'));
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','skills/manifest.json'];
+ const paths=['scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -69,14 +71,18 @@ async function checkStage(dir,stage,run){
  const sd=join(dir,stage),r=json(join(sd,'receipt.json')),input=read(join(sd,'input.json')),output=read(join(sd,'output.json'));
  assert(r.schema===1&&r.stage===stage&&r.engine===engineNames[stage]&&r.status==='executed'&&r.sourceSha256===run.source.sha256,'invalid stage receipt');
  assert(hash(input)===r.inputSha256&&hash(output)===r.outputSha256,'stage bytes changed');
- const parsed=JSON.parse(input.toString('utf8'));
- if(stage==='vmi-packet'){
+ let parsed=JSON.parse(input.toString('utf8'));
+ if(stage==='vmi-packet'&&run.workflow!=='production'){
   const prior=await checkStage(dir,'vmi-explore',run);
   assert(same(parsed.perspectives,prior.input.perspectives)&&r.discoveryOutputSha256===prior.receipt.outputSha256,'packet/discovery mismatch');
  }
  const prior={};for(const dep of dependencies(stage,run))prior[dep]=await checkStage(dir,dep,run);
  for(const dep of additionalDependencies(stage,run,prior))prior[dep]=await checkStage(dir,dep,run);
- if(run.workflow==='production'){checkDependencies(stage,parsed,run,prior);assert(same(r.dependencies,Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,v.receipt.outputSha256]))),'dependency receipt mismatch');}
+ if(run.workflow==='production'){parsed=hydrateInput(stage,parsed,run,prior);checkDependencies(stage,parsed,run,prior);
+ if(stage==='vmi-packet'){
+  const d=prior['vmi-explore'];assert(same(parsed.perspectives,d.input.perspectives),'packet/discovery mismatch');
+ }
+ assert(same(r.dependencies,Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,v.receipt.outputSha256]))),'dependency receipt mismatch');}
  const replay=encode(await evaluate(stage,parsed,run,prior));
  assert(hash(replay)===r.outputSha256,'engine replay differs');
  return {input:parsed,receipt:r,output:JSON.parse(output.toString('utf8'))};
@@ -91,15 +97,19 @@ async function runStage(dir,stage,inputPath){
  writeFileSync(join(sd,'input.json'),input,{flag:'wx'});
  const receipt={schema:1,stage,engine:engineNames[stage],sourceSha256:run.source.sha256,inputSha256:hash(input),status:'blocked',releaseAuthorized:false};
  try{
-  const parsed=JSON.parse(input.toString('utf8'));
-  if(stage==='vmi-packet'){
+  let parsed=JSON.parse(input.toString('utf8'));
+  if(stage==='vmi-packet'&&run.workflow!=='production'){
    const prior=await checkStage(dir,'vmi-explore',run);
    assert(same(parsed.perspectives,prior.input.perspectives),'packet must retain discovery perspectives');
    receipt.discoveryOutputSha256=prior.receipt.outputSha256;
   }
   const prior={};for(const dep of dependencies(stage,run))prior[dep]=await checkStage(dir,dep,run);
  for(const dep of additionalDependencies(stage,run,prior))prior[dep]=await checkStage(dir,dep,run);
- if(run.workflow==='production'){checkDependencies(stage,parsed,run,prior);receipt.dependencies=Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,v.receipt.outputSha256]));}
+ if(run.workflow==='production'){parsed=hydrateInput(stage,parsed,run,prior);checkDependencies(stage,parsed,run,prior);
+ if(stage==='vmi-packet'){
+  const d=prior['vmi-explore'];assert(same(parsed.perspectives,d.input.perspectives),'packet/discovery mismatch');
+ }
+ receipt.dependencies=Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,v.receipt.outputSha256]));}
  const output=await evaluate(stage,parsed,run,prior),bytes=encode(output);
   writeFileSync(join(sd,'output.json'),bytes,{flag:'wx'});
   receipt.outputSha256=hash(bytes);receipt.status='executed';
@@ -112,6 +122,38 @@ async function runStage(dir,stage,inputPath){
  write(join(sd,'receipt.json'),receipt);
  console.log(JSON.stringify(receipt,null,2));
  if(receipt.status!=='executed')process.exitCode=1;
+}
+async function collectPrior(dir,stage,run){
+ const prior={};
+ for(const dep of dependencies(stage,run))prior[dep]=await checkStage(dir,dep,run);
+ for(const dep of additionalDependencies(stage,run,prior))prior[dep]=await checkStage(dir,dep,run);
+ return prior;
+}
+async function forkRun(dir,stage,dest){
+ const run=await context(dir);
+ assert(run.workflow==='production','retry only for production');
+ assert(stageNames.includes(stage),'unknown retry stage');
+ assert(existsSync(join(dir,stage)),'retry stage must already exist');
+ // Copy only the dependency closure, not unrelated or downstream receipts.
+ const copied=new Set();
+ async function inherit(s){
+  if(copied.has(s))return;
+  const item=await checkStage(dir,s,run);
+  const upstream=await collectPrior(dir,s,run);
+  for(const dep of Object.keys(upstream))await inherit(dep);
+  assert(item.receipt.status==='executed','unverified upstream');
+  copied.add(s);
+ }
+ const prior=await collectPrior(dir,stage,run);
+ for(const dep of Object.keys(prior))await inherit(dep);
+ assert(!existsSync(dest),'retry destination already exists');
+ mkdirSync(dest);
+ const record={...run,parentRun:{path:realpathSync(dir),retryStage:stage,inherited:[...copied],sourceSha256:run.source.sha256}};
+ write(join(dest,'run.json'),record);
+ for(const s of copied)cpSync(join(dir,s),join(dest,s),{recursive:true,errorOnExist:true,force:false});
+ for(const s of copied)await checkStage(dest,s,record);
+ const result={status:'forked',runDir:dest,retryStage:stage,inherited:[...copied],invalidated:stageNames.filter(s=>existsSync(join(dir,s))&&!copied.has(s)),releaseAuthorized:false};
+ console.log(JSON.stringify(result,null,2));
 }
 async function main(){
  const [cmd,...args]=process.argv.slice(2);
@@ -126,6 +168,15 @@ async function main(){
   const record={schema:1,task,workflow:cmd==='start-workflow'?'production':'vmi-only',source:{path:source,sha256:hash(bytes),bytes:bytes.length},preflight:env,releaseAuthorized:false,scope:'P0 execution evidence, not design acceptance'};
   write(join(dir,'run.json'),record);console.log(JSON.stringify(record,null,2));if(env.status!=='available')process.exitCode=1;return;
  }
+ if(cmd==='task'&&args.length===2){
+  const dir=resolve(args[0]),stage=args[1],run=await context(dir);
+  assert(run.workflow==='production'&&stageNames.includes(stage),'use a production stage');
+  const prior=await collectPrior(dir,stage,run);
+  let previous=null;try{previous=json(join(dir,stage,'input.json'))}catch{}
+  const result=authoringTask(stage,run,prior,rules(),previous);
+  console.log(JSON.stringify(result,null,2));return;
+ }
+ if(cmd==='retry'&&args.length===3){await forkRun(resolve(args[0]),args[1],resolve(args[2]));return}
  if(cmd==='run'&&args.length===3){await runStage(resolve(args[0]),args[1],args[2]);return}
  if(cmd==='status'&&args.length===1){
   const dir=resolve(args[0]),run=await context(dir),stages={};assert(run.workflow==='production','use start-workflow');
@@ -137,6 +188,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:Boolean(packet.output.html),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | verify-vmi <run-dir>');
+ throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

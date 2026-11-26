@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdtempSync,rmSync,existsSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+const load=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
+const rules=load('../skills/infograph-master/references/execution-gates.json');
+const packet=load('../skills/infograph-master/visual-metaphor-intelligence/benchmark/studio-packet.json');
+const dir=mkdtempSync(join(tmpdir(),'infograph-authoring-'));
+const cli=fileURLToPath(new URL('./infograph.mjs',import.meta.url));
+const source=join(dir,'brief.txt');writeFileSync(source,'synthetic authoring fixture');
+const call=(args,ok=true)=>{const r=spawnSync(process.execPath,[cli,...args],{encoding:'utf8'});assert.equal(r.status,ok?0:1,r.stderr||r.stdout);return r.stdout?JSON.parse(r.stdout):null};
+const save=(name,v)=>{const p=join(dir,name);writeFileSync(p,JSON.stringify(v));return p};
+const run=join(dir,'run'),rev=1;
+const plan={revision:rev,purpose:'monitor',opportunities:{revision:rev,inventory:[{id:'s',page:'p',ref:'fixture'}],slices:[{id:'s',revision:rev,task:'compare',relation:'constraint',ref:'fixture',selectedFamily:'mechanism',rationale:'synthetic',rendererPlan:'SVG',candidates:['bar','mechanism'],mechanism:'selected',mechanismRef:'fixture',evidenceBoundary:'qualitative',expression:'none'}]},quality:{revision:rev,purpose:'monitor',substantial:true,multiRoute:false,mixedModes:false,semanticInteraction:false,richScene:false,areas:Array.from({length:6},(_,i)=>({id:'QD0'+(i+1),applicable:i===5,reason:'synthetic',design:{revision:rev,status:'pass',ref:'fixture'}}))},execution:{revision:rev,purpose:'monitor',substantial:true,records:[...new Set(rules.flatMap(g=>g.requires))].map(key=>({key,revision:rev,status:'pass',ref:'fixture'}))}};
+try{
+ call(['start-workflow','create',source,run]);
+ const task=call(['task',run,'production-plan']);
+ assert.ok(task.template.execution.records.every(r=>r.status==='not-run'));
+ assert.equal(task.template.quality.multiRoute,null);
+ call(['run',run,'production-plan',save('plan.json',plan)]);
+ const exploration=call(['task',run,'vmi-explore']);assert.equal(exploration.template.sliceId,'s');
+ call(['run',run,'vmi-explore',save('perspectives.json',{perspectives:packet.perspectives})]);
+ const draft=call(['task',run,'vmi-packet']);assert.deepEqual(draft.template.perspectives,packet.perspectives);
+ const {perspectives,...minimal}=packet;
+ call(['run',run,'vmi-packet',save('packet.json',minimal)]);
+ assert.equal(call(['verify-vmi',run]).status,'replayed');
+ const fork=join(dir,'fork');
+ const result=call(['retry',run,'vmi-packet',fork]);assert.deepEqual(result.inherited,['production-plan','vmi-explore']);assert.deepEqual(result.invalidated,['vmi-packet']);
+ assert.equal(call(['status',fork]).next,'vmi-packet');assert.ok(existsSync(join(run,'vmi-packet','receipt.json')));
+ assert.equal(call(['run',fork,'vmi-packet',save('bad.json',{...minimal,sliceId:'wrong'})],false).status,'blocked');
+ const second=join(dir,'second');call(['retry',fork,'vmi-packet',second]);
+ call(['run',second,'vmi-packet',save('retry.json',minimal)]);assert.equal(call(['verify-vmi',second]).status,'replayed');
+ const reset=join(dir,'reset');const resetResult=call(['retry',run,'production-plan',reset]);assert.equal(resetResult.inherited.length,0);assert.equal(call(['status',reset]).next,'production-plan');
+ writeFileSync(join(run,'vmi-explore','output.json'),'{}');call(['retry',run,'vmi-packet',join(dir,'tampered')],false);
+ console.log('P2a authoring, handoff and immutable retry tests passed');
+}finally{rmSync(dir,{recursive:true,force:true})}

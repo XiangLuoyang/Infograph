@@ -205,5 +205,11 @@
     }
   ],
   "staticScene": "overview",
-  "links": []
+  "links": [],
+  "conceptInspection": {
+    "conceptSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "status": "pass",
+    "ref": "synthetic declaration only; no actual image",
+    "reviewer": "synthetic tester"
+  }
 }

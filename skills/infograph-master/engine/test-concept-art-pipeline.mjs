@@ -15,6 +15,10 @@ function tests(base,compileConceptArt,reviewConceptArt){
  b=copy(base);b.assets[0].status="planned";ok(!compileConceptArt(b).assetsDeclaredReady,"pending assets do not count ready");
  b=copy(base);b.layers[1].backend="custom-hybrid";throws(()=>compileConceptArt(b),"essential custom backend needs fallback");
  b.assets.push({...b.assets[0],id:"fallback",kind:"static-fallback"});b.layers[1].fallbackAssetId="fallback";ok(compileConceptArt(b).referenceManifest===null,"custom hybrid must not pretend reference adapter support");
+ b=copy(base);b.conceptInspection.status="not-run";ok(!compileConceptArt(b).productionDeclaredReady,"uninspected concept blocks production readiness");
+ b=copy(base);b.conceptInspection.conceptSha="e".repeat(64);throws(()=>compileConceptArt(b),"stale concept inspection rejected");
+ b=copy(base);b.assets[0].permission="publication-cleared";throws(()=>compileConceptArt(b),"local-only concept cannot grant publication rights");
+ b=copy(base);b.layers[1].motionMapping="calibrated";throws(()=>compileConceptArt(b),"calibrated motion needs evidence mapping");
  const outputSha="d".repeat(64);
  const empty=reviewConceptArt(p,{outputSha});ok(!empty.complete,"review cannot be inferred");
  const records=empty.checks.map(({key})=>({key,status:"pass",conceptSha:p.source.sha256,outputSha,ref:"synthetic declared evidence",reviewer:"synthetic tester"}));

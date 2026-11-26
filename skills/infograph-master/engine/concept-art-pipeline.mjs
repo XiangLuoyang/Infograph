@@ -92,3 +92,11 @@ export function reviewConceptArt(plan,{outputSha,records=[]}={}){
  const checks=required.map(key=>{const r=map.get(key);const status=!r?"missing":r.conceptSha!==plan.source.sha256||r.outputSha!==outputSha?"stale":!["pass","fail","not-run"].includes(r.status)?"invalid":r.status==="pass"&&(!r.ref?.trim?.()||!r.reviewer?.trim?.())?"missing-evidence":r.status;return {key,status}});
  return {checks,complete:plan.productionDeclaredReady&&checks.every(c=>c.status==="pass"),releaseAuthorized:false,scope:"declared evidence only; not actual asset hash verification or visual assessment"};
 }
+
+export function buildConceptProductionPacket(plan){
+ const d=plan.selectedDirection;
+ return {conceptSha:plan.source.sha256,semanticRef:plan.semanticRef,designDNARef:plan.designDNARef,
+  brief:{silhouette:d.silhouette,viewpoint:d.viewpoint,composition:d.composition,palette:d.palette,materials:d.materials,lighting:d.lighting,tradeoff:d.tradeoff,objects:plan.layers.filter(l=>l.role!=="label").map(l=>({id:l.id,label:l.label,region:l.bounds,depth:l.depth,material:l.material,lighting:l.lighting})),labelSafeZones:plan.layers.filter(l=>l.role==="label").map(l=>({id:l.id,region:l.bounds})),constraints:["Keep stable object identity and perspective.","Do not bake semantic labels, evidence or numeric values into imagery.","Match material and light across extracted layers.","Remove the original part from its clean plate before compositing a moving replacement."]},
+  workOrders:plan.assets.map(a=>({id:a.id,kind:a.kind,status:a.status,sourceRef:a.sourceRef,region:a.bounds,production:a.production,consumers:plan.layers.filter(l=>[l.assetId,l.cleanPlateId,l.maskId,l.fallbackAssetId].includes(a.id)).map(l=>({id:l.id,dynamic:l.dynamic,depth:l.depth,occlusion:l.occlusion,pivotOrDomain:l.pivotOrDomain??null,motionIntent:l.motionIntent??null}))})),
+  handoff:plan.referenceManifest?"reference-adapter-candidate":"custom-hybrid-required",productionDeclaredReady:plan.productionDeclaredReady,rendered:false};
+}

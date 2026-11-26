@@ -1,0 +1,209 @@
+{
+  "intent": "Explain synthetic allocation mechanism",
+  "readerTask": "Understand path response",
+  "semanticRef": "synthetic:semantic",
+  "designDNARef": "synthetic:studio",
+  "selectionReason": "Industrial mechanism offers visible control and path; quantitative proof remains separate.",
+  "directions": [
+    {
+      "id": "plain",
+      "kind": "plain",
+      "silhouette": "chart",
+      "viewpoint": "front",
+      "composition": "two columns",
+      "palette": "neutral",
+      "materials": "none",
+      "lighting": "none",
+      "tradeoff": "precise but less embodied"
+    },
+    {
+      "id": "industrial",
+      "kind": "concept",
+      "silhouette": "valve and conduit",
+      "viewpoint": "three-quarter",
+      "composition": "left to right",
+      "palette": "teal bronze",
+      "materials": "metal and glass",
+      "lighting": "studio",
+      "tradeoff": "needs isolated components"
+    },
+    {
+      "id": "architectural",
+      "kind": "concept",
+      "silhouette": "sluice gate",
+      "viewpoint": "section",
+      "composition": "vertical",
+      "palette": "sand",
+      "materials": "stone and water",
+      "lighting": "daylight",
+      "tradeoff": "less compact"
+    }
+  ],
+  "selectedDirection": "industrial",
+  "source": {
+    "id": "study",
+    "origin": "authored",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "width": 1000,
+    "height": 600,
+    "permission": "local-only",
+    "ref": "synthetic placeholder hash; not a real image",
+    "rightsNote": "Synthetic test declaration only"
+  },
+  "semanticObjects": [
+    {
+      "id": "control",
+      "meaning": "allocation control"
+    },
+    {
+      "id": "path",
+      "meaning": "resource path"
+    }
+  ],
+  "assets": [
+    {
+      "id": "plate",
+      "kind": "clean-plate",
+      "status": "ready",
+      "bounds": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "production": "Synthetic declaration",
+      "sourceRef": "fixture",
+      "parentSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ref": "fixture:plate",
+      "permission": "local-only"
+    },
+    {
+      "id": "part",
+      "kind": "isolated-part",
+      "status": "ready",
+      "bounds": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "production": "Synthetic declaration",
+      "sourceRef": "fixture",
+      "parentSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ref": "fixture:part",
+      "permission": "local-only"
+    },
+    {
+      "id": "mask",
+      "kind": "mask",
+      "status": "ready",
+      "bounds": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "production": "Synthetic declaration",
+      "sourceRef": "fixture",
+      "parentSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ref": "fixture:mask",
+      "permission": "local-only"
+    }
+  ],
+  "layers": [
+    {
+      "bounds": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "essential": true,
+      "reason": "synthetic layer",
+      "occlusion": "authored order",
+      "material": "studio",
+      "lighting": "matched key",
+      "staticAlternative": "show endpoint",
+      "id": "base",
+      "depth": 0,
+      "label": "path",
+      "role": "entity",
+      "semanticIds": [
+        "path"
+      ],
+      "backend": "raster",
+      "assetId": "plate",
+      "dynamic": false
+    },
+    {
+      "bounds": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "essential": true,
+      "reason": "synthetic layer",
+      "occlusion": "authored order",
+      "material": "studio",
+      "lighting": "matched key",
+      "staticAlternative": "show endpoint",
+      "id": "wheel",
+      "depth": 1,
+      "label": "control",
+      "role": "entity",
+      "semanticIds": [
+        "control"
+      ],
+      "backend": "raster",
+      "assetId": "part",
+      "dynamic": true,
+      "cleanPlateId": "plate",
+      "maskId": "mask",
+      "bakedOriginal": false,
+      "motionIntent": "rotate in plane",
+      "pivotOrDomain": "wheel center",
+      "motionMapping": "qualitative"
+    },
+    {
+      "bounds": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "essential": true,
+      "reason": "synthetic layer",
+      "occlusion": "authored order",
+      "material": "studio",
+      "lighting": "matched key",
+      "staticAlternative": "show endpoint",
+      "id": "label",
+      "depth": 2,
+      "label": "scope and evidence",
+      "role": "label",
+      "semanticIds": [
+        "path",
+        "control"
+      ],
+      "backend": "html",
+      "dynamic": false
+    }
+  ],
+  "scenes": [
+    {
+      "id": "overview",
+      "intent": "show all",
+      "visible": [
+        "base",
+        "wheel",
+        "label"
+      ]
+    }
+  ],
+  "staticScene": "overview",
+  "links": []
+}

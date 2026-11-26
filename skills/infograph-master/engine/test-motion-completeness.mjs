@@ -1,5 +1,5 @@
 import {readFileSync} from "node:fs";
-import {motionProfiles,compileMotionCompleteness,sampleIllustrativeMotion,reviewMotionCompleteness} from "./motion-completeness.mjs";
+import {motionProfiles,compileMotionCompleteness,sampleIllustrativeMotion,reviewMotionCompleteness,buildMotionWorkOrders} from "./motion-completeness.mjs";
 const {spec,concept,choreography}=JSON.parse(readFileSync(new URL("./motion-completeness.example.json",import.meta.url),"utf8"));
 function tests(spec,concept,choreography,profiles,compileMotionCompleteness,sampleIllustrativeMotion,reviewMotionCompleteness){
  const pass=[],ok=(v,s)=>{if(!v)throw Error(s);pass.push(s)},throws=(f,s)=>{let b=false;try{f()}catch{b=true}ok(b,s)},copy=x=>JSON.parse(JSON.stringify(x));
@@ -14,6 +14,8 @@ function tests(spec,concept,choreography,profiles,compileMotionCompleteness,samp
  b=copy(spec);b.inventory[2].implementations[0].activeStates=["missing"];throws(()=>compileMotionCompleteness(b,concept,choreography,profiles),"unknown active state rejected");
  b=copy(spec);b.inventory[2].implementations[0].pausePolicy="continue";throws(()=>compileMotionCompleteness(b,concept,choreography,profiles),"pause policy enforced");
  b=copy(spec);b.conceptSha="b".repeat(64);throws(()=>compileMotionCompleteness(b,concept,choreography,profiles),"stale concept rejected");
+ b=copy(spec);b.inventory[2].expectations=b.inventory[2].expectations.filter(e=>e.behavior!=="bubbles");q=compileMotionCompleteness(b,concept,choreography,profiles);ok(!q.complete&&q.issues.some(i=>i.kind==="behavior-not-assessed"&&i.behavior==="bubbles"),"unassessed physical behavior flagged");
+ let conflicting=copy(concept);conflicting.layers[1].motionMapping="calibrated";throws(()=>compileMotionCompleteness(spec,conflicting,choreography,profiles),"P3 P4 mapping mismatch blocked");
  let frame=sampleIllustrativeMotion(p,{stateId:"normal",elapsedMs:500})[0];ok(frame.active&&Math.abs(frame.offset-.2)<1e-9,"qualitative oscillator sampled");
  ok(!sampleIllustrativeMotion(p,{stateId:"normal",elapsedMs:500,paused:true})[0].active,"pause static");
  ok(sampleIllustrativeMotion(p,{stateId:"normal",elapsedMs:500,reducedMotion:true})[0].offset===0,"reduced motion static");
@@ -25,3 +27,5 @@ function tests(spec,concept,choreography,profiles,compileMotionCompleteness,samp
  return pass;
 }
 for(const name of tests(spec,concept,choreography,motionProfiles,compileMotionCompleteness,sampleIllustrativeMotion,reviewMotionCompleteness))console.log('PASS',name);
+
+const plan=compileMotionCompleteness(spec,concept,choreography);const orders=buildMotionWorkOrders(plan);if(orders.objects.length!==3||orders.objects[2].candidateBehaviors.some(x=>x.disposition==="not-assessed"))throw Error("work order mismatch");console.log("PASS production work orders");

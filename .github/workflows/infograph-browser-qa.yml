@@ -39,6 +39,7 @@ jobs:
           node scripts/audit-studio-distribution.mjs > skills/infograph-master/engine/qa-output/studio-distribution.json
       - run: node artifact-inspector-browser-test.mjs
       - run: node artifact-runtime-browser-test.mjs
+      - run: node design-dna-browser-test.mjs
       - run: node contrast-browser-test.mjs
       - run: node layout-browser-test.mjs
       - run: node visual-diff-test.mjs

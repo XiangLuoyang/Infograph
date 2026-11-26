@@ -61,6 +61,7 @@ jobs:
       - run: node test-studio-controls.mjs
       - run: node test-studio-preview.mjs
       - run: node test-studio-history.mjs
+      - run: node test-design-dna.mjs
       - run: node test-system-refactor.mjs
       - run: node test-reconstruction-orchestrator.mjs
       - run: node test-design-opportunity.mjs

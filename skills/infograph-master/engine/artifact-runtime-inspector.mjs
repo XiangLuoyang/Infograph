@@ -17,6 +17,12 @@ function collectProbe(el,kind){
  }else if(kind==="control"){
  if(el.matches('input[type=password],input[type=hidden],input[type=file]'))return {status:"unsupported",partial:false,value:null};
  value={tag:el.localName,disabled:!!el.disabled||el.getAttribute('aria-disabled')==='true',selected:el.localName==="select"?clip(el.value):null,checked:el.matches('input[type=checkbox],input[type=radio]')?el.checked:null,pressed:el.getAttribute('aria-pressed'),expanded:el.getAttribute('aria-expanded')};
+ }else if(kind==="style"){
+ const css=getComputedStyle(el);
+ const props=["color","background-color","background-image","font-family","font-size","font-weight","line-height","letter-spacing","border-radius","border-top-width","border-top-color","box-shadow","padding-top","padding-right","padding-bottom","padding-left","column-gap","row-gap","display","grid-template-columns","align-items","justify-content","opacity","fill","stroke","stroke-width","transition-duration","transition-timing-function","animation-duration"];
+ const computed=Object.fromEntries(props.map(k=>[k,clip(css.getPropertyValue(k).trim())]));
+ const rect=el.getBoundingClientRect();
+ value={computed,bounds:{width:Math.round(rect.width*100)/100,height:Math.round(rect.height*100)/100},tag:el.localName};
  }else if(kind==="chart"){
  const chart=globalThis.Chart?.getChart?.(el);const ech=globalThis.echarts?.getInstanceByDom?.(el);
  // Restricted adapters: only serializable configured labels and series values, not actual drawn pixels.
@@ -35,7 +41,7 @@ export async function inspectRuntime(file,plan,{trusted=false}={}){
  const sourceRef='sha256:'+createHash('sha256').update(bytes).digest('hex');
  const browser=await chromium.launch();const states=[];
  try{for(const scenario of [{id:"baseline",steps:[]},...plan.scenarios]){
- const context=await browser.newContext({offline:true,serviceWorkers:'block',acceptDownloads:false,viewport:{width:1440,height:900},reducedMotion:'reduce'});
+ const context=await browser.newContext({offline:true,serviceWorkers:'block',acceptDownloads:false,viewport:plan.viewport||{width:1440,height:900},reducedMotion:'reduce'});
  const blocked=[];await context.route('**/*',async r=>{if(blocked.length<50)blocked.push(r.request().resourceType());await r.abort()});
  const page=await context.newPage();page.setDefaultTimeout(2500);const errors=[];page.on('pageerror',e=>{if(errors.length<20)errors.push(String(e).slice(0,500))});page.on('dialog',d=>d.dismiss().catch(()=>{}));context.on('page',p=>{if(p!==page)p.close().catch(()=>{})});
  const state={id:scenario.id,status:"observed",probes:[],errors,blocked};
@@ -46,5 +52,5 @@ export async function inspectRuntime(file,plan,{trusted=false}={}){
  }catch(e){state.status="failed";state.failure=String(e).slice(0,500)}
  finally{if(errors.length||blocked.length)state.status=state.status==="failed"?"failed":"limited";await context.close();states.push(state)}
  }}finally{await browser.close()}
- return {version:1,sourceRef,states,scope:"bounded trusted offline scenarios; no general runtime coverage, no security sandbox guarantee",releaseAuthorized:false};
+ return {version:1,sourceRef,viewport:plan.viewport||{width:1440,height:900},states,scope:"bounded trusted offline scenarios; no general runtime coverage, no security sandbox guarantee",releaseAuthorized:false};
 }

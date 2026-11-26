@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {posix} from 'node:path';
 const tracked=new Set(execFileSync('git',['ls-files','-z'],{encoding:'utf8'}).split('\0').filter(Boolean));
 const base='skills/infograph-master/';
-const docs=['SKILL.md','references/context-guide.md','references/modes.md','references/acceptance.md','references/engineering-assets.md','references/execution-gates.md','references/critique-protocol.md','references/reconstruction-entry.md','references/reverse-design-reconstruction.md','references/system-level-refactoring.md'];
+const docs=['SKILL.md','references/context-guide.md','references/modes.md','references/acceptance.md','references/engineering-assets.md','references/execution-gates.md','references/critique-protocol.md','references/reconstruction-entry.md','references/reverse-design-reconstruction.md','references/system-level-refactoring.md','references/design-dna-sampling.md'];
 const rows=[];
 for(const doc of docs){
  const content=await readFile(base+doc,'utf8');

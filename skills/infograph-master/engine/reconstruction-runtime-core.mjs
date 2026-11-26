@@ -1,8 +1,9 @@
 export function validateRuntimePlan(p){
  const nonempty=s=>typeof s==="string"&&s.trim().length>0;
  if(!p||p.version!==1||!Array.isArray(p.probes)||p.probes.length<1||p.probes.length>40||!Array.isArray(p.scenarios)||p.scenarios.length>12)throw Error("invalid plan");
+ if(p.viewport!==undefined&&(!Number.isInteger(p.viewport?.width)||!Number.isInteger(p.viewport?.height)||p.viewport.width<320||p.viewport.width>3840||p.viewport.height<320||p.viewport.height>2160))throw Error("invalid viewport");
  const ids=new Set();
- for(const x of p.probes){if(!nonempty(x.id)||ids.has(x.id)||!nonempty(x.selector)||!["text","table","control","chart"].includes(x.kind))throw Error("invalid probe");ids.add(x.id)}
+ for(const x of p.probes){if(!nonempty(x.id)||ids.has(x.id)||!nonempty(x.selector)||!["text","table","control","chart","style"].includes(x.kind))throw Error("invalid probe");ids.add(x.id)}
  const scenarios=new Set(["baseline"]);
  for(const s of p.scenarios){if(!nonempty(s.id)||scenarios.has(s.id)||!Array.isArray(s.steps)||s.steps.length<1||s.steps.length>8)throw Error("invalid scenario");scenarios.add(s.id);
  for(const a of s.steps){if(!["click","select"].includes(a.action)||!nonempty(a.selector)||(a.action==="select"&&typeof a.value!=="string")||(a.waitFor!==undefined&&!nonempty(a.waitFor)))throw Error("invalid action")}

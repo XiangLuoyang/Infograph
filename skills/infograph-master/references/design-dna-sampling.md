@@ -1,0 +1,19 @@
+# Design DNA sampling and coherence audit (L3.2)
+
+Use before designing changed slices and again on the final integrated artifact. The existing runtime inspector now accepts style probes and explicit viewport. It runs only trusted, inspected, explicitly authorized standalone HTML in an isolated disposable environment; never execute unknown scripts or private production sites. Static/source and screenshot-only manual paths remain supported with limitations.
+
+## Sample actual computed styles
+Author runtime plans with style probes (id, selector, kind: style), named navigation/interaction scenarios and viewport {width,height}. Sample representative headings, body, numbers, cards, chart labels/marks, nav and controls across pages, retained/changed slices, states and desktop/mobile. Probe unique elements; hidden, blocked, unsupported or ambiguous states are not-run. Use same probe IDs/semantic roles on original and revised (selectors may change). The inspector returns computed CSS for foreground/background, font, line height, borders/radius, shadow, padding/gap, layout, opacity, SVG fill/stroke and declared transition/animation duration, plus element bounds. It does not capture all styles, pseudo-elements, actual chart palettes, image/material fidelity, composed contrast or real animation trajectories. Record those separately from rendered evidence. No auto-discovery of semantic roles. Runtime references identify source hash, scenario and probe; the sampling report also binds viewport explicitly.
+
+Run one report per viewport:
+`node engine/artifact-runtime-cli.mjs --trusted original.html probes-desktop.json > desktop.json`
+Use an author-selected bindings.json array: sliceId, roleId, viewport (e.g. 1440x900), state, probeId, property (canonical CSS name). Then:
+`node engine/design-dna-cli.mjs sample bindings.json desktop.json mobile.json`
+Roles group same semantic function, not just similar colors. Split intentional state or responsive roles (e.g. title.desktop vs title.mobile). The tool reports uniform observed candidates, variants with evidence, incomplete coverage, and mixed properties. Never choose majority style automatically. Review variants against actual rendered design and user preference. Distinguish brand/status semantics from decor; preserve accessibility. For inherit set role baseline and target to the selected observed canonical value. For evolve/replace explicitly choose target and migrate all affected slices.
+
+## Audit final output
+For each exact computed role in the system plan contract add computedProperty and requiredStates (array of viewport/state pairs; require all relevant sampled states for each slice using role). Sample revised artifact using same semantic bindings. Run:
+`node engine/design-dna-cli.mjs compare revised-dna.json plan.json`
+It compares every declared slice/role against exact canonical target or approved exception and checks required states. Manual roles (chart language, layout conventions, asset/material, interaction grammar) remain manual-review; never certify them from CSS. Use matched-state role values; represent responsive exceptions by separate roles or explicit scoped design decisions. Approved exceptions in system contract apply to the entire specified slice/role, not arbitrary viewport. Only observed-match entries emit styleObservations compatible with system ledger; use actual final-output hash as integration.outputRef. Keep the rest incomplete until separately evidenced.
+
+Computed style equality does not establish that designs look good together; assess visual hierarchy, rhythm, density, contrast against actual backgrounds, chart semantics, materials, motion and page transitions by reviewing matched renders/contact sheets. Do not infer user approval from tests. No visual quality score or automatic repair. This increment adds measurement, not general design recognition.

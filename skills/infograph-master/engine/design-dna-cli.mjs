@@ -1,0 +1,3 @@
+import {readFileSync} from 'node:fs';
+import {sampleDNA,compareDNA} from './design-dna.mjs';
+const read=p=>JSON.parse(readFileSync(p,'utf8'));const [mode,...args]=process.argv.slice(2);let r;if(mode==='sample'&&args.length>=2)r=sampleDNA(args.slice(1).map(read),read(args[0]));else if(mode==='compare'&&args.length===2){const p=read(args[1]);r=compareDNA(read(args[0]),p.contract,p.decisions)}else throw Error('usage: sample bindings.json report.json [report.json ...] | compare dna.json plan.json');console.log(JSON.stringify(r,null,2));if(r.errors.length||mode==='compare'&&r.status!=='observed-match')process.exitCode=1;

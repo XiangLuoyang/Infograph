@@ -1,0 +1,709 @@
+{
+  "plan": {
+    "version": 1,
+    "sourceRef": "fixture:synthetic-dashboard",
+    "planRevision": "p1",
+    "scope": "full",
+    "targetSliceIds": [
+      "overview-1",
+      "overview-2",
+      "overview-3",
+      "overview-4",
+      "products-1",
+      "products-2",
+      "products-3",
+      "products-4",
+      "operations-1",
+      "operations-2",
+      "operations-3",
+      "operations-4"
+    ],
+    "atlas": {
+      "coverage": "complete-declared",
+      "discoveryRef": "fixture:route-and-source-enumeration",
+      "pages": [
+        {
+          "id": "overview",
+          "title": "overview",
+          "task": "review overview",
+          "ref": "fixture:overview",
+          "inventoryIds": [
+            "src-overview"
+          ]
+        },
+        {
+          "id": "products",
+          "title": "products",
+          "task": "review products",
+          "ref": "fixture:products",
+          "inventoryIds": [
+            "src-products"
+          ]
+        },
+        {
+          "id": "operations",
+          "title": "operations",
+          "task": "review operations",
+          "ref": "fixture:operations",
+          "inventoryIds": [
+            "src-operations"
+          ]
+        }
+      ],
+      "slices": [
+        {
+          "id": "overview-1",
+          "pageId": "overview",
+          "title": "slice 1",
+          "task": "reader task 1",
+          "ref": "fixture:overview/1",
+          "inventoryIds": [
+            "src-overview-1"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "overview-2",
+          "pageId": "overview",
+          "title": "slice 2",
+          "task": "reader task 2",
+          "ref": "fixture:overview/2",
+          "inventoryIds": [
+            "src-overview-2"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": [
+            "overview-1"
+          ]
+        },
+        {
+          "id": "overview-3",
+          "pageId": "overview",
+          "title": "slice 3",
+          "task": "reader task 3",
+          "ref": "fixture:overview/3",
+          "inventoryIds": [
+            "src-overview-3"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "overview-4",
+          "pageId": "overview",
+          "title": "slice 4",
+          "task": "reader task 4",
+          "ref": "fixture:overview/4",
+          "inventoryIds": [
+            "src-overview-4"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "products-1",
+          "pageId": "products",
+          "title": "slice 1",
+          "task": "reader task 1",
+          "ref": "fixture:products/1",
+          "inventoryIds": [
+            "src-products-1"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "products-2",
+          "pageId": "products",
+          "title": "slice 2",
+          "task": "reader task 2",
+          "ref": "fixture:products/2",
+          "inventoryIds": [
+            "src-products-2"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": [
+            "products-1"
+          ]
+        },
+        {
+          "id": "products-3",
+          "pageId": "products",
+          "title": "slice 3",
+          "task": "reader task 3",
+          "ref": "fixture:products/3",
+          "inventoryIds": [
+            "src-products-3"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "products-4",
+          "pageId": "products",
+          "title": "slice 4",
+          "task": "reader task 4",
+          "ref": "fixture:products/4",
+          "inventoryIds": [
+            "src-products-4"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "operations-1",
+          "pageId": "operations",
+          "title": "slice 1",
+          "task": "reader task 1",
+          "ref": "fixture:operations/1",
+          "inventoryIds": [
+            "src-operations-1"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "operations-2",
+          "pageId": "operations",
+          "title": "slice 2",
+          "task": "reader task 2",
+          "ref": "fixture:operations/2",
+          "inventoryIds": [
+            "src-operations-2"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": [
+            "operations-1"
+          ]
+        },
+        {
+          "id": "operations-3",
+          "pageId": "operations",
+          "title": "slice 3",
+          "task": "reader task 3",
+          "ref": "fixture:operations/3",
+          "inventoryIds": [
+            "src-operations-3"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        },
+        {
+          "id": "operations-4",
+          "pageId": "operations",
+          "title": "slice 4",
+          "task": "reader task 4",
+          "ref": "fixture:operations/4",
+          "inventoryIds": [
+            "src-operations-4"
+          ],
+          "sharedIds": [
+            "filters"
+          ],
+          "executionDeps": []
+        }
+      ],
+      "inventory": [
+        {
+          "id": "src-overview",
+          "kind": "page",
+          "ref": "fixture:overview"
+        },
+        {
+          "id": "src-products",
+          "kind": "page",
+          "ref": "fixture:products"
+        },
+        {
+          "id": "src-operations",
+          "kind": "page",
+          "ref": "fixture:operations"
+        },
+        {
+          "id": "src-overview-1",
+          "kind": "slice",
+          "ref": "fixture:overview/1"
+        },
+        {
+          "id": "src-overview-2",
+          "kind": "slice",
+          "ref": "fixture:overview/2"
+        },
+        {
+          "id": "src-overview-3",
+          "kind": "slice",
+          "ref": "fixture:overview/3"
+        },
+        {
+          "id": "src-overview-4",
+          "kind": "slice",
+          "ref": "fixture:overview/4"
+        },
+        {
+          "id": "src-products-1",
+          "kind": "slice",
+          "ref": "fixture:products/1"
+        },
+        {
+          "id": "src-products-2",
+          "kind": "slice",
+          "ref": "fixture:products/2"
+        },
+        {
+          "id": "src-products-3",
+          "kind": "slice",
+          "ref": "fixture:products/3"
+        },
+        {
+          "id": "src-products-4",
+          "kind": "slice",
+          "ref": "fixture:products/4"
+        },
+        {
+          "id": "src-operations-1",
+          "kind": "slice",
+          "ref": "fixture:operations/1"
+        },
+        {
+          "id": "src-operations-2",
+          "kind": "slice",
+          "ref": "fixture:operations/2"
+        },
+        {
+          "id": "src-operations-3",
+          "kind": "slice",
+          "ref": "fixture:operations/3"
+        },
+        {
+          "id": "src-operations-4",
+          "kind": "slice",
+          "ref": "fixture:operations/4"
+        }
+      ],
+      "shared": [
+        {
+          "id": "filters",
+          "description": "shared filter state",
+          "ref": "fixture:filter"
+        }
+      ]
+    },
+    "contract": {
+      "revision": "dna1",
+      "strategy": "inherit",
+      "rationale": "preserve existing product identity",
+      "baselineRef": "fixture:render",
+      "dna": {
+        "color": {
+          "baseline": "color original",
+          "target": "color original",
+          "ref": "fixture:style/color"
+        },
+        "typography": {
+          "baseline": "typography original",
+          "target": "typography original",
+          "ref": "fixture:style/typography"
+        },
+        "material": {
+          "baseline": "material original",
+          "target": "material original",
+          "ref": "fixture:style/material"
+        },
+        "composition": {
+          "baseline": "composition original",
+          "target": "composition original",
+          "ref": "fixture:style/composition"
+        },
+        "chart": {
+          "baseline": "chart original",
+          "target": "chart original",
+          "ref": "fixture:style/chart"
+        },
+        "interaction": {
+          "baseline": "interaction original",
+          "target": "interaction original",
+          "ref": "fixture:style/interaction"
+        }
+      },
+      "roles": [
+        {
+          "id": "color-base",
+          "dimension": "color",
+          "baseline": "color original",
+          "target": "color original",
+          "ref": "fixture:style/color"
+        },
+        {
+          "id": "typography-base",
+          "dimension": "typography",
+          "baseline": "typography original",
+          "target": "typography original",
+          "ref": "fixture:style/typography"
+        },
+        {
+          "id": "material-base",
+          "dimension": "material",
+          "baseline": "material original",
+          "target": "material original",
+          "ref": "fixture:style/material"
+        },
+        {
+          "id": "composition-base",
+          "dimension": "composition",
+          "baseline": "composition original",
+          "target": "composition original",
+          "ref": "fixture:style/composition"
+        },
+        {
+          "id": "chart-base",
+          "dimension": "chart",
+          "baseline": "chart original",
+          "target": "chart original",
+          "ref": "fixture:style/chart"
+        },
+        {
+          "id": "interaction-base",
+          "dimension": "interaction",
+          "baseline": "interaction original",
+          "target": "interaction original",
+          "ref": "fixture:style/interaction"
+        }
+      ],
+      "exceptions": []
+    },
+    "decisions": [
+      {
+        "sliceId": "overview-1",
+        "action": "restructure",
+        "reason": "improve evidence relationship",
+        "taskImpact": "reader task overview-1",
+        "assessmentRef": "fixture:overview/1",
+        "priority": 0,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "overview-2",
+        "action": "restructure",
+        "reason": "improve evidence relationship",
+        "taskImpact": "reader task overview-2",
+        "assessmentRef": "fixture:overview/2",
+        "priority": 0,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "overview-3",
+        "action": "retain",
+        "reason": "effective original lookup",
+        "taskImpact": "reader task overview-3",
+        "assessmentRef": "fixture:overview/3",
+        "priority": 2,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "overview-4",
+        "action": "retain",
+        "reason": "effective original lookup",
+        "taskImpact": "reader task overview-4",
+        "assessmentRef": "fixture:overview/4",
+        "priority": 2,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "products-1",
+        "action": "restructure",
+        "reason": "improve evidence relationship",
+        "taskImpact": "reader task products-1",
+        "assessmentRef": "fixture:products/1",
+        "priority": 0,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "products-2",
+        "action": "restructure",
+        "reason": "improve evidence relationship",
+        "taskImpact": "reader task products-2",
+        "assessmentRef": "fixture:products/2",
+        "priority": 0,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "products-3",
+        "action": "retain",
+        "reason": "effective original lookup",
+        "taskImpact": "reader task products-3",
+        "assessmentRef": "fixture:products/3",
+        "priority": 2,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "products-4",
+        "action": "retain",
+        "reason": "effective original lookup",
+        "taskImpact": "reader task products-4",
+        "assessmentRef": "fixture:products/4",
+        "priority": 2,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "operations-1",
+        "action": "restructure",
+        "reason": "improve evidence relationship",
+        "taskImpact": "reader task operations-1",
+        "assessmentRef": "fixture:operations/1",
+        "priority": 0,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "operations-2",
+        "action": "restructure",
+        "reason": "improve evidence relationship",
+        "taskImpact": "reader task operations-2",
+        "assessmentRef": "fixture:operations/2",
+        "priority": 0,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "operations-3",
+        "action": "retain",
+        "reason": "effective original lookup",
+        "taskImpact": "reader task operations-3",
+        "assessmentRef": "fixture:operations/3",
+        "priority": 2,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      },
+      {
+        "sliceId": "operations-4",
+        "action": "retain",
+        "reason": "effective original lookup",
+        "taskImpact": "reader task operations-4",
+        "assessmentRef": "fixture:operations/4",
+        "priority": 2,
+        "roleIds": [
+          "color-base",
+          "typography-base",
+          "material-base",
+          "composition-base",
+          "chart-base",
+          "interaction-base"
+        ],
+        "contractRevision": "dna1",
+        "changeSpec": "reorganize information with inherited language",
+        "preservationPlan": "preserve original values and shared filter"
+      }
+    ]
+  },
+  "ledger": {
+    "version": 1,
+    "sourceRef": "fixture:synthetic-dashboard",
+    "planRevision": "p1",
+    "contractRevision": "dna1",
+    "records": [
+      {
+        "sliceId": "overview-1",
+        "status": "pending",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "overview-2",
+        "status": "pending",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "overview-3",
+        "status": "retained",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "overview-4",
+        "status": "retained",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "products-1",
+        "status": "pending",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "products-2",
+        "status": "pending",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "products-3",
+        "status": "retained",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "products-4",
+        "status": "retained",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "operations-1",
+        "status": "pending",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "operations-2",
+        "status": "pending",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "operations-3",
+        "status": "retained",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      },
+      {
+        "sliceId": "operations-4",
+        "status": "retained",
+        "ref": "fixture:ledger",
+        "contractRevision": "dna1"
+      }
+    ],
+    "integration": {}
+  }
+}

@@ -2,6 +2,8 @@
 
 Use this workflow first when a user gives an existing dashboard, report, HTML or partial design and asks to optimize it, even if they only say "make it better." It supersedes cosmetic-first review, not explicit narrow scope. Do not make a deliverable solely a critique unless requested. Do not ask the user to reconstruct the original brief unless a blocking unknown cannot be resolved. Do not treat this guide as an automatic designer.
 
+For multi-page, multi-slice or shared-state dashboards, first follow `references/system-level-refactoring.md`. The short path below applies within each planned slice or page; global scope, design language and completion are controlled by the system plan and ledger. Do not substitute one slice's review for the whole dashboard.
+
 ## The short path (for every agent host)
 1. **Read, not repaint.** Inspect actual source/render/states; identify what each module is for, data grain/units/formulas, key relationships, reader task and essential functions. Write a compact evidence map and design-independent brief: audience, readerTask, decision, constraints, unknowns. Separate observed facts from inferred needs and alternative interpretations.
 2. **Find the gap.** Diagnose from L5 (purpose), L4 (information architecture), L3 (representation/interaction) down to L2/L1. Look for meaningful relationships between modules; specify concrete task friction, not generic visual opinions. If no higher-level issue, retain the effective design.

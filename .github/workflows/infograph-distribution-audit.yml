@@ -36,6 +36,7 @@ jobs:
           node test-master-engine.mjs
           node test-skill-package.mjs
           node test-reconstruction-orchestrator.mjs
+          node test-system-refactor.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

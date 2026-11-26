@@ -97,7 +97,7 @@ export const motionProfiles={
   }
 };
 
-export function compileMotionCompleteness(spec,conceptPlan,choreographyPlan,profiles){
+export function compileMotionCompleteness(spec,conceptPlan,choreographyPlan,profiles=motionProfiles){
  const text=x=>typeof x==="string"&&x.trim().length>0;
  const hash=x=>typeof x==="string"&&/^[a-f0-9]{64}$/.test(x);
  const assert=(ok,msg)=>{if(!ok)throw Error(msg)};
@@ -129,6 +129,7 @@ export function compileMotionCompleteness(spec,conceptPlan,choreographyPlan,prof
    assert(e&&e.disposition!=="static"&&!matched.has(m.behavior),"unjustified or duplicate motion "+o.id);
    matched.add(m.behavior);
    assert(o.layerIds.includes(m.layerId)&&layers.get(m.layerId).dynamic,"motion must bind dynamic layer");
+   const layer=layers.get(m.layerId);if(layer.motionMapping!==undefined)assert(layer.motionMapping===m.mapping,"P3 and P4 motion mapping disagree");
    assert(text(m.renderer)&&text(m.geometryRule)&&text(m.occlusionRule)&&text(m.reducedMotionRule),"missing motion fidelity contract");
    assert(["transition","loop"].includes(m.driver),"unknown driver");
    assert(["qualitative","calibrated"].includes(m.mapping),"unknown mapping");
@@ -147,6 +148,7 @@ export function compileMotionCompleteness(spec,conceptPlan,choreographyPlan,prof
    jobs.push({objectId:o.id,class:o.class,intent:e.intent,...m});
   }
   for(const e of o.expectations.filter(x=>x.disposition==="required"&&!matched.has(x.behavior)))issues.push({kind:"missing-motion",objectId:o.id,behavior:e.behavior,severity:o.essential?"blocking":"review"});
+  for(const behavior of profile.behaviors)if(!o.expectations.some(e=>e.behavior===behavior||e.behavior==="none"))issues.push({kind:"behavior-not-assessed",objectId:o.id,behavior,severity:"review"});
   if(o.essential&&o.class!=="static-structure"&&o.class!=="semantic-overlay"&&o.expectations.length===1&&o.expectations[0].behavior==="none"&&!text(o.staticRationale))issues.push({kind:"static-justification-missing",objectId:o.id,severity:"blocking"});
  }
  for(const l of layers.values())if(!covered.has(l.id))issues.push({kind:"unclassified-layer",layerId:l.id,severity:l.essential||l.dynamic?"blocking":"review"});
@@ -168,4 +170,10 @@ export function reviewMotionCompleteness(plan,{outputSha,records=[]}){
  const m=new Map();for(const r of records){if(!plan.requiredReviews.includes(r.key)||m.has(r.key))throw Error("unknown/duplicate record");m.set(r.key,r)}
  const checks=plan.requiredReviews.map(key=>{const r=m.get(key);return {key,status:!r?"missing":r.conceptSha!==plan.conceptSha||r.motionRevision!==plan.motionRevision||r.outputSha!==outputSha?"stale":!["pass","fail","not-run"].includes(r.status)?"invalid":r.status==="pass"&&(!r.ref?.trim?.()||!r.reviewer?.trim?.())?"missing-evidence":r.status}});
  return {checks,complete:plan.complete&&checks.every(c=>c.status==="pass"),releaseAuthorized:false,scope:"declared object inventory and evidence only; not physical simulation or pixel review"};
+}
+
+export function buildMotionWorkOrders(plan,profiles=motionProfiles){
+ return {sceneRef:plan.sceneRef,conceptSha:plan.conceptSha,motionRevision:plan.motionRevision,
+  objects:plan.inventory.map(o=>({id:o.id,class:o.class,physicalRole:o.physicalRole,observedRef:o.observedRef,layerIds:o.layerIds,candidateBehaviors:profiles[o.class].behaviors.map(behavior=>({behavior,disposition:o.expectations.find(e=>e.behavior===behavior)?.disposition??"not-assessed",question:"Does this behavior improve the reader task or preserve the intended physical identity? If not, justify static."})),checks:profiles[o.class].checks,implementations:plan.jobs.filter(j=>j.objectId===o.id),staticAlternative:o.staticAlternative})),
+  issues:plan.issues,planningReady:plan.planningReady,rendered:false};
 }

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "probes": [
+    {
+      "id": "metric",
+      "kind": "text",
+      "selector": "#metric"
+    },
+    {
+      "id": "detail",
+      "kind": "table",
+      "selector": "#t"
+    },
+    {
+      "id": "filter",
+      "kind": "control",
+      "selector": "#f"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "filtered",
+      "steps": [
+        {
+          "action": "select",
+          "selector": "#f",
+          "value": "B"
+        }
+      ]
+    }
+  ]
+}

@@ -23,6 +23,17 @@ try{
  call(['browser-review',good.run],false);
  const pass=call(['browser-review','--trusted',good.run]);assert.equal(pass.cases.length,6);
  assert.equal(call(['artifact-status',good.run]).status,'browser-observed-pass');
+ const draft=call(['critique-task',good.run]);assert.equal(draft.captures.length,6);assert.ok(draft.template.reviews.every(r=>r.status==='not-run'));
+ const authored={...draft.template,reviewer:'synthetic test reviewer',reviewerKind:'agent-self',captureReviews:draft.template.captureReviews.map(x=>({...x,observation:'synthetic screenshot observation'})),reviews:draft.template.reviews.map(x=>({...x,status:'pass',ref:'synthetic fixture only',observation:'synthetic rubric observation',captureIds:[draft.captures[0].id]}))};
+ call(['critique-submit',good.run,save('wrong-review.json',{...authored,outputSha256:'wrong'})],false);
+ const defect=structuredClone(authored);Object.assign(defect.reviews.find(x=>x.check==='composition'),{status:'fail',severity:'major',issue:'synthetic composition defect',repair:'rework composition'});
+ const review=call(['critique-submit',good.run,save('review.json',defect)],false);assert.equal(review.status,'repair-required');assert.equal(review.repairRoutes[0].target,'specialist-plan / artifact');
+ assert.equal(call(['critique-status',good.run],false).status,'repair-required');
+ const fork=join(dir,'repair');assert.equal(call(['retry-artifact',good.run,fork]).attempt,1);
+ const repaired=save('repaired.html',html+'<!-- synthetic repair -->');call(['bind-artifact',fork,repaired,planFile]);call(['browser-review','--trusted',fork]);
+ const next=call(['critique-task',fork]),complete={...authored,...{outputSha256:next.template.outputSha256,reportSha256:next.template.reportSha256,captureReviews:next.template.captureReviews.map(x=>({...x,observation:'synthetic reviewed'}))}};
+ assert.equal(call(['critique-submit',fork,save('complete.json',complete)]).status,'declared-design-review-complete');
+ assert.equal(call(['critique-status',fork]).deliveryEligible,false);
  const cap=join(good.run,'artifact','browser','desktop--first.png');const png=readFileSync(cap);writeFileSync(cap,'tampered');call(['artifact-status',good.run],false);writeFileSync(cap,png);
  writeFileSync(good.output,html+'<!-- changed -->');call(['artifact-status',good.run],false);
  const bad=setup('bad',html.replace('width="100" height="50"','x="250" width="100" height="50"').replace('>30<','>30<')+'<div style="width:2000px">overflow</div>');

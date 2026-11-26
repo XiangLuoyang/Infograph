@@ -1,3 +1,4 @@
+import {hasVmiPreview} from './execution-vmi.mjs';
 import {compileDirector} from '../skills/infograph-master/engine/narrative-director.mjs';
 import {compileChoreography} from '../skills/infograph-master/engine/interaction-choreography.mjs';
 import {compileConceptArt} from '../skills/infograph-master/engine/concept-art-pipeline.mjs';
@@ -25,7 +26,7 @@ export function runSpecialists(input,plan,prior){
  ensure(plan.designEligible,'production plan blocked');
  if(plan.selectedMechanisms.length){
   const v=prior['vmi-packet'];
-  ensure(v?.output.html&&!v.output.issues?.length,'VMI preview unavailable');
+  ensure(hasVmiPreview(v?.output)&&!v.output.issues?.length,'VMI preview unavailable');
   ensure(input.vmiOutputSha256===v.receipt.outputSha256,'specialist/VMI evidence mismatch');
  }
  const outputs={},executions=[],blockers=[];

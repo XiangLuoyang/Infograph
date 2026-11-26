@@ -3,6 +3,7 @@ import {auditQualityDepth} from '../skills/infograph-master/engine/quality-depth
 import {auditExecution} from '../skills/infograph-master/engine/execution-gates.mjs';
 import {prepareReconstruction,planReconstruction} from '../skills/infograph-master/engine/reconstruction-orchestrator.mjs';
 import {readFileSync} from 'node:fs';
+import {sceneInputs,hasVmiPreview,MAX_SCENES} from './execution-vmi.mjs';
 import {specialistRequirements,runSpecialists} from './execution-specialists.mjs';
 const rules=JSON.parse(readFileSync(new URL('../skills/infograph-master/references/execution-gates.json',import.meta.url),'utf8'));
 const ensure=(ok,msg)=>{if(!ok)throw Error(msg)};
@@ -28,8 +29,7 @@ export function checkDependencies(stage,input,run,prior){
  if(stage==='vmi-explore'||stage==='vmi-packet'){
   const plan=prior['production-plan'].output;
   ensure(plan.designEligible,'production plan blocked');
-  ensure(plan.selectedMechanisms.length===1,'P1a supports one selected metaphor slice; zero or multiple require another route');
-  ensure(input.sliceId===plan.selectedMechanisms[0],'VMI input must bind selected slice ID');
+  sceneInputs(input,plan.selectedMechanisms);
  }
 }
 export function evaluateProduction(stage,input,run,prior){
@@ -58,7 +58,7 @@ export function evaluateProduction(stage,input,run,prior){
   if(!depth.buildEligible)blockers.push('quality-depth');
   if(!gates.buildEligible)blockers.push('execution-gates');
   if(new Set(opportunities.inventory.map(s=>s.page)).size>1&&!quality.multiRoute)blockers.push('multi-route quality context required');
-  if(selectedMechanisms.length>1)blockers.push('multiple metaphor slices not supported by P1a');
+  if(selectedMechanisms.length>MAX_SCENES)blockers.push('VMI batch exceeds eight scenes; split scope');
   return {revision,purpose,selectedMechanisms,specialists:specialistRequirements(quality,opportunities),opportunity,depth,gates,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
  }
  throw Error('unknown production stage');
@@ -80,8 +80,8 @@ export function productionStatus(run,stages){
   if(!stages['vmi-explore'])return next('vmi-explore');
   const v=stages['vmi-packet'];
   if(!v)return next('vmi-packet');
-  if(!v.html||v.issues?.length)return next('vmi-packet',['VMI preview unavailable or unresolved issues']);
-  if(v.openDiscoveryRequired)return next('vmi-packet',['open-domain discovery requires review; P1a cannot certify resolution']);
+  if(!hasVmiPreview(v)||v.issues?.length)return next('vmi-packet',['VMI preview unavailable or unresolved issues']);
+  if(v.openDiscoveryRequired)return next('vmi-packet',['open-domain discovery remains unresolved; retry exploration with local source additions or revise representation choice']);
  }
  if(p.specialists.areas.length){
   const s=stages['specialist-plan'];

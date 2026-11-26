@@ -1,4 +1,5 @@
 // Blank authoring scaffolds, never benchmark answers or invented pass records.
+import {bindScenes,sceneInputs} from './execution-vmi.mjs';
 const refs={
  'reconstruction-prepare':['references/reconstruction-entry.md','references/runtime-intent-recovery.md'],
  'reconstruction-plan':['references/reconstruction-entry.md','references/system-level-refactoring.md'],
@@ -32,12 +33,12 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   template={revision,purpose:null,opportunities:{revision,inventory:[],slices:[],globalReviews:[]},quality:{revision,purpose:null,substantial:true,multiRoute:null,mixedModes:null,semanticInteraction:null,richScene:null,areas:['QD01','QD02','QD03','QD04','QD05','QD06'].map(id=>area(revision,id))},execution:{revision,purpose:null,substantial:true,records:[...new Set(rules.flatMap(g=>g.requires))].map(k=>rec(revision,k))}};break;
  case 'vmi-explore':
   required(p,'production-plan');assignment='Author distinct directed abstractions of the same decision. Use the ontology vocabulary, actual evidence, essential relations and limitations.';
-  template={sliceId:p.selectedMechanisms[0],perspectives:[blankPerspective(),blankPerspective()]};locked=['sliceId'];break;
+  {const scenes=p.selectedMechanisms.map(sliceId=>({sliceId,perspectives:[blankPerspective(),blankPerspective()],sourceAdditions:[]}));template=scenes.length===1?scenes[0]:{scenes};locked=['sliceId (per scene)'];}break;
  case 'vmi-packet':{
   const explore=required(prior['vmi-explore'],'vmi-explore');
   assignment='Inspect exploration output; author contrasting concepts, explicit reviews, chosen scene and styles. Do not claim source verification or comparison that did not occur.';
-  template={sliceId:explore.input.sliceId,perspectives:explore.input.perspectives,targetId:'',concepts:[],reviews:[],selectedConceptId:'',scene:null,styles:[]};
-  locked=['sliceId','perspectives'];break;
+  {const scenes=sceneInputs(explore.input,p.selectedMechanisms).map(s=>({sliceId:s.sliceId,perspectives:s.perspectives,...(s.sourceAdditions!==undefined?{sourceAdditions:s.sourceAdditions}:{}),targetId:'',concepts:[],reviews:[],selectedConceptId:'',scene:null,styles:[]}));template=Object.hasOwn(explore.input,'scenes')?{scenes}:scenes[0];}
+  locked=['sliceId','perspectives','sourceAdditions (per scene)'];break;
  }
  case 'specialist-plan':
   required(p,'production-plan');assignment='Author only applicable specialist specs using the verified inventory and previous outputs. Static route needs evidence and justification.';
@@ -56,8 +57,7 @@ export function hydrateInput(stage,input,run,prior){
  const out=structuredClone(input),bind=(key,value)=>{if(value===undefined)throw Error('missing upstream '+key);if(Object.hasOwn(out,key)&&JSON.stringify(out[key])!==JSON.stringify(value))throw Error('authored '+key+' conflicts with verified upstream');out[key]=value};
  const p=prior['production-plan']?.output;
  if(stage==='reconstruction-plan')bind('inputFingerprint',prior['reconstruction-prepare']?.output.inputFingerprint);
- if(stage==='vmi-explore')bind('sliceId',p?.selectedMechanisms[0]);
- if(stage==='vmi-packet'){bind('sliceId',p?.selectedMechanisms[0]);bind('perspectives',prior['vmi-explore']?.input.perspectives)}
+ if(stage==='vmi-explore'||stage==='vmi-packet')return bindScenes(stage,out,p?.selectedMechanisms,prior['vmi-explore']?.input);
  if(stage==='specialist-plan'){bind('revision',p?.revision);if(p?.selectedMechanisms.length)bind('vmiOutputSha256',prior['vmi-packet']?.receipt.outputSha256)}
  return out;
 }

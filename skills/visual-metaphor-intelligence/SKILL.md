@@ -8,6 +8,8 @@ This is the independently discoverable entry, not a second implementation. Use f
 ## Full repository mode (preferred)
 When accessible, locate the sibling directory `../infograph-master/visual-metaphor-intelligence/` from this Skill directory. Read its `GUIDE.md` and resolve its relative paths from that directory. It contains the canonical ontology, references, engines, workbench and tests. Master and VMI must be from the same checkout/package. Read the Master references for dynamic visual metaphor, reference reconstruction, concept art and motion completeness when producing a rich interactive scene. Do not assume these files are installed; check access before use. Do not fetch or execute external code without authorization.
 
+With shell access, use `node scripts/infograph.mjs preflight` and `start` from the repository root, then `run <run-dir> vmi-explore <input.json>`, `run <run-dir> vmi-packet <packet.json>` and `verify-vmi <run-dir>`; see `repo:docs/EXECUTION-ARCHITECTURE.md`. Read the canonical GUIDE and references, inspect actual outputs. Do not choose manual mode when preflight is available. Receipts are execution evidence only, not design approval.
+
 ## Independent manual mode
 If the host copies only this Skill, use the following complete compact workflow without claiming engine execution. Missing references/renderer capabilities must be disclosed.
 1. **Abstract the mechanism**: state the reader task, decision, entities, directed relationships, conditions and polarity. Distinguish observations, hypotheses, assumptions and decisions; attach evidence IDs, scope and limitations. Identify indispensable edges and unknowns. No analogy is evidence by itself.

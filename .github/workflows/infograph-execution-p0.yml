@@ -1,0 +1,35 @@
+name: Infograph execution P0
+on:
+  push:
+    paths:
+      - 'scripts/infograph.mjs'
+      - 'scripts/test-infograph-execution.mjs'
+      - 'skills/infograph-master/visual-metaphor-intelligence/**'
+      - '.github/workflows/infograph-execution-p0.yml'
+  pull_request:
+    paths:
+      - 'scripts/infograph.mjs'
+      - 'scripts/test-infograph-execution.mjs'
+      - 'skills/infograph-master/visual-metaphor-intelligence/**'
+      - '.github/workflows/infograph-execution-p0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  execution:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node scripts/test-infograph-execution.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/analogy.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/exploration.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/creative.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/scene.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/studio.test.mjs

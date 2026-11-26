@@ -1,0 +1,31 @@
+import {readFileSync} from "node:fs";
+import {compileSpatialComposition,selectSpatialTier,spatialCSS,auditSpatialReview} from "./global-spatial-composition.mjs";
+const {atlas,spec}=JSON.parse(readFileSync(new URL("./global-spatial-composition.example.json",import.meta.url),"utf8"));
+function tests(atlas,spec,compileSpatialComposition,selectSpatialTier,spatialCSS,auditSpatialReview){
+ const pass=[],ok=(v,s)=>{if(!v)throw Error(s);pass.push(s)},throws=(f,s)=>{let caught=false;try{f()}catch{caught=true}ok(caught,s)},copy=x=>JSON.parse(JSON.stringify(x));
+ const p=compileSpatialComposition(atlas,spec);ok(p.reviewMatrix.length===6&&!p.rendered,"atlas and viewport coverage compiled");
+ ok(selectSpatialTier(p,1440,900)==="desktop"&&selectSpatialTier(p,1440,600)==="compact"&&selectSpatialTier(p,390,844)==="mobile","width and height routing");
+ ok(selectSpatialTier(p,1440,300)==="mobile","short screen fallback");
+ let b=copy(spec);b.slices.pop();throws(()=>compileSpatialComposition(atlas,b),"missing slice rejected");
+ b=copy(spec);b.slices[0].variants[0].rows=[["facts","hero"]];throws(()=>compileSpatialComposition(atlas,b),"reading order mismatch");
+ b=copy(spec);b.slices[0].variants[0].scroll.vertical="document";throws(()=>compileSpatialComposition(atlas,b),"accidental document scroll");
+ b=copy(spec);b.slices[0].variants[0].scroll={vertical:"region",regionId:"hero",reason:"fake"};throws(()=>compileSpatialComposition(atlas,b),"local scroll limited to lookup");
+ b=copy(spec);b.tiers.pop();throws(()=>compileSpatialComposition(atlas,b),"mandatory flow fallback");
+ b=copy(spec);b.viewports.pop();throws(()=>compileSpatialComposition(atlas,b),"every tier reviewed");
+ b=copy(atlas);b.inventory.push({id:"orphan",kind:"slice",ref:"synthetic"});throws(()=>compileSpatialComposition(b,spec),"independent inventory reconciled");
+ b=copy(spec);b.slices[0].variants[0].rowSizes=["auto"];ok(!compileSpatialComposition(atlas,b).planningReady,"fixed automatic rows require review");
+ const css=spatialCSS(p);ok(css.includes('grid-template-areas:"ig_hero ig_facts"')&&css.includes("height:100dvh")&&css.includes("overflow-y:auto"),"scoped CSS generated");
+ const outputSha="a".repeat(64);
+ const obs=p.reviewMatrix.map(r=>{const v=p.viewports.find(x=>x.id===r.viewportId),l=p.layouts.find(x=>x.sliceId===r.sliceId&&x.tierId===r.tierId),t=p.tiers.find(x=>x.id===r.tierId);const h=l.mode==="flow"?136:t.shell.header+t.shell.nav+t.shell.filters;return {viewportId:v.id,sliceId:r.sliceId,tierId:r.tierId,width:v.width,height:v.height,revision:p.revision,outputSha,ref:"synthetic observation only",verticalOwner:l.scroll.vertical,verticalRegion:l.scroll.regionId,documentOverflowX:0,documentOverflowY:l.mode==="flow"?200:0,workspaceOverflowY:l.mode==="hybrid"?100:0,shellBox:[0,0,v.width,h],workBox:[0,h,v.width,v.height-h],regions:l.regions.map((x,i)=>({id:x.id,box:[16+i*100,h+10,80,100],overflowX:0,overflowY:0,reachable:true,clipped:false,legible:true})),tasks:Object.fromEntries(["navigation","keyboard","touch","returnContext","dataParity","visualCoherence"].map(k=>[k,"pass"]))}});
+ ok(auditSpatialReview(p,{outputSha,observations:obs}).complete,"declared complete matrix");
+ b=copy(obs);b[1].workBox[1]+=10;ok(auditSpatialReview(p,{outputSha,observations:b}).issues.some(x=>x.kind==="shell-drift"),"cross-page workspace drift caught");
+ b=copy(obs);b[0].documentOverflowY=80;ok(!auditSpatialReview(p,{outputSha,observations:b}).complete,"unbounded document scroll caught");
+ b=copy(obs);b[0].workspaceOverflowY=60;ok(!auditSpatialReview(p,{outputSha,observations:b}).complete,"unplanned workspace overflow caught");
+ b=copy(obs);b[0].regions[0].clipped=true;ok(!auditSpatialReview(p,{outputSha,observations:b}).complete,"clipping caught");
+ b=copy(obs);b[0].tasks.returnContext="not-run";ok(!auditSpatialReview(p,{outputSha,observations:b}).complete,"navigation context unverified");
+ b=copy(obs);b.pop();ok(!auditSpatialReview(p,{outputSha,observations:b}).complete,"missing viewport/slice observation blocks");
+ b=copy(obs);b[0].revision="old";ok(!auditSpatialReview(p,{outputSha,observations:b}).complete,"stale review blocks");
+ b=copy(obs);b[0].regions[0].box=[16,850,80,100];ok(auditSpatialReview(p,{outputSha,observations:b}).issues.some(x=>x.kind==="essential-outside-workspace"),"essential content outside fixed area caught");
+ return pass;
+}
+for(const name of tests(atlas,spec,compileSpatialComposition,selectSpatialTier,spatialCSS,auditSpatialReview))console.log('PASS',name);

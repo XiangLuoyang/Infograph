@@ -62,6 +62,7 @@ jobs:
       - run: node test-studio-preview.mjs
       - run: node test-studio-history.mjs
       - run: node test-execution-gates.mjs
+      - run: node test-core-design-principles.mjs
       - run: node test-critique-plan.mjs
       - run: node test-skill-package.mjs
 

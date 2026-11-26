@@ -140,6 +140,48 @@
         "revision": 1,
         "status": "pass",
         "ref": "synthetic:export-integrity"
+      },
+      {
+        "dimension": "visual",
+        "check": "material-coherence",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:material-coherence"
+      },
+      {
+        "dimension": "visual",
+        "check": "runtime-legibility",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:runtime-legibility"
+      },
+      {
+        "dimension": "interaction",
+        "check": "contextual-focus-fit",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:contextual-focus-fit"
+      },
+      {
+        "dimension": "engineering",
+        "check": "renderer-fitness",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:renderer-fitness"
+      },
+      {
+        "dimension": "engineering",
+        "check": "responsive-composition",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:responsive-composition"
+      },
+      {
+        "dimension": "engineering",
+        "check": "baseline-regression",
+        "revision": 1,
+        "status": "pass",
+        "ref": "synthetic:baseline-regression"
       }
     ]
   },

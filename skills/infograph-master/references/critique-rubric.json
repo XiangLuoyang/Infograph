@@ -31,7 +31,9 @@
         "hierarchy",
         "composition",
         "legibility",
-        "art-direction"
+        "art-direction",
+        "material-coherence",
+        "runtime-legibility"
       ]
     },
     {
@@ -39,7 +41,8 @@
       "checks": [
         "task-fit",
         "essential-visibility",
-        "accessible-alternative"
+        "accessible-alternative",
+        "contextual-focus-fit"
       ]
     },
     {
@@ -47,7 +50,10 @@
       "checks": [
         "runtime",
         "responsive",
-        "export-integrity"
+        "export-integrity",
+        "renderer-fitness",
+        "responsive-composition",
+        "baseline-regression"
       ]
     }
   ],

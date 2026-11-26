@@ -105,6 +105,54 @@
         "revision": 1,
         "status": "pass",
         "ref": "fixture:limitations-disclosure"
+      },
+      {
+        "key": "renderer-strategy",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:renderer-strategy"
+      },
+      {
+        "key": "coherence-spec",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:coherence-spec"
+      },
+      {
+        "key": "viewport-composition",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:viewport-composition"
+      },
+      {
+        "key": "interaction-rationale",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:interaction-rationale"
+      },
+      {
+        "key": "baseline-disposition",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:baseline-disposition"
+      },
+      {
+        "key": "render-coherence-review",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:render-coherence-review"
+      },
+      {
+        "key": "device-task-review",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:device-task-review"
+      },
+      {
+        "key": "regression-legibility-review",
+        "revision": 1,
+        "status": "pass",
+        "ref": "fixture:regression-legibility-review"
       }
     ]
   },
@@ -231,6 +279,60 @@
             "key": "limitations-disclosure",
             "status": "pass",
             "ref": "fixture:limitations-disclosure"
+          }
+        ],
+        "status": "declared-pass"
+      },
+      {
+        "id": "G09",
+        "stage": "design",
+        "checks": [
+          {
+            "key": "renderer-strategy",
+            "status": "pass",
+            "ref": "fixture:renderer-strategy"
+          },
+          {
+            "key": "coherence-spec",
+            "status": "pass",
+            "ref": "fixture:coherence-spec"
+          },
+          {
+            "key": "viewport-composition",
+            "status": "pass",
+            "ref": "fixture:viewport-composition"
+          },
+          {
+            "key": "interaction-rationale",
+            "status": "pass",
+            "ref": "fixture:interaction-rationale"
+          },
+          {
+            "key": "baseline-disposition",
+            "status": "pass",
+            "ref": "fixture:baseline-disposition"
+          }
+        ],
+        "status": "declared-pass"
+      },
+      {
+        "id": "G10",
+        "stage": "review",
+        "checks": [
+          {
+            "key": "render-coherence-review",
+            "status": "pass",
+            "ref": "fixture:render-coherence-review"
+          },
+          {
+            "key": "device-task-review",
+            "status": "pass",
+            "ref": "fixture:device-task-review"
+          },
+          {
+            "key": "regression-legibility-review",
+            "status": "pass",
+            "ref": "fixture:regression-legibility-review"
           }
         ],
         "status": "declared-pass"

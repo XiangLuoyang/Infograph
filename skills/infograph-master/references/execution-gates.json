@@ -72,5 +72,27 @@
       "limitations-disclosure"
     ],
     "applies": "all"
+  },
+  {
+    "id": "G09",
+    "stage": "design",
+    "requires": [
+      "renderer-strategy",
+      "coherence-spec",
+      "viewport-composition",
+      "interaction-rationale",
+      "baseline-disposition"
+    ],
+    "applies": "substantial"
+  },
+  {
+    "id": "G10",
+    "stage": "review",
+    "requires": [
+      "render-coherence-review",
+      "device-task-review",
+      "regression-legibility-review"
+    ],
+    "applies": "substantial"
   }
 ]

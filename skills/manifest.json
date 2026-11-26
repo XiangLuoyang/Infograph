@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "packageVersion": "1.3.0-candidate",
+  "status": "engineering-candidate",
+  "releaseAuthorized": false,
+  "defaultEntry": "skills/infograph-master/SKILL.md",
+  "skills": [
+    {
+      "name": "infograph-master",
+      "path": "skills/infograph-master/SKILL.md",
+      "mode": "repository",
+      "dependencies": [
+        "skills/infograph-master/references/quality-depth.md",
+        "skills/infograph-master/engine/workspace-integration.mjs",
+        "skills/infograph-master/visual-metaphor-intelligence/GUIDE.md",
+        "skills/narrative-design/SKILL.md"
+      ]
+    },
+    {
+      "name": "narrative-design",
+      "path": "skills/narrative-design/SKILL.md",
+      "mode": "repository",
+      "dependencies": [
+        "skills/narrative-design/templates/storyboard.json"
+      ]
+    },
+    {
+      "name": "visual-metaphor-intelligence",
+      "path": "skills/visual-metaphor-intelligence/SKILL.md",
+      "mode": "manual-or-full-repository",
+      "dependencies": [
+        "skills/infograph-master/visual-metaphor-intelligence/GUIDE.md",
+        "skills/infograph-master/visual-metaphor-intelligence/engine/handoff.mjs",
+        "skills/infograph-master/engine/reference-scene.mjs"
+      ]
+    }
+  ]
+}

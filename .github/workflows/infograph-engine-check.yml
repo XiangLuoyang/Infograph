@@ -73,6 +73,7 @@ jobs:
       - run: node test-core-design-principles.mjs
       - run: node test-critique-plan.mjs
       - run: node test-skill-package.mjs
+      - run: node test-quality-depth-suite.mjs
 
       - name: Visual intelligence tests
         working-directory: skills/infograph-master/visual-intelligence

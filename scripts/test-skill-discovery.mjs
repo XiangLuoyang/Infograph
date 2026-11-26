@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {auditDiscovery} from './skill-discovery.mjs';
+const names=['infograph-master','narrative-design','visual-metaphor-intelligence'];
+const skills=names.map(name=>({name,path:'skills/'+name+'/SKILL.md',dependencies:['skills/'+name+'/guide.md']}));
+const docs=Object.fromEntries(skills.map(s=>[s.path,'---\nname: '+s.name+'\ndescription: Example skill\n---\n# Test\n']));
+const paths=[...Object.keys(docs),...skills.flatMap(s=>s.dependencies)];
+const manifest={version:1,packageVersion:'test',releaseAuthorized:false,defaultEntry:skills[0].path,skills};
+const audit=(p=paths,d=docs,m=manifest)=>auditDiscovery(p,x=>d[x],m);
+assert.equal(audit().pass,true);
+assert.equal(audit(paths.filter(p=>p!==skills[2].path)).pass,false);
+assert.equal(audit([...paths,'skills/infograph-master/visual-metaphor-intelligence/SKILL.md']).pass,false);
+assert.equal(audit(paths,{...docs,[skills[2].path]:'---\nname: wrong\ndescription: Good\n---'}).pass,false);
+assert.equal(audit(paths,{...docs,[skills[2].path]:'---\nname: visual-metaphor-intelligence\n---'}).pass,false);
+assert.equal(audit(paths.filter(p=>p!==skills[2].dependencies[0])).pass,false);
+assert.equal(audit(paths,docs,{...manifest,skills:skills.slice(0,2)}).pass,false);
+console.log('PASS discovery: valid, missing, nested, name mismatch, description missing, dependency missing, manifest mismatch');

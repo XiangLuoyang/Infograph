@@ -24,6 +24,10 @@ jobs:
           node scripts/audit-knowledge-index.mjs > audit-output/knowledge-index.json || status=1
           node --input-type=module -e "import fs from 'node:fs'; for(const f of ['skill-paths','knowledge-index']) {try {const r=JSON.parse(fs.readFileSync('audit-output/'+f+'.json')); console.log(f,JSON.stringify(r.missing??r.issues));} catch(e){console.log(f,e.message)}}"
           exit "$status"
+      - name: Verify three direct skill entries
+        run: |
+          node scripts/test-skill-discovery.mjs
+          node scripts/audit-skill-discovery.mjs . > audit-output/skill-discovery.json
       - name: Verify portable skill in isolated directory
         run: |
           node scripts/build-portable-skill.mjs
@@ -31,6 +35,7 @@ jobs:
           cp -a dist/portable-skill/. "$isolated/"
           cd "$isolated"
           node scripts/verify-portable-skill.mjs .
+          node scripts/audit-skill-discovery.mjs .
           node scripts/audit-knowledge-index.mjs
           cd skills/infograph-master/engine
           node test-master-engine.mjs
@@ -39,6 +44,7 @@ jobs:
           node test-system-refactor.mjs
           node test-design-dna.mjs
           node test-system-batch.mjs
+          node test-quality-depth-suite.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

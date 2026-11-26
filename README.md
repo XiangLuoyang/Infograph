@@ -5,11 +5,12 @@
 
 > **Current maturity: research baseline / 研究性资源库。** 24 families and 630 named catalog entries are searchable, but domain breadth remains **incomplete** and only 185 entries have direct name evidence from consulted source directories. This is not a 630-component rendering library.
 
-## V1.2 engineering candidate / 工程候选版
+## V1.3.0 engineering candidate / 工程候选版
 
 The Master Skill now combines narrative, color, typography, composition, material, motion and representation guidance with a shared design engine and seven interactive Studios. This is an internal candidate, not an accepted release.
 
-- [Master Skill entry](skills/infograph-master/SKILL.md) and [portable installation guide](docs/PORTABLE-SKILL.md).
+- Three discoverable skills: [infograph-master](skills/infograph-master/SKILL.md), [narrative-design](skills/narrative-design/SKILL.md), [visual-metaphor-intelligence](skills/visual-metaphor-intelligence/SKILL.md). [Registry](skills/manifest.json) and [portable installation guide](docs/PORTABLE-SKILL.md).
+- [V1.3.0 candidate changelog and verification limits](docs/consolidation/V1.3-RELEASE-NOTES.md).
 - [Release evidence and limitations](docs/consolidation/V1.2-RELEASE-NOTES.md).
 - [Benchmark protocol](skills/infograph-master/benchmark/PROTOCOL.md): 24 pilot runs planned, zero real model runs evidenced.
 - [Formal release gates](docs/consolidation/release-gates.json): same-revision acceptance remains pending.

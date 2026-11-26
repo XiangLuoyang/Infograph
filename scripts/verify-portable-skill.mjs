@@ -15,4 +15,9 @@ for(const f of m.files){
 async function walk(dir){for(const e of await readdir(dir,{withFileTypes:true})){const p=resolve(dir,e.name),r=relative(root,p);if(e.isDirectory())await walk(p);else if(!e.isFile()||r!=='portable-manifest.json'&&!expected.has(r))throw Error('unexpected file '+r)}}
 await walk(root);
 if(!expected.has(m.entry))throw Error('missing entry');
-console.log(JSON.stringify({revision:m.revision,verified:expected.size,entry:m.entry}));
+const registry=JSON.parse(await readFile(resolve(root,'skills/manifest.json'),'utf8'));
+const {auditDiscovery}=await import('./skill-discovery.mjs');
+const sources=new Map();for(const path of expected)if(path.endsWith('/SKILL.md'))sources.set(path,await readFile(resolve(root,path),'utf8'));
+const report=auditDiscovery([...expected],p=>sources.get(p),registry);
+if(!report.pass||m.packageVersion!==registry.packageVersion||JSON.stringify(m.entries)!==JSON.stringify(registry.skills.map(({name,path})=>({name,path}))))throw Error('skill registry mismatch '+JSON.stringify(report.errors));
+console.log(JSON.stringify({revision:m.revision,verified:expected.size,entry:m.entry,entries:m.entries,packageVersion:m.packageVersion}));

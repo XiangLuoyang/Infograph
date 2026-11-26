@@ -1,8 +1,4 @@
----
-name: visual-metaphor-intelligence
-description: Discover and critique cross-domain visual analogies for abstract mechanisms, then adapt to the existing visual language.
----
-# VMI V0.5 — integrated workbench and renderer handoff
+# VMI V0.5 — implementation guide and integrated workbench and renderer handoff
 Candidate, not mature. Use after visual opportunity discovery when a mechanism could improve comprehension. Do not force metaphors for exact lookup or unsupported claims. Preserve a conventional evidence alternative.
 1. Author target graph independent of physical objects: decision, entities, directed predicates, essential edges, source evidence, observed vs hypothetical status. Consider distinct abstractions for complex tasks. See ontology/mechanisms.json. Do not confuse a graph with verified causality.
 2. Read references/open-discovery.md. For substantial work use engine/exploration.mjs explorePerspectives: separate authored abstractions, directional alias/generalization, role/condition/polarity checks, bounded alignment and domain-diverse shortlist. V0.1 rankCandidates remains for seed regression. Inspect unmapped edges, essential coverage, truncated searches, source and limits. A score is only structural coverage, not creative merit. If no appropriate candidate, explicitly search other domains using functions/relations, verify physical mechanism against sources, author new graph locally and rerun. Do not assume library completeness; compare at least two semantically distinct candidates and a non-metaphorical alternative. Never manufacture a mapping to fill a quota.

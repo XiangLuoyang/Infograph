@@ -2,7 +2,7 @@
 name: infograph-master
 description: Create evidence-grounded visualizations, business dashboards, narrative reports, maps, diagrams and custom interactive HTML. Route by task to visual design, narrative, specialist and engineering assets.
 ---
-# Infograph Master V1.1
+# Infograph Master V1.3.0 — engineering candidate
 Use the full repository; paths below are relative to this skill unless stated. Do not copy this file alone. Read references/context-guide.md first. Use its compact index to choose initial references; consult references/modes.md only for deeper domain routes. Always load references/acceptance.md and references/design-principles.md; budget cannot waive blocking requirements. Default to Standard for dashboards, Express for a single simple chart. Combine modes when needed; Runtime is optional, never a creativity constraint.
 
 ## Execution
@@ -34,4 +34,4 @@ For reference-image or concept-to-code reconstruction, load `references/referenc
 
 For abstract business mechanisms or competing constraints where a physical analogy improves explanation, load `references/dynamic-visual-metaphor.md` before choosing a scene. Compare physical mechanisms, define semantic mappings and state transitions, separate qualitative motion from measured evidence, and preserve the accepted baseline. Use only when it serves the reader's task.
 
-For suitable mechanism opportunities, route to `visual-metaphor-intelligence/SKILL.md` before selecting the physical analogy. VMI V0.5 provides authored multi-perspective exploration, creative concept critique, style-conditioned scene compilation and an offline workbench; require open-domain exploration when candidates are weak, compare alternatives and preserve evidence boundaries. Rich rendering handoffs are planning only; use the actual reference renderers and inspect outputs. Do not equate graph match with creative or visual approval. Existing dynamic-visual-metaphor and design-DNA requirements still apply.
+For suitable mechanism opportunities, route to `visual-metaphor-intelligence/GUIDE.md` before selecting the physical analogy. VMI V0.5 provides authored multi-perspective exploration, creative concept critique, style-conditioned scene compilation and an offline workbench; require open-domain exploration when candidates are weak, compare alternatives and preserve evidence boundaries. Rich rendering handoffs are planning only; use the actual reference renderers and inspect outputs. Do not equate graph match with creative or visual approval. Existing dynamic-visual-metaphor and design-DNA requirements still apply.

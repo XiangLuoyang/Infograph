@@ -20,5 +20,8 @@ export function routeTask(text,declared={}){
  if(/艺术方向|杂志风|art direction/.test(s)){groups.push('studio');modes.push('Studio')}
  const delivery=declared.delivery??(/html/.test(s)?'html':/ppt|幻灯片/.test(s)?'slides':/pdf/.test(s)?'pdf':null);
  if(delivery!==null&&!['html','slides','pdf','image','chart'].includes(delivery))throw Error('invalid delivery');
- return {...(existingArtifact?{revisionRoute:'reverse-design',requiredReferences:['references/reverse-design-reconstruction.md']}:{}),purpose,domain,relation,delivery,groups:[...new Set(groups)],modes,signals:{purpose:p,domain:d,relation:rel},unresolved:['purpose','domain','relation','delivery'].filter(k=>({purpose,domain,relation,delivery})[k]===null),specialistReference:domain&&domain!=='business'?'visual-intelligence/'+domain+'-intelligence.md':null,status:'advisory',runtimeAuthorized:false};
+ const opportunityRequired=declared.substantial===true||existingArtifact||/看板|仪表盘|dashboard|报告|汇报|report|briefing|信息图|infographic|机制|隐喻|metaphor/.test(s);
+ const mechanismSignal=/机制|矛盾|约束|瓶颈|资源错配|隐喻|mechanism|trade-off|bottleneck|metaphor/.test(s);
+ const requiredReferences=[...(existingArtifact?['references/reverse-design-reconstruction.md']:[]),...(opportunityRequired?['references/visual-opportunity-discovery.md']:[]),...(mechanismSignal?['references/dynamic-visual-metaphor.md']:[])];
+ return {...(existingArtifact?{revisionRoute:'reverse-design'}:{}),...(requiredReferences.length?{requiredReferences}:{}),...(opportunityRequired?{visualOpportunity:{required:true,mechanismSignal,status:'assessment-required'}}:{}),purpose,domain,relation,delivery,groups:[...new Set(groups)],modes,signals:{purpose:p,domain:d,relation:rel},unresolved:['purpose','domain','relation','delivery'].filter(k=>({purpose,domain,relation,delivery})[k]===null),specialistReference:domain&&domain!=='business'?'visual-intelligence/'+domain+'-intelligence.md':null,status:'advisory',runtimeAuthorized:false};
 }

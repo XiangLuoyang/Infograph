@@ -1,0 +1,154 @@
+{
+  "spec": {
+    "conceptSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "motionRevision": "m1",
+    "sceneRef": "synthetic:scene",
+    "inventory": [
+      {
+        "id": "frame",
+        "class": "static-structure",
+        "layerIds": [
+          "housing"
+        ],
+        "essential": true,
+        "observedRef": "synthetic:frame",
+        "physicalRole": "support",
+        "staticAlternative": "fixed housing",
+        "expectations": [
+          {
+            "behavior": "none",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "rigid support"
+          }
+        ],
+        "implementations": []
+      },
+      {
+        "id": "valve",
+        "class": "rigid",
+        "layerIds": [
+          "wheel"
+        ],
+        "essential": true,
+        "observedRef": "synthetic:wheel",
+        "physicalRole": "allocation control",
+        "staticAlternative": "show endpoint",
+        "expectations": [
+          {
+            "behavior": "rotation",
+            "disposition": "required",
+            "intent": "business",
+            "reason": "illustrate control state"
+          }
+        ],
+        "implementations": [
+          {
+            "id": "turn",
+            "behavior": "rotation",
+            "layerId": "wheel",
+            "renderer": "raster transform",
+            "geometryRule": "fixed planar pivot; preserve thickness",
+            "occlusionRule": "clip inside isolated part",
+            "reducedMotionRule": "endpoint",
+            "driver": "transition",
+            "channel": "valve.angle",
+            "mapping": "qualitative"
+          }
+        ]
+      },
+      {
+        "id": "fluid",
+        "class": "liquid",
+        "layerIds": [
+          "water"
+        ],
+        "essential": true,
+        "observedRef": "synthetic:water",
+        "physicalRole": "illustrative circulation",
+        "staticAlternative": "show still liquid",
+        "expectations": [
+          {
+            "behavior": "surface-wave",
+            "disposition": "required",
+            "intent": "illustrative",
+            "reason": "show flowing material during running state"
+          },
+          {
+            "behavior": "level-change",
+            "disposition": "static",
+            "intent": "none",
+            "reason": "no measured fill-level model"
+          }
+        ],
+        "implementations": [
+          {
+            "id": "wave",
+            "behavior": "surface-wave",
+            "layerId": "water",
+            "renderer": "masked texture",
+            "geometryRule": "fixed container and surface domain",
+            "occlusionRule": "interior mask with preserved reflection",
+            "reducedMotionRule": "still surface",
+            "driver": "loop",
+            "mapping": "qualitative",
+            "periodMs": 2000,
+            "amplitude": 0.2,
+            "activeStates": [
+              "normal"
+            ],
+            "pausePolicy": "stop",
+            "reducedMotionPolicy": "static"
+          }
+        ]
+      }
+    ]
+  },
+  "concept": {
+    "source": {
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "layers": [
+      {
+        "id": "housing",
+        "essential": true,
+        "dynamic": false
+      },
+      {
+        "id": "wheel",
+        "essential": true,
+        "dynamic": true
+      },
+      {
+        "id": "water",
+        "essential": true,
+        "dynamic": true
+      }
+    ]
+  },
+  "choreography": {
+    "channels": [
+      {
+        "key": "valve.angle",
+        "mapping": "qualitative"
+      }
+    ],
+    "states": [
+      {
+        "id": "normal"
+      },
+      {
+        "id": "restricted"
+      }
+    ],
+    "transitions": [
+      {
+        "tracks": [
+          {
+            "channel": "valve.angle"
+          }
+        ]
+      }
+    ]
+  }
+}

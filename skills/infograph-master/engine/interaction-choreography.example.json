@@ -1,0 +1,174 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "source": "Synthetic allocation demonstration; no measured forces or flow rates.",
+      "limitation": "Illustrative mechanism, no causal proof."
+    }
+  ],
+  "objects": [
+    {
+      "id": "valve",
+      "role": "Allocation control",
+      "channels": [
+        {
+          "id": "angle",
+          "kind": "number",
+          "min": 0,
+          "max": 90,
+          "meaning": "Illustrative rotation",
+          "mapping": "qualitative",
+          "unit": "degrees"
+        }
+      ]
+    },
+    {
+      "id": "stream",
+      "role": "Path response",
+      "channels": [
+        {
+          "id": "opacity",
+          "kind": "number",
+          "min": 0,
+          "max": 1,
+          "meaning": "Illustrative visibility of path",
+          "mapping": "qualitative",
+          "unit": "ratio"
+        }
+      ]
+    },
+    {
+      "id": "indicator",
+      "role": "State marker",
+      "channels": [
+        {
+          "id": "status",
+          "kind": "enum",
+          "values": [
+            "normal",
+            "restricted"
+          ],
+          "meaning": "Illustrative state category",
+          "mapping": "qualitative",
+          "unit": "category"
+        }
+      ]
+    }
+  ],
+  "states": [
+    {
+      "id": "normal",
+      "reading": "Illustrative open path.",
+      "scope": "Synthetic qualitative mechanism",
+      "status": "hypothesis",
+      "evidenceIds": [
+        "E1"
+      ],
+      "values": {
+        "valve.angle": 0,
+        "stream.opacity": 1,
+        "indicator.status": "normal"
+      }
+    },
+    {
+      "id": "restricted",
+      "reading": "Illustrative constrained path; no measured flow rate.",
+      "scope": "Synthetic qualitative mechanism",
+      "status": "hypothesis",
+      "evidenceIds": [
+        "E1"
+      ],
+      "values": {
+        "valve.angle": 90,
+        "stream.opacity": 0.2,
+        "indicator.status": "restricted"
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": "restrict",
+      "from": "normal",
+      "to": "restricted",
+      "trigger": "Manual scenario switch",
+      "semanticPayload": "Control changes, followed by illustrative path response; not a measured causal delay.",
+      "timingRationale": "Sequential staging emphasizes order, not physical timing.",
+      "staticAlternative": "Read the two endpoint diagrams and status.",
+      "evidenceIds": [
+        "E1"
+      ],
+      "tracks": [
+        {
+          "id": "turn",
+          "channel": "valve.angle",
+          "durationMs": 400,
+          "delayMs": 0,
+          "after": [],
+          "easing": "ease-in-out"
+        },
+        {
+          "id": "flow",
+          "channel": "stream.opacity",
+          "durationMs": 600,
+          "delayMs": 0,
+          "after": [
+            "turn"
+          ],
+          "easing": "linear"
+        },
+        {
+          "id": "status",
+          "channel": "indicator.status",
+          "durationMs": 0,
+          "delayMs": 0,
+          "after": [
+            "flow"
+          ],
+          "easing": "step-end"
+        }
+      ]
+    },
+    {
+      "id": "restore",
+      "from": "restricted",
+      "to": "normal",
+      "trigger": "Manual scenario switch",
+      "semanticPayload": "Control changes, followed by illustrative path response; not a measured causal delay.",
+      "timingRationale": "Sequential staging emphasizes order, not physical timing.",
+      "staticAlternative": "Read the two endpoint diagrams and status.",
+      "evidenceIds": [
+        "E1"
+      ],
+      "tracks": [
+        {
+          "id": "turn",
+          "channel": "valve.angle",
+          "durationMs": 400,
+          "delayMs": 0,
+          "after": [],
+          "easing": "ease-in-out"
+        },
+        {
+          "id": "flow",
+          "channel": "stream.opacity",
+          "durationMs": 600,
+          "delayMs": 0,
+          "after": [
+            "turn"
+          ],
+          "easing": "linear"
+        },
+        {
+          "id": "status",
+          "channel": "indicator.status",
+          "durationMs": 0,
+          "delayMs": 0,
+          "after": [
+            "flow"
+          ],
+          "easing": "step-end"
+        }
+      ]
+    }
+  ]
+}

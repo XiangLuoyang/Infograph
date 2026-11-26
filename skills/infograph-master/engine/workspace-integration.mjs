@@ -63,11 +63,12 @@ export function workspaceFrame(plan,state,nowMs){
 
 export function auditWorkspace(plan,{revision,outputSha,quality,conceptRecords=[],motionRecords=[],spatialObservations=[]}){
  if(revision!==plan.revision||!(/^[a-f0-9]{64}$/.test(outputSha??"")))throw Error("stale revision or invalid output hash");
+ if(quality?.workspaceRevision!==plan.revision||quality.substantial!==true||quality.multiRoute!==true||quality.mixedModes!==true||quality.semanticInteraction!==true||quality.richScene!==true)throw Error("integrated workspace requires all quality-depth applicability flags and current workspace revision");
  const depth=auditQualityDepth(quality);
  const art=reviewConceptArt(plan.concept,{outputSha,records:conceptRecords});
  const motion=reviewMotionCompleteness(plan.motion,{outputSha,records:motionRecords});
  const spatial=auditSpatialReview(plan.spatial,{outputSha,observations:spatialObservations});
  // Require applicable depth reviews plus explicit output-bound references.
- const bound=quality.substantial===true&&quality.areas.every(a=>!a.applicable||a.review?.ref?.includes(outputSha));
+ const bound=quality.areas.every(a=>!a.applicable||(a.review?.outputSha===outputSha&&a.design?.workspaceRevision===plan.revision));
  return {planningReady:plan.planningReady,depth,art,motion,spatial,complete:plan.planningReady&&bound&&depth.depthComplete===true&&art.complete&&motion.complete&&spatial.complete,releaseAuthorized:false,scope:"declared evidence and cross-module contracts; no automatic human approval"};
 }

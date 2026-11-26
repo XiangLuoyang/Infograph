@@ -38,3 +38,6 @@ The actual user approved the focal asset improvement, found layout and interacti
 
 ## Phase 5b: V5 targeted visual repair
 See [V5-REPAIR.md](V5-REPAIR.md). Approved focal asset held fixed; peripheral chains, callouts, mobile composition and contextual selection redesigned. Local functional and sampled contrast checks passed; user-reported actual host legibility and aesthetic acceptance remain open. No native renderer comparison.
+
+## Phase 5c: V6 contextual focus
+See [V6-FOCUS.md](V6-FOCUS.md). V5 visual assets held fixed; desktop/mobile group and individual inspection added, with stage state kept separate from focus. Local layout, interaction and sampled active text checks passed. User approval and actual host remain pending.

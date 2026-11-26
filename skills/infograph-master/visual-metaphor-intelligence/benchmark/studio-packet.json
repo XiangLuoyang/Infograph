@@ -1,0 +1,668 @@
+{
+  "perspectives": [
+    {
+      "id": "buffer",
+      "evidenceRef": "synthetic:buffer",
+      "evidenceKind": "conceptual",
+      "nodes": [
+        {
+          "id": "b",
+          "label": "缓冲装置",
+          "role": "buffer"
+        },
+        {
+          "id": "s",
+          "label": "累积负担",
+          "role": "stock"
+        },
+        {
+          "id": "c",
+          "label": "业务状态",
+          "role": "state"
+        },
+        {
+          "id": "i",
+          "label": "干预措施",
+          "role": "actuator"
+        }
+      ],
+      "edges": [
+        {
+          "id": "t0",
+          "from": "b",
+          "predicate": "store",
+          "to": "s",
+          "essential": true
+        },
+        {
+          "id": "t1",
+          "from": "b",
+          "predicate": "regulate",
+          "to": "c",
+          "essential": true
+        },
+        {
+          "id": "t2",
+          "from": "i",
+          "predicate": "remove",
+          "to": "s",
+          "condition": "near-capacity",
+          "polarity": "negative",
+          "essential": true
+        }
+      ],
+      "rationale": "Illustrative buffer capacity and conditional intervention"
+    }
+  ],
+  "targetId": "buffer",
+  "concepts": [
+    {
+      "id": "wheel-transform",
+      "revision": 1,
+      "targetId": "buffer",
+      "operation": "transform",
+      "intent": "explain limited buffering and relief",
+      "focalScene": "a reaction wheel with separate external relief",
+      "plainAlternative": "stock and intervention diagram",
+      "boundary": "angular momentum is not economic pressure",
+      "designDNARef": "synthetic:style",
+      "evidenceRef": "synthetic:buffer",
+      "evidenceKind": "conceptual",
+      "sourceIds": [
+        "reaction-wheel"
+      ],
+      "panels": [
+        {
+          "id": "p",
+          "label": "buffer system"
+        }
+      ],
+      "sceneObjects": [
+        {
+          "id": "b",
+          "label": "b",
+          "panelId": "p",
+          "targetNode": "b",
+          "anchors": [
+            {
+              "sourceId": "reaction-wheel",
+              "nodeId": "w"
+            }
+          ]
+        },
+        {
+          "id": "s",
+          "label": "s",
+          "panelId": "p",
+          "targetNode": "s",
+          "anchors": [
+            {
+              "sourceId": "reaction-wheel",
+              "nodeId": "m"
+            }
+          ]
+        },
+        {
+          "id": "c",
+          "label": "c",
+          "panelId": "p",
+          "targetNode": "c",
+          "anchors": [
+            {
+              "sourceId": "reaction-wheel",
+              "nodeId": "a"
+            }
+          ]
+        },
+        {
+          "id": "i",
+          "label": "i",
+          "panelId": "p",
+          "targetNode": "i",
+          "anchors": [
+            {
+              "sourceId": "reaction-wheel",
+              "nodeId": "t"
+            }
+          ]
+        }
+      ],
+      "bindings": [
+        {
+          "targetEdge": "t0",
+          "sourceId": "reaction-wheel",
+          "sourceEdge": "e0",
+          "fromObject": "b",
+          "toObject": "s",
+          "interpretation": "qualitative relation"
+        },
+        {
+          "targetEdge": "t1",
+          "sourceId": "reaction-wheel",
+          "sourceEdge": "e1",
+          "fromObject": "b",
+          "toObject": "c",
+          "interpretation": "qualitative relation"
+        },
+        {
+          "targetEdge": "t2",
+          "sourceId": "reaction-wheel",
+          "sourceEdge": "e2",
+          "fromObject": "i",
+          "toObject": "s",
+          "interpretation": "qualitative relation",
+          "qualifierReview": {
+            "status": "accepted",
+            "reason": "unloading is a restricted case of removal in near-capacity scenario",
+            "evidenceRef": "synthetic:source-review"
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "normal",
+          "label": "buffer available",
+          "evidenceKind": "conceptual",
+          "evidenceRef": "synthetic:buffer"
+        },
+        {
+          "id": "relief",
+          "label": "relief applied",
+          "evidenceKind": "conceptual",
+          "evidenceRef": "synthetic:buffer"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "normal",
+          "to": "relief",
+          "changedObjects": [
+            "s",
+            "i"
+          ],
+          "trigger": "illustrative near-capacity scenario",
+          "meaning": "relieve accumulated burden",
+          "staticAlternative": "two labeled static states",
+          "quantitative": false
+        }
+      ],
+      "quantitativeGeometry": false,
+      "unsupportedCausality": false,
+      "qualitativeLabel": true,
+      "stateDisclaimer": "not a measured state",
+      "counterexamples": [
+        {
+          "scenario": "no external relief available",
+          "failure": "buffer cannot be assumed to unload",
+          "mitigation": "show intervention as conditional",
+          "evidenceRef": "synthetic:buffer",
+          "status": "mitigated"
+        }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "conceptId": "wheel-transform",
+      "revision": 1,
+      "reviewer": "synthetic test",
+      "reviewerKind": "agent-self",
+      "ref": "synthetic rubric fixture",
+      "ratings": {
+        "semanticFidelity": {
+          "score": 4,
+          "reason": "synthetic rating for gate test"
+        },
+        "comprehension": {
+          "score": 4,
+          "reason": "synthetic rating for gate test"
+        },
+        "visualPotential": {
+          "score": 4,
+          "reason": "synthetic rating for gate test"
+        },
+        "styleFit": {
+          "score": 4,
+          "reason": "synthetic rating for gate test"
+        },
+        "interactionFit": {
+          "score": 4,
+          "reason": "synthetic rating for gate test"
+        },
+        "originality": {
+          "score": 4,
+          "reason": "synthetic rating for gate test"
+        },
+        "feasibility": {
+          "score": 4,
+          "reason": "synthetic rating for gate test"
+        }
+      },
+      "sourceMechanismVerified": true,
+      "misleading": false,
+      "excessiveExplanation": false,
+      "styleConflict": false
+    }
+  ],
+  "selectedConceptId": "wheel-transform",
+  "styles": [
+    {
+      "baselineRef": "synthetic:style",
+      "sampleRef": "synthetic style contract, not sampled production dashboard",
+      "mode": "variant",
+      "rationale": "Controlled style contrast; semantic geometry held constant.",
+      "radius": 8,
+      "motionMs": 180,
+      "id": "编辑风",
+      "material": "editorial",
+      "font": "serif",
+      "depth": "none",
+      "colors": {
+        "background": "#eeede7",
+        "surface": "#faf9f3",
+        "ink": "#263a31",
+        "muted": "#4f6157",
+        "accent": "#35715a",
+        "warning": "#956022",
+        "line": "#66766c",
+        "metal": "#c4d0c4",
+        "highlight": "#ffffff"
+      }
+    },
+    {
+      "baselineRef": "synthetic:style",
+      "sampleRef": "synthetic style contract, not sampled production dashboard",
+      "mode": "variant",
+      "rationale": "Controlled style contrast; semantic geometry held constant.",
+      "radius": 12,
+      "motionMs": 180,
+      "id": "工业风",
+      "material": "industrial",
+      "font": "sans",
+      "depth": "soft",
+      "colors": {
+        "background": "#11191e",
+        "surface": "#1c282e",
+        "ink": "#e4edf0",
+        "muted": "#b2c2c8",
+        "accent": "#76d5bf",
+        "warning": "#efb56f",
+        "line": "#78919a",
+        "metal": "#435962",
+        "highlight": "#e1eff0"
+      }
+    }
+  ],
+  "scene": {
+    "conceptId": "wheel-transform",
+    "revision": 1,
+    "title": "缓冲能力不是无限容量",
+    "subtitle": "反作用轮：用外部干预释放累积负担的定性类比",
+    "staticSummary": "缓冲装置储存累积负担并调节业务状态；外部干预在近容量条件下减少负担。",
+    "layers": [
+      {
+        "id": "main",
+        "renderer": "svg",
+        "essential": true
+      }
+    ],
+    "objects": [
+      {
+        "id": "b",
+        "layer": "main",
+        "desktop": [
+          290,
+          104,
+          210,
+          210
+        ],
+        "mobile": [
+          95,
+          170,
+          170,
+          170
+        ],
+        "caption": "反作用轮 · 储存与调节",
+        "detail": "缓冲装置吸收累积负担并帮助调节系统；真实反作用轮涉及角动量。",
+        "shapes": [
+          {
+            "type": "rect",
+            "x": 3,
+            "y": 3,
+            "w": 94,
+            "h": 94,
+            "rx": 10,
+            "fill": "surface",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 44,
+            "fill": "metal",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 37,
+            "fill": "surface",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 31,
+            "fill": "metal",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 21,
+            "fill": "surface",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "path",
+            "d": "M50 19 V36 M81 50 H64 M50 81 V64 M19 50 H36",
+            "fill": "none",
+            "stroke": "accent",
+            "sw": 5
+          },
+          {
+            "type": "path",
+            "d": "M28 28 L40 40 M72 28 L60 40 M72 72 L60 60 M28 72 L40 60",
+            "fill": "none",
+            "stroke": "line",
+            "sw": 3
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 12,
+            "fill": "accent",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 5,
+            "fill": "highlight",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 10,
+            "cy": 10,
+            "r": 2,
+            "fill": "line",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 90,
+            "cy": 10,
+            "r": 2,
+            "fill": "line",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 10,
+            "cy": 90,
+            "r": 2,
+            "fill": "line",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 90,
+            "cy": 90,
+            "r": 2,
+            "fill": "line",
+            "stroke": "line",
+            "sw": 1
+          }
+        ]
+      },
+      {
+        "id": "s",
+        "layer": "main",
+        "desktop": [
+          58,
+          156,
+          126,
+          126
+        ],
+        "mobile": [
+          35,
+          12,
+          118,
+          118
+        ],
+        "caption": "角动量 · 累积负担",
+        "detail": "累积负担与角动量只是定性映射，环形几何没有定量含义。",
+        "shapes": [
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 44,
+            "fill": "surface",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 35,
+            "fill": "none",
+            "stroke": "warning",
+            "sw": 6
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 23,
+            "fill": "none",
+            "stroke": "line",
+            "sw": 3
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 10,
+            "fill": "metal",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "path",
+            "d": "M50 7 L55 17 L45 17 Z",
+            "fill": "warning",
+            "stroke": "none",
+            "sw": 0
+          }
+        ]
+      },
+      {
+        "id": "c",
+        "layer": "main",
+        "desktop": [
+          614,
+          156,
+          126,
+          126
+        ],
+        "mobile": [
+          207,
+          12,
+          130,
+          130
+        ],
+        "caption": "姿态 · 业务状态",
+        "detail": "控制行为影响系统状态，不意味着业务表现已经测量或改善。",
+        "shapes": [
+          {
+            "type": "rect",
+            "x": 5,
+            "y": 9,
+            "w": 90,
+            "h": 82,
+            "rx": 12,
+            "fill": "surface",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 29,
+            "fill": "metal",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "path",
+            "d": "M22 50 H78 M50 22 V78",
+            "fill": "none",
+            "stroke": "line",
+            "sw": 2
+          },
+          {
+            "type": "path",
+            "d": "M30 66 L69 34 M61 34 H69 V42",
+            "fill": "none",
+            "stroke": "accent",
+            "sw": 5
+          },
+          {
+            "type": "circle",
+            "cx": 50,
+            "cy": 50,
+            "r": 5,
+            "fill": "highlight",
+            "stroke": "line",
+            "sw": 1
+          }
+        ]
+      },
+      {
+        "id": "i",
+        "layer": "main",
+        "desktop": [
+          178,
+          14,
+          100,
+          100
+        ],
+        "mobile": [
+          15,
+          430,
+          110,
+          110
+        ],
+        "caption": "外部力矩 · 干预条件",
+        "detail": "卸载必须有外部作用；没有干预时，不能假设负担自动消失。",
+        "shapes": [
+          {
+            "type": "rect",
+            "x": 29,
+            "y": 9,
+            "w": 42,
+            "h": 45,
+            "rx": 6,
+            "fill": "metal",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "path",
+            "d": "M29 48 L11 77 H89 L71 48 Z",
+            "fill": "surface",
+            "stroke": "line",
+            "sw": 2
+          },
+          {
+            "type": "path",
+            "d": "M35 83 H65 M42 91 H58",
+            "fill": "none",
+            "stroke": "warning",
+            "sw": 4
+          },
+          {
+            "type": "rect",
+            "x": 41,
+            "y": 17,
+            "w": 18,
+            "h": 22,
+            "rx": 4,
+            "fill": "accent",
+            "stroke": "line",
+            "sw": 1
+          },
+          {
+            "type": "path",
+            "d": "M5 9 H25 M75 9 H95",
+            "fill": "none",
+            "stroke": "line",
+            "sw": 2
+          }
+        ]
+      }
+    ],
+    "states": [
+      {
+        "id": "normal",
+        "label": "缓冲可用",
+        "explanation": "缓冲装置吸收负担，并帮助调节状态；此处不表示真实剩余容量。",
+        "highlight": []
+      },
+      {
+        "id": "relief",
+        "label": "外部干预",
+        "explanation": "当接近容量且具备外部干预时，可示意负担得到释放；不是自然消失。",
+        "highlight": [
+          "s",
+          "i"
+        ]
+      }
+    ],
+    "initialState": "normal",
+    "waypoints": {
+      "mobile": {
+        "t2": [
+          [
+            10,
+            405
+          ],
+          [
+            10,
+            71
+          ]
+        ]
+      }
+    }
+  }
+}

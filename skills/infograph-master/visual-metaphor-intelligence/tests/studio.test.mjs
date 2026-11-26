@@ -1,0 +1,38 @@
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import {evaluatePacket} from "../engine/pipeline.mjs";
+import {planReferenceHandoff} from "../engine/handoff.mjs";
+import {assessReverseComprehension} from "../engine/evaluation.mjs";
+const load=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),"utf8"));
+const packet=load("../benchmark/studio-packet.json"),objects=load("../ontology/objects.json"),ontology=load("../ontology/mechanisms.json"),tasks=load("../benchmark/prospective-tasks.json");
+function test(check,api,packet,objects,ontology,tasks){
+ const cp=x=>JSON.parse(JSON.stringify(x)),run=p=>api.evaluatePacket(p,objects,ontology),a=run(packet);
+ check(a.html?.includes("NOT TO SCALE")&&a.plans.length===2,"complete real pipeline");
+ check(a.critique.eligibleIds.includes(packet.selectedConceptId),"P3 gate");
+ check(a.routes.routes.length>0&&a.exploration.views.length===1,"actual retrieval");
+ check(a.openDiscoveryRequired===true,"discovery caveat retained");
+ check(a.releaseAuthorized===false,"no approval");
+ let q=cp(packet);q.concepts[0].quantitativeGeometry=true;check(run(q).html===null,"bad concept no preview");
+ q=cp(packet);q.reviews=[];check(run(q).html===null,"no review no preview");
+ q=cp(packet);q.scene.objects.pop();check(run(q).html===null&&run(q).issues.length>0,"compiler veto");
+ q=cp(packet);q.selectedConceptId="absent";check(run(q).html===null,"selection absent");
+ q=cp(packet);q.concepts=[];q.reviews=[];check(run(q).critique===null&&run(q).routes.routes.length>0,"exploration before authorship");
+ const requirements=a.plans[0].semantic.objects.map(o=>({objectId:o.id,fidelity:"flat",dynamic:false,reason:"synthetic test"}));
+ const b=api.planReferenceHandoff(a.plans[0],requirements,{svg:true});
+ check(b.referencePlan.planningReady&&b.referencePlan.slots.length===4,"actual reference compiler");
+ check(b.referencePlan.links.length===3&&b.rendered===false,"link preservation planning only");
+ check(Object.keys(b.objectMap).length===4&&Object.keys(b.edgeMap).length===3,"stable cross-renderer identity");
+ let rr=cp(requirements);rr[0].fidelity="spatial";rr[0].dynamic=true;check(!api.planReferenceHandoff(a.plans[0],rr,{webgl:false}).referencePlan.planningReady,"unsupported backend blocking");
+ check(api.planReferenceHandoff(a.plans[0],rr,{webgl:true}).referencePlan.slots.find(x=>x.id==="obj1").renderer==="webgl","webgl routed not rendered");
+ let rejected=false;rr[0].fidelity="raster";try{api.planReferenceHandoff(a.plans[0],rr,{raster:true})}catch{rejected=true}check(rejected,"missing asset plan blocked");
+ const task=tasks[0],artifact={id:"A17",sha256:"a".repeat(64)};
+ check(api.assessReverseComprehension(task,artifact,[]).status==="not-run","missing independent reviews not-run");
+ const record={readerId:"reader1",readerKind:"independent-human",artifactId:artifact.id,artifactSha256:artifact.sha256,taskId:task.id,promptHidden:true,rawResponseRef:"synthetic test only",scorerId:"scorer",points:task.keyPoints.map(x=>({id:x.id,status:"correct",reason:"synthetic"}))};
+ check(api.assessReverseComprehension(task,artifact,[record]).results[0].score===1,"synthetic rubric arithmetic");
+ record.points[2].status="wrong";check(api.assessReverseComprehension(task,artifact,[record]).results[0].misconception,"critical misunderstanding tracked");
+ record.points[2].status="not-run";check(api.assessReverseComprehension(task,artifact,[record]).results[0].score===null,"partial missing not scored");
+ rejected=false;try{api.assessReverseComprehension(task,artifact,[{...record,readerKind:"agent-self"}])}catch{rejected=true}check(rejected,"self review rejected");
+ rejected=false;try{api.assessReverseComprehension(task,artifact,[{...record,artifactSha256:"b".repeat(64)}])}catch{rejected=true}check(rejected,"artifact mismatch rejected");
+}
+test((ok,m)=>assert.ok(ok,m),{evaluatePacket,planReferenceHandoff,assessReverseComprehension},packet,objects,ontology,tasks);
+console.log("22 VMI studio assertions passed");

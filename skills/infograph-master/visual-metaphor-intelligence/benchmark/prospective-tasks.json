@@ -1,0 +1,140 @@
+[
+  {
+    "id": "T01",
+    "domain": "organization",
+    "prompt": "A coordination group absorbs conflicting requests, reducing disruption until the accumulated backlog requires an explicit unloading decision. Explain why a quiet surface need not mean spare capacity. Evidence is qualitative.",
+    "keyPoints": [
+      {
+        "id": "a",
+        "text": "buffer reduces visible disruption"
+      },
+      {
+        "id": "b",
+        "text": "burden accumulates"
+      },
+      {
+        "id": "c",
+        "text": "relief requires intervention",
+        "critical": true
+      }
+    ]
+  },
+  {
+    "id": "T02",
+    "domain": "service",
+    "prompt": "Two independent teams rely on a common authentication service. Adding another team does not remove the common dependency. Explain why redundancy can be apparent rather than real.",
+    "keyPoints": [
+      {
+        "id": "a",
+        "text": "distinct teams share one dependency"
+      },
+      {
+        "id": "b",
+        "text": "common failure can affect both",
+        "critical": true
+      },
+      {
+        "id": "c",
+        "text": "more teams does not eliminate common dependency"
+      }
+    ]
+  },
+  {
+    "id": "T03",
+    "domain": "ecology",
+    "prompt": "A restoration action is effective only while environmental conditions remain within a certain qualitative range. Beyond that range the same action can be ineffective. Distinguish conditional response from linear extrapolation.",
+    "keyPoints": [
+      {
+        "id": "a",
+        "text": "response is conditional"
+      },
+      {
+        "id": "b",
+        "text": "outside range effectiveness is unknown or lower"
+      },
+      {
+        "id": "c",
+        "text": "no numeric threshold is established",
+        "critical": true
+      }
+    ]
+  },
+  {
+    "id": "T04",
+    "domain": "strategy",
+    "prompt": "Two regions use different tactics under one strategic constraint. Neither is subordinate to the other. Show common direction without suggesting identical execution.",
+    "keyPoints": [
+      {
+        "id": "a",
+        "text": "one shared strategic constraint"
+      },
+      {
+        "id": "b",
+        "text": "different local execution"
+      },
+      {
+        "id": "c",
+        "text": "not hierarchical between regions",
+        "critical": true
+      }
+    ]
+  },
+  {
+    "id": "T05",
+    "domain": "operations",
+    "prompt": "A faster local stage creates additional backlog downstream because throughput at the next stage is unchanged. Explain why local speed does not imply system throughput.",
+    "keyPoints": [
+      {
+        "id": "a",
+        "text": "local acceleration"
+      },
+      {
+        "id": "b",
+        "text": "downstream constraint and backlog"
+      },
+      {
+        "id": "c",
+        "text": "system throughput not automatically higher",
+        "critical": true
+      }
+    ]
+  },
+  {
+    "id": "T06",
+    "domain": "exact-lookup",
+    "prompt": "Make an exact reference table for 12 part numbers, dimensions and tolerances. No mechanism explanation is needed. All cells must be searchable.",
+    "expectedDisposition": "plain-representation",
+    "keyPoints": [
+      {
+        "id": "a",
+        "text": "precise values accessible"
+      },
+      {
+        "id": "b",
+        "text": "no unnecessary metaphor",
+        "critical": true
+      }
+    ]
+  },
+  {
+    "id": "T07",
+    "domain": "evidence-boundary",
+    "prompt": "Two metrics move together over three periods; no causal evidence or process detail is available. Explain what can and cannot be inferred without inventing a mechanism.",
+    "expectedDisposition": "plain-or-explicit-hypothesis",
+    "keyPoints": [
+      {
+        "id": "a",
+        "text": "association is observed"
+      },
+      {
+        "id": "b",
+        "text": "causality is unestablished",
+        "critical": true
+      },
+      {
+        "id": "c",
+        "text": "no physical mechanism is claimed as fact"
+      }
+    ]
+  }
+]

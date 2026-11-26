@@ -1,0 +1,87 @@
+{
+  "version": "0.1",
+  "status": "authored operational vocabulary, not a reproduction of Functional Basis",
+  "predicates": [
+    {
+      "id": "transfer",
+      "definition": "A transfers a resource or signal to B; direction matters"
+    },
+    {
+      "id": "store",
+      "definition": "A holds B for later access"
+    },
+    {
+      "id": "regulate",
+      "definition": "A changes the rate/state of B"
+    },
+    {
+      "id": "sense",
+      "definition": "A detects a state of B"
+    },
+    {
+      "id": "compare",
+      "definition": "A compares B with a reference"
+    },
+    {
+      "id": "respond",
+      "definition": "A changes state in response to B"
+    },
+    {
+      "id": "limit",
+      "definition": "A restricts capacity or action of B"
+    },
+    {
+      "id": "support",
+      "definition": "A supports operation of B"
+    },
+    {
+      "id": "substitute",
+      "definition": "A can replace B under specified conditions"
+    },
+    {
+      "id": "converge",
+      "definition": "A joins B at a common destination or path"
+    },
+    {
+      "id": "reinforce",
+      "definition": "A increases the propensity or strength of B"
+    },
+    {
+      "id": "redirect",
+      "definition": "A alters the direction of B"
+    },
+    {
+      "id": "amplify",
+      "definition": "A increases the effect of B through a mechanism"
+    },
+    {
+      "id": "depend",
+      "definition": "A depends on B"
+    },
+    {
+      "id": "convert",
+      "definition": "A transforms B into another form"
+    },
+    {
+      "id": "release",
+      "definition": "A makes stored B available"
+    }
+  ],
+  "evidenceKinds": [
+    "observed",
+    "hypothesis",
+    "assumption",
+    "conceptual"
+  ],
+  "domains": [
+    "energy",
+    "transport",
+    "control",
+    "biology",
+    "ecology",
+    "geoscience",
+    "astronomy",
+    "mechanics",
+    "reliability"
+  ]
+}

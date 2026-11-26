@@ -1,0 +1,7 @@
+# Research basis and scope (2026-11-26)
+Verified publisher/organization search excerpts; full papers have not been systematically reviewed. These are design inspirations, not replication claims.
+- Dedre Gentner (1983), Structure-Mapping: A Theoretical Framework for Analogy. https://doi.org/10.1207/s15516709cog0702_3 — map relations rather than appearance; preserve connected structure. Our graph vocabulary and search are much narrower.
+- Forbus, Gentner & Law (1995), MAC/FAC: A Model of Similarity-Based Retrieval. https://doi.org/10.1207/s15516709cog1902_1 — coarse retrieval followed by structural alignment. We use predicate counts and bounded injective edge matching; not their cognitive model or SME.
+- Hirtz et al. (2002), A Functional Basis for Engineering Design. https://www.nist.gov/publications/functional-basis-engineering-design-reconciling-and-evolving-previous-efforts — use normalized functions instead of object names. Our predicates are authored, not their taxonomy.
+- Biomimicry Institute, AskNature functional taxonomy. https://asknature.org/resource/biomimicry-taxonomy/ — function-oriented exploration of biological strategies; link sources, do not bulk copy.
+- Unpacking Visual Metaphors in Infographics: A Design Space, CHI 2026. https://doi.org/10.1145/3772318.3790840 — source/target property and reconstruction strategy; LLM ideation plus image rendering. Full design-space replication and empirical validation deferred.

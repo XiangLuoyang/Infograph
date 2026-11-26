@@ -1,0 +1,447 @@
+[
+  {
+    "id": "pumped-storage",
+    "name": "抽水蓄能电站 / Pumped storage",
+    "domain": "energy",
+    "source": {
+      "url": "https://www.energy.gov/cmei/water/how-pumped-storage-hydropower-works",
+      "claim": "Water moves between upper and lower reservoirs; pumping uses energy and discharge generates power.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "upper",
+        "label": "上水库"
+      },
+      {
+        "id": "water",
+        "label": "水"
+      },
+      {
+        "id": "lower",
+        "label": "下水库"
+      },
+      {
+        "id": "pump",
+        "label": "泵"
+      },
+      {
+        "id": "generator",
+        "label": "发电装置"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "upper",
+        "predicate": "store",
+        "to": "water"
+      },
+      {
+        "id": "e2",
+        "from": "upper",
+        "predicate": "transfer",
+        "to": "lower"
+      },
+      {
+        "id": "e3",
+        "from": "pump",
+        "predicate": "transfer",
+        "to": "upper"
+      },
+      {
+        "id": "e4",
+        "from": "generator",
+        "predicate": "convert",
+        "to": "water"
+      },
+      {
+        "id": "e5",
+        "from": "upper",
+        "predicate": "release",
+        "to": "water"
+      }
+    ],
+    "limits": [
+      "Water is a physical working medium, not money; charging consumes energy and the analogy does not imply lossless economic returns."
+    ]
+  },
+  {
+    "id": "ramp-meter",
+    "name": "高速公路匝道信号 / Ramp metering",
+    "domain": "transport",
+    "source": {
+      "url": "https://ops.fhwa.dot.gov/freewaymgmt/ramp_metering/about.htm",
+      "claim": "Traffic detectors and ramp meters manage entry onto the freeway.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "sensor",
+        "label": "检测器"
+      },
+      {
+        "id": "traffic",
+        "label": "主线车流"
+      },
+      {
+        "id": "meter",
+        "label": "匝道信号灯"
+      },
+      {
+        "id": "ramp",
+        "label": "匝道车辆"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "sensor",
+        "predicate": "sense",
+        "to": "traffic"
+      },
+      {
+        "id": "e2",
+        "from": "meter",
+        "predicate": "regulate",
+        "to": "ramp"
+      },
+      {
+        "id": "e3",
+        "from": "ramp",
+        "predicate": "converge",
+        "to": "traffic"
+      }
+    ],
+    "limits": [
+      "Metering can shift congestion to the ramp; not proof that restricting any business input increases throughput."
+    ]
+  },
+  {
+    "id": "thermostat",
+    "name": "恒温器 / Thermostat",
+    "domain": "control",
+    "source": {
+      "url": "https://openstax.org/books/introduction-behavioral-neuroscience/pages/16-1-principles-of-homeostasis",
+      "claim": "A thermostat illustrates negative feedback by responding to deviation from a temperature set point.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "sensor",
+        "label": "温度传感器"
+      },
+      {
+        "id": "room",
+        "label": "室温"
+      },
+      {
+        "id": "controller",
+        "label": "控制器"
+      },
+      {
+        "id": "heater",
+        "label": "加热设备"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "sensor",
+        "predicate": "sense",
+        "to": "room"
+      },
+      {
+        "id": "e2",
+        "from": "controller",
+        "predicate": "respond",
+        "to": "sensor"
+      },
+      {
+        "id": "e3",
+        "from": "controller",
+        "predicate": "regulate",
+        "to": "heater"
+      },
+      {
+        "id": "e4",
+        "from": "heater",
+        "predicate": "regulate",
+        "to": "room"
+      }
+    ],
+    "limits": [
+      "A business target may be contested, delayed or multidimensional; feedback alone does not guarantee stability."
+    ]
+  },
+  {
+    "id": "pine-cone",
+    "name": "松果鳞片 / Pine cone",
+    "domain": "biology",
+    "source": {
+      "url": "https://asknature.org/strategy/pine-cones-open-and-close-in-response-to-weather/",
+      "claim": "Humidity-dependent deformation of layered cone scales changes opening and closing.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "humidity",
+        "label": "环境湿度"
+      },
+      {
+        "id": "scale",
+        "label": "鳞片"
+      },
+      {
+        "id": "seed",
+        "label": "种子"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "scale",
+        "predicate": "respond",
+        "to": "humidity"
+      },
+      {
+        "id": "e2",
+        "from": "scale",
+        "predicate": "regulate",
+        "to": "seed"
+      },
+      {
+        "id": "e3",
+        "from": "scale",
+        "predicate": "release",
+        "to": "seed"
+      }
+    ],
+    "limits": [
+      "The response is passive and moisture-dependent, not intentional decision-making or a universal humidity threshold."
+    ]
+  },
+  {
+    "id": "ant-trail",
+    "name": "蚁群信息素路径 / Ant trail",
+    "domain": "ecology",
+    "source": {
+      "url": "https://asknature.org/strategy/colonies-self-organize/",
+      "claim": "Ants lay and follow pheromone trails; path selection can become reinforced and may get stuck on a longer path.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "ants",
+        "label": "蚂蚁"
+      },
+      {
+        "id": "trail",
+        "label": "信息素路径"
+      },
+      {
+        "id": "route",
+        "label": "行进路线"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "ants",
+        "predicate": "reinforce",
+        "to": "trail"
+      },
+      {
+        "id": "e2",
+        "from": "ants",
+        "predicate": "respond",
+        "to": "trail"
+      },
+      {
+        "id": "e3",
+        "from": "trail",
+        "predicate": "regulate",
+        "to": "route"
+      }
+    ],
+    "limits": [
+      "Local reinforcement does not guarantee globally optimal routes; avoid anthropomorphism and deterministic business claims."
+    ]
+  },
+  {
+    "id": "watershed",
+    "name": "流域汇水网络 / Watershed",
+    "domain": "geoscience",
+    "source": {
+      "url": "https://www.usgs.gov/publications/watersheds-and-drainage-networks",
+      "claim": "Surface runoff and stream networks drain toward a common outlet.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "branch1",
+        "label": "支流一"
+      },
+      {
+        "id": "branch2",
+        "label": "支流二"
+      },
+      {
+        "id": "outlet",
+        "label": "汇水出口"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "branch1",
+        "predicate": "converge",
+        "to": "outlet"
+      },
+      {
+        "id": "e2",
+        "from": "branch2",
+        "predicate": "converge",
+        "to": "outlet"
+      },
+      {
+        "id": "e3",
+        "from": "branch1",
+        "predicate": "transfer",
+        "to": "outlet"
+      },
+      {
+        "id": "e4",
+        "from": "branch2",
+        "predicate": "transfer",
+        "to": "outlet"
+      }
+    ],
+    "limits": [
+      "Water follows terrain; customer or information paths can be bidirectional and need not obey mass conservation."
+    ]
+  },
+  {
+    "id": "gravity-assist",
+    "name": "行星引力辅助 / Gravity assist",
+    "domain": "astronomy",
+    "source": {
+      "url": "https://science.nasa.gov/mission/cassini/gravity-assists/",
+      "claim": "A flyby can change a spacecraft's heliocentric trajectory and speed by interacting with a moving solar-system body.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "planet",
+        "label": "行星"
+      },
+      {
+        "id": "craft",
+        "label": "航天器"
+      },
+      {
+        "id": "trajectory",
+        "label": "轨迹"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "planet",
+        "predicate": "redirect",
+        "to": "trajectory"
+      },
+      {
+        "id": "e2",
+        "from": "craft",
+        "predicate": "depend",
+        "to": "trajectory"
+      }
+    ],
+    "limits": [
+      "A flyby can accelerate or decelerate; do not imply free energy, guaranteed returns or a calibrated business trajectory."
+    ]
+  },
+  {
+    "id": "lever",
+    "name": "杠杆与支点 / Lever",
+    "domain": "mechanics",
+    "source": {
+      "url": "https://openstax.org/books/physics/pages/9-3-simple-machines",
+      "claim": "An ideal lever trades effort force against displacement using a fulcrum and arm lengths.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "effort",
+        "label": "施力端"
+      },
+      {
+        "id": "fulcrum",
+        "label": "支点"
+      },
+      {
+        "id": "load",
+        "label": "负载"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "fulcrum",
+        "predicate": "support",
+        "to": "effort"
+      },
+      {
+        "id": "e2",
+        "from": "effort",
+        "predicate": "amplify",
+        "to": "load"
+      }
+    ],
+    "limits": [
+      "Force advantage trades against distance; no claim of free work or numerical business ROI."
+    ]
+  },
+  {
+    "id": "standby-redundancy",
+    "name": "备用部件系统 / Standby redundancy",
+    "domain": "reliability",
+    "source": {
+      "url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr18.htm",
+      "claim": "A standby component remains unused until needed to replace a failed unit.",
+      "review": "web-source excerpt checked 2026-11-26; graph is authored abstraction"
+    },
+    "nodes": [
+      {
+        "id": "primary",
+        "label": "主部件"
+      },
+      {
+        "id": "backup",
+        "label": "备用部件"
+      },
+      {
+        "id": "system",
+        "label": "系统"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "from": "primary",
+        "predicate": "support",
+        "to": "system"
+      },
+      {
+        "id": "e2",
+        "from": "backup",
+        "predicate": "substitute",
+        "to": "primary"
+      }
+    ],
+    "limits": [
+      "Replacement may fail or be delayed; reliability requires assumptions about failure and switching, not just number of components."
+    ]
+  }
+]

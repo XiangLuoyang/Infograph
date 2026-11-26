@@ -1,0 +1,50 @@
+{
+  "id": "feedback-task",
+  "nodes": [
+    {
+      "id": "measure",
+      "label": "measurement"
+    },
+    {
+      "id": "state",
+      "label": "actual condition"
+    },
+    {
+      "id": "control",
+      "label": "decision controller"
+    },
+    {
+      "id": "action",
+      "label": "intervention"
+    }
+  ],
+  "edges": [
+    {
+      "id": "t1",
+      "from": "measure",
+      "predicate": "sense",
+      "to": "state",
+      "essential": true
+    },
+    {
+      "id": "t2",
+      "from": "control",
+      "predicate": "respond",
+      "to": "measure",
+      "essential": true
+    },
+    {
+      "id": "t3",
+      "from": "control",
+      "predicate": "regulate",
+      "to": "action"
+    },
+    {
+      "id": "t4",
+      "from": "action",
+      "predicate": "regulate",
+      "to": "state",
+      "essential": true
+    }
+  ]
+}

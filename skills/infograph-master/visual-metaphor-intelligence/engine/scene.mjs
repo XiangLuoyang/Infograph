@@ -1,0 +1,84 @@
+import {compareConcepts} from "./creative.mjs";
+
+export function adaptDesignDNA(style,concept){
+ const txt=x=>typeof x==="string"&&x.trim().length>0;
+ const hex=x=>typeof x==="string"&&/^#[0-9a-f]{6}$/i.test(x);
+ function luminance(x){const a=x.slice(1).match(/../g).map(s=>parseInt(s,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*a[0]+.7152*a[1]+.0722*a[2]}
+ const contrast=(a,b)=>{const l=[luminance(a),luminance(b)].sort((x,y)=>y-x);return (l[0]+.05)/(l[1]+.05)};
+ if(!style||style.baselineRef!==concept.designDNARef||!txt(style.id)||!txt(style.rationale)||!["inherit","variant"].includes(style.mode)||!txt(style.sampleRef))throw Error("style provenance required");
+ if(!["editorial","industrial"].includes(style.material)||!["sans","serif","mono"].includes(style.font)||!["none","soft"].includes(style.depth)||!Number.isInteger(style.radius)||style.radius<0||style.radius>24||!Number.isInteger(style.motionMs)||style.motionMs<0||style.motionMs>400)throw Error("unsupported style token");
+ const colors=["background","surface","ink","muted","accent","warning","line","metal","highlight"];
+ for(const k of colors)if(!hex(style.colors?.[k]))throw Error("invalid color "+k);
+ for(const fg of ["ink","muted"])for(const bg of ["background","surface"])if(contrast(style.colors[fg],style.colors[bg])<4.5)throw Error("text contrast "+fg+"/"+bg);
+ for(const fg of ["accent","warning","line"])if(contrast(style.colors[fg],style.colors.surface)<3)throw Error("nontext contrast "+fg);
+ return {...style,contrastScope:"declared solid tokens only; actual composited render requires inspection"};
+}
+
+export function compileScene({target,concept,review,objects,ontology,style,scene}){
+ const validation=compareConcepts(target,[concept],objects,ontology,[review]);
+ if(!validation.results[0].eligible)throw Error("P3 concept review blocked");
+ const design=adaptDesignDNA(style,concept),txt=x=>typeof x==="string"&&x.trim().length>0;
+ if(!scene||scene.conceptId!==concept.id||scene.revision!==concept.revision||!txt(scene.title)||!txt(scene.subtitle)||!txt(scene.staticSummary))throw Error("scene provenance");
+ if(concept.panels.length!==1||!["direct","transform","substitute","combine"].includes(concept.operation))throw Error("unsupported scene scope: route to reference reconstruction or specialist");
+ if(!Array.isArray(scene.layers)||!scene.layers.length||new Set(scene.layers.map(l=>l.id)).size!==scene.layers.length)throw Error("scene layers required");
+ const supported=scene.layers.every(l=>l.renderer==="svg"&&l.essential===true);
+ if(!supported)throw Error("unsupported renderer or optional degradation: route to reference reconstruction; no silent fallback");
+ const layerIds=new Set(scene.layers.map(l=>l.id)),shapeRoles=new Set(["surface","metal","accent","warning","line","highlight","none"]);
+ const byId=new Map(concept.sceneObjects.map(x=>[x.id,x])),tn=new Map(target.nodes.map(x=>[x.id,x])),seen=new Set();
+ if(!Array.isArray(scene.objects)||scene.objects.length!==byId.size)throw Error("scene object coverage");
+ const checkNum=(v,min,max)=>typeof v==="number"&&Number.isFinite(v)&&v>=min&&v<=max;
+ const dims={desktop:[800,440],mobile:[360,620]};
+ function boxOK(b,d){return Array.isArray(b)&&b.length===4&&b.every((v,i)=>checkNum(v,i>=2?36:0,d[i%2]))&&b[0]+b[2]<=d[0]&&b[1]+b[3]<=d[1]-28}
+ for(const o of scene.objects){
+  if(!byId.has(o.id)||seen.has(o.id)||!layerIds.has(o.layer)||!txt(o.caption)||!txt(o.detail)||!Array.isArray(o.shapes)||!o.shapes.length||o.shapes.length>80)throw Error("invalid scene object");
+  seen.add(o.id);
+  for(const k of Object.keys(dims))if(!boxOK(o[k],dims[k]))throw Error("invalid "+k+" box");
+  for(const s of o.shapes){
+   if(!shapeRoles.has(s.fill)||!shapeRoles.has(s.stroke)||!checkNum(s.sw,0,8))throw Error("invalid primitive style");
+   if(s.type==="circle"){if(![s.cx,s.cy].every(v=>checkNum(v,0,100))||!checkNum(s.r,1,50))throw Error("invalid circle")}
+   else if(s.type==="rect"){if(![s.x,s.y,s.w,s.h].every(v=>checkNum(v,0,100))||s.x+s.w>100||s.y+s.h>100||!checkNum(s.rx,0,20))throw Error("invalid rectangle")}
+   else if(s.type==="path"){if(typeof s.d!=="string"||s.d.length>2000||!/^[MLCQZHVmlcqzhv0-9.,\s-]+$/.test(s.d))throw Error("invalid path")}
+   else throw Error("unsupported primitive");
+  }
+ }
+ const states=concept.operation==="transform"?concept.states:[{id:"base",label:"概念示意",evidenceKind:concept.evidenceKind,evidenceRef:concept.evidenceRef}];
+ if(!Array.isArray(scene.states)||scene.states.length!==states.length||new Set(scene.states.map(x=>x.id)).size!==states.length)throw Error("state coverage");
+ const stateMap=new Map(states.map(x=>[x.id,x]));
+ for(const s of scene.states){if(!stateMap.has(s.id)||!txt(s.label)||!txt(s.explanation)||!Array.isArray(s.highlight)||new Set(s.highlight).size!==s.highlight.length||s.highlight.some(id=>!byId.has(id)))throw Error("invalid state");const transition=concept.transitions?.find(t=>t.to===s.id);if(transition&&s.highlight.some(id=>!transition.changedObjects.includes(id)))throw Error("state highlights violate transition contract")}
+ if(!stateMap.has(scene.initialState))throw Error("invalid initial state");
+ const mappings=concept.bindings.map(b=>({id:b.targetEdge,from:b.fromObject,to:b.toObject,relation:target.edges.find(e=>e.id===b.targetEdge).predicate,meaning:b.interpretation,sourceId:b.sourceId,sourceEdge:b.sourceEdge}));
+ const semantic={conceptId:concept.id,revision:concept.revision,targetId:target.id,evidenceKind:concept.evidenceKind,evidenceRef:concept.evidenceRef,boundary:concept.boundary,objects:concept.sceneObjects.map(o=>({id:o.id,targetNode:o.targetNode,anchors:o.anchors,label:tn.get(o.targetNode).label})),mappings,states:states.map(s=>({id:s.id,evidenceKind:s.evidenceKind,evidenceRef:s.evidenceRef})),transitions:concept.transitions??[]};
+ return {design,scene,semantic,plainAlternative:concept.plainAlternative,reviewRef:review.ref,capabilities:{svg:"implemented",html:"implemented",raster:"route-existing-reference-renderer",webgl:"route-existing-reference-webgl",canvas:"specialist-not-implemented"},releaseAuthorized:false,scope:"one-panel authored SVG primitives; qualitative highlights; no physical simulation or independent visual approval"};
+}
+
+export function renderSceneHTML(plans){
+ if(!Array.isArray(plans)||plans.length<1||plans.length>4)throw Error("one to four compiled variants required");
+ const first=plans[0],same=x=>JSON.stringify(x.semantic)===JSON.stringify(first.semantic);
+ if(!plans.every(same)||new Set(plans.map(p=>p.design.id)).size!==plans.length)throw Error("variant semantic drift");
+ const e=x=>String(x).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+ const c=first.scene,sem=first.semantic;
+ if(!plans.every(p=>JSON.stringify(p.scene)===JSON.stringify(c)))throw Error("this controlled renderer requires identical scene geometry");
+ const colors=first.design.colors;
+ const fontMap={sans:'system-ui, sans-serif',serif:'Georgia, "Noto Serif CJK SC", serif',mono:'ui-monospace, monospace'};
+ const themes=plans.map(p=>{const d=p.design;return `body[data-style="${e(d.id)}"]{${Object.entries(d.colors).map(([k,v])=>`--${k}:${v}`).join(";")};--font:${fontMap[d.font]};--radius:${d.radius}px;--duration:${d.motionMs}ms;--shadow:${d.depth==="soft"?"0 12px 30px #0003":"none"}}`}).join("\n");
+ const role=x=>x==="none"?"none":`var(--${x})`;
+ function shape(s){const a=`fill="${role(s.fill)}" stroke="${role(s.stroke)}" stroke-width="${s.sw}" stroke-linejoin="round" stroke-linecap="round"`;return s.type==="circle"?`<circle cx="${s.cx}" cy="${s.cy}" r="${s.r}" ${a}/>`:s.type==="rect"?`<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="${s.rx}" ${a}/>`:`<path d="${e(s.d)}" ${a}/>`}
+ function graph(k,W,H){
+  const loc=new Map(c.objects.map(o=>[o.id,o[k]]));
+  const connections=sem.mappings.map(m=>{const a=loc.get(m.from),b=loc.get(m.to),ax=a[0]+a[2]/2,ay=a[1]+a[3]/2,bx=b[0]+b[2]/2,by=b[1]+b[3]/2,dx=bx-ax,dy=by-ay;
+   const ta=1/Math.max(Math.abs(dx)/(a[2]/2+7),Math.abs(dy)/(a[3]/2+7)),tb=1/Math.max(Math.abs(dx)/(b[2]/2+9),Math.abs(dy)/(b[3]/2+9));
+   return `<path class="link" data-edge="${e(m.id)}" d="M${ax+dx*ta} ${ay+dy*ta} L${bx-dx*tb} ${by-dy*tb}" marker-end="url(#arrow-${k})"/>`}).join("");
+  const obs=c.objects.map(o=>{const [x,y,w,h]=o[k],label=sem.objects.find(a=>a.id===o.id).label;return `<g data-object="${e(o.id)}" class="object"><rect class="halo" x="${x-4}" y="${y-4}" width="${w+8}" height="${h+8}" rx="10"/><svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 100 100">${o.shapes.map(shape).join("")}</svg><text x="${x+w/2}" y="${y+h+19}" class="object-label">${e(label)}</text></g>`}).join("");
+  return `<svg class="scene ${k}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${e(c.staticSummary)}"><defs><marker id="arrow-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="var(--line)"/></marker></defs>${connections}${obs}</svg>`;
+ }
+ const stateData=c.states.map(s=>({id:s.id,label:s.label,explanation:s.explanation,highlight:s.highlight}));
+ const initial=stateData.find(s=>s.id===c.initialState);
+ const cards=c.objects.map(o=>`<button disabled class="inspect" data-focus="${e(o.id)}" aria-pressed="false"><strong>${e(sem.objects.find(x=>x.id===o.id).label)}</strong><span>${e(o.caption)}</span></button><div class="detail" data-detail="${e(o.id)}" hidden>${e(o.detail)}</div>`).join("");
+ const relationText=sem.mappings.map(m=>`<li data-relation="${e(m.id)}">${e(sem.objects.find(o=>o.id===m.from).label)} → ${e(sem.objects.find(o=>o.id===m.to).label)} <small>${e(m.relation)}</small></li>`).join("");
+ const literal=JSON.stringify(stateData).replace(/</g,"\\u003c").replace(/&/g,"\\u0026");
+ return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(c.title)}</title><style>
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 var(--font);background:var(--background);color:var(--ink)}${themes}
+main{max-width:1120px;margin:auto;padding:clamp(16px,4vw,48px)}header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;flex-wrap:wrap}h1{font-size:clamp(25px,4vw,44px);line-height:1.15;margin:6px 0 10px}h2{font-size:18px;margin:0 0 12px}p{margin:0 0 12px}.kicker,small{color:var(--muted);font-size:12px;letter-spacing:.06em}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:8px 14px;border-radius:var(--radius);cursor:pointer}button[aria-pressed=true]{border:2px solid var(--accent);padding:7px 13px;box-shadow:inset 0 -3px var(--accent)}button:focus-visible{outline:3px solid var(--warning);outline-offset:3px}button:disabled{cursor:default}.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(220px,1fr);gap:16px}.panel{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}.scene{display:block;width:100%;height:auto;overflow:visible}.mobile{display:none}.link{stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 5;fill:none}.object-label{fill:var(--ink);font:600 13px var(--font);text-anchor:middle}.halo{fill:none;stroke:transparent;stroke-width:2;transition:stroke var(--duration)}.object.is-state .halo{stroke:var(--warning);stroke-dasharray:5 3}.object.is-focus .halo{stroke:var(--accent);stroke-width:3;stroke-dasharray:none}.inspect{display:block;width:100%;text-align:left;margin:6px 0}.inspect span{display:block;font-size:13px;color:var(--muted)}.detail{padding:8px 12px;color:var(--ink)}.status{border-left:3px solid var(--warning);padding-left:12px;margin:12px 0}.proof{margin-top:16px}.proof summary{cursor:pointer}.proof ul{padding-left:20px}.proof li{margin-bottom:8px}footer{margin-top:14px;color:var(--muted);font-size:13px}.state-static{margin-top:12px}.state-static li{margin-bottom:8px}@media(max-width:760px){.layout{grid-template-columns:1fr}.desktop{display:none}.mobile{display:block}.panel{padding:12px}.object-label{font-size:12px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body data-style="${e(first.design.id)}"><main><header><div><div class="kicker">VMI / P4 · QUALITATIVE SCENE</div><h1>${e(c.title)}</h1><p>${e(c.subtitle)}</p></div><div aria-label="艺术方向" class="controls">${plans.map((p,i)=>`<button disabled data-style-choice="${e(p.design.id)}" aria-pressed="${i===0}">${e(p.design.id)}</button>`).join("")}</div></header><div class="controls" aria-label="示意状态">${stateData.map(s=>`<button disabled data-state="${e(s.id)}" aria-pressed="${s.id===initial.id}">${e(s.label)}</button>`).join("")}</div><div class="layout"><section class="panel"><div class="kicker">机制示意 / NOT TO SCALE</div>${graph("desktop",800,440)}${graph("mobile",360,620)}<div class="status" aria-live="polite"><strong id="state-label">${e(initial.label)}</strong><p id="state-copy">${e(initial.explanation)}</p></div></section><aside class="panel"><h2>对象检视</h2><p class="kicker">点击对象名称，保持当前状态不变。</p>${cards}<button disabled id="clear-focus">清除检视</button><details class="proof"><summary>关系与证据</summary><ul>${relationText}</ul><p>证据状态：${e(sem.evidenceKind)} · ${e(sem.evidenceRef)}</p><p>普通表达：${e(first.plainAlternative)}</p></details></aside></div><details class="proof panel state-static"><summary>静态状态对照（无需动画）</summary><ul>${stateData.map(s=>`<li><strong>${e(s.label)}</strong>：${e(s.explanation)}</li>`).join("")}</ul></details><footer>定性类比，不代表测量值或实际物理仿真。${e(sem.boundary)}。${e(conceptBoundary(first))}</footer><noscript><p>交互不可用；初始图及静态状态对照仍可阅读。</p></noscript></main><script>const states=${literal};let state=${JSON.stringify(initial.id).replace(/</g,"\\u003c")},focus=null;const all=s=>Array.from(document.querySelectorAll(s));function update(){const a=states.find(s=>s.id===state);document.querySelector("#state-label").textContent=a.label;document.querySelector("#state-copy").textContent=a.explanation;all("[data-state]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.state===state)));all("[data-object]").forEach(g=>{g.classList.toggle("is-state",a.highlight.includes(g.dataset.object));g.classList.toggle("is-focus",focus===g.dataset.object)});all("[data-focus]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.focus===focus)));all("[data-detail]").forEach(d=>d.hidden=d.dataset.detail!==focus)}all("button").forEach(b=>b.disabled=false);all("[data-style-choice]").forEach(b=>b.onclick=()=>{document.body.dataset.style=b.dataset.styleChoice;all("[data-style-choice]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)))});all("[data-state]").forEach(b=>b.onclick=()=>{state=b.dataset.state;update()});all("[data-focus]").forEach(b=>b.onclick=()=>{focus=b.dataset.focus===focus?null:b.dataset.focus;update()});document.querySelector("#clear-focus").onclick=()=>{focus=null;update()};update();</script></body></html>`;
+ function conceptBoundary(p){return "当前为可交互 SVG 原型，未验证真实物理或独立理解效果。"}
+}

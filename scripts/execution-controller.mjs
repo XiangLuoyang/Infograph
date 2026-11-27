@@ -3,12 +3,15 @@ import {auditQualityDepth} from '../skills/infograph-master/engine/quality-depth
 import {auditExecution} from '../skills/infograph-master/engine/execution-gates.mjs';
 import {prepareReconstruction,planReconstruction} from '../skills/infograph-master/engine/reconstruction-orchestrator.mjs';
 import {readFileSync} from 'node:fs';
+import {compileArtDirections,selectArtDirection,artDirectionCSS} from '../skills/infograph-master/engine/art-direction-production.mjs';
 import {sceneInputs,hasVmiPreview,MAX_SCENES} from './execution-vmi.mjs';
 import {specialistRequirements,runSpecialists} from './execution-specialists.mjs';
 const rules=JSON.parse(readFileSync(new URL('../skills/infograph-master/references/execution-gates.json',import.meta.url),'utf8'));
+const artPresets=JSON.parse(readFileSync(new URL('../skills/infograph-master/engine/art-directions.json',import.meta.url),'utf8'));
+const artStyles=JSON.parse(readFileSync(new URL('../skills/infograph-master/engine/styles.json',import.meta.url),'utf8'));
 const ensure=(ok,msg)=>{if(!ok)throw Error(msg)};
 export const productionStages=['reconstruction-prepare','reconstruction-plan','production-plan','specialist-plan'];
-export const productionEngines={'reconstruction-prepare':'reconstruction-orchestrator.mjs:prepareReconstruction','reconstruction-plan':'reconstruction-orchestrator.mjs:planReconstruction','production-plan':'visual-opportunity.mjs+quality-depth.mjs+execution-gates.mjs','specialist-plan':'execution-specialists.mjs'};
+export const productionEngines={'reconstruction-prepare':'reconstruction-orchestrator.mjs:prepareReconstruction','reconstruction-plan':'reconstruction-orchestrator.mjs:planReconstruction','production-plan':'visual-opportunity.mjs+quality-depth.mjs+execution-gates.mjs+art-direction-production.mjs','specialist-plan':'execution-specialists.mjs'};
 export function dependencies(stage,run){
  if(run.workflow!=='production')return stage==='vmi-packet'?['vmi-explore']:[];
  if(stage==='reconstruction-prepare'){ensure(run.task==='redesign'||run.task==='critique','reconstruction only for existing artifacts');return []}
@@ -53,13 +56,20 @@ export function evaluateProduction(stage,input,run,prior){
   const depth=auditQualityDepth(quality);
   const gates=auditExecution(execution,rules);
   const selectedMechanisms=opportunities.slices.filter(s=>s.mechanism==='selected').map(s=>s.id);
+  let artDirection=null;
+  if(input.artDirection!==undefined&&input.artDirection!==null){
+   ensure(input.artDirection.brief?.purpose===purpose,'art direction purpose mismatch');
+   const candidates=compileArtDirections(input.artDirection.brief,artPresets,artStyles);
+   const selected=selectArtDirection(candidates,input.artDirection.selectedId,input.artDirection.selectionReason);
+   artDirection={candidates,selected,css:artDirectionCSS(selected)};
+  }
   const blockers=[];
   if(!opportunity.designEligible)blockers.push('visual-opportunity');
   if(!depth.buildEligible)blockers.push('quality-depth');
   if(!gates.buildEligible)blockers.push('execution-gates');
   if(new Set(opportunities.inventory.map(s=>s.page)).size>1&&!quality.multiRoute)blockers.push('multi-route quality context required');
   if(selectedMechanisms.length>MAX_SCENES)blockers.push('VMI batch exceeds eight scenes; split scope');
-  return {revision,purpose,selectedMechanisms,specialists:specialistRequirements(quality,opportunities),opportunity,depth,gates,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
+  return {revision,purpose,selectedMechanisms,specialists:specialistRequirements(quality,opportunities),opportunity,depth,gates,...(artDirection?{artDirection}:{}),blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
  }
  throw Error('unknown production stage');
 }

@@ -1,6 +1,8 @@
 import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
+import {verifyIntegratedHTML} from './execution-integration.mjs';
+import {validateSemanticProbes,evaluateSemanticProbe} from '../skills/infograph-master/engine/runtime-semantic-probes.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const read=p=>readFileSync(p);
 const json=p=>JSON.parse(read(p).toString('utf8'));
@@ -24,6 +26,7 @@ export function validateBrowserPlan(plan,inventory){
   ensure(Array.isArray(c.checks)&&c.checks.length>0&&c.checks.length<=40,'essential checks required');
   for(const k of c.checks)ensure(text(k.selector)&&(k.textIncludes===undefined||text(k.textIncludes)),'invalid essential check');
   ensure(c.kind!=='interaction'||c.checks.some(k=>text(k.textIncludes)),'interaction needs a textual outcome assertion');
+  if(c.semanticProbes!==undefined)validateSemanticProbes(c.semanticProbes);
  }
  ensure([...expected].every(s=>coverage.has(s)),'each inventory slice needs a baseline case');
  return plan;
@@ -34,8 +37,9 @@ export function bindArtifact(dir,file,planFile,design){
  ensure(bytes.length>0&&bytes.length<=8*1024*1024,'HTML size limit');
  ensure(/\.html?$/i.test(file),'standalone HTML required');
  validateBrowserPlan(plan,design.inventory);
+ const integration=verifyIntegratedHTML(bytes.toString('utf8'),design.integration??{slots:[]});
  const folder=join(dir,'artifact');mkdirSync(folder);
- const receipt={version:1,sourceSha256:design.sourceSha256,designStages:design.stages,outputPath:resolve(file),outputSha256:hash(bytes),planSha256:hash(planBytes),inventory:design.inventory,releaseAuthorized:false};
+ const receipt={version:1,sourceSha256:design.sourceSha256,designStages:design.stages,outputPath:resolve(file),outputSha256:hash(bytes),planSha256:hash(planBytes),inventory:design.inventory,integration,releaseAuthorized:false};
  writeFileSync(join(folder,'output.html'),bytes,{flag:'wx'});writeFileSync(join(folder,'plan.json'),planBytes,{flag:'wx'});write(join(folder,'receipt.json'),receipt);
  return {status:'artifact-bound',...receipt};
 }
@@ -43,6 +47,7 @@ export function verifyBinding(dir,design){
  const folder=join(dir,'artifact'),r=json(join(folder,'receipt.json'));
  ensure(design.status.buildEligible===true&&r.sourceSha256===design.sourceSha256&&eq(r.designStages,design.stages)&&eq(r.inventory,design.inventory),'design evidence mismatch');
  ensure(hash(read(join(folder,'output.html')))===r.outputSha256&&hash(read(r.outputPath))===r.outputSha256,'artifact bytes changed');
+ ensure(eq(r.integration,verifyIntegratedHTML(read(join(folder,'output.html')).toString('utf8'),design.integration??{slots:[]})),'engine fragment binding mismatch');
  const planBytes=read(join(folder,'plan.json'));ensure(hash(planBytes)===r.planSha256,'browser plan changed');
  const plan=validateBrowserPlan(JSON.parse(planBytes.toString('utf8')),design.inventory);
  return {folder,receipt:r,plan};
@@ -53,7 +58,7 @@ export async function browserReview(dir,design){
  let report;
  try{
   const {auditProductionHTML}=await import('../skills/infograph-master/engine/production-browser-audit.mjs');
-  report=await auditProductionHTML(join(folder,'output.html'),plan,qa,{trusted:true});
+  report=await auditProductionHTML(join(folder,'output.html'),plan,qa,{trusted:true,integration:design.integration?.runtime});
  }catch(e){const unavailable=e.code==='BROWSER_LAUNCH_FAILED'||(e.code==='ERR_MODULE_NOT_FOUND'&&String(e.message).includes('playwright'));report={version:1,status:unavailable?'blocked':'error',reason:String(e.message??e),cases:[],scope:'browser not completed'}}
  const output={...report,outputSha256:receipt.outputSha256,planSha256:receipt.planSha256,releaseAuthorized:false};
  write(join(qa,'report.json'),output);
@@ -71,10 +76,30 @@ export function artifactStatus(dir,design){
  const expected=new Set(plan.viewports.flatMap(v=>plan.cases.map(c=>v.id+'--'+c.id))),seen=new Set();
  for(const c of report.cases){
   const key=c.viewportId+'--'+c.caseId;ensure(expected.has(key)&&!seen.has(key),'unknown or duplicate browser case');seen.add(key);
+  const planned=plan.cases.find(x=>x.id===c.caseId).semanticProbes??[];
+  const observed=c.semanticProbes??[];
+  ensure(Array.isArray(observed)&&observed.length<=planned.length,'invalid semantic probe evidence');
+  const seenProbes=new Set();
+  for(const o of observed){
+   const p=planned.find(x=>x.id===o.result?.id);
+   ensure(p&&!seenProbes.has(p.id)&&eq(o.result,evaluateSemanticProbe(p,o.observation)),'semantic probe replay mismatch');
+   seenProbes.add(p.id);
+   if(o.result.status!=='pass')ensure(c.status!=='pass'&&c.issues.some(i=>i.kind==='semantic-probe-failed'&&i.probeId===p.id),'failed probe cannot pass browser case');
+  }
+  if(c.status==='pass'){
+   ensure(seenProbes.size===planned.length,'passing case missing semantic probes');
+   const rt=design.integration?.runtime,plannedCase=plan.cases.find(x=>x.id===c.caseId),v=plan.viewports.find(x=>x.id===c.viewportId);
+   const expectedIntegration=[];
+   if(rt?.art)expectedIntegration.push('ART');
+   const tier=rt?.spatial?.tiers.find(t=>v.width>=t.minWidth&&v.height>=t.minHeight);
+   if(rt?.spatial?.layouts.some(l=>l.tierId===tier?.id&&l.sliceId===plannedCase.sliceId&&l.generated))expectedIntegration.push('SPATIAL');
+   if(plannedCase.kind==='baseline')expectedIntegration.push(...(rt?.vmi??[]).filter(s=>s.sliceId===plannedCase.sliceId).map(s=>s.id));
+   ensure(eq((c.integration??[]).map(x=>x.id),expectedIntegration)&&(c.integration??[]).every(x=>x.status==='pass'),'passing case missing engine application evidence');
+  }
   if(c.capture){ensure(c.capture.filename===key+'.png'&&hash(read(join(qa,c.capture.filename)))===c.capture.sha256,'screenshot bytes changed')}
   else ensure(c.status!=='pass','passing case lacks screenshot');
  }
  ensure(seen.size===expected.size,'incomplete browser matrix');
  const passed=report.cases.every(c=>c.status==='pass');
- return {...result,status:passed?'browser-observed-pass':'browser-observed-fail',cases:report.cases.length,failures:report.cases.filter(c=>c.status!=='pass').map(c=>({caseId:c.caseId,viewportId:c.viewportId,issues:c.issues})),reportSha256:qr.reportSha256};
+ return {...result,status:passed?'browser-observed-pass':'browser-observed-fail',cases:report.cases.length,semanticProbes:{planned:plan.viewports.length*plan.cases.reduce((n,c)=>n+(c.semanticProbes?.length??0),0),observed:report.cases.reduce((n,c)=>n+(c.semanticProbes?.length??0),0),failed:report.cases.reduce((n,c)=>n+(c.semanticProbes??[]).filter(o=>o.result.status!=='pass').length,0)},failures:report.cases.filter(c=>c.status!=='pass').map(c=>({caseId:c.caseId,viewportId:c.viewportId,issues:c.issues})),reportSha256:qr.reportSha256};
 }

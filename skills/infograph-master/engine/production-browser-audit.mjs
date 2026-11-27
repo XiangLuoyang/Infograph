@@ -1,5 +1,6 @@
 // Trusted standalone HTML only; offline browser is not a hostile-code sandbox.
 import {chromium} from 'playwright';
+import {evaluateSemanticProbe} from './runtime-semantic-probes.mjs';
 import {readFile,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -32,7 +33,45 @@ function inspectEssential(el){
  }
  return {issues:[...new Set(issues)],text:String(el.innerText??el.textContent??'').slice(0,4000),bounds:[r.x,r.y,r.width,r.height]};
 }
-export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
+async function inspectIntegration(page,viewport,c,rt){
+ const results=[];
+ const check=async(id,fn)=>{try{const observed=await fn();results.push({id,status:observed.ok?'pass':'fail',observed})}catch(e){results.push({id,status:'fail',observed:{reason:String(e.message??e).slice(0,300)}})}};
+ const activeCSS=async(id,css)=>{const s=page.locator('style[data-ig-engine='+JSON.stringify(id)+']');return await s.count()===1&&await s.evaluate((e,css)=>e.textContent===css&&Boolean(e.sheet)&&!e.sheet.disabled,css)};
+ const rgb=s=>'rgb('+[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)).join(', ')+')';
+ if(rt?.art)await check('ART',async()=>{
+  const loc=page.locator('[data-ig-art='+JSON.stringify(rt.art.id)+']');
+  if(await loc.count()!==1)return {ok:false,reason:'unique art root required'};
+  const actual=await loc.evaluate(e=>({background:getComputedStyle(e).backgroundColor,color:getComputedStyle(e).color,visible:e.getClientRects().length>0&&getComputedStyle(e).visibility==='visible'}));
+  let scoped=true;
+  for(const k of c.checks){const target=page.locator(k.selector);if(await target.count()!==1||!await target.evaluate((e,id)=>Boolean(e.closest('[data-ig-art='+JSON.stringify(id)+']')),rt.art.id)){scoped=false;break}}
+  const stylesheet=await activeCSS('ART',rt.art.css);
+  return {ok:stylesheet&&actual.visible&&scoped&&actual.background===rgb(rt.art.palette.canvas)&&actual.color===rgb(rt.art.palette.text),...actual,scoped,stylesheet};
+ });
+ const tier=rt?.spatial?.tiers.find(t=>viewport.width>=t.minWidth&&viewport.height>=t.minHeight);
+ const layout=rt?.spatial?.layouts.find(l=>l.tierId===tier?.id&&l.sliceId===c.sliceId&&l.generated);
+ if(layout)await check('SPATIAL',async()=>{
+  const root=page.locator('[data-ig-workspace][data-ig-tier='+JSON.stringify(tier.id)+']');
+  if(await root.count()!==1)return {ok:false,reason:'unique selected workspace required'};
+  const slice=root.locator(':scope > [data-ig-shell="work"] > [data-ig-slice='+JSON.stringify(c.sliceId)+']');
+  if(await slice.count()!==1)return {ok:false,reason:'unique slice required'};
+  const actual=await slice.evaluate(e=>({display:getComputedStyle(e).display,grid:getComputedStyle(e).gridTemplateAreas,visible:e.getClientRects().length>0,regions:[...e.children].filter(x=>x.hasAttribute('data-ig-region')).map(x=>({id:x.dataset.igRegion,area:getComputedStyle(x).gridArea,visible:x.getClientRects().length>0}))}));
+  const stylesheet=await activeCSS('SPATIAL',rt.spatial.css);
+  const expectedGrid=layout.rows.map(row=>'"'+row.map(id=>'ig_'+id).join(' ')+'"').join(' ');
+  const ok=stylesheet&&actual.grid===expectedGrid&&actual.display==='grid'&&actual.visible&&JSON.stringify(actual.regions.map(x=>x.id))===JSON.stringify(layout.regions)&&actual.regions.every(x=>x.visible&&x.area==='ig_'+x.id);
+  return {ok,...actual,stylesheet,expectedGrid,tierId:tier.id};
+ });
+ if(c.kind==='baseline')for(const scene of rt?.vmi??[])if(scene.sliceId===c.sliceId)await check(scene.id,async()=>{
+  const loc=page.locator('iframe[data-ig-engine='+JSON.stringify(scene.id)+']');
+  if(await loc.count()!==1||!await loc.isVisible())return {ok:false,reason:'visible unique VMI frame required'};
+  const handle=await loc.elementHandle(),frame=await handle.contentFrame();
+  if(!frame)return {ok:false,reason:'frame unavailable'};
+  const actual=await frame.evaluate(()=>{const s=[...document.querySelectorAll('svg.scene')].find(e=>getComputedStyle(e).display!=='none');return s?{objects:[...s.querySelectorAll('[data-object]')].map(e=>e.dataset.object),edges:[...s.querySelectorAll('[data-edge]')].map(e=>e.dataset.edge),visible:s.getBoundingClientRect().width>0&&s.getBoundingClientRect().height>0,controls:[...document.querySelectorAll('[data-state]')].every(e=>!e.disabled)}:null});
+  const same=(a,b)=>JSON.stringify([...a].sort())===JSON.stringify([...b].sort());
+  return {ok:Boolean(actual?.visible&&actual.controls&&same(actual.objects,scene.objects)&&same(actual.edges,scene.edges)),actual};
+ });
+ return results;
+}
+export async function auditProductionHTML(file,plan,dir,{trusted=false,integration=null}={}){
  if(!trusted)throw Error('explicit trusted standalone HTML required');
  const bytes=await readFile(file);if(bytes.length>8*1024*1024)throw Error('HTML too large');
  let browser;try{browser=await chromium.launch()}catch(e){throw Object.assign(new Error('Chromium launch failed: '+String(e.message??e)),{code:'BROWSER_LAUNCH_FAILED'})}
@@ -41,7 +80,7 @@ export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
   for(const viewport of plan.viewports)for(const c of plan.cases){
    const context=await browser.newContext({offline:true,serviceWorkers:'block',acceptDownloads:false,viewport:{width:viewport.width,height:viewport.height},reducedMotion:'reduce'});
    const page=await context.newPage(),issues=[],observations=[],errors=[],blocked=[];
-   const r={viewportId:viewport.id,caseId:c.id,sliceId:c.sliceId,status:'fail',issues,observations};
+   const r={viewportId:viewport.id,caseId:c.id,sliceId:c.sliceId,status:'fail',issues,observations,semanticProbes:[],integration:[]};
    try{
     await context.route('**/*',async route=>{if(blocked.length<30)blocked.push(route.request().resourceType());await route.abort()});
     page.setDefaultTimeout(2500);page.on('pageerror',e=>{if(errors.length<20)errors.push(String(e).slice(0,500))});page.on('dialog',d=>d.dismiss().catch(()=>{}));context.on('page',p=>{if(p!==page)p.close().catch(()=>{})});
@@ -57,6 +96,29 @@ export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
      for(const kind of observed.issues)issues.push({kind,selector:k.selector});
      if(k.textIncludes!==undefined&&!observed.text.includes(k.textIncludes))issues.push({kind:'outcome-mismatch',selector:k.selector});
     }
+    // Read actual DOM in the same state as the screenshot, never execute authored JS.
+    for(const p of c.semanticProbes??[]){
+     let observation;
+     try{
+      observation=await page.locator(p.selector).evaluateAll(els=>{
+       const visible=els.filter(e=>{
+        const rect=e.getBoundingClientRect();
+        if(!e.getClientRects().length||rect.width<=0||rect.height<=0)return false;
+        for(let a=e;a;a=a.parentElement){
+         const s=getComputedStyle(a);
+         if(s.display==='none'||s.visibility!=='visible'||Number(s.opacity)===0)return false;
+        }
+        return true;
+       });
+       return {matchCount:els.length,visibleCount:visible.length,text:visible.length===1?String(visible[0].innerText??visible[0].textContent??'').slice(0,201):null};
+      });
+     }catch(e){observation={error:'probe observation unavailable: '+String(e.message??e).slice(0,300)}}
+     const result=evaluateSemanticProbe(p,observation);
+     r.semanticProbes.push({observation,result});
+     if(result.status!=='pass')issues.push({kind:'semantic-probe-failed',probeId:p.id,selector:p.selector,reason:result.reason});
+    }
+    r.integration=await inspectIntegration(page,viewport,c,integration);
+    for(const item of r.integration)if(item.status!=='pass')issues.push({kind:'engine-application-failed',id:item.id,observation:item.observed});
     await page.evaluate(()=>document.fonts.ready);
     issues.push(...await page.evaluate(layoutAudit));
     const filename=viewport.id+'--'+c.id+'.png';
@@ -71,6 +133,6 @@ export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
     r.status=issues.length===0&&r.capture?'pass':'fail';cases.push(r);await context.close();
    }
   }
-  return {version:1,status:cases.every(c=>c.status==='pass')?'observed-pass':'observed-fail',browser:browser.version(),platform:process.platform,sourceSha256:hash(bytes),cases,scope:'bounded authored standalone HTML cases, reduced-motion; no automatic aesthetics, semantic parity, general accessibility or full animation review',releaseAuthorized:false};
+  return {version:1,status:cases.every(c=>c.status==='pass')?'observed-pass':'observed-fail',browser:browser.version(),platform:process.platform,sourceSha256:hash(bytes),cases,scope:'bounded authored standalone HTML cases, reduced-motion; optional bounded DOM semantic probes; no automatic aesthetics, comprehensive semantic parity, general accessibility or full animation review',releaseAuthorized:false};
  }finally{await browser.close()}
 }

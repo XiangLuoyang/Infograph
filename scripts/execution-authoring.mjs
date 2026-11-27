@@ -1,4 +1,5 @@
 // Blank authoring scaffolds, never benchmark answers or invented pass records.
+import {activationSignals} from './execution-activation.mjs';
 import {bindScenes,sceneInputs} from './execution-vmi.mjs';
 const refs={
  'reconstruction-prepare':['references/reconstruction-entry.md','references/runtime-intent-recovery.md'],
@@ -57,7 +58,7 @@ export function authoringTask(stage,run,prior,rules,previous=null){
  }
  case 'production-plan':
   assignment='Inventory all pages and slices, choose representation alternatives, assess QD applicability and attach actual evidence. Set purpose consistently; no default pass.';
-  template={revision,purpose:null,opportunities:{revision,inventory:[],slices:[],globalReviews:[]},quality:{revision,purpose:null,substantial:true,multiRoute:null,mixedModes:null,semanticInteraction:null,richScene:null,areas:['QD01','QD02','QD03','QD04','QD05','QD06'].map(id=>area(revision,id))},execution:{revision,purpose:null,substantial:true,records:[...new Set(rules.flatMap(g=>g.requires))].map(k=>rec(revision,k))}};break;
+  template={revision,purpose:null,activationReviews:activationSignals(prior['reconstruction-prepare']?.output).map(s=>({observationId:s.id,ref:s.ref,disposition:null,sliceId:'',reason:'',staticReason:'',mechanismReason:''})),opportunities:{revision,inventory:[],slices:[],globalReviews:[]},quality:{revision,purpose:null,substantial:true,multiRoute:null,mixedModes:null,semanticInteraction:null,richScene:null,areas:['QD01','QD02','QD03','QD04','QD05','QD06'].map(id=>area(revision,id))},execution:{revision,purpose:null,substantial:true,records:[...new Set(rules.flatMap(g=>g.requires))].map(k=>rec(revision,k))}};break;
  case 'vmi-explore':
   required(p,'production-plan');assignment='Author distinct directed abstractions of the same decision. Use the ontology vocabulary, actual evidence, essential relations and limitations.';
   {const scenes=p.selectedMechanisms.map(sliceId=>({sliceId,perspectives:[blankPerspective(),blankPerspective()],sourceAdditions:[]}));template=scenes.length===1?scenes[0]:{scenes};locked=['sliceId (per scene)'];}break;

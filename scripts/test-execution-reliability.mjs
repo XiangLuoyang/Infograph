@@ -251,3 +251,16 @@ for(const viewport of ['desktop','mobile']){
  assert.equal(p.releaseAuthorized,false);
 }
 console.log('Four-backend responsive scene HTML regression passed');
+
+import {mkdirSync as previewMkdir,writeFileSync as previewWrite} from 'node:fs';
+import {join as previewJoin} from 'node:path';
+if(process.env.INFOGRAPH_PREVIEW_DIR){
+ const dir=process.env.INFOGRAPH_PREVIEW_DIR;
+ previewMkdir(dir,{recursive:true});
+ for(const viewport of ['desktop','mobile']){
+  const mixed=renderVmiReferencePreview(fourScene,{...fourOptions,viewport});
+  const baseline=renderVmiReferencePreview(fourScene,{viewport});
+  previewWrite(previewJoin(dir,'mixed-'+viewport+'.html'),mixed.html);
+  previewWrite(previewJoin(dir,'baseline-'+viewport+'.html'),baseline.html);
+ }
+}

@@ -13,7 +13,7 @@ Collect actual run directory, artifact HTML, browser plan and captures, critique
 ## Host bypass validation (operator-controlled, separate test)
 1. Try handing off raw HTML without a workflow.
 2. Try a stale or altered file, skipped critique, observed browser failure and absent browser.
-3. Try a legitimate reviewed candidate, and an explicitly agreed labeled unavailable-browser draft.
+3. Try a legitimate candidate with declared independent reviewer; reject complete author self-review in the candidate lane. Try explicitly agreed labeled unavailable-browser and browser-pass/review-incomplete drafts; record a known defect afterward and confirm the old draft no longer verifies.
 4. Record exact attempted sending tool, verifier output, actual allowed/denied result and exact byte hash. Test locally or in a designated non-production channel; no unauthorized external sends.
 5. If no host-owned interception exists, mark direct-send enforcement NOT RUN/NOT ENFORCED. A CLI refusal does not prove the host refuses direct sends. Operator must independently control sender and protect evidence/verifier before claiming enforcement.
 

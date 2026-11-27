@@ -8,3 +8,13 @@ Candidate, not mature. Use after visual opportunity discovery when a mechanism c
 6. Render, inspect desktop/mobile and reduced-motion states, verify mapping and exact evidence; ask independent readers to reconstruct intended meaning in future benchmarks. Do not call self-review comprehension validation.
 Run each of `node tests/analogy.test.mjs`, `node tests/exploration.test.mjs`, `node tests/creative.test.mjs` `node tests/scene.test.mjs` and `node tests/studio.test.mjs` from this directory. Benchmark fixture is synthetic and only checks mechanics, not real model creativity.
 See research/SOURCES.md and ROADMAP.md. Preserve accepted REAL-001–003 baselines.
+
+
+## Reference preview production (V1.3.1 engineering candidate)
+After exploration and concept review, use the formal vmi-packet stage, not a separate hand-written preview. Preserve the canonical scene, evidence and design tokens. When fidelity requires advanced rendering, set `referencePreview` in the packet:
+```json
+{"viewport":"desktop","styleIndex":0,"webgl":false,"visualRequirements":[],"productionRecords":[],"assets":[]}
+```
+This is the value of referencePreview, not a complete packet. Choose desktop or mobile and a valid zero-based style index. Each visual requirement must identify a canonical scene object, fidelity (flat/surface/photoreal/spatial), dynamic boolean, reason and evidenceRef. Flat uses SVG; surface uses CSS; static photoreal uses raster; spatial uses explicitly enabled WebGL. Dynamic advanced assets currently require a separate motion adapter and are blocked here.
+For non-flat assets, author the required production records (objectId, kind, artifactRef, evidenceRef, status, sha256) and embed actual JSON asset bytes as {artifactRef,base64}. Kinds: surface-design, verified-raster-asset, validated-geometry-material. SHA-256 covers the exact decoded JSON bytes. Raster JSON also carries image data, source, permission and image digest. Do not fabricate assets or hashes. The decoder limits assets and records to 64 each, decoded total bytes to 24,000,000. See engine/../../engine/visual-fidelity-router.mjs and vmi-reference-bridge.mjs for exact contracts.
+Inspect output issues, html, referencePreviews[].production and routes. Missing or altered assets block preview; no silent fallback. Generate and inspect both viewport variants in separate valid runs as needed. A successful packet is not browser verification, visual approval or release authorization. Continue Master browser review, critique and handoff. Do not use the reference route merely to increase renderer variety: choose fidelity from the reader task and evidence.

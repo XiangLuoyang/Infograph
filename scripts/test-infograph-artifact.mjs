@@ -41,6 +41,12 @@ try{
  const next=call(['critique-task',fork]),complete={...authored,...{outputSha256:next.template.outputSha256,reportSha256:next.template.reportSha256,captureReviews:next.template.captureReviews.map(x=>({...x,observation:'synthetic reviewed'}))}};
  assert.equal(call(['critique-submit',fork,save('complete.json',complete)]).status,'declared-design-review-complete');
  assert.equal(call(['critique-status',fork]).deliveryEligible,false);
+ call(['delivery-check',fork,repaired],false); // semantic evidence is mandatory
+ const semantic=call(['semantic-task',fork]).template;
+ const authoredSemantic={...semantic,coverage:semantic.coverage.map(x=>({...x,status:x.category==='expression'?'applicable':'not-applicable',reason:'synthetic static numeric fixture; no comparison or mechanism',ref:'fixture'})),checks:[{id:'metric',kind:'value-parity',claim:'metric matches static source value',sourceRef:'fixture expected 10',observationRef:'browser baseline #metric',unit:'fixture units',expectedValue:10,observedValue:10}]};
+ call(['semantic-submit',fork,save('semantic-wrong.json',{...authoredSemantic,outputSha256:'wrong'})],false);
+ assert.equal(call(['semantic-submit',fork,save('semantic.json',authoredSemantic)]).status,'declared-semantic-checks-pass');
+ assert.equal(call(['semantic-status',fork]).status,'declared-semantic-checks-pass');
  assert.equal(call(['delivery-check',fork,repaired]).classification,'reviewed-candidate');
  call(['delivery-check',fork,repaired,'unverified-draft'],false);
  call(['delivery-check',good.run,good.output],false);
@@ -50,6 +56,9 @@ try{
  const deliverable=join(handoff,'reviewed-candidate.html');writeFileSync(deliverable,'tampered');call(['verify-handoff',fork,handoff],false);
  writeFileSync(deliverable,readFileSync(repaired));assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);
  const manifest=join(handoff,'handoff.json'),originalManifest=readFileSync(manifest);writeFileSync(manifest,JSON.stringify({...JSON.parse(originalManifest),releaseAuthorized:true}));call(['verify-handoff',fork,handoff],false);writeFileSync(manifest,originalManifest);
+ const semanticOutput=join(fork,'artifact','semantic','output.json'),semanticBytes=readFileSync(semanticOutput);
+ writeFileSync(semanticOutput,'tampered');call(['verify-handoff',fork,handoff],false);
+ writeFileSync(semanticOutput,semanticBytes);assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);
  const cap=join(good.run,'artifact','browser','desktop--first.png');const png=readFileSync(cap);writeFileSync(cap,'tampered');call(['artifact-status',good.run],false);writeFileSync(cap,png);
  writeFileSync(good.output,html+'<!-- changed -->');call(['artifact-status',good.run],false);
  const bad=setup('bad',html.replace('width="100" height="50"','x="250" width="100" height="50"').replace('>30<','>30<')+'<div style="width:2000px">overflow</div>');

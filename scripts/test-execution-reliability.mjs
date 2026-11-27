@@ -76,3 +76,20 @@ const richQuality={...quality,richScene:true,areas:[{id:'QD03',applicable:true},
 assert.equal(auditActivation([depthSignal],[{...depthReview,motionDecision:'physical'}],slices,richQuality).eligible,true);
 assert.equal(auditActivation([depthSignal],[{...depthReview,motionDecision:'semantic'}],slices,richQuality).eligible,false);
 console.log('scene depth regression assertions passed');
+
+import {bridgeVmiReference} from '../skills/infograph-master/engine/vmi-reference-bridge.mjs';
+const bridgeFixture={semantic:{conceptId:'fixture',evidenceRef:'fixture#evidence',objects:[{id:'a',label:'Supply'},{id:'b',label:'Demand'}],mappings:[{id:'edge',from:'a',to:'b',relation:'transfer'}]},scene:{staticSummary:'Qualitative fixture',objects:[{id:'a',desktop:[80,44,160,88],mobile:[36,62,72,124],shapes:[{type:'circle'}]},{id:'b',desktop:[400,44,160,88],mobile:[36,310,72,124],shapes:[{type:'rect'}]}],states:[{id:'base'}]},design:{id:'fixture'}};
+for(const viewport of ['desktop','mobile']){
+ const b=bridgeVmiReference(bridgeFixture,{viewport});
+ assert.deepEqual(b.semantic,bridgeFixture.semantic);
+ assert.deepEqual(b.manifest.objects[0].bounds,[.1,.1,.2,.2]);
+ assert.equal(b.compiled.planningReady,true);
+ assert.equal(b.manifest.links[0].from.object,b.identity[0].referenceId);
+ assert.equal(b.rendered,false);
+ assert.equal(b.releaseAuthorized,false);
+ assert.deepEqual(b.primitiveAssets[0].shapes,bridgeFixture.scene.objects[0].shapes);
+}
+assert.throws(()=>bridgeVmiReference(bridgeFixture,{viewport:'unknown'}));
+const brokenBridge=structuredClone(bridgeFixture);brokenBridge.semantic.mappings[0].to='missing';
+assert.throws(()=>bridgeVmiReference(brokenBridge));
+console.log('VMI reference bridge regression passed');

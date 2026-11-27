@@ -14,7 +14,7 @@ export function dependencies(stage,run){
  if(run.workflow!=='production')return stage==='vmi-packet'?['vmi-explore']:[];
  if(stage==='reconstruction-prepare'){ensure(run.task==='redesign'||run.task==='critique','reconstruction only for existing artifacts');return []}
  if(stage==='reconstruction-plan'){ensure(run.task!=='create','reconstruction only for existing artifacts');return ['reconstruction-prepare']}
- if(stage==='production-plan'){ensure(run.task!=='critique','critique is read-only');return run.task==='redesign'?['reconstruction-plan']:[]}
+ if(stage==='production-plan'){ensure(run.task!=='critique','critique is read-only');return run.task==='redesign'?['reconstruction-plan','reconstruction-prepare']:[]}
  if(stage==='vmi-explore'){ensure(run.task!=='critique','critique is read-only');return ['production-plan']}
  if(stage==='vmi-packet')return ['production-plan','vmi-explore'];
  if(stage==='specialist-plan'){ensure(run.task!=='critique','critique is read-only');return ['production-plan']}

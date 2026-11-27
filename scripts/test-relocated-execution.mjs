@@ -12,7 +12,7 @@ try{
  run(copied,['scripts/audit-skill-discovery.mjs','.']);
  const env=JSON.parse(run(copied,['scripts/infograph.mjs','preflight']));
  assert.equal(env.status,'available');assert.equal(env.revision,manifest.revision);
- for(const test of ['execution','production','specialists','authoring','vmi-batch','delivery']){
+ for(const test of ['execution','production','specialists','authoring','vmi-batch','delivery','integration']){
   console.log(run(copied,['scripts/test-infograph-'+test+'.mjs']).trim());
  }
  console.log(run(copied,['skills/infograph-master/engine/business-semantic-qa.test.mjs']).trim());

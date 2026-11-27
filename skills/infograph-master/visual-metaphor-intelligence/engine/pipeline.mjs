@@ -3,6 +3,21 @@ import {enumerateCreativeRoutes,compareConcepts} from "./creative.mjs";
 import {compileScene,renderSceneHTML} from "./scene.mjs";
 import {renderVmiReferencePreview} from "../../engine/vmi-reference-bridge.mjs";
 
+export function decodeReferenceAssets(opt){
+   const entries=opt.assets??[];
+   if(!Array.isArray(entries)||entries.length>64||typeof (opt.webgl??false)!=="boolean")throw Error("invalid reference asset options");
+   const artifacts=new Map();let total=0;
+   for(const a of entries){
+    if(!a||typeof a.artifactRef!=="string"||!a.artifactRef.trim()||artifacts.has(a.artifactRef)||typeof a.base64!=="string"||a.base64.length>12000000||! /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(a.base64))throw Error("invalid embedded reference asset");
+    const bytes=Buffer.from(a.base64,"base64");
+    if(!bytes.length||bytes.toString("base64")!==a.base64||(total+=bytes.length)>24000000)throw Error("invalid or oversized reference asset bytes");
+    artifacts.set(a.artifactRef,bytes);
+   }
+   const records=opt.productionRecords??[];
+   if(!Array.isArray(records)||records.length>64||[...artifacts.keys()].some(k=>!records.some(r=>r?.artifactRef===k)))throw Error("unbound reference asset");
+ return {artifacts,records};
+}
+
 export function evaluatePacket(packet,objects,ontology){
  if(!packet||!Array.isArray(packet.perspectives)||!Array.isArray(packet.concepts)||!Array.isArray(packet.reviews)||!Array.isArray(packet.styles)||packet.perspectives.length>8||packet.concepts.length>12||packet.reviews.length>12||packet.styles.length>4)throw Error("invalid workbench packet");
  const exploration=explorePerspectives(packet.perspectives,objects,ontology,{shortlist:8,budget:4000});
@@ -23,17 +38,7 @@ export function evaluatePacket(packet,objects,ontology){
   if(packet.referencePreview!==undefined){
    const opt=packet.referencePreview;
    if(!opt||!["desktop","mobile"].includes(opt.viewport)||!Number.isInteger(opt.styleIndex)||!plans[opt.styleIndex]||Object.keys(opt).some(k=>!["viewport","styleIndex","visualRequirements","productionRecords","assets","webgl"].includes(k)))throw Error("invalid reference preview options");
-   const entries=opt.assets??[];
-   if(!Array.isArray(entries)||entries.length>64||typeof (opt.webgl??false)!=="boolean")throw Error("invalid reference asset options");
-   const artifacts=new Map();let total=0;
-   for(const a of entries){
-    if(!a||typeof a.artifactRef!=="string"||!a.artifactRef.trim()||artifacts.has(a.artifactRef)||typeof a.base64!=="string"||a.base64.length>12000000||! /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(a.base64))throw Error("invalid embedded reference asset");
-    const bytes=Buffer.from(a.base64,"base64");
-    if(!bytes.length||bytes.toString("base64")!==a.base64||(total+=bytes.length)>24000000)throw Error("invalid or oversized reference asset bytes");
-    artifacts.set(a.artifactRef,bytes);
-   }
-   const records=opt.productionRecords??[];
-   if(!Array.isArray(records)||records.length>64||[...artifacts.keys()].some(k=>!records.some(r=>r?.artifactRef===k)))throw Error("unbound reference asset");
+   const {artifacts,records}=decodeReferenceAssets(opt);
    const preview=renderVmiReferencePreview(plans[opt.styleIndex],{viewport:opt.viewport,visualRequirements:opt.visualRequirements??[],productionRecords:records,artifacts,webgl:opt.webgl??false});
    referencePreviews=[{viewport:opt.viewport,styleIndex:opt.styleIndex,report:preview.report,production:preview.bridge.production,routes:preview.bridge.routes,limitations:preview.limitations,releaseAuthorized:false}];
    html=preview.html;

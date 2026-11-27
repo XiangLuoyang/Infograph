@@ -208,3 +208,16 @@ assert.equal(formatFixture(rasterRoutes,rasterRecord,rasterAsset).formatVerified
 assert.equal(formatFixture(rasterRoutes,rasterRecord,{...rasterAsset,permission:'unknown'}).formatVerified,false);
 assert.equal(formatFixture(rasterRoutes,rasterRecord,{...rasterAsset,sha256:'0'.repeat(64)}).formatVerified,false);
 console.log('Visual asset format regression passed');
+
+const mixedRequirements=[{...fidelityFixture[1],objectId:'a'},{...fidelityFixture[2],objectId:'b'}];
+const mixedAssets=new Map([['surface:a',new TextEncoder().encode(JSON.stringify({material:matte}))],['raster:b',new TextEncoder().encode(JSON.stringify(rasterAsset))]]);
+const mixedRecords=[{...productionRecord,objectId:'a',artifactRef:'surface:a'},{...rasterRecord,objectId:'b',artifactRef:'raster:b'}].map(r=>({...r,sha256:productionHash('sha256').update(mixedAssets.get(r.artifactRef)).digest('hex')}));
+const mixedOptions={visualRequirements:mixedRequirements,productionRecords:mixedRecords,artifacts:mixedAssets};
+const mixedPreview=renderVmiReferencePreview(previewFixture,mixedOptions);
+assert.equal(mixedPreview.bridge.production.formatVerified,true);
+assert.deepEqual(mixedPreview.bridge.previewManifest.objects.map(o=>o.fidelity),['surface','photoreal']);
+assert.ok(mixedPreview.html.includes('data:image/png;base64,'+png));
+assert.equal(mixedPreview.releaseAuthorized,false);
+assert.throws(()=>renderVmiReferencePreview(previewFixture,{...mixedOptions,artifacts:new Map()}));
+assert.throws(()=>renderVmiReferencePreview(previewFixture,{visualRequirements:[{...fidelityFixture[0],objectId:'unknown'}]}));
+console.log('Mixed backend asset bridge regression passed');

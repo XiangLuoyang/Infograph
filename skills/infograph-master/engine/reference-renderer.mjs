@@ -77,7 +77,7 @@ export function renderStructuredPrimitives(asset){
  const a=' fill="'+color(s.fill)+'" stroke="'+color(s.stroke)+'" stroke-width="'+n(s.sw,0,8)+'"';
  if(s.type==='circle')return '<circle cx="'+n(s.cx)+'" cy="'+n(s.cy)+'" r="'+n(s.r,1,50)+'"'+a+'/>';
  if(s.type==='rect'){assert(n(s.x)+n(s.w)<=100&&n(s.y)+n(s.h)<=100,'rectangle overflow');return '<rect x="'+s.x+'" y="'+s.y+'" width="'+s.w+'" height="'+s.h+'" rx="'+n(s.rx,0,20)+'"'+a+'/>'}
- assert(s.type==='path'&&typeof s.d==='string'&&s.d.length<=2000&&/^[MLCQZHVmlcqzhv0-9.,\\s-]+$/.test(s.d),'invalid primitive path');
+ assert(s.type==='path'&&typeof s.d==='string'&&s.d.length<=2000&&/^[MLCQZHVmlcqzhv0-9.,\s-]+$/.test(s.d),'invalid primitive path');
  return '<path d="'+esc(s.d)+'"'+a+'/>';
  }).join('')+'</svg>';
 }

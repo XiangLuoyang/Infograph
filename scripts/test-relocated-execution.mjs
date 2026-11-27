@@ -18,6 +18,7 @@ try{
  console.log(run(copied,['skills/infograph-master/engine/business-semantic-qa.test.mjs']).trim());
  console.log(run(copied,['skills/infograph-master/engine/runtime-semantic-probes.test.mjs']).trim());
  console.log(run(copied,['skills/infograph-master/engine/composition-candidates.test.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/engine/art-direction-production.test.mjs']).trim());
  console.log(run(copied,['skills/infograph-master/engine/test-global-spatial-composition.mjs']).trim());
  run(copied,['scripts/verify-portable-skill.mjs','.']);
  console.log('Portable execution candidate verified after relocation; browser dependency not installed or tested here');

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
-import {authoringTask,spatialScaffold} from './execution-authoring.mjs';
+import {authoringTask,spatialScaffold,specialistScaffold} from './execution-authoring.mjs';
 import {compileSpatialComposition} from '../skills/infograph-master/engine/global-spatial-composition.mjs';
 
+import {atlasIdentityDiff} from './execution-specialists.mjs';
 const inventory=[{id:'summary',page:'overview'},{id:'trend',page:'overview'},{id:'detail',page:'analysis'}];
 const requirements={inventory,areas:['QD05'],integrated:false};
 const scaffold=spatialScaffold(requirements);
@@ -25,4 +26,16 @@ const task=authoringTask('specialist-plan',{},prior,[]);
 assert.deepEqual(task.template.routes.QD05.spec.atlas,scaffold.atlas);
 assert.deepEqual(task.template.routes.QD05.spec.spec,scaffold.spec);
 assert.equal(task.template.routes.QD05.spec.atlas.coverage,null);
+assert.deepEqual(atlasIdentityDiff(scaffold.atlas,requirements),{missing:[],unexpected:[],duplicates:[]});
+assert.deepEqual(atlasIdentityDiff({slices:[{id:'summary',pageId:'overview'},{id:'summary',pageId:'overview'},{id:'trend',pageId:'analysis'}]},requirements),{missing:[['trend','overview'],['detail','analysis']],unexpected:[['trend','analysis']],duplicates:[['summary','overview']]});
+const integrated=structuredClone(prior);
+integrated['production-plan'].output.specialists={...requirements,integrated:true,areas:['QD01','QD02','QD03','QD04','QD05']};
+const workspace=authoringTask('specialist-plan',{},integrated,[]).template.workspace;
+assert.deepEqual(workspace.atlas,scaffold.atlas);
+assert.deepEqual(workspace.spatial,scaffold.spec);
+assert.deepEqual(workspace.story,specialistScaffold('QD01').story);
+assert.deepEqual(workspace.choreography,specialistScaffold('QD02'));
+assert.deepEqual(workspace.concept,specialistScaffold('QD03'));
+assert.deepEqual(workspace.motion,specialistScaffold('QD04'));
+assert.equal(workspace.concept.source,null);
 console.log('execution reliability scaffold regression passed');

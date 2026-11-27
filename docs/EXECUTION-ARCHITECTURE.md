@@ -65,3 +65,6 @@ The Master now presents the canonical ordered CLI route at entry, and standalone
 
 ## VMI vector surface increment
 The canonical scene compiler/renderer supports optional surfaceRendering with decorative material gradients on filled primitives and explicit qualitative state rotations tied to verified changedObjects. `vmi-geometry [rotor|reservoir|valve]` returns reusable illustrative geometry. See skills/infograph-master/references/vmi-surface-rendering.md. The standalone preview is actual SVG/HTML; final dashboard integration, calibrated motion, physical simulation and independent quality remain unverified.
+
+## Engine production integration
+After verified build eligibility run `integration-task <run-dir>` and follow skills/infograph-master/references/engine-integration.md. Use `assemble-artifact <run-dir> <template.html> <new.html>` for selected engine slots; binding and browser review check actual fragment presence and bounded application. Do not substitute approximate hand-written engine outputs. Existing custom routes remain explicit; isolated VMI frames do not share parent filters or automatically fit content. Full visual and semantic review remains required.

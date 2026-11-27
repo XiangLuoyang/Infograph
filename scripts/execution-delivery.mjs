@@ -11,11 +11,23 @@ const write=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
 const ensure=(ok,msg)=>{if(!ok)throw Error(msg)};
 export function deliveryDecision(browser,review,mode){
  ensure(['reviewed-candidate','unverified-draft'].includes(mode),'invalid handoff mode');
- if(browser.status==='browser-observed-pass'&&review?.status==='declared-design-review-complete'&&mode==='reviewed-candidate'){
-  return {eligible:true,classification:'reviewed-candidate',label:'Browser-observed and authored critique complete; independent acceptance not established.'};
+ const independent=['independent-human','independent-model'].includes(review?.reviewerKind);
+ const complete=review?.status==='declared-design-review-complete';
+ const knownFindings=review?.critique?.findings;
+ // Only absent review or a verified, finding-free review may enter the draft lane.
+ // Unknown/malformed states and any observed failure remain fail-closed.
+ const noFindings=Array.isArray(knownFindings)&&knownFindings.length===0;
+ const pending=review==null||review.status==='critique-pending';
+ const incomplete=['review-incomplete','capture-review-incomplete','budget-exhausted'].includes(review?.status)&&noFindings;
+ const selfComplete=complete&&review?.reviewerKind==='agent-self'&&noFindings;
+ if(browser.status==='browser-observed-pass'&&complete&&independent&&noFindings&&mode==='reviewed-candidate'){
+  return {eligible:true,classification:'reviewed-candidate',label:'Browser-observed and declared independent critique complete; reviewer identity and independent acceptance not authenticated.'};
  }
- if(browser.status==='browser-blocked'&&mode==='unverified-draft'){
+ if(mode==='unverified-draft'&&browser.status==='browser-blocked'&&review==null){
   return {eligible:true,classification:'unverified-draft',label:'UNVERIFIED DRAFT — browser blocked; visual and runtime QA not completed. Not a reviewed candidate.'};
+ }
+ if(mode==='unverified-draft'&&browser.status==='browser-observed-pass'&&(pending||incomplete||selfComplete)){
+  return {eligible:true,classification:'unverified-draft',label:'UNVERIFIED DRAFT — browser checks passed; independent design review missing or incomplete. No design acceptance; not a reviewed candidate.'};
  }
  return {eligible:false,classification:'blocked',label:'Handoff blocked: required evidence missing, failed or incompatible with requested mode.'};
 }

@@ -14,11 +14,28 @@ const rec=(revision,key)=>({key,revision,status:'not-run',ref:''});
 const area=(revision,id)=>({id,applicable:null,reason:'',design:{revision,status:'not-run',ref:''}});
 const blankPerspective=()=>({id:'',rationale:'',evidenceRef:'',evidenceKind:null,nodes:[],edges:[]});
 const required=(p,stage)=>{if(!p)throw Error('missing verified '+stage);return p};
+// Derive identity scaffolds only; evidence and design judgments remain authored.
+export function spatialScaffold(requirements){
+ const inventory=requirements.inventory;
+ const pageIds=[...new Set(inventory.map(x=>x.page))];
+ const sliceIds=new Set(inventory.map(x=>x.id));
+ const conflicts=pageIds.filter(id=>sliceIds.has(id));
+ const valid=id=>typeof id==='string'&&/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(id)&&!['constructor','prototype'].includes(id);
+ const invalidIds=[...new Set([...pageIds,...sliceIds])].filter(id=>!valid(id));
+ return {conflicts,invalidIds,atlas:{coverage:null,discoveryRef:'',
+ pages:pageIds.map((id,i)=>({id,title:'',task:'',ref:'',inventoryIds:['page-evidence-'+i]})),
+ slices:inventory.map(({id,page},i)=>({id,pageId:page,title:'',task:'',ref:'',inventoryIds:['slice-evidence-'+i]})),
+ inventory:[...pageIds.map((_,i)=>({id:'page-evidence-'+i,kind:'page',ref:''})),...inventory.map((_,i)=>({id:'slice-evidence-'+i,kind:'slice',ref:''}))]},
+ spec:{revision:'',atlasRef:'',designDNARef:'',selectionReason:'',
+ alternatives:['fixed','flow','hybrid'].map(mode=>({id:mode,mode,tradeoff:''})),tiers:[],viewports:[],
+ pages:pageIds.map(id=>({id,purpose:null,returnPolicy:'',filterPolicy:'',sliceOrder:inventory.filter(x=>x.page===id).map(x=>x.id)})),
+ slices:inventory.map(({id})=>({id,claim:'',densityRationale:'',preservationRef:'',regions:[],focusRegion:'',readingOrder:[],variants:[]}))}};
+}
 export function authoringTask(stage,run,prior,rules,previous=null){
  const p=prior['production-plan']?.output;
  const revision=p?.revision??previous?.revision??1;
  const references=[...globalRefs,...(refs[stage]??[])];
- let template,assignment,locked=[];
+ let template,assignment,locked=[],diagnostics=[];
  switch(stage){
  case 'reconstruction-prepare':
   assignment='Recover actual source observations and optional runtime states; do not invent the source IR.';
@@ -46,12 +63,17 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   template={revision};
   if(p.specialists.integrated){template.workspace=null;references.push('references/workspace-integration.md')}
   else template.routes=Object.fromEntries(p.specialists.areas.map(id=>[id,{mode:'compile',spec:null}]));
+  if(p.specialists.areas.includes('QD05')){
+   const {conflicts,invalidIds,atlas,spec}=spatialScaffold(p.specialists);
+   if(conflicts.length||invalidIds.length)diagnostics.push({code:'SPATIAL_ID_CONTRACT',conflicts,invalidIds,repair:'Retry production-plan with distinct valid page and slice IDs; preserve evidence references.'});
+   if(!p.specialists.integrated)template.routes.QD05.spec={atlas,spec};
+  }
   references.push(...p.specialists.areas.map(id=>specialistRefs[id]));
   if(p.selectedMechanisms.length){template.vmiOutputSha256=required(prior['vmi-packet'],'vmi-packet').receipt.outputSha256;locked.push('vmiOutputSha256')}
   locked.push('revision');break;
  default:throw Error('no authoring scaffold for '+stage);
  }
- return {stage,assignment,requiredGlobalReferences:globalRefs.map(x=>'skills/infograph-master/'+x),referencePolicy:'Load global references before authoring; task-specific references supplement, never replace them. A listed reference is not proof of reading.',references:[...new Set(references)].map(x=>'skills/infograph-master/'+x),locked,template,previousInput:previous,verifiedUpstream:Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,{outputSha256:v.receipt.outputSha256,outputFile:k+'/output.json'}])),scope:'Blank scaffold; null/empty/not-run are intentionally incomplete. Author actual evidence before execution.'};
+ return {stage,assignment,diagnostics,requiredGlobalReferences:globalRefs.map(x=>'skills/infograph-master/'+x),referencePolicy:'Load global references before authoring; task-specific references supplement, never replace them. A listed reference is not proof of reading.',references:[...new Set(references)].map(x=>'skills/infograph-master/'+x),locked,template,previousInput:previous,verifiedUpstream:Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,{outputSha256:v.receipt.outputSha256,outputFile:k+'/output.json'}])),scope:'Blank scaffold; null/empty/not-run are intentionally incomplete. Author actual evidence before execution.'};
 }
 export function hydrateInput(stage,input,run,prior){
  if(run.workflow!=='production')return input;

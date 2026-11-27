@@ -62,7 +62,7 @@ export function renderVmiReferencePreview(plan,{viewport='desktop',visualRequire
   }
  }
  bridge.production=production;bridge.routes=routes;
- const result=buildReferenceHTML(manifest,{webgl,assets,primitiveAssets,designDNA:bridge.design,initialScene:manifest.staticScene,objectHighlights,title:plan.scene.title,description:plan.scene.staticSummary});
+ const result=buildReferenceHTML(manifest,{webgl,assets,primitiveAssets,semanticLabels:true,designDNA:bridge.design,initialScene:manifest.staticScene,objectHighlights,title:plan.scene.title,description:plan.scene.staticSummary});
  bridge.stateIdentity=stateIdentity;bridge.previewManifest=manifest;
  return {...result,bridge,limitations:[...bridge.limitations.filter(x=>!x.startsWith('SVG primitives retained')),'state runtime and advanced material styling not yet adapted'],releaseAuthorized:false};
 }

@@ -1,3 +1,4 @@
+import {buildReferenceHTML} from './reference-renderer.mjs';
 import {compileReference} from './reference-scene.mjs';
 
 // Converts a compiled VMI plan, not an unreviewed concept. Geometry is
@@ -20,4 +21,11 @@ export function bridgeVmiReference(plan,{viewport='desktop'}={}){
  const manifest={source:{kind:'synthetic',id:'vmi-'+semantic.conceptId,width,height},objects,links,scenes:[{id:'overview',intent:scene.staticSummary,visible}],staticScene:'overview'};
  const compiled=compileReference(manifest);
  return {manifest,compiled,semantic:structuredClone(semantic),identity:[...ids].map(([sourceId,referenceId])=>({sourceId,referenceId})),primitiveAssets:scene.objects.map(o=>({referenceId:ids.get(o.id),shapes:structuredClone(o.shapes)})),design:structuredClone(plan.design),stateDescriptions:structuredClone(scene.states),limitations:['center ports are provisional','SVG primitives retained as asset instructions, not rendered','state highlights and waypoints require runtime adapter','no inferred material or physical motion'],rendered:false,releaseAuthorized:false};
+}
+
+export function renderVmiReferencePreview(plan,{viewport='desktop'}={}){
+ const bridge=bridgeVmiReference(plan,{viewport});
+ const primitiveAssets=Object.fromEntries(bridge.primitiveAssets.map(a=>[a.referenceId,{shapes:a.shapes,colors:bridge.design.colors}]));
+ const result=buildReferenceHTML(bridge.manifest,{primitiveAssets,title:plan.scene.title,description:plan.scene.staticSummary});
+ return {...result,bridge,limitations:[...bridge.limitations.filter(x=>!x.startsWith('SVG primitives retained')),'reference shell palette and state runtime not yet adapted'],releaseAuthorized:false};
 }

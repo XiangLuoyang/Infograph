@@ -36,6 +36,7 @@ function inspectEssential(el){
 async function inspectIntegration(page,viewport,c,rt){
  const results=[];
  const check=async(id,fn)=>{try{const observed=await fn();results.push({id,status:observed.ok?'pass':'fail',observed})}catch(e){results.push({id,status:'fail',observed:{reason:String(e.message??e).slice(0,300)}})}};
+ const activeCSS=async(id,css)=>{const s=page.locator('style[data-ig-engine='+JSON.stringify(id)+']');return await s.count()===1&&await s.evaluate((e,css)=>e.textContent===css&&Boolean(e.sheet)&&!e.sheet.disabled,css)};
  const rgb=s=>'rgb('+[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)).join(', ')+')';
  if(rt?.art)await check('ART',async()=>{
   const loc=page.locator('[data-ig-art='+JSON.stringify(rt.art.id)+']');
@@ -43,7 +44,8 @@ async function inspectIntegration(page,viewport,c,rt){
   const actual=await loc.evaluate(e=>({background:getComputedStyle(e).backgroundColor,color:getComputedStyle(e).color,visible:e.getClientRects().length>0&&getComputedStyle(e).visibility==='visible'}));
   let scoped=true;
   for(const k of c.checks){const target=page.locator(k.selector);if(await target.count()!==1||!await target.evaluate((e,id)=>Boolean(e.closest('[data-ig-art='+JSON.stringify(id)+']')),rt.art.id)){scoped=false;break}}
-  return {ok:actual.visible&&scoped&&actual.background===rgb(rt.art.palette.canvas)&&actual.color===rgb(rt.art.palette.text),...actual,scoped};
+  const stylesheet=await activeCSS('ART',rt.art.css);
+  return {ok:stylesheet&&actual.visible&&scoped&&actual.background===rgb(rt.art.palette.canvas)&&actual.color===rgb(rt.art.palette.text),...actual,scoped,stylesheet};
  });
  const tier=rt?.spatial?.tiers.find(t=>viewport.width>=t.minWidth&&viewport.height>=t.minHeight);
  const layout=rt?.spatial?.layouts.find(l=>l.tierId===tier?.id&&l.sliceId===c.sliceId&&l.generated);
@@ -52,9 +54,11 @@ async function inspectIntegration(page,viewport,c,rt){
   if(await root.count()!==1)return {ok:false,reason:'unique selected workspace required'};
   const slice=root.locator(':scope > [data-ig-shell="work"] > [data-ig-slice='+JSON.stringify(c.sliceId)+']');
   if(await slice.count()!==1)return {ok:false,reason:'unique slice required'};
-  const actual=await slice.evaluate(e=>({display:getComputedStyle(e).display,visible:e.getClientRects().length>0,regions:[...e.children].filter(x=>x.hasAttribute('data-ig-region')).map(x=>({id:x.dataset.igRegion,area:getComputedStyle(x).gridArea,visible:x.getClientRects().length>0}))}));
-  const ok=actual.display==='grid'&&actual.visible&&JSON.stringify(actual.regions.map(x=>x.id))===JSON.stringify(layout.regions)&&actual.regions.every(x=>x.visible&&x.area==='ig_'+x.id);
-  return {ok,...actual,tierId:tier.id};
+  const actual=await slice.evaluate(e=>({display:getComputedStyle(e).display,grid:getComputedStyle(e).gridTemplateAreas,visible:e.getClientRects().length>0,regions:[...e.children].filter(x=>x.hasAttribute('data-ig-region')).map(x=>({id:x.dataset.igRegion,area:getComputedStyle(x).gridArea,visible:x.getClientRects().length>0}))}));
+  const stylesheet=await activeCSS('SPATIAL',rt.spatial.css);
+  const expectedGrid=layout.rows.map(row=>'"'+row.map(id=>'ig_'+id).join(' ')+'"').join(' ');
+  const ok=stylesheet&&actual.grid===expectedGrid&&actual.display==='grid'&&actual.visible&&JSON.stringify(actual.regions.map(x=>x.id))===JSON.stringify(layout.regions)&&actual.regions.every(x=>x.visible&&x.area==='ig_'+x.id);
+  return {ok,...actual,stylesheet,expectedGrid,tierId:tier.id};
  });
  if(c.kind==='baseline')for(const scene of rt?.vmi??[])if(scene.sliceId===c.sliceId)await check(scene.id,async()=>{
   const loc=page.locator('iframe[data-ig-engine='+JSON.stringify(scene.id)+']');

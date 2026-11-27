@@ -31,6 +31,15 @@ export function spatialScaffold(requirements){
  pages:pageIds.map(id=>({id,purpose:null,returnPolicy:'',filterPolicy:'',sliceOrder:inventory.filter(x=>x.page===id).map(x=>x.id)})),
  slices:inventory.map(({id})=>({id,claim:'',densityRationale:'',preservationRef:'',regions:[],focusRegion:'',readingOrder:[],variants:[]}))}};
 }
+export function specialistScaffold(id){
+ switch(id){
+ case 'QD01':return {story:{audience:'',purpose:'',thesis:'',spine:'',evidence:[],acts:[]},scene:{objects:[],cues:[],modePolicy:'shared-context'}};
+ case 'QD02':return {objects:[],evidence:[],states:[],transitions:[]};
+ case 'QD03':return {intent:'',readerTask:'',semanticRef:'',designDNARef:'',selectionReason:'',directions:['plain','concept-a','concept-b'].map(id=>({id,kind:id==='plain'?'plain':'concept',silhouette:'',viewpoint:'',composition:'',palette:'',materials:'',lighting:'',tradeoff:''})),selectedDirection:'',source:null,conceptInspection:null,assets:[],semanticObjects:[],layers:[],scenes:[]};
+ case 'QD04':return {conceptSha:'',motionRevision:'',sceneRef:'',inventory:[]};
+ default:return null;
+ }
+}
 export function authoringTask(stage,run,prior,rules,previous=null){
  const p=prior['production-plan']?.output;
  const revision=p?.revision??previous?.revision??1;
@@ -62,11 +71,11 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   required(p,'production-plan');assignment='Author only applicable specialist specs using the verified inventory and previous outputs. Static route needs evidence and justification.';
   template={revision};
   if(p.specialists.integrated){template.workspace=null;references.push('references/workspace-integration.md')}
-  else template.routes=Object.fromEntries(p.specialists.areas.map(id=>[id,{mode:'compile',spec:null}]));
+  else template.routes=Object.fromEntries(p.specialists.areas.map(id=>[id,{mode:'compile',spec:specialistScaffold(id)}]));
   if(p.specialists.areas.includes('QD05')){
    const {conflicts,invalidIds,atlas,spec}=spatialScaffold(p.specialists);
    if(conflicts.length||invalidIds.length)diagnostics.push({code:'SPATIAL_ID_CONTRACT',conflicts,invalidIds,repair:'Retry production-plan with distinct valid page and slice IDs; preserve evidence references.'});
-   if(p.specialists.integrated)template.workspace={revision:'',contextRevision:'',scopePolicy:'pinned',story:null,scene:null,choreography:null,concept:null,motion:null,atlas,spatial:spec,actBindings:{},sceneBindings:{},routes:{director:{pageId:'',sliceId:''},explorer:{pageId:'',sliceId:''}}};
+   if(p.specialists.integrated)template.workspace={revision:'',contextRevision:'',scopePolicy:'pinned',...specialistScaffold('QD01'),choreography:specialistScaffold('QD02'),concept:specialistScaffold('QD03'),motion:specialistScaffold('QD04'),atlas,spatial:spec,actBindings:{},sceneBindings:{},routes:{director:{pageId:'',sliceId:''},explorer:{pageId:'',sliceId:''}}};
    else template.routes.QD05.spec={atlas,spec};
   }
   references.push(...p.specialists.areas.map(id=>specialistRefs[id]));

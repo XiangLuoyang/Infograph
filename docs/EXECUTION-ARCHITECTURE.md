@@ -57,5 +57,8 @@ An optional operator-owned local subprocess adapter uses `reviewer-run --trusted
 ## Visual composition increment
 Use `composition-propose <input.json>` to enumerate bounded concrete grids and `composition-preview <input.json> <new.html>` for standalone wireframe comparison. QD05 accepts an optional per-slice composition contract and candidateId per tier, generating actual grid geometry from authored priorities/minima, review viewports and adjacency needs. Candidate comparisons are preserved in specialist receipts; manual layouts remain supported. No autonomous aesthetic ranking or actual rendered-fit claim. See global-spatial-composition.md.
 
+## Art direction production increment
+Use `art-direction-propose`, `art-direction-preview` and `art-direction-css` for a bounded five-family comparison using existing direction/style presets. The optional production-plan artDirection field compiles the selected brief, rationale, candidate comparison and scoped CSS into the replayed production receipt. Actual application remains host-owned. Opaque contrast and specimen computed-style tests do not certify final artifact aesthetics or accessibility. See skills/infograph-master/references/art-direction-production.md.
+
 ## RC closeout
 The Master now presents the canonical ordered CLI route at entry, and standalone VMI `start` is diagnostic-only. Portable verification normalizes Windows path separators; relocated package smoke tests exercise real Node CLI from an independent directory. Unexpected browser audit errors are not an unavailable-browser fallback. See the held-out host trial protocol in docs/EXECUTION-HOST-TRIAL.md. Freeze for trial after CI; real model quality and host sending enforcement remain unverified.

@@ -22,9 +22,20 @@ export function evaluatePacket(packet,objects,ontology){
   plans=packet.styles.map(style=>compileScene({target,concept:selected,review,objects,ontology,style,scene:packet.scene}));
   if(packet.referencePreview!==undefined){
    const opt=packet.referencePreview;
-   if(!opt||!["desktop","mobile"].includes(opt.viewport)||!Number.isInteger(opt.styleIndex)||!plans[opt.styleIndex]||Object.keys(opt).some(k=>!["viewport","styleIndex"].includes(k)))throw Error("invalid reference preview options");
-   const preview=renderVmiReferencePreview(plans[opt.styleIndex],{viewport:opt.viewport});
-   referencePreviews=[{viewport:opt.viewport,styleIndex:opt.styleIndex,report:preview.report,limitations:preview.limitations,releaseAuthorized:false}];
+   if(!opt||!["desktop","mobile"].includes(opt.viewport)||!Number.isInteger(opt.styleIndex)||!plans[opt.styleIndex]||Object.keys(opt).some(k=>!["viewport","styleIndex","visualRequirements","productionRecords","assets","webgl"].includes(k)))throw Error("invalid reference preview options");
+   const entries=opt.assets??[];
+   if(!Array.isArray(entries)||entries.length>64||typeof (opt.webgl??false)!=="boolean")throw Error("invalid reference asset options");
+   const artifacts=new Map();let total=0;
+   for(const a of entries){
+    if(!a||typeof a.artifactRef!=="string"||!a.artifactRef.trim()||artifacts.has(a.artifactRef)||typeof a.base64!=="string"||a.base64.length>12000000||! /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(a.base64))throw Error("invalid embedded reference asset");
+    const bytes=Buffer.from(a.base64,"base64");
+    if(!bytes.length||bytes.toString("base64")!==a.base64||(total+=bytes.length)>24000000)throw Error("invalid or oversized reference asset bytes");
+    artifacts.set(a.artifactRef,bytes);
+   }
+   const records=opt.productionRecords??[];
+   if(!Array.isArray(records)||records.length>64||[...artifacts.keys()].some(k=>!records.some(r=>r?.artifactRef===k)))throw Error("unbound reference asset");
+   const preview=renderVmiReferencePreview(plans[opt.styleIndex],{viewport:opt.viewport,visualRequirements:opt.visualRequirements??[],productionRecords:records,artifacts,webgl:opt.webgl??false});
+   referencePreviews=[{viewport:opt.viewport,styleIndex:opt.styleIndex,report:preview.report,production:preview.bridge.production,routes:preview.bridge.routes,limitations:preview.limitations,releaseAuthorized:false}];
    html=preview.html;
   }else html=renderSceneHTML(plans);
  }catch(e){issues.push(String(e.message??e));plans=[];referencePreviews=[];html=null}

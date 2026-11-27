@@ -14,7 +14,7 @@ export function proposeCompositions(input){
   const key=JSON.stringify([columns,rows]);if(seen.has(key))return;seen.add(key);
   const minHeights=rows.map(row=>Math.max(...row.map(id=>byId.get(id).minHeight)));
   const rowSizes=mode==='fixed'?minHeights.map(h=>Math.max(1,Math.round(12*h/Math.max(...minHeights)))):rows.map(()=> 'auto');
-  const hSpace=viewport.height-gap*(rows.length-1),wSpace=viewport.width-gap*(columns.length-1),totalWeight=columns.reduce((a,b)=>a+b,0),totalRows=mode==='fixed'?rowSizes.reduce((a,b)=>a+b,0):0;
+  const hSpace=Math.max(0,viewport.height-gap*(rows.length-1)),wSpace=Math.max(0,viewport.width-gap*(columns.length-1)),totalWeight=columns.reduce((a,b)=>a+b,0),totalRows=mode==='fixed'?rowSizes.reduce((a,b)=>a+b,0):0;
   const colW=columns.map(c=>wSpace*c/totalWeight),rh=mode==='fixed'?rowSizes.map(w=>hSpace*w/totalRows):minHeights;
   let y=0;const boxes=[];
   for(const [i,row] of rows.entries()){
@@ -45,4 +45,20 @@ export function proposeCompositions(input){
   if(at>0)add('focus-wide',[1,1],[...pack(ids.slice(0,at)),[focusRegion,focusRegion],...pack(ids.slice(at+1))],'full-width focal region while preserving earlier semantic reading order');
  }
  return {candidates,scope:'estimated geometry and authored priorities only; no browser measurements, aesthetic ranking or automatic selection',rendered:false,releaseAuthorized:false};
+}
+
+export function compositionPreview(input){
+ const result=proposeCompositions(input);
+ const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const pct=x=>Math.round(x*100)+'%';
+ const cards=result.candidates.map(c=>{
+  const W=input.viewport.width,H=Math.max(input.viewport.height,c.metrics.estimatedHeight,1);
+  const regions=c.estimatedBoxes.map(b=>{
+   const r=input.regions.find(x=>x.id===b.id),focus=b.id===input.focusRegion;
+   return '<div class="region'+(focus?' focus':'')+'" style="left:'+100*b.x/W+'%;top:'+100*b.y/H+'%;width:'+100*Math.max(0,b.width)/W+'%;height:'+100*Math.max(0,b.height)/H+'%"><strong>'+esc(b.id)+'</strong><small> P'+r.priority+' · '+Math.round(b.width)+'×'+Math.round(b.height)+'</small></div>';
+  }).join('');
+  const issues=c.issues.length?'<ul>'+c.issues.map(i=>'<li>'+esc(i.id+' · '+i.kind)+'</li>').join('')+'</ul>':'';
+  return '<article><header><h2>'+esc(c.id)+'</h2><span class="'+(c.feasible?'ok':'bad')+'">'+(c.feasible?'Fits authored minima':'Below authored minima')+'</span></header><p>'+esc(c.rationale)+'</p><div class="wire" style="aspect-ratio:'+W+'/'+H+'">'+regions+'<div class="fold" style="top:'+100*input.viewport.height/H+'%"></div></div><dl><dt>Focus area share</dt><dd>'+pct(c.metrics.focusShare)+'</dd><dt>Priority-weighted first fold</dt><dd>'+pct(c.metrics.priorityFirstFold)+'</dd><dt>Same-row adjacency</dt><dd>'+c.metrics.adjacentPairs+'/'+c.metrics.totalPairs+'</dd></dl>'+issues+'</article>';
+ }).join('');
+ return '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Infograph · Composition alternatives</title><style> *{box-sizing:border-box}body{margin:0;background:#f5f3ee;color:#252a28;font:15px/1.45 system-ui,sans-serif}main{max-width:1400px;margin:auto;padding:24px}h1{font-size:30px;margin:0}h2{font-size:18px;margin:0}p{margin:8px 0;color:#5a625e}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px;margin-top:22px}article{background:#fffdf8;border:1px solid #d9d6cd;border-radius:8px;padding:16px;min-width:0}header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}.wire{position:relative;background:#e9e7df;border:1px solid #d2d0c6;overflow:hidden;margin:16px 0}.region{position:absolute;border:1px solid #a3ada5;background:#dce4df;color:#253b32;padding:5px;overflow:hidden;font-size:12px}.region.focus{background:#365e50;color:#fff;border-color:#365e50}.region small{display:block;font-size:10px}.fold{position:absolute;left:0;right:0;border-top:2px dashed #b65e40;pointer-events:none}dl{display:grid;grid-template-columns:1fr auto;gap:5px;margin:0}dd{margin:0;font-variant-numeric:tabular-nums}.ok{color:#365e50}.bad,li{color:#a74732}span{font-size:12px}footer{margin-top:24px;color:#555}</style><main><h1>Composition alternatives</h1><p>'+esc(input.mode)+' · '+input.viewport.width+' × '+input.viewport.height+' CSS px · dark region = focal task; dashed line = estimated first fold.</p><p>Wireframes from authored region minima and priorities, not a rendered dashboard or an aesthetic ranking.</p><section>'+cards+'</section><footer>Selection remains an explicit task-led decision. Actual browser and independent visual review are still required.</footer></main></html>';
 }

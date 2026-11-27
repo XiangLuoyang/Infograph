@@ -1,4 +1,5 @@
 // Scoped spatial layout compiler and declared rendered review. No browser execution.
+import {proposeCompositions} from './composition-candidates.mjs';
 export function compileSpatialComposition(atlas,spec){
  const ok=(v,m)=>{if(!v)throw Error(m)},txt=x=>typeof x==="string"&&x.trim().length>0,id=x=>typeof x==="string"&&/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(x)&&!["constructor","prototype"].includes(x);
  const index=(a,label)=>{ok(Array.isArray(a)&&a.length,"missing "+label);const m=new Map();for(const x of a){ok(id(x?.id)&&!m.has(x.id),"invalid/duplicate "+label);m.set(x.id,x)}return m};
@@ -40,8 +41,24 @@ export function compileSpatialComposition(atlas,spec){
   for(const r of regions.values())ok(["hero","evidence","controls","detail","lookup","notes"].includes(r.role)&&typeof r.essential==="boolean"&&txt(r.task)&&txt(r.microRule),"invalid region");
   ok(unique(s.readingOrder)&&s.readingOrder.length===regions.size&&s.readingOrder.every(x=>regions.has(x)),"reading order incomplete");
   const variants=index(s.variants,"variants");ok(variants.size===tiers.size,"missing tier variant");
-  for(const [tierId,v] of variants){
-   const t=tiers.get(tierId);ok(t&&txt(v.rationale)&&Array.isArray(v.columns)&&v.columns.length>=1&&v.columns.length<=4&&v.columns.every(n=>int(n,1,12)),"invalid columns");
+  if(s.composition!==undefined){
+   ok(s.composition&&Array.isArray(s.composition.regions)&&s.composition.regions.map(x=>x.id).join('|')===s.readingOrder.join('|')&&txt(s.composition.ref),"composition must cover semantic reading order with evidence");
+  }
+  for(const [tierId,variant] of variants){
+   const t=tiers.get(tierId);ok(t&&txt(variant.rationale),"invalid variant");
+   let v=variant,composition=null;
+   if(s.composition!==undefined){
+    const review=[...viewports.values()].filter(x=>x.tierId===tierId);
+    const width=Math.min(...review.map(x=>x.width))-2*t.padding;
+    const height=Math.min(...review.map(x=>x.height))-t.shell.header-t.shell.nav-t.shell.filters-2*t.padding;
+    const proposals=proposeCompositions({regions:s.composition.regions,focusRegion:s.focusRegion,viewport:{width,height},mode:t.mode,gap:t.gap,pairs:s.composition.pairs??[]});
+    const chosen=proposals.candidates.find(c=>c.id===variant.candidateId);
+    ok(chosen?.feasible,"selected composition absent or below authored minimum; revise regions, tier or workspace");
+    ok(variant.columns===undefined&&variant.rows===undefined&&variant.rowSizes===undefined,"candidate selection must not override generated grid");
+    v={...variant,columns:chosen.columns,rows:chosen.rows,rowSizes:chosen.rowSizes};
+    composition={ref:s.composition.ref,selected:chosen.id,selectionReason:variant.rationale,estimatedViewport:{width,height},candidates:proposals.candidates,scope:proposals.scope};
+   }else ok(variant.candidateId===undefined,"candidate requires composition contract");
+   ok(t&&txt(v.rationale)&&Array.isArray(v.columns)&&v.columns.length>=1&&v.columns.length<=4&&v.columns.every(n=>int(n,1,12)),"invalid columns");
    ok(Array.isArray(v.rows)&&v.rows.length>=1&&v.rows.length<=12&&v.rows.every(row=>Array.isArray(row)&&row.length===v.columns.length&&row.every(x=>regions.has(x))),"invalid grid");
    ok(Array.isArray(v.rowSizes)&&v.rowSizes.length===v.rows.length&&v.rowSizes.every(x=>x==="auto"||int(x,1,12)),"invalid rows");
    for(const r of regions.values()){
@@ -57,7 +74,7 @@ export function compileSpatialComposition(atlas,spec){
    const horizontal=v.scroll.horizontalRegions??[];
    ok(unique(horizontal)&&horizontal.every(x=>regions.get(x)?.role==="lookup"),"horizontal overflow only allowed in lookup");
    if(t.mode==="fixed"&&v.rowSizes.every(x=>x==="auto"))issues.push({sliceId:s.id,tierId,kind:"fixed-grid-all-auto",severity:"review"});
-   result.push({sliceId:s.id,pageId:slices.get(s.id).pageId,tierId,mode:t.mode,columns:v.columns,rows:v.rows,rowSizes:v.rowSizes,scroll:v.scroll,readingOrder:s.readingOrder,regions:[...regions.values()],focusRegion:s.focusRegion});
+   result.push({sliceId:s.id,pageId:slices.get(s.id).pageId,tierId,mode:t.mode,columns:v.columns,rows:v.rows,rowSizes:v.rowSizes,scroll:v.scroll,readingOrder:s.readingOrder,regions:[...regions.values()],focusRegion:s.focusRegion,...(composition?{composition}:{})});
   }
  }
  const reviewMatrix=[...viewports.values()].flatMap(v=>[...slices.values()].map(s=>({viewportId:v.id,sliceId:s.id,tierId:v.tierId})));

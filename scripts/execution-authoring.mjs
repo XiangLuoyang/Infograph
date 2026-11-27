@@ -8,6 +8,7 @@ const refs={
  'vmi-packet':['visual-metaphor-intelligence/references/creative-critique.md','visual-metaphor-intelligence/references/scene-compilation.md'],
  'specialist-plan':['references/quality-depth.md']
 };
+const globalRefs=['references/context-guide.md','references/acceptance.md','references/design-principles.md'];
 const specialistRefs={QD01:'references/narrative-director.md',QD02:'references/interaction-choreography.md',QD03:'references/concept-art-pipeline.md',QD04:'references/motion-completeness.md',QD05:'references/global-spatial-composition.md'};
 const rec=(revision,key)=>({key,revision,status:'not-run',ref:''});
 const area=(revision,id)=>({id,applicable:null,reason:'',design:{revision,status:'not-run',ref:''}});
@@ -16,7 +17,7 @@ const required=(p,stage)=>{if(!p)throw Error('missing verified '+stage);return p
 export function authoringTask(stage,run,prior,rules,previous=null){
  const p=prior['production-plan']?.output;
  const revision=p?.revision??previous?.revision??1;
- const references=[...(refs[stage]??[])];
+ const references=[...globalRefs,...(refs[stage]??[])];
  let template,assignment,locked=[];
  switch(stage){
  case 'reconstruction-prepare':
@@ -50,7 +51,7 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   locked.push('revision');break;
  default:throw Error('no authoring scaffold for '+stage);
  }
- return {stage,assignment,references:[...new Set(references)].map(x=>'skills/infograph-master/'+x),locked,template,previousInput:previous,verifiedUpstream:Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,{outputSha256:v.receipt.outputSha256,outputFile:k+'/output.json'}])),scope:'Blank scaffold; null/empty/not-run are intentionally incomplete. Author actual evidence before execution.'};
+ return {stage,assignment,requiredGlobalReferences:globalRefs.map(x=>'skills/infograph-master/'+x),referencePolicy:'Load global references before authoring; task-specific references supplement, never replace them. A listed reference is not proof of reading.',references:[...new Set(references)].map(x=>'skills/infograph-master/'+x),locked,template,previousInput:previous,verifiedUpstream:Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,{outputSha256:v.receipt.outputSha256,outputFile:k+'/output.json'}])),scope:'Blank scaffold; null/empty/not-run are intentionally incomplete. Author actual evidence before execution.'};
 }
 export function hydrateInput(stage,input,run,prior){
  if(run.workflow!=='production')return input;

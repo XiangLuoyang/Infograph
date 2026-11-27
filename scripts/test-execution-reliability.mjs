@@ -264,3 +264,21 @@ if(process.env.INFOGRAPH_PREVIEW_DIR){
   previewWrite(previewJoin(dir,'baseline-'+viewport+'.html'),baseline.html);
  }
 }
+
+import {decodeReferenceAssets} from '../skills/infograph-master/visual-metaphor-intelligence/engine/pipeline.mjs';
+const embedded=[...fourOptions.artifacts].map(([artifactRef,bytes])=>({artifactRef,base64:Buffer.from(bytes).toString('base64')}));
+const packetAssetOptions={assets:embedded,productionRecords:fourOptions.productionRecords,webgl:true};
+const decoded=decodeReferenceAssets(packetAssetOptions);
+for(const [key,bytes] of fourOptions.artifacts)assert.deepEqual(decoded.artifacts.get(key),Buffer.from(bytes));
+const packetBridge=renderVmiReferencePreview(fourScene,{...fourOptions,artifacts:decoded.artifacts,productionRecords:decoded.records});
+assert.equal(packetBridge.bridge.production.formatVerified,true);
+for(const assets of [[...embedded,embedded[0]],[{...embedded[0],base64:'!!!!'}],[{...embedded[0],base64:''}],[{...embedded[0],artifactRef:'unbound'}]]){
+ assert.throws(()=>decodeReferenceAssets({...packetAssetOptions,assets}));
+}
+assert.throws(()=>decodeReferenceAssets({...packetAssetOptions,webgl:'true'}));
+const altered=embedded.map((a,i)=>i===0?{...a,base64:Buffer.from('altered').toString('base64')}:a);
+for(const assets of [altered,embedded.slice(1)]){
+ const d=decodeReferenceAssets({...packetAssetOptions,assets});
+ assert.throws(()=>renderVmiReferencePreview(fourScene,{...fourOptions,artifacts:d.artifacts,productionRecords:d.records}),/visual production incomplete/);
+}
+console.log('Formal packet asset decoder and bridge negative controls passed');

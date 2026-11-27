@@ -4,6 +4,7 @@ import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {artifactStatus,verifyBinding} from './execution-artifact.mjs';
 import {critiqueStatus} from './execution-critique.mjs';
+import {semanticStatus} from './execution-semantic.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const read=p=>readFileSync(p);
 const json=p=>JSON.parse(read(p).toString('utf8'));
@@ -38,8 +39,16 @@ export function checkDelivery(dir,design,file,mode='reviewed-candidate'){
  const browser=artifactStatus(dir,design);
  let review=null;
  if(existsSync(join(folder,'critique')))review=critiqueStatus(dir,design);
- const decision=deliveryDecision(browser,review,mode);
- return {version:1,...decision,mode,outputSha256:receipt.outputSha256,sourceSha256:receipt.sourceSha256,planSha256:receipt.planSha256,designStages:receipt.designStages,browserStatus:browser.status,browserReportSha256:browser.reportSha256??null,browserBlocker:browser.reason??null,critiqueStatus:review?.status??'not-run',reviewerKind:review?.reviewerKind??null,critiqueSha256:review?hash(read(join(folder,'critique','output.json'))):null,releaseAuthorized:false,independentAcceptanceVerified:false,scope:'local evidence guard; no signing, sandbox, host enforcement or authorization to send'};
+ const semantic=semanticStatus(dir,design);
+ let decision=deliveryDecision(browser,review,mode);
+ if(semantic.status==='semantic-check-failed'||!['semantic-pending','semantic-check-incomplete','declared-semantic-checks-pass'].includes(semantic.status)){
+  decision={eligible:false,classification:'blocked',label:'Handoff blocked: known semantic failure or invalid semantic status.'};
+ }else if(mode==='reviewed-candidate'&&semantic.status!=='declared-semantic-checks-pass'){
+  decision={eligible:false,classification:'blocked',label:'Handoff blocked: declared semantic checks incomplete.'};
+ }else if(decision.eligible&&mode==='unverified-draft'&&semantic.status!=='declared-semantic-checks-pass'){
+  decision={...decision,label:decision.label+' Semantic checks missing or incomplete.'};
+ }
+ return {version:1,...decision,mode,outputSha256:receipt.outputSha256,sourceSha256:receipt.sourceSha256,planSha256:receipt.planSha256,designStages:receipt.designStages,browserStatus:browser.status,browserReportSha256:browser.reportSha256??null,browserBlocker:browser.reason??null,critiqueStatus:review?.status??'not-run',reviewerKind:review?.reviewerKind??null,semanticStatus:semantic.status,semanticReportSha256:semantic.reportSha256??null,critiqueSha256:review?hash(read(join(folder,'critique','output.json'))):null,releaseAuthorized:false,independentAcceptanceVerified:false,scope:'local evidence guard; no signing, sandbox, host enforcement or authorization to send'};
 }
 export function prepareHandoff(dir,design,file,dest,mode){
  const result=checkDelivery(dir,design,file,mode);

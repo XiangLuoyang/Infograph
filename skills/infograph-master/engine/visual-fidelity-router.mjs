@@ -16,3 +16,20 @@ export function routeVisualFidelity(requirements,capabilities={}){
   return {objectId:r.objectId,fidelity:r.fidelity,renderer,reason:r.reason,evidenceRef:r.evidenceRef,dynamic:r.dynamic,workOrders,status:workOrders.length?'production-required':'route-ready',rendered:false,releaseAuthorized:false};
  });
 }
+
+ // Intake validates declared production records, not asset bytes or visual quality.
+export function auditVisualProduction(routes,records=[]){
+ if(!Array.isArray(routes)||!Array.isArray(records))throw Error('routes and records required');
+ const required=new Map();
+ for(const r of routes)for(const w of r.workOrders)required.set(r.objectId+'/'+w.kind,{objectId:r.objectId,...w});
+ const accepted=new Map();
+ for(const r of records){
+  const key=r.objectId+'/'+r.kind;
+  if(!required.has(key)||accepted.has(key))throw Error('unknown or duplicate production record');
+  if(typeof r.artifactRef!=='string'||!r.artifactRef.trim()||typeof r.evidenceRef!=='string'||!r.evidenceRef.trim()||!['produced','blocked'].includes(r.status))throw Error('invalid production provenance');
+  if(r.status==='produced'&&!/^[a-f0-9]{64}$/.test(r.sha256??''))throw Error('produced artifact digest required');
+  accepted.set(key,structuredClone(r));
+ }
+ const ledger=[...required].map(([key,order])=>({...order,record:accepted.get(key)??null,status:accepted.get(key)?.status??'missing'}));
+ return {ledger,missing:ledger.filter(x=>x.status==='missing'),blocked:ledger.filter(x=>x.status==='blocked'),declaredComplete:ledger.every(x=>x.status==='produced'),verified:false,rendered:false,releaseAuthorized:false};
+}

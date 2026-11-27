@@ -1,3 +1,5 @@
+import {validateRaster} from './reference-renderer.mjs';
+import {validateWebGLObject} from './reference-webgl.mjs';
 import {createHash} from 'node:crypto';
 // Routing is a production decision, not a claim of visual quality.
 export function routeVisualFidelity(requirements,capabilities={}){
@@ -47,4 +49,23 @@ export function verifyVisualProduction(audit,artifacts){
   return {...entry,actualSha256,verification:actualSha256===r.sha256?'digest-match':'digest-mismatch'};
  });
  return {ledger,verified:ledger.every(x=>x.verification==='digest-match'),formatVerified:false,rendered:false,releaseAuthorized:false};
+}
+
+export function validateVisualFormats(audit,artifacts){
+ const verified=verifyVisualProduction(audit,artifacts);
+ const ledger=verified.ledger.map(entry=>{
+  if(entry.verification!=='digest-match')return {...entry,format:'not-verified'};
+  try{
+   const asset=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(artifacts.get(entry.record.artifactRef)));
+   if(entry.kind==='verified-raster-asset')validateRaster(asset);
+   else if(entry.kind==='validated-geometry-material'||entry.kind==='surface-design'){
+    const m=asset.material;
+    if(!m||!['paper','metal','stone','glass','matte'].includes(m.family)||!['roughness','metalness','opacity'].every(k=>Number.isFinite(m[k])&&m[k]>=0&&m[k]<=1))throw Error('invalid material');
+    if(entry.kind==='validated-geometry-material')validateWebGLObject(asset);
+    else if(m.metalness!==0||m.opacity!==1)throw Error('CSS cannot satisfy physical metalness or transmission');
+   }else return {...entry,format:'external-capability-review-required'};
+   return {...entry,format:'contract-pass'};
+  }catch(e){return {...entry,format:'contract-fail',formatError:e.message}}
+ });
+ return {...verified,ledger,formatVerified:verified.verified&&ledger.every(e=>e.format==='contract-pass'),releaseAuthorized:false};
 }

@@ -1,6 +1,7 @@
 import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
+import {validateSemanticProbes,evaluateSemanticProbe} from '../skills/infograph-master/engine/runtime-semantic-probes.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const read=p=>readFileSync(p);
 const json=p=>JSON.parse(read(p).toString('utf8'));
@@ -24,6 +25,7 @@ export function validateBrowserPlan(plan,inventory){
   ensure(Array.isArray(c.checks)&&c.checks.length>0&&c.checks.length<=40,'essential checks required');
   for(const k of c.checks)ensure(text(k.selector)&&(k.textIncludes===undefined||text(k.textIncludes)),'invalid essential check');
   ensure(c.kind!=='interaction'||c.checks.some(k=>text(k.textIncludes)),'interaction needs a textual outcome assertion');
+  if(c.semanticProbes!==undefined)validateSemanticProbes(c.semanticProbes);
  }
  ensure([...expected].every(s=>coverage.has(s)),'each inventory slice needs a baseline case');
  return plan;
@@ -71,10 +73,21 @@ export function artifactStatus(dir,design){
  const expected=new Set(plan.viewports.flatMap(v=>plan.cases.map(c=>v.id+'--'+c.id))),seen=new Set();
  for(const c of report.cases){
   const key=c.viewportId+'--'+c.caseId;ensure(expected.has(key)&&!seen.has(key),'unknown or duplicate browser case');seen.add(key);
+  const planned=plan.cases.find(x=>x.id===c.caseId).semanticProbes??[];
+  const observed=c.semanticProbes??[];
+  ensure(Array.isArray(observed)&&observed.length<=planned.length,'invalid semantic probe evidence');
+  const seenProbes=new Set();
+  for(const o of observed){
+   const p=planned.find(x=>x.id===o.result?.id);
+   ensure(p&&!seenProbes.has(p.id)&&eq(o.result,evaluateSemanticProbe(p,o.observation)),'semantic probe replay mismatch');
+   seenProbes.add(p.id);
+   if(o.result.status!=='pass')ensure(c.status!=='pass'&&c.issues.some(i=>i.kind==='semantic-probe-failed'&&i.probeId===p.id),'failed probe cannot pass browser case');
+  }
+  if(c.status==='pass')ensure(seenProbes.size===planned.length,'passing case missing semantic probes');
   if(c.capture){ensure(c.capture.filename===key+'.png'&&hash(read(join(qa,c.capture.filename)))===c.capture.sha256,'screenshot bytes changed')}
   else ensure(c.status!=='pass','passing case lacks screenshot');
  }
  ensure(seen.size===expected.size,'incomplete browser matrix');
  const passed=report.cases.every(c=>c.status==='pass');
- return {...result,status:passed?'browser-observed-pass':'browser-observed-fail',cases:report.cases.length,failures:report.cases.filter(c=>c.status!=='pass').map(c=>({caseId:c.caseId,viewportId:c.viewportId,issues:c.issues})),reportSha256:qr.reportSha256};
+ return {...result,status:passed?'browser-observed-pass':'browser-observed-fail',cases:report.cases.length,semanticProbes:{planned:plan.viewports.length*plan.cases.reduce((n,c)=>n+(c.semanticProbes?.length??0),0),observed:report.cases.reduce((n,c)=>n+(c.semanticProbes?.length??0),0),failed:report.cases.reduce((n,c)=>n+(c.semanticProbes??[]).filter(o=>o.result.status!=='pass').length,0)},failures:report.cases.filter(c=>c.status!=='pass').map(c=>({caseId:c.caseId,viewportId:c.viewportId,issues:c.issues})),reportSha256:qr.reportSha256};
 }

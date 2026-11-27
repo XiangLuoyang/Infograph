@@ -60,7 +60,7 @@ function runtime(p){
  const fallback=el.querySelector('.gl-fallback');let view=null;
  function fail(reason){el.dataset.glState='fallback';canvas.hidden=true;fallback.hidden=false;fallback.textContent='3D unavailable — '+reason;view?.dispose();view=null;draw(current)}
  function redraw(){if(!view||el.hidden)return;try{view.draw()}catch{fail('draw failed')}}
- try{view=mountMechanicalHub(canvas,o.material,p.light,o.geometry,p.lighting3d);el.dataset.glState='ready';fallback.hidden=true;canvas.hidden=false;glViews.set(o.id,{redraw});new ResizeObserver(redraw).observe(el)}catch{fail('context or shader failed')}
+ try{view=mountMechanicalHub(canvas,o.material,p.light,o.geometry,p.lighting3d);el.dataset.glState='ready';fallback.hidden=true;canvas.hidden=false;glViews.set(o.id,{redraw});new ResizeObserver(redraw).observe(el)}catch(error){const message=String(error?.message??error);el.dataset.glError=message.slice(0,500);const reason=message==='WebGL unavailable'?'context unavailable':message.includes('stencil')?'stencil unavailable':'initialization failed';el.dataset.glFailure=reason;console.warn('Infograph WebGL initialization:',o.id,message);fail(reason)}
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();fail('context lost')});
  }
  controls.hidden=false;go(index,true);

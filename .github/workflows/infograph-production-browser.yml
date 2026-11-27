@@ -38,3 +38,4 @@ jobs:
         if: runner.os == 'Windows'
         working-directory: skills/infograph-master/engine
       - run: node scripts/test-infograph-artifact.mjs
+      - run: node skills/infograph-master/engine/test-art-direction-browser.mjs

@@ -3,7 +3,7 @@ import {bindScenes,sceneInputs} from './execution-vmi.mjs';
 const refs={
  'reconstruction-prepare':['references/reconstruction-entry.md','references/runtime-intent-recovery.md'],
  'reconstruction-plan':['references/reconstruction-entry.md','references/system-level-refactoring.md'],
- 'production-plan':['references/visual-opportunity-discovery.md','references/quality-depth.md','references/execution-gates.md'],
+ 'production-plan':['references/visual-opportunity-discovery.md','references/quality-depth.md','references/execution-gates.md','references/art-direction-production.md'],
  'vmi-explore':['visual-metaphor-intelligence/GUIDE.md','visual-metaphor-intelligence/references/open-discovery.md'],
  'vmi-packet':['visual-metaphor-intelligence/references/creative-critique.md','visual-metaphor-intelligence/references/scene-compilation.md'],
  'specialist-plan':['references/quality-depth.md']

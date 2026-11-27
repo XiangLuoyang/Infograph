@@ -66,7 +66,8 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   if(p.specialists.areas.includes('QD05')){
    const {conflicts,invalidIds,atlas,spec}=spatialScaffold(p.specialists);
    if(conflicts.length||invalidIds.length)diagnostics.push({code:'SPATIAL_ID_CONTRACT',conflicts,invalidIds,repair:'Retry production-plan with distinct valid page and slice IDs; preserve evidence references.'});
-   if(!p.specialists.integrated)template.routes.QD05.spec={atlas,spec};
+   if(p.specialists.integrated)template.workspace={revision:'',contextRevision:'',scopePolicy:'pinned',story:null,scene:null,choreography:null,concept:null,motion:null,atlas,spatial:spec,actBindings:{},sceneBindings:{},routes:{director:{pageId:'',sliceId:''},explorer:{pageId:'',sliceId:''}}};
+   else template.routes.QD05.spec={atlas,spec};
   }
   references.push(...p.specialists.areas.map(id=>specialistRefs[id]));
   if(p.selectedMechanisms.length){template.vmiOutputSha256=required(prior['vmi-packet'],'vmi-packet').receipt.outputSha256;locked.push('vmiOutputSha256')}

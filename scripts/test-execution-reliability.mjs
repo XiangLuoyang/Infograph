@@ -188,3 +188,23 @@ assert.equal(verifiedProduction.verified,true);
 assert.equal(verifiedProduction.formatVerified,false);
 assert.equal(verifiedProduction.releaseAuthorized,false);
 console.log('Visual production digest regression passed');
+
+import {validateVisualFormats} from '../skills/infograph-master/engine/visual-fidelity-router.mjs';
+function formatFixture(routes,record,asset){
+ const bytes=new TextEncoder().encode(JSON.stringify(asset));
+ const audit=auditVisualProduction(routes,[{...record,sha256:productionHash('sha256').update(bytes).digest('hex')}]);
+ return validateVisualFormats(audit,new Map([[record.artifactRef,bytes]]));
+}
+const matte={family:'matte',roughness:.5,metalness:0,opacity:1};
+assert.equal(formatFixture(surfaceRoutes,productionRecord,{material:matte}).formatVerified,true);
+for(const material of [{...matte,metalness:.5},{...matte,opacity:.5},{...matte,roughness:2},{...matte,family:'unknown'}]){
+ assert.equal(formatFixture(surfaceRoutes,productionRecord,{material}).formatVerified,false);
+}
+const rasterRoutes=routeVisualFidelity([fidelityFixture[2]],{raster:true});
+const rasterRecord={...productionRecord,objectId:fidelityFixture[2].objectId,kind:'verified-raster-asset'};
+const png='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';
+const rasterAsset={data:'data:image/png;base64,'+png,source:'synthetic regression fixture',permission:'cleared',sha256:productionHash('sha256').update(Buffer.from(png,'base64')).digest('hex')};
+assert.equal(formatFixture(rasterRoutes,rasterRecord,rasterAsset).formatVerified,true);
+assert.equal(formatFixture(rasterRoutes,rasterRecord,{...rasterAsset,permission:'unknown'}).formatVerified,false);
+assert.equal(formatFixture(rasterRoutes,rasterRecord,{...rasterAsset,sha256:'0'.repeat(64)}).formatVerified,false);
+console.log('Visual asset format regression passed');

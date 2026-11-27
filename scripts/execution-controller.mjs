@@ -1,3 +1,4 @@
+import {activationSignals,auditActivation} from './execution-activation.mjs';
 import {auditVisualOpportunity} from '../skills/infograph-master/engine/visual-opportunity.mjs';
 import {auditQualityDepth} from '../skills/infograph-master/engine/quality-depth.mjs';
 import {auditExecution} from '../skills/infograph-master/engine/execution-gates.mjs';
@@ -53,7 +54,9 @@ export function evaluateProduction(stage,input,run,prior){
   const depth=auditQualityDepth(quality);
   const gates=auditExecution(execution,rules);
   const selectedMechanisms=opportunities.slices.filter(s=>s.mechanism==='selected').map(s=>s.id);
+  const activation=auditActivation(activationSignals(prior['reconstruction-prepare']?.output),input.activationReviews,opportunities.slices,quality);
   const blockers=[];
+  if(!activation.eligible)blockers.push(...activation.issues.map(i=>'activation: '+JSON.stringify(i)));
   if(!opportunity.designEligible)blockers.push('visual-opportunity');
   if(!depth.buildEligible)blockers.push('quality-depth');
   if(!gates.buildEligible)blockers.push('execution-gates');
@@ -68,7 +71,7 @@ export function evaluateProduction(stage,input,run,prior){
    if(invalid.length)blockers.push('QD05 invalid IDs: '+JSON.stringify(invalid)+'; use 1–64 ASCII letters/digits/underscore/hyphen, starting with a letter; constructor and prototype reserved');
   }
   if(selectedMechanisms.length>MAX_SCENES)blockers.push('VMI batch exceeds eight scenes; split scope');
-  return {revision,purpose,selectedMechanisms,specialists,opportunity,depth,gates,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
+  return {revision,purpose,selectedMechanisms,specialists,opportunity,depth,gates,activation,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
  }
  throw Error('unknown production stage');
 }

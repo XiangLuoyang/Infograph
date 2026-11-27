@@ -55,6 +55,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: node scripts/test-infograph-execution.mjs
       - run: node scripts/test-infograph-production.mjs
+      - run: node scripts/test-infograph-integration.mjs
       - run: node scripts/test-infograph-specialists.mjs
       - run: node scripts/test-infograph-authoring.mjs
       - run: node scripts/test-infograph-vmi-batch.mjs

@@ -62,3 +62,6 @@ Use `art-direction-propose`, `art-direction-preview` and `art-direction-css` for
 
 ## RC closeout
 The Master now presents the canonical ordered CLI route at entry, and standalone VMI `start` is diagnostic-only. Portable verification normalizes Windows path separators; relocated package smoke tests exercise real Node CLI from an independent directory. Unexpected browser audit errors are not an unavailable-browser fallback. See the held-out host trial protocol in docs/EXECUTION-HOST-TRIAL.md. Freeze for trial after CI; real model quality and host sending enforcement remain unverified.
+
+## VMI vector surface increment
+The canonical scene compiler/renderer supports optional surfaceRendering with decorative material gradients on filled primitives and explicit qualitative state rotations tied to verified changedObjects. `vmi-geometry [rotor|reservoir|valve]` returns reusable illustrative geometry. See skills/infograph-master/references/vmi-surface-rendering.md. The standalone preview is actual SVG/HTML; final dashboard integration, calibrated motion, physical simulation and independent quality remain unverified.

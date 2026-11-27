@@ -32,7 +32,7 @@ export function bridgeVmiReference(plan,{viewport='desktop'}={}){
  return {manifest,compiled,semantic:structuredClone(semantic),identity:[...ids].map(([sourceId,referenceId])=>({sourceId,referenceId})),primitiveAssets:scene.objects.map(o=>({referenceId:ids.get(o.id),shapes:structuredClone(o.shapes)})),design:structuredClone(plan.design),stateDescriptions:structuredClone(scene.states),limitations:['bounding-box ports are schematic, not physical attachment points','SVG primitives retained as asset instructions, not rendered','state highlights and waypoints require runtime adapter','no inferred material or physical motion'],rendered:false,releaseAuthorized:false};
 }
 
-export function renderVmiReferencePreview(plan,{viewport='desktop',visualRequirements=[],productionRecords=[],artifacts=new Map()}={}){
+export function renderVmiReferencePreview(plan,{viewport='desktop',visualRequirements=[],productionRecords=[],artifacts=new Map(),webgl=false}={}){
  const bridge=bridgeVmiReference(plan,{viewport});
  const primitiveAssets=Object.fromEntries(bridge.primitiveAssets.map(a=>[a.referenceId,{shapes:a.shapes,colors:bridge.design.colors}]));
  const states=plan.scene.states;
@@ -43,7 +43,7 @@ export function renderVmiReferencePreview(plan,{viewport='desktop',visualRequire
  const visible=bridge.manifest.scenes[0].visible;
  const manifest={...bridge.manifest,scenes:states.map(s=>({id:stateIds.get(s.id),intent:s.label+' — '+s.explanation,visible})),staticScene:stateIds.get(plan.scene.initialState)};
  const objectHighlights=Object.fromEntries(states.map(s=>[stateIds.get(s.id),s.highlight.map(id=>{if(!objectIds.has(id))throw Error('unknown highlighted object');return objectIds.get(id)})]));
- const routes=routeVisualFidelity(visualRequirements,{raster:true});
+ const routes=routeVisualFidelity(visualRequirements,{raster:true,webgl});
  for(const r of routes)if(!objectIds.has(r.objectId))throw Error('unknown visual requirement object');
  const production=validateVisualFormats(auditVisualProduction(routes,productionRecords),artifacts);
  if(!production.formatVerified)throw Error('visual production incomplete: '+JSON.stringify(production.ledger.map(e=>({objectId:e.objectId,kind:e.kind,format:e.format}))));
@@ -51,17 +51,18 @@ export function renderVmiReferencePreview(plan,{viewport='desktop',visualRequire
  for(const r of routes){
   const o=manifest.objects.find(o=>o.id===objectIds.get(r.objectId));
   if(r.dynamic)throw Error('dynamic asset requires explicit motion adapter');
-  if(r.renderer==='webgl')throw Error('WebGL bridge requires runtime capability integration');
+  if(r.renderer==='webgl'&&!webgl)throw Error('WebGL requires explicit runtime opt-in');
   o.fidelity=r.fidelity;
   const entry=production.ledger.find(e=>e.objectId===r.objectId);
   if(entry){
    const asset=JSON.parse(new TextDecoder().decode(artifacts.get(entry.record.artifactRef)));
    if(r.renderer==='css')o.material=asset.material;
    if(r.renderer==='raster')assets[o.id]=asset;
+   if(r.renderer==='webgl'){o.material=asset.material;o.geometry=asset.geometry;}
   }
  }
  bridge.production=production;bridge.routes=routes;
- const result=buildReferenceHTML(manifest,{assets,primitiveAssets,designDNA:bridge.design,initialScene:manifest.staticScene,objectHighlights,title:plan.scene.title,description:plan.scene.staticSummary});
+ const result=buildReferenceHTML(manifest,{webgl,assets,primitiveAssets,designDNA:bridge.design,initialScene:manifest.staticScene,objectHighlights,title:plan.scene.title,description:plan.scene.staticSummary});
  bridge.stateIdentity=stateIdentity;bridge.previewManifest=manifest;
  return {...result,bridge,limitations:[...bridge.limitations.filter(x=>!x.startsWith('SVG primitives retained')),'state runtime and advanced material styling not yet adapted'],releaseAuthorized:false};
 }

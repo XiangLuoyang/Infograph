@@ -45,3 +45,6 @@ For suitable mechanism opportunities, route to `visual-metaphor-intelligence/GUI
 
 ## Vector surface production
 For reviewed VMI concepts where richer vector detail is appropriate, read references/vmi-surface-rendering.md. Use `vmi-geometry` for optional reusable physical component construction and the scene's surfaceRendering contract for material gradients and qualitative state poses. Preserve semantic bindings, match dashboard art direction, inspect actual rendered states, and use the concept-art/reference route for geometry beyond the supported vector scope. Never confuse decorative fill or rotation with quantitative business evidence.
+
+## Engine production integration
+After verified build eligibility run `integration-task <run-dir>` and follow references/engine-integration.md. Use `assemble-artifact <run-dir> <template.html> <new.html>` for selected engine slots; binding and browser review check actual fragment presence and bounded application. Do not substitute approximate hand-written engine outputs. Existing custom routes remain explicit; isolated VMI frames do not share parent filters or automatically fit content. Full visual and semantic review remains required.

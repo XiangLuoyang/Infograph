@@ -11,11 +11,11 @@ export function integrationContract(stages){
  const style=(id,css)=>{ensure(typeof css==='string'&&!/<\/style/i.test(css),'invalid generated stylesheet');slots.push({id,kind:'style',fragment:'<style data-ig-engine="'+id+'">'+css+'</style>'})};
  if(art){
   style('ART',art.css);
-  runtime.art={id:art.selected.id,palette:art.selected.palette};
+  runtime.art={id:art.selected.id,palette:art.selected.palette,css:art.css};
  }
  if(spatial?.layouts?.some(l=>l.composition)){
   style('SPATIAL',spatialCSS(spatial));
-  runtime.spatial={tiers:spatial.tiers,layouts:spatial.layouts.map(l=>({sliceId:l.sliceId,tierId:l.tierId,regions:l.regions.map(r=>r.id),generated:Boolean(l.composition)}))};
+  runtime.spatial={css:spatialCSS(spatial),tiers:spatial.tiers,layouts:spatial.layouts.map(l=>({sliceId:l.sliceId,tierId:l.tierId,regions:l.regions.map(r=>r.id),rows:l.rows,generated:Boolean(l.composition)}))};
  }
  if(vmi){
   const scenes=Array.isArray(vmi.scenes)?vmi.scenes.map(s=>({sliceId:s.sliceId,output:s.output})):[{sliceId:vmi.sliceId,output:vmi}];

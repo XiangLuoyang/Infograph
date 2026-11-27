@@ -66,3 +66,13 @@ assert.equal(auditActivation([hint],[{...review,mechanismDecision:'selected'}],s
 assert.equal(auditActivation([hint],[{...review,mechanismDecision:'selected'}],[{...slices[0],mechanism:'selected'}],quality).eligible,true);
 assert.equal(auditActivation([hint],[{...review,evidenceRefs:[]}],slices,quality).eligible,false);
 assert.equal(auditActivation([hint],[],slices,quality).eligible,false);
+
+const depthSignal=sceneSignals.find(s=>s.review==='scene-depth');
+assert.ok(depthSignal);
+const depthReview={...review,observationId:depthSignal.id,artDecision:'simple',motionDecision:'static',artReason:'flat diagram sufficient',motionReason:'no state change'};
+assert.equal(auditActivation([depthSignal],[depthReview],slices,quality).eligible,true);
+assert.equal(auditActivation([depthSignal],[{...depthReview,artDecision:'rich'}],slices,quality).eligible,false);
+const richQuality={...quality,richScene:true,areas:[{id:'QD03',applicable:true},{id:'QD04',applicable:true}]};
+assert.equal(auditActivation([depthSignal],[{...depthReview,motionDecision:'physical'}],slices,richQuality).eligible,true);
+assert.equal(auditActivation([depthSignal],[{...depthReview,motionDecision:'semantic'}],slices,richQuality).eligible,false);
+console.log('scene depth regression assertions passed');

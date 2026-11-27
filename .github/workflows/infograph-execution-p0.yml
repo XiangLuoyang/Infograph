@@ -13,6 +13,7 @@ on:
       - 'scripts/execution-vmi.mjs'
       - 'scripts/test-infograph-vmi-batch.mjs'
       - 'scripts/execution-delivery.mjs'
+      - 'scripts/execution-semantic.mjs'
       - 'scripts/test-infograph-delivery.mjs'
       - 'skills/infograph-master/engine/**'
       - 'skills/infograph-master/references/**'
@@ -31,6 +32,7 @@ on:
       - 'scripts/execution-vmi.mjs'
       - 'scripts/test-infograph-vmi-batch.mjs'
       - 'scripts/execution-delivery.mjs'
+      - 'scripts/execution-semantic.mjs'
       - 'scripts/test-infograph-delivery.mjs'
       - 'skills/infograph-master/engine/**'
       - 'skills/infograph-master/references/**'
@@ -57,6 +59,7 @@ jobs:
       - run: node scripts/test-infograph-authoring.mjs
       - run: node scripts/test-infograph-vmi-batch.mjs
       - run: node scripts/test-infograph-delivery.mjs
+      - run: node skills/infograph-master/engine/business-semantic-qa.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/analogy.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/exploration.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/creative.test.mjs

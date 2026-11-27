@@ -43,8 +43,21 @@ try{
  call(['verify-handoff',good.run,draftHandoff],false);
  const fork=join(dir,'repair');assert.equal(call(['retry-artifact',good.run,fork]).attempt,1);
  const repaired=save('repaired.html',html+'<!-- synthetic repair -->');call(['bind-artifact',fork,repaired,planFile]);call(['browser-review','--trusted',fork]);
- const next=call(['critique-task',fork]),complete={...authored,...{outputSha256:next.template.outputSha256,reportSha256:next.template.reportSha256,captureReviews:next.template.captureReviews.map(x=>({...x,observation:'synthetic reviewed'}))}};
- assert.equal(call(['critique-submit',fork,save('complete.json',complete)]).status,'declared-design-review-complete');
+ const adapter=fileURLToPath(new URL('./fixtures/synthetic-reviewer-adapter.mjs',import.meta.url));
+ const config=(mode,extra={})=>save('adapter-'+mode+'.json',{version:1,attemptId:mode,reviewerId:'synthetic external reviewer',producerId:'synthetic producer',independenceRef:'synthetic process test',authorizationRef:'synthetic test data only',includeSource:false,executable:process.execPath,args:[adapter,mode],timeoutMs:10000,...extra});
+ call(['reviewer-run',fork,config('noauth')],false);
+ call(['reviewer-run','--trusted-adapter',fork,config('same',{producerId:'synthetic external reviewer'})],false);
+ for(const mode of ['invalid','stale','self','reject','nonzero','timeout']){
+  const result=call(['reviewer-run','--trusted-adapter',fork,config(mode,mode==='timeout'?{timeoutMs:200}:{})],false);
+  assert.equal(result.status,'dispatch-failed');
+  assert.equal(call(['critique-status',fork],false).status,'critique-pending');
+ }
+ const dispatched=call(['reviewer-run','--trusted-adapter',fork,config('valid')]);
+ assert.equal(dispatched.status,'review-dispatched');
+ assert.equal(dispatched.critique.status,'declared-design-review-complete');
+ assert.equal(dispatched.critique.adapterEvidence.identityAuthenticated,false);
+ assert.equal(call(['critique-status',fork]).adapterEvidence.requestSha256,dispatched.requestSha256);
+ call(['reviewer-run','--trusted-adapter',fork,config('duplicate')],false);
  assert.equal(call(['critique-status',fork]).deliveryEligible,false);
  call(['delivery-check',fork,repaired],false); // semantic evidence is mandatory
  const semanticTask=call(['semantic-task',fork]),semantic=semanticTask.template;
@@ -68,6 +81,9 @@ try{
  const deliverable=join(handoff,'reviewed-candidate.html');writeFileSync(deliverable,'tampered');call(['verify-handoff',fork,handoff],false);
  writeFileSync(deliverable,readFileSync(repaired));assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);
  const manifest=join(handoff,'handoff.json'),originalManifest=readFileSync(manifest);writeFileSync(manifest,JSON.stringify({...JSON.parse(originalManifest),releaseAuthorized:true}));call(['verify-handoff',fork,handoff],false);writeFileSync(manifest,originalManifest);
+ const adapterResponse=join(fork,'artifact','reviewer-dispatch','valid','response.json'),adapterBytes=readFileSync(adapterResponse);
+ writeFileSync(adapterResponse,'tampered');call(['verify-handoff',fork,handoff],false);
+ writeFileSync(adapterResponse,adapterBytes);assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);
  const semanticOutput=join(fork,'artifact','semantic','output.json'),semanticBytes=readFileSync(semanticOutput);
  writeFileSync(semanticOutput,'tampered');call(['verify-handoff',fork,handoff],false);
  writeFileSync(semanticOutput,semanticBytes);assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);

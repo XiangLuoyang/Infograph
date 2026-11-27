@@ -34,7 +34,16 @@ export function bridgeVmiReference(plan,{viewport='desktop'}={}){
 export function renderVmiReferencePreview(plan,{viewport='desktop'}={}){
  const bridge=bridgeVmiReference(plan,{viewport});
  const primitiveAssets=Object.fromEntries(bridge.primitiveAssets.map(a=>[a.referenceId,{shapes:a.shapes,colors:bridge.design.colors}]));
- const result=buildReferenceHTML(bridge.manifest,{primitiveAssets,designDNA:bridge.design,title:plan.scene.title,description:plan.scene.staticSummary});
+ const states=plan.scene.states;
+ const stateIdentity=states.map((s,i)=>({sourceId:s.id,referenceId:'state-'+(i+1)}));
+ const stateIds=new Map(stateIdentity.map(s=>[s.sourceId,s.referenceId]));
+ const objectIds=new Map(bridge.identity.map(o=>[o.sourceId,o.referenceId]));
+ if(!states.length||stateIds.size!==states.length||!stateIds.has(plan.scene.initialState))throw Error('invalid VMI state inventory');
+ const visible=bridge.manifest.scenes[0].visible;
+ const manifest={...bridge.manifest,scenes:states.map(s=>({id:stateIds.get(s.id),intent:s.label+' — '+s.explanation,visible})),staticScene:stateIds.get(plan.scene.initialState)};
+ const objectHighlights=Object.fromEntries(states.map(s=>[stateIds.get(s.id),s.highlight.map(id=>{if(!objectIds.has(id))throw Error('unknown highlighted object');return objectIds.get(id)})]));
+ const result=buildReferenceHTML(manifest,{primitiveAssets,designDNA:bridge.design,initialScene:manifest.staticScene,objectHighlights,title:plan.scene.title,description:plan.scene.staticSummary});
+ bridge.stateIdentity=stateIdentity;bridge.previewManifest=manifest;
  return {...result,bridge,limitations:[...bridge.limitations.filter(x=>!x.startsWith('SVG primitives retained')),'state runtime and advanced material styling not yet adapted'],releaseAuthorized:false};
 }
 

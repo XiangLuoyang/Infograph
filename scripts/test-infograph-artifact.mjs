@@ -22,11 +22,12 @@ try{
  assert.equal(call(['artifact-status',good.run],false).status,'browser-pending');
  call(['browser-review',good.run],false);
  call(['delivery-check',good.run,good.output],false);
+ assert.equal(call(['delivery-check',good.run,good.output,'unverified-draft']).classification,'unverified-draft');
  const pass=call(['browser-review','--trusted',good.run]);assert.equal(pass.cases.length,6);
  assert.equal(call(['artifact-status',good.run]).status,'browser-observed-pass');
  call(['delivery-check',good.run,good.output],false);
  const draft=call(['critique-task',good.run]);assert.equal(draft.captures.length,6);assert.ok(draft.template.reviews.every(r=>r.status==='not-run'));
- const authored={...draft.template,reviewer:'synthetic test reviewer',reviewerKind:'agent-self',captureReviews:draft.template.captureReviews.map(x=>({...x,observation:'synthetic screenshot observation'})),reviews:draft.template.reviews.map(x=>({...x,status:'pass',ref:'synthetic fixture only',observation:'synthetic rubric observation',captureIds:[draft.captures[0].id]}))};
+ const authored={...draft.template,reviewer:'synthetic test reviewer',reviewerKind:'independent-model',captureReviews:draft.template.captureReviews.map(x=>({...x,observation:'synthetic screenshot observation'})),reviews:draft.template.reviews.map(x=>({...x,status:'pass',ref:'synthetic fixture only',observation:'synthetic rubric observation',captureIds:[draft.captures[0].id]}))};
  call(['critique-submit',good.run,save('wrong-review.json',{...authored,outputSha256:'wrong'})],false);
  const defect=structuredClone(authored);Object.assign(defect.reviews.find(x=>x.check==='composition'),{status:'fail',severity:'major',issue:'synthetic composition defect',repair:'rework composition'});
  const review=call(['critique-submit',good.run,save('review.json',defect)],false);assert.equal(review.status,'repair-required');assert.equal(review.repairRoutes[0].target,'specialist-plan / artifact');

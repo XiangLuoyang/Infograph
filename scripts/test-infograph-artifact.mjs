@@ -12,7 +12,11 @@ const save=(name,value)=>{const p=join(dir,name);writeFileSync(p,typeof value===
 const source=save('brief.txt','synthetic QA fixture'),revision=1,inventory=[{id:'s1',page:'p',ref:'fixture'},{id:'s2',page:'p',ref:'fixture'}];
 const production={revision,purpose:'monitor',opportunities:{revision,inventory,slices:inventory.map(x=>({id:x.id,revision,task:'compare',relation:'rank',ref:'fixture',selectedFamily:'bar',rationale:'synthetic',rendererPlan:'SVG',candidates:['bar','dot'],mechanism:'none',expression:'none'}))},quality:{revision,purpose:'monitor',substantial:true,multiRoute:false,mixedModes:false,semanticInteraction:false,richScene:false,areas:Array.from({length:6},(_,i)=>({id:'QD0'+(i+1),applicable:i===5,reason:'synthetic',design:{revision,status:'pass',ref:'fixture'}}))},execution:{revision,purpose:'monitor',substantial:true,records:[...new Set(rules.flatMap(g=>g.requires))].map(key=>({key,revision,status:'pass',ref:'fixture'}))}};
 const plan={version:1,viewports:[{id:'desktop',width:1440,height:900},{id:'mobile',width:390,height:844}],cases:[{id:'first',sliceId:'s1',kind:'baseline',steps:[],checks:[{selector:'#metric',textIncludes:'10'}]},{id:'second',sliceId:'s2',kind:'baseline',steps:[{action:'click',selector:'#nav'}],checks:[{selector:'#result',textIncludes:'20'}]},{id:'change',sliceId:'s1',kind:'interaction',steps:[{action:'click',selector:'#update'}],checks:[{selector:'#metric',textIncludes:'30'}]}]};
-const html='<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><button id="nav">next</button><button id="update">change</button><p id="metric">10</p><p id="result" hidden>20</p><svg width="200" height="100" viewBox="0 0 200 100"><rect width="100" height="50"/></svg><script>nav.onclick=()=>{result.hidden=false};update.onclick=()=>{metric.textContent="30"}</script>';
+const numeric=(expected)=>({id:'metric',kind:'number',selector:'#metric',unit:'fixture units',sourceRef:'fixture expected '+expected,expected});
+plan.cases[0].semanticProbes=[numeric(10),{id:'hidden',kind:'count',selector:'#result',unit:'elements',sourceRef:'fixture baseline',expected:0},{id:'missing',kind:'missing',selector:'#na',unit:'ratio',sourceRef:'fixture no baseline',tokens:['—']}];
+plan.cases[1].semanticProbes=[{id:'revealed',kind:'count',selector:'#result',unit:'elements',sourceRef:'fixture after navigation',expected:1}];
+plan.cases[2].semanticProbes=[numeric(30)];
+const html='<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><button id="nav">next</button><button id="update">change</button><p id="metric">10</p><p id="result" hidden>20</p><p id="na">—</p><svg width="200" height="100" viewBox="0 0 200 100"><rect width="100" height="50"/></svg><script>nav.onclick=()=>{result.hidden=false};update.onclick=()=>{metric.textContent="30"}</script>';
 try{
  assert.throws(()=>validateBrowserPlan({...plan,cases:[plan.cases[0]]},inventory),/baseline/);
  assert.throws(()=>validateBrowserPlan({...plan,viewports:[plan.viewports[0],{...plan.viewports[0],id:'wide'}]},inventory),/mobile/);
@@ -24,7 +28,8 @@ try{
  call(['delivery-check',good.run,good.output],false);
  call(['delivery-check',good.run,good.output,'unverified-draft'],false);
  const pass=call(['browser-review','--trusted',good.run]);assert.equal(pass.cases.length,6);
- assert.equal(call(['artifact-status',good.run]).status,'browser-observed-pass');
+ const status=call(['artifact-status',good.run]);assert.equal(status.status,'browser-observed-pass');
+ assert.deepEqual(status.semanticProbes,{planned:10,observed:10,failed:0});
  call(['delivery-check',good.run,good.output],false);
  const draftHandoff=join(dir,'draft-handoff');
  assert.equal(call(['prepare-handoff',good.run,good.output,draftHandoff,'unverified-draft']).classification,'unverified-draft');
@@ -42,10 +47,17 @@ try{
  assert.equal(call(['critique-submit',fork,save('complete.json',complete)]).status,'declared-design-review-complete');
  assert.equal(call(['critique-status',fork]).deliveryEligible,false);
  call(['delivery-check',fork,repaired],false); // semantic evidence is mandatory
- const semantic=call(['semantic-task',fork]).template;
- const authoredSemantic={...semantic,coverage:semantic.coverage.map(x=>({...x,status:x.category==='expression'?'applicable':'not-applicable',reason:'synthetic static numeric fixture; no comparison or mechanism',ref:'fixture'})),checks:[{id:'metric',kind:'value-parity',claim:'metric matches static source value',sourceRef:'fixture expected 10',observationRef:'browser baseline #metric',unit:'fixture units',expectedValue:10,observedValue:10}]};
+ const semanticTask=call(['semantic-task',fork]),semantic=semanticTask.template;
+ const probe=semanticTask.runtimeProbes.find(x=>x.viewportId==='desktop'&&x.caseId==='first'&&x.probeId==='metric');assert.equal(probe.observed,10);
+ const observationProbe={viewportId:probe.viewportId,caseId:probe.caseId,probeId:probe.probeId,reportSha256:probe.reportSha256};
+ const authoredSemantic={...semantic,coverage:semantic.coverage.map(x=>({...x,status:x.category==='expression'?'applicable':'not-applicable',reason:'synthetic static numeric fixture; no comparison or mechanism',ref:'fixture'})),checks:[{id:'metric',kind:'value-parity',claim:'metric matches static source value',sourceRef:'fixture expected 10',unit:'fixture units',expectedValue:10,observationProbe}]};
  call(['semantic-submit',fork,save('semantic-wrong.json',{...authoredSemantic,outputSha256:'wrong'})],false);
- assert.equal(call(['semantic-submit',fork,save('semantic.json',authoredSemantic)]).status,'declared-semantic-checks-pass');
+ const conflicting=structuredClone(authoredSemantic);conflicting.checks[0].observedValue=11;
+ call(['semantic-submit',fork,save('semantic-conflict.json',conflicting)],false);
+ const stale=structuredClone(authoredSemantic);stale.checks[0].observationProbe.reportSha256='wrong';
+ call(['semantic-submit',fork,save('semantic-stale.json',stale)],false);
+ const semanticPass=call(['semantic-submit',fork,save('semantic.json',authoredSemantic)]);
+ assert.equal(semanticPass.status,'declared-semantic-checks-pass');assert.equal(semanticPass.results[0].observed,10);assert.equal(semanticPass.runtimeBindings.length,1);
  assert.equal(call(['semantic-status',fork]).status,'declared-semantic-checks-pass');
  assert.equal(call(['delivery-check',fork,repaired]).classification,'reviewed-candidate');
  call(['delivery-check',fork,repaired,'unverified-draft'],false);
@@ -61,6 +73,11 @@ try{
  writeFileSync(semanticOutput,semanticBytes);assert.equal(call(['verify-handoff',fork,handoff]).eligible,true);
  const cap=join(good.run,'artifact','browser','desktop--first.png');const png=readFileSync(cap);writeFileSync(cap,'tampered');call(['artifact-status',good.run],false);writeFileSync(cap,png);
  writeFileSync(good.output,html+'<!-- changed -->');call(['artifact-status',good.run],false);
+ const wrongMetric=setup('wrongMetric',html.replace('>10</p>','>100</p>'));
+ const wrongRun=call(['browser-review','--trusted',wrongMetric.run],false);
+ assert.ok(wrongRun.cases.some(c=>c.issues.some(x=>x.kind==='semantic-probe-failed'&&x.probeId==='metric')));
+ assert.equal(call(['artifact-status',wrongMetric.run],false).semanticProbes.failed,2);
+ call(['delivery-check',wrongMetric.run,wrongMetric.output,'unverified-draft'],false);
  const bad=setup('bad',html.replace('width="100" height="50"','x="250" width="100" height="50"').replace('>30<','>30<')+'<div style="width:2000px">overflow</div>');
  const fail=call(['browser-review','--trusted',bad.run],false);assert.ok(fail.cases.some(c=>c.issues.some(x=>x.kind==='svg-viewbox-overflow')));assert.ok(fail.cases.some(c=>c.issues.some(x=>x.kind==='document-overflow-x')));
  assert.equal(call(['artifact-status',bad.run],false).status,'browser-observed-fail');

@@ -60,6 +60,7 @@ jobs:
       - run: node scripts/test-infograph-vmi-batch.mjs
       - run: node scripts/test-infograph-delivery.mjs
       - run: node skills/infograph-master/engine/business-semantic-qa.test.mjs
+      - run: node skills/infograph-master/engine/runtime-semantic-probes.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/analogy.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/exploration.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/creative.test.mjs

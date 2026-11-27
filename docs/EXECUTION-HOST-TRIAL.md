@@ -19,3 +19,9 @@ Collect actual run directory, artifact HTML, browser plan and captures, critique
 
 ## Stop rule
 After engineering CI and package relocation pass, freeze the candidate for real trial. Fix concrete blockers only. Do not claim design uplift, full host enforcement or public release until corresponding evidence exists. Review rights/distribution separately.
+
+
+## V1.3.1 frozen trial candidate
+Pin 2532430ebd6d198d93f01242a592ae19719f48cf (all four CI workflows passed). This pin is for testing, not release. Keep the historical V3 artifact and its audit separate from the producing agent. For the first run, use the original task prompt without adding instructions to force VMI or advanced rendering. A second, explicitly guided run may diagnose activation failures but must be labeled separately.
+Collect the production-plan opportunity/activation reviews, specialist receipts, VMI explore and packet receipts if applicable, actual HTML, browser captures, critique and handoff. If referencePreview is used, collect its routes, production ledger, asset hashes and limitations. Record missing evidence as missing, not pass. Inspect data units, period labels, ROI definition, clipping inside SVG viewBox, mobile horizontal overflow, contrast, semantic labels and actual controls. Compare with the historical artifact only after generation. Keep business data local; do not commit it or private screenshots.
+Stop on material regression; fix concrete defects and rerun with a new pinned commit. Do not infer autonomous activation from a guided run or aesthetic improvement from CI.

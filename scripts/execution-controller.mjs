@@ -1,3 +1,4 @@
+import {activationSignals,auditActivation} from './execution-activation.mjs';
 import {auditVisualOpportunity} from '../skills/infograph-master/engine/visual-opportunity.mjs';
 import {auditQualityDepth} from '../skills/infograph-master/engine/quality-depth.mjs';
 import {auditExecution} from '../skills/infograph-master/engine/execution-gates.mjs';
@@ -13,7 +14,7 @@ export function dependencies(stage,run){
  if(run.workflow!=='production')return stage==='vmi-packet'?['vmi-explore']:[];
  if(stage==='reconstruction-prepare'){ensure(run.task==='redesign'||run.task==='critique','reconstruction only for existing artifacts');return []}
  if(stage==='reconstruction-plan'){ensure(run.task!=='create','reconstruction only for existing artifacts');return ['reconstruction-prepare']}
- if(stage==='production-plan'){ensure(run.task!=='critique','critique is read-only');return run.task==='redesign'?['reconstruction-plan']:[]}
+ if(stage==='production-plan'){ensure(run.task!=='critique','critique is read-only');return run.task==='redesign'?['reconstruction-plan','reconstruction-prepare']:[]}
  if(stage==='vmi-explore'){ensure(run.task!=='critique','critique is read-only');return ['production-plan']}
  if(stage==='vmi-packet')return ['production-plan','vmi-explore'];
  if(stage==='specialist-plan'){ensure(run.task!=='critique','critique is read-only');return ['production-plan']}
@@ -53,13 +54,24 @@ export function evaluateProduction(stage,input,run,prior){
   const depth=auditQualityDepth(quality);
   const gates=auditExecution(execution,rules);
   const selectedMechanisms=opportunities.slices.filter(s=>s.mechanism==='selected').map(s=>s.id);
+  const activation=auditActivation(activationSignals(prior['reconstruction-prepare']?.output),input.activationReviews,opportunities.slices,quality);
   const blockers=[];
+  if(!activation.eligible)blockers.push(...activation.issues.map(i=>'activation: '+JSON.stringify(i)));
   if(!opportunity.designEligible)blockers.push('visual-opportunity');
   if(!depth.buildEligible)blockers.push('quality-depth');
   if(!gates.buildEligible)blockers.push('execution-gates');
   if(new Set(opportunities.inventory.map(s=>s.page)).size>1&&!quality.multiRoute)blockers.push('multi-route quality context required');
+  const specialists=specialistRequirements(quality,opportunities);
+  if(specialists.areas.includes('QD05')){
+   const pages=new Set(specialists.inventory.map(x=>x.page));
+   const slices=new Set(specialists.inventory.map(x=>x.id));
+   const conflicts=[...pages].filter(id=>slices.has(id));
+   const invalid=[...new Set([...pages,...slices])].filter(id=>typeof id!=='string'||!/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(id)||['constructor','prototype'].includes(id));
+   if(conflicts.length)blockers.push('QD05 page/slice ID collision: '+JSON.stringify(conflicts)+'; use distinct IDs in production inventory and slice references');
+   if(invalid.length)blockers.push('QD05 invalid IDs: '+JSON.stringify(invalid)+'; use 1–64 ASCII letters/digits/underscore/hyphen, starting with a letter; constructor and prototype reserved');
+  }
   if(selectedMechanisms.length>MAX_SCENES)blockers.push('VMI batch exceeds eight scenes; split scope');
-  return {revision,purpose,selectedMechanisms,specialists:specialistRequirements(quality,opportunities),opportunity,depth,gates,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
+  return {revision,purpose,selectedMechanisms,specialists,opportunity,depth,gates,activation,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
  }
  throw Error('unknown production stage');
 }

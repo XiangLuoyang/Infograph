@@ -14,10 +14,18 @@ export function specialistRequirements(quality,opportunities){
  flags:{multiRoute:quality.multiRoute,mixedModes:quality.mixedModes,semanticInteraction:quality.semanticInteraction,richScene:quality.richScene},
  inventory:opportunities.inventory.map(({id,page})=>({id,page}))};
 }
+export function atlasIdentityDiff(atlas,requirements){
+ const expected=requirements.inventory.map(x=>[x.id,x.page]);
+ const actual=Array.isArray(atlas?.slices)?atlas.slices.map(x=>[x?.id,x?.pageId]):[];
+ const key=x=>JSON.stringify(x);
+ const expectedKeys=new Set(expected.map(key)),actualKeys=new Set(actual.map(key));
+ const seen=new Set(),duplicates=[];
+ for(const pair of actual){const k=key(pair);if(seen.has(k))duplicates.push(pair);seen.add(k)}
+ return {missing:expected.filter(x=>!actualKeys.has(key(x))),unexpected:actual.filter(x=>!expectedKeys.has(key(x))),duplicates};
+}
 function bindAtlas(atlas,requirements){
- const expected=requirements.inventory.map(x=>JSON.stringify([x.id,x.page])).sort();
- const actual=(atlas?.slices??[]).map(x=>JSON.stringify([x.id,x.pageId])).sort();
- ensure(JSON.stringify(expected)===JSON.stringify(actual),'spatial atlas must cover the production inventory with the same slice/page IDs');
+ const diff=atlasIdentityDiff(atlas,requirements);
+ ensure(Object.values(diff).every(x=>x.length===0),'spatial atlas must cover the production inventory with the same slice/page IDs; '+JSON.stringify(diff)+'; repair atlas.slices using the verified inventory');
 }
 export function runSpecialists(input,plan,prior){
  const r=plan.specialists;

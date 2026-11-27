@@ -15,3 +15,10 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/test-execution-reliability.mjs
+        env:
+          INFOGRAPH_PREVIEW_DIR: ${{ runner.temp }}/infograph-previews
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mixed-backend-previews
+          path: ${{ runner.temp }}/infograph-previews
+          if-no-files-found: error

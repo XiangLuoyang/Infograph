@@ -1,0 +1,18 @@
+# Engine integration — candidate closeout
+
+After production-status is build-eligible, use the verified outputs rather than hand-copying approximate versions:
+
+```sh
+node scripts/infograph.mjs integration-task <run-dir>
+node scripts/infograph.mjs assemble-artifact <run-dir> <template.html> <new.html>
+node scripts/infograph.mjs bind-artifact <run-dir> <new.html> <browser-plan.json>
+node scripts/infograph.mjs browser-review --trusted <run-dir>
+```
+
+integration-task enumerates exact required slot markers, hashes and runtime metadata. Author the normal HTML shell, real business charts/data, navigation and controls. Place each required marker exactly once in the appropriate markup context. ART and SPATIAL are style elements (head); VMI-N is an isolated iframe (inside the corresponding semantic slice). Do not put markers in a script, comment, attribute or string. Do not modify generated fragments or add duplicate markers. assemble-artifact replaces markers with exact stage-derived bytes and rejects unknown/missing/duplicate slots; bind-artifact independently verifies fragment presence, and receipt replay checks the same bytes. No private content leaves the local process.
+
+- ART applies when production-plan opted into the executable artDirection contract. Use exactly one visible data-ig-art root with the selected ID enclosing the case's essential checks, and the existing ig-art-* class vocabulary. Browser checks the actual active stylesheet, scoped essential targets and computed root foreground/background. This is not a complete component-level style audit.
+- SPATIAL applies when any QD05 layout selected a generated composition candidate. Follow the existing workspace shell, region IDs/DOM order and responsive tier rules. Browser checks the active stylesheet, selected tier/slice, computed grid areas and visible region mapping for applicable cases. Manually authored layouts remain supported and are not automatically asserted as generated. Actual fit/legibility and navigation still require review.
+- Every verified selected VMI preview becomes a self-contained srcdoc iframe with sandbox=allow-scripts (no same-origin access). This isolates SVG IDs, styles, and state scripts rather than rewriting an arbitrary HTML document. Give the frame sufficient room; it has bounded responsive height and may scroll internally. Verify the visible scene, labels, interactions and all relevant state transitions. Browser checks the unique visible frame and its actual visible SVG object/edge inventory and enabled state controls for each matching baseline case. Parent browser plan actions do not currently traverse the frame, so inner state transitions require separate testing/manual review. No shared parent filter/data state or automatic frame height synchronization; use a separately justified specialist integration when required and revise the engine contract before claiming equivalent support.
+
+This is a bounded integration route, not autonomous dashboard generation. Exact fragment presence and bounded computed observations do not prove that an agent followed every design decision, that every style component is used, that visual quality is high, or that business logic is correct. A passing browser case must include all required integration observations; failure blocks the existing delivery paths. Existing no-engine-slot runs remain supported. A full candidate still requires semantic and independent visual review. The synthetic integration fixture exercises the real art/spatial/VMI compilers and Chromium checks; it is not an accepted real-world artifact.

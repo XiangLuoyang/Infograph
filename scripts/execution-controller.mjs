@@ -58,8 +58,17 @@ export function evaluateProduction(stage,input,run,prior){
   if(!depth.buildEligible)blockers.push('quality-depth');
   if(!gates.buildEligible)blockers.push('execution-gates');
   if(new Set(opportunities.inventory.map(s=>s.page)).size>1&&!quality.multiRoute)blockers.push('multi-route quality context required');
+  const specialists=specialistRequirements(quality,opportunities);
+  if(specialists.areas.includes('QD05')){
+   const pages=new Set(specialists.inventory.map(x=>x.page));
+   const slices=new Set(specialists.inventory.map(x=>x.id));
+   const conflicts=[...pages].filter(id=>slices.has(id));
+   const invalid=[...new Set([...pages,...slices])].filter(id=>typeof id!=='string'||!/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(id)||['constructor','prototype'].includes(id));
+   if(conflicts.length)blockers.push('QD05 page/slice ID collision: '+JSON.stringify(conflicts)+'; use distinct IDs in production inventory and slice references');
+   if(invalid.length)blockers.push('QD05 invalid IDs: '+JSON.stringify(invalid)+'; use 1–64 ASCII letters/digits/underscore/hyphen, starting with a letter; constructor and prototype reserved');
+  }
   if(selectedMechanisms.length>MAX_SCENES)blockers.push('VMI batch exceeds eight scenes; split scope');
-  return {revision,purpose,selectedMechanisms,specialists:specialistRequirements(quality,opportunities),opportunity,depth,gates,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
+  return {revision,purpose,selectedMechanisms,specialists,opportunity,depth,gates,blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
  }
  throw Error('unknown production stage');
 }

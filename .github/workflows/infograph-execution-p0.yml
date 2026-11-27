@@ -62,6 +62,7 @@ jobs:
       - run: node skills/infograph-master/engine/business-semantic-qa.test.mjs
       - run: node skills/infograph-master/engine/runtime-semantic-probes.test.mjs
       - run: node skills/infograph-master/engine/composition-candidates.test.mjs
+      - run: node skills/infograph-master/engine/art-direction-production.test.mjs
       - run: node skills/infograph-master/engine/test-global-spatial-composition.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/analogy.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/exploration.test.mjs

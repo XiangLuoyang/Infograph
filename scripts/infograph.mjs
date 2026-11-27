@@ -7,6 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {evaluateSceneBatch,hasVmiPreview} from './execution-vmi.mjs';
 import {checkDelivery,prepareHandoff,verifyHandoff} from './execution-delivery.mjs';
 import {critiqueTask,submitCritique,critiqueStatus} from './execution-critique.mjs';
+import {semanticTask,submitSemantic,semanticStatus} from './execution-semantic.mjs';
 import {bindArtifact,browserReview,artifactStatus} from './execution-artifact.mjs';
 import {authoringTask,hydrateInput} from './execution-authoring.mjs';
 import {productionStages,productionEngines,dependencies,additionalDependencies,checkDependencies,evaluateProduction,productionStatus} from './execution-controller.mjs';
@@ -25,7 +26,7 @@ const stageNames=['reconstruction-prepare','reconstruction-plan','production-pla
 const rules=()=>json(join(root,'skills/infograph-master/references/execution-gates.json'));
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['skills/infograph-master/SKILL.md','skills/visual-metaphor-intelligence/SKILL.md','skills/narrative-design/SKILL.md','docs/EXECUTION-ARCHITECTURE.md','scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','skills/manifest.json'];
+ const paths=['skills/infograph-master/SKILL.md','skills/visual-metaphor-intelligence/SKILL.md','skills/narrative-design/SKILL.md','docs/EXECUTION-ARCHITECTURE.md','scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','scripts/execution-semantic.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -178,7 +179,7 @@ async function forkArtifact(dir,dest){
  write(join(dest,'run.json'),record);
  for(const stage of inherited)cpSync(join(dir,stage),join(dest,stage),{recursive:true,errorOnExist:true,force:false});
  await verifiedDesign(dest);
- console.log(JSON.stringify({status:'artifact-forked',runDir:dest,inherited,attempt,invalidated:['artifact','browser','critique'],releaseAuthorized:false},null,2));
+ console.log(JSON.stringify({status:'artifact-forked',runDir:dest,inherited,attempt,invalidated:['artifact','browser','critique','semantic'],releaseAuthorized:false},null,2));
 }
 async function main(){
  const [cmd,...args]=process.argv.slice(2);
@@ -214,6 +215,15 @@ async function main(){
   const dir=resolve(args[0]),design=await verifiedDesign(dir),r=artifactStatus(dir,design);
   console.log(JSON.stringify(r,null,2));if(r.status!=='browser-observed-pass')process.exitCode=1;return;
  }
+ if(cmd==='semantic-task'&&args.length===1){
+  const dir=resolve(args[0]);console.log(JSON.stringify(semanticTask(dir,await verifiedDesign(dir)),null,2));return;
+ }
+ if(cmd==='semantic-submit'&&args.length===2){
+  const dir=resolve(args[0]),r=submitSemantic(dir,await verifiedDesign(dir),resolve(args[1]));console.log(JSON.stringify(r,null,2));if(r.status!=='declared-semantic-checks-pass')process.exitCode=1;return;
+ }
+ if(cmd==='semantic-status'&&args.length===1){
+  const dir=resolve(args[0]),r=semanticStatus(dir,await verifiedDesign(dir));console.log(JSON.stringify(r,null,2));if(r.status!=='declared-semantic-checks-pass')process.exitCode=1;return;
+ }
  if(cmd==='critique-task'&&args.length===1){
   const dir=resolve(args[0]);console.log(JSON.stringify(critiqueTask(dir,await verifiedDesign(dir)),null,2));return;
  }
@@ -244,6 +254,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
+ throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

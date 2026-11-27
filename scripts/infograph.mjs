@@ -8,6 +8,7 @@ import {evaluateSceneBatch,hasVmiPreview} from './execution-vmi.mjs';
 import {checkDelivery,prepareHandoff,verifyHandoff} from './execution-delivery.mjs';
 import {critiqueTask,submitCritique,critiqueStatus} from './execution-critique.mjs';
 import {dispatchReviewer} from './execution-reviewer.mjs';
+import {integrationContract,integrationTask,assembleArtifact} from './execution-integration.mjs';
 import {geometryTemplate,geometryLibrary} from '../skills/infograph-master/visual-metaphor-intelligence/engine/physical-geometry.mjs';
 import {proposeCompositions,compositionPreview} from '../skills/infograph-master/engine/composition-candidates.mjs';
 import {compileArtDirections,selectArtDirection,artDirectionCSS,artDirectionPreview} from '../skills/infograph-master/engine/art-direction-production.mjs';
@@ -30,7 +31,7 @@ const stageNames=['reconstruction-prepare','reconstruction-plan','production-pla
 const rules=()=>json(join(root,'skills/infograph-master/references/execution-gates.json'));
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['skills/infograph-master/SKILL.md','skills/visual-metaphor-intelligence/SKILL.md','skills/narrative-design/SKILL.md','docs/EXECUTION-ARCHITECTURE.md','scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','scripts/execution-semantic.mjs','scripts/execution-reviewer.mjs','skills/manifest.json'];
+ const paths=['skills/infograph-master/SKILL.md','skills/visual-metaphor-intelligence/SKILL.md','skills/narrative-design/SKILL.md','docs/EXECUTION-ARCHITECTURE.md','scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','scripts/execution-semantic.mjs','scripts/execution-reviewer.mjs','scripts/execution-integration.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -168,7 +169,7 @@ async function verifiedDesign(dir){
  for(const stage of stageNames)if(existsSync(join(dir,stage))){const v=await checkStage(dir,stage,run);stages[stage]=v.output;fingerprints[stage]=v.receipt.outputSha256}
  const status=productionStatus(run,stages);
  assert(status.buildEligible===true,'pre-build eligibility required');
- return {status,stages:fingerprints,sourceSha256:run.source.sha256,inventory:stages['production-plan'].specialists.inventory,revision:stages['production-plan'].revision};
+ return {status,stages:fingerprints,sourceSha256:run.source.sha256,inventory:stages['production-plan'].specialists.inventory,revision:stages['production-plan'].revision,integration:integrationContract(stages)};
 }
 async function forkArtifact(dir,dest){
  const design=await verifiedDesign(dir),run=await context(dir),browser=artifactStatus(dir,design);
@@ -230,6 +231,16 @@ async function main(){
   console.log(JSON.stringify(result,null,2));return;
  }
  if(cmd==='retry'&&args.length===3){await forkRun(resolve(args[0]),args[1],resolve(args[2]));return}
+ if(cmd==='integration-task'&&args.length===1){
+  const design=await verifiedDesign(resolve(args[0]));
+  console.log(JSON.stringify(integrationTask(design.integration),null,2));return;
+ }
+ if(cmd==='assemble-artifact'&&args.length===3){
+  const design=await verifiedDesign(resolve(args[0])),template=read(resolve(args[1])).toString('utf8'),file=resolve(args[2]);
+  assert(/\.html?$/i.test(file),'assembled output must be HTML');
+  writeFileSync(file,assembleArtifact(template,design.integration),{flag:'wx'});
+  console.log(JSON.stringify({status:'engine-fragments-assembled',file,...integrationTask(design.integration),releaseAuthorized:false},null,2));return;
+ }
  if(cmd==='bind-artifact'&&args.length===3){
   const dir=resolve(args[0]),design=await verifiedDesign(dir);
   const r=bindArtifact(dir,args[1],args[2],design);console.log(JSON.stringify(r,null,2));return;
@@ -285,6 +296,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: vmi-geometry [rotor|reservoir|valve] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
+ throw Error('usage: integration-task <run-dir> | assemble-artifact <run-dir> <template.html> <new.html> | vmi-geometry [rotor|reservoir|valve] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

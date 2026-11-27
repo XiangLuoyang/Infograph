@@ -60,7 +60,7 @@ async function inspectIntegration(page,viewport,c,rt){
   const ok=stylesheet&&actual.grid===expectedGrid&&actual.display==='grid'&&actual.visible&&JSON.stringify(actual.regions.map(x=>x.id))===JSON.stringify(layout.regions)&&actual.regions.every(x=>x.visible&&x.area==='ig_'+x.id);
   return {ok,...actual,stylesheet,expectedGrid,tierId:tier.id};
  });
- if(c.kind==='baseline')for(const scene of rt?.vmi??[])if(scene.sliceId===c.sliceId)await check(scene.id,async()=>{
+ for(const scene of rt?.vmi??[])if(scene.sliceId===c.sliceId)await check(scene.id,async()=>{
   const loc=page.locator('iframe[data-ig-engine='+JSON.stringify(scene.id)+']');
   if(await loc.count()!==1||!await loc.isVisible())return {ok:false,reason:'visible unique VMI frame required'};
   const handle=await loc.elementHandle(),frame=await handle.contentFrame();

@@ -93,7 +93,7 @@ export function artifactStatus(dir,design){
    if(rt?.art)expectedIntegration.push('ART');
    const tier=rt?.spatial?.tiers.find(t=>v.width>=t.minWidth&&v.height>=t.minHeight);
    if(rt?.spatial?.layouts.some(l=>l.tierId===tier?.id&&l.sliceId===plannedCase.sliceId&&l.generated))expectedIntegration.push('SPATIAL');
-   if(plannedCase.kind==='baseline')expectedIntegration.push(...(rt?.vmi??[]).filter(s=>s.sliceId===plannedCase.sliceId).map(s=>s.id));
+   expectedIntegration.push(...(rt?.vmi??[]).filter(s=>s.sliceId===plannedCase.sliceId).map(s=>s.id));
    ensure(eq((c.integration??[]).map(x=>x.id),expectedIntegration)&&(c.integration??[]).every(x=>x.status==='pass'),'passing case missing engine application evidence');
   }
   if(c.capture){ensure(c.capture.filename===key+'.png'&&hash(read(join(qa,c.capture.filename)))===c.capture.sha256,'screenshot bytes changed')}

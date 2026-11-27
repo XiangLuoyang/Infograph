@@ -98,5 +98,16 @@ try{
  const fail=call(['browser-review','--trusted',bad.run],false);assert.ok(fail.cases.some(c=>c.issues.some(x=>x.kind==='svg-viewbox-overflow')));assert.ok(fail.cases.some(c=>c.issues.some(x=>x.kind==='document-overflow-x')));
  assert.equal(call(['artifact-status',bad.run],false).status,'browser-observed-fail');
  call(['delivery-check',bad.run,bad.output],false);call(['delivery-check',bad.run,bad.output,'unverified-draft'],false);
+ const integrated=join(dir,'integrated-art');call(['start-workflow','create',source,integrated]);
+ const artBrief={purpose:'monitor',theme:'Synthetic metric',readerTask:'Inspect metric',density:'normal',evidenceRef:'fixture only'};
+ call(['run',integrated,'production-plan',save('integrated-plan.json',{...production,artDirection:{brief:artBrief,selectedId:'technical',selectionReason:'synthetic comparison'}})]);
+ assert.deepEqual(call(['integration-task',integrated]).slots.map(x=>x.id),['ART']);
+ const raw=save('integrated-template.html',html.replace('<meta name="viewport" content="width=device-width,initial-scale=1">','<meta name="viewport" content="width=device-width,initial-scale=1"><!--IG:ART--><body data-ig-art="technical">'));
+ call(['bind-artifact',integrated,raw,planFile],false);
+ const assembled=join(dir,'integrated.html');assert.equal(call(['assemble-artifact',integrated,raw,assembled]).status,'engine-fragments-assembled');
+ assert.equal(call(['bind-artifact',integrated,assembled,planFile]).integration.slots.length,1);
+ const integratedReport=call(['browser-review','--trusted',integrated]);
+ assert.ok(integratedReport.cases.every(c=>c.integration.some(x=>x.id==='ART'&&x.status==='pass')));
+ assert.equal(call(['artifact-status',integrated]).status,'browser-observed-pass');
  console.log('P3a production browser, coverage, crop and hash tests passed');
 }finally{rmSync(dir,{recursive:true,force:true})}

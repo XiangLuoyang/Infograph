@@ -8,6 +8,7 @@ import {evaluateSceneBatch,hasVmiPreview} from './execution-vmi.mjs';
 import {checkDelivery,prepareHandoff,verifyHandoff} from './execution-delivery.mjs';
 import {critiqueTask,submitCritique,critiqueStatus} from './execution-critique.mjs';
 import {dispatchReviewer} from './execution-reviewer.mjs';
+import {geometryTemplate,geometryLibrary} from '../skills/infograph-master/visual-metaphor-intelligence/engine/physical-geometry.mjs';
 import {proposeCompositions,compositionPreview} from '../skills/infograph-master/engine/composition-candidates.mjs';
 import {compileArtDirections,selectArtDirection,artDirectionCSS,artDirectionPreview} from '../skills/infograph-master/engine/art-direction-production.mjs';
 import {semanticTask,submitSemantic,semanticStatus} from './execution-semantic.mjs';
@@ -186,6 +187,9 @@ async function forkArtifact(dir,dest){
 }
 async function main(){
  const [cmd,...args]=process.argv.slice(2);
+ if(cmd==='vmi-geometry'&&args.length<=1){
+  console.log(JSON.stringify(args.length?geometryTemplate(args[0]):geometryLibrary(),null,2));return;
+ }
  if(['art-direction-propose','art-direction-preview','art-direction-css'].includes(cmd)){
   assert(args.length===(cmd==='art-direction-propose'?1:cmd==='art-direction-preview'?2:4),'invalid art-direction command arguments');
   const plan=compileArtDirections(json(resolve(args[0])),json(join(root,'skills/infograph-master/engine/art-directions.json')),json(join(root,'skills/infograph-master/engine/styles.json')));
@@ -281,6 +285,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
+ throw Error('usage: vmi-geometry [rotor|reservoir|valve] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

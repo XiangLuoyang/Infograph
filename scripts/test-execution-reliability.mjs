@@ -93,3 +93,24 @@ assert.throws(()=>bridgeVmiReference(bridgeFixture,{viewport:'unknown'}));
 const brokenBridge=structuredClone(bridgeFixture);brokenBridge.semantic.mappings[0].to='missing';
 assert.throws(()=>bridgeVmiReference(brokenBridge));
 console.log('VMI reference bridge regression passed');
+
+import {renderVmiReferencePreview} from '../skills/infograph-master/engine/vmi-reference-bridge.mjs';
+import {renderStructuredPrimitives} from '../skills/infograph-master/engine/reference-renderer.mjs';
+const previewFixture=structuredClone(bridgeFixture);
+previewFixture.design.colors={surface:'#ffffff',metal:'#778899',accent:'#446688',warning:'#aa4400',line:'#333333',highlight:'#eeeeee'};
+previewFixture.scene.title='Bridge fixture';
+previewFixture.scene.objects[0].shapes=[{type:'circle',cx:50,cy:50,r:30,fill:'accent',stroke:'none',sw:0}];
+previewFixture.scene.objects[1].shapes=[{type:'rect',x:10,y:10,w:80,h:80,rx:4,fill:'metal',stroke:'line',sw:1}];
+for(const viewport of ['desktop','mobile']){
+ const p=renderVmiReferencePreview(previewFixture,{viewport});
+ assert.ok(p.html.includes('<circle cx="50" cy="50" r="30" fill="#446688"'));
+ assert.ok(p.html.includes('<rect x="10" y="10" width="80" height="80"'));
+ assert.equal(p.report.renderedHTML,true);
+ assert.equal(p.report.browserVerified,false);
+ assert.equal(p.releaseAuthorized,false);
+}
+const asset={colors:previewFixture.design.colors,shapes:previewFixture.scene.objects[0].shapes};
+assert.throws(()=>renderStructuredPrimitives({...asset,shapes:[{...asset.shapes[0],r:90}]}));
+assert.throws(()=>renderStructuredPrimitives({...asset,colors:{accent:'"><script>'}}));
+assert.throws(()=>renderStructuredPrimitives({...asset,shapes:[{type:'path',d:'M0 0<script>',fill:'accent',stroke:'none',sw:0}]}));
+console.log('VMI reference HTML regression passed');

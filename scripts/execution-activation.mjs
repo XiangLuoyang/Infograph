@@ -8,7 +8,9 @@ export function activationSignals(prepared){
   partial:n.truncated===true
  }));
  const hypotheses=(prepared?.hypotheses?.candidates??[]).filter(h=>h.id==='allocation-mechanism'&&Array.isArray(h.evidence)&&h.evidence.length>=2&&h.evidence.every(ref=>nodes.some(n=>n.ref===ref&&!n.truncated))).map(h=>({id:'hypothesis:'+h.id,ref:h.evidence[0],evidenceRefs:h.evidence,kind:'hypothesis',label:h.task,review:'mechanism-candidate',partial:false}));
- return [...structural,...hypotheses];
+ // Lexical hints are review prompts, not proof of a physical scene.
+ const sceneHints=nodes.filter(n=>['chart','region','text','heading'].includes(n.kind)&&!n.truncated&&/视觉隐喻|物理隐喻|visual metaphor|physical metaphor|机制示意|mechanism diagram/i.test(n.label??'')).map(n=>({id:'scene-hint:'+n.id,ref:n.ref,evidenceRefs:[n.ref],kind:'scene-hint',label:n.label,review:'mechanism-candidate',partial:false}));
+ return [...structural,...hypotheses,...sceneHints];
 }
 export function auditActivation(signals,reviews,slices,quality){
  const issues=[],seen=new Set(),known=new Map(signals.map(s=>[s.id,s])),bySlice=new Map(slices.map(s=>[s.id,s]));
@@ -18,7 +20,7 @@ export function auditActivation(signals,reviews,slices,quality){
   seen.add(s.id);
   if(r.ref!==s.ref||!text(r.reason)||!['mapped','removed','not-applicable'].includes(r.disposition)){issues.push({code:'activation-evidence',id:s.id});continue}
   if(s.review==='mechanism-candidate'){
-   if(!text(r.mechanismReason)||!['selected','reviewed'].includes(r.mechanismDecision))issues.push({code:'activation-hypothesis-review',id:s.id});
+   if(!text(r.mechanismReason)||!['selected','reviewed'].includes(r.mechanismDecision)||JSON.stringify(r.evidenceRefs)!==JSON.stringify(s.evidenceRefs))issues.push({code:'activation-hypothesis-review',id:s.id});
    if(r.mechanismDecision==='selected'&&(r.disposition!=='mapped'||bySlice.get(r.sliceId)?.mechanism!=='selected'))issues.push({code:'activation-vmi-selection-mismatch',id:s.id});
   }
   if(r.disposition==='mapped'){

@@ -55,3 +55,14 @@ assert.equal(auditActivation([],undefined,slices,quality).eligible,true);
 const sourcePrior={'reconstruction-prepare':{output:prepared,receipt:{outputSha256:'synthetic'}}};
 assert.equal(authoringTask('production-plan',{},sourcePrior,[]).template.activationReviews.length,3);
 console.log('activation regression assertions passed');
+
+const scenePrepared={ir:{nodes:[{id:'m',kind:'region',label:'视觉隐喻',ref:'source#m'},{id:'ordinary',kind:'chart',label:'Sales trend',ref:'source#ordinary'}]}};
+const sceneSignals=activationSignals(scenePrepared);
+assert.equal(sceneSignals.filter(s=>s.review==='mechanism-candidate').length,1);
+const hint=sceneSignals.find(s=>s.kind==='scene-hint');
+const review={observationId:hint.id,ref:hint.ref,evidenceRefs:hint.evidenceRefs,disposition:'mapped',sliceId:'s',reason:'assess existing scene',mechanismReason:'compare conventional alternative',mechanismDecision:'reviewed'};
+assert.equal(auditActivation([hint],[review],slices,quality).eligible,true);
+assert.equal(auditActivation([hint],[{...review,mechanismDecision:'selected'}],slices,quality).eligible,false);
+assert.equal(auditActivation([hint],[{...review,mechanismDecision:'selected'}],[{...slices[0],mechanism:'selected'}],quality).eligible,true);
+assert.equal(auditActivation([hint],[{...review,evidenceRefs:[]}],slices,quality).eligible,false);
+assert.equal(auditActivation([hint],[],slices,quality).eligible,false);

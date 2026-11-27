@@ -114,3 +114,18 @@ assert.throws(()=>renderStructuredPrimitives({...asset,shapes:[{...asset.shapes[
 assert.throws(()=>renderStructuredPrimitives({...asset,colors:{accent:'"><script>'}}));
 assert.throws(()=>renderStructuredPrimitives({...asset,shapes:[{type:'path',d:'M0 0<script>',fill:'accent',stroke:'none',sw:0}]}));
 console.log('VMI reference HTML regression passed');
+
+import {boundaryPort} from '../skills/infograph-master/engine/vmi-reference-bridge.mjs';
+assert.deepEqual(boundaryPort([0,0,.2,.2],[.6,0,.2,.2]),[1,.5]);
+assert.deepEqual(boundaryPort([.6,0,.2,.2],[0,0,.2,.2]),[0,.5]);
+assert.deepEqual(boundaryPort([0,0,.2,.2],[0,.6,.2,.2]),[.5,1]);
+assert.deepEqual(boundaryPort([0,.6,.2,.2],[0,0,.2,.2]),[.5,0]);
+assert.throws(()=>boundaryPort([0,0,.2,.2],[0,0,.2,.2]));
+assert.throws(()=>boundaryPort([0,0,0,.2],[.6,0,.2,.2]));
+for(const viewport of ['desktop','mobile']){
+ const b=bridgeVmiReference(bridgeFixture,{viewport});
+ const l=b.manifest.links[0],a=b.manifest.objects[0],z=b.manifest.objects[1];
+ assert.deepEqual(a.ports[l.from.port],viewport==='desktop'?[1,.5]:[.5,1]);
+ assert.deepEqual(z.ports[l.to.port],viewport==='desktop'?[0,.5]:[.5,0]);
+}
+console.log('Boundary port regression passed');

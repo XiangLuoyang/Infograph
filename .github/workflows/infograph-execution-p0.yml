@@ -68,4 +68,5 @@ jobs:
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/exploration.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/creative.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/scene.test.mjs
+      - run: node skills/infograph-master/visual-metaphor-intelligence/tests/surface-rendering.test.mjs
       - run: node skills/infograph-master/visual-metaphor-intelligence/tests/studio.test.mjs

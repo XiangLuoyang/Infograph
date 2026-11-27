@@ -53,7 +53,7 @@ function runtime(p){
  function stop(){clearInterval(timer);timer=null;document.getElementById('ref-play').textContent='Play';document.getElementById('ref-play').setAttribute('aria-pressed','false')}
  function play(){if(timer!==null){stop();return}if(index===p.plan.scenes.length-1)go(0,true);document.getElementById('ref-play').textContent='Pause';document.getElementById('ref-play').setAttribute('aria-pressed','true');timer=setInterval(()=>{go(index+1);if(index===p.plan.scenes.length-1)stop()},p.interval)}
  document.getElementById('ref-prev').onclick=()=>{stop();go(index-1)};document.getElementById('ref-next').onclick=()=>{stop();go(index+1)};document.getElementById('ref-play').onclick=play;
- document.getElementById('ref-reset').onclick=()=>{stop();go(0,true)};document.getElementById('ref-all').onclick=()=>{stop();go(p.plan.scenes.findIndex(s=>s.id===p.plan.staticScene),true)};
+ document.getElementById('ref-reset').onclick=()=>{stop();go(p.plan.scenes.findIndex(s=>s.id===p.initialScene),true)};document.getElementById('ref-all').onclick=()=>{stop();go(p.plan.scenes.findIndex(s=>s.id===p.plan.staticScene),true)};
  stage.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();stop();go(index+(e.key==='ArrowLeft'?-1:1))}});
  motion.addEventListener('change',()=>{cancelAnimationFrame(frame);draw(p.transforms[p.plan.scenes[index].id]??{})});
  for(const o of p.plan.objects){const el=elements.get(o.id),canvas=el.querySelector('canvas');if(!canvas)continue;
@@ -104,7 +104,7 @@ export function buildReferenceHTML(manifest,options={}){
  const initialScene=options.initialScene??plan.staticScene;assert(plan.scenes.some(s=>s.id===initialScene),'invalid initial scene');
  const duration=options.duration??360,interval=options.interval??1500;
  assert(Number.isInteger(duration)&&duration>=0&&duration<=2000&&Number.isInteger(interval)&&interval>=Math.max(400,duration+100)&&interval<=10000,'invalid timing');
- const surfaces=previewReferenceSurfaces(plan,options.light??{});const staticScene=plan.scenes.find(s=>s.id===plan.staticScene),visible=new Set(staticScene.visible),ts=transforms[staticScene.id]??{};
+ const surfaces=previewReferenceSurfaces(plan,options.light??{});const staticScene=plan.scenes.find(s=>s.id===initialScene),visible=new Set(staticScene.visible),ts=transforms[staticScene.id]??{};
  const theme=o=>themes.includes(o.theme)?o.theme:'neutral';
  const objects=plan.slots.map(slot=>{
  const o=plan.objects.find(x=>x.id===slot.id);let inner='',cls='';
@@ -115,7 +115,7 @@ export function buildReferenceHTML(manifest,options={}){
  else if(slot.renderer==='svg'&&Object.hasOwn(options.primitiveAssets??{},o.id)){inner=renderStructuredPrimitives(options.primitiveAssets[o.id])}
  else if(slot.renderer==='svg'){inner='<svg class="shape" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><rect x="2" y="2" width="96" height="96" rx="8" fill="none" stroke="var(--accent)" stroke-opacity=".5"/></svg>'+(o.role==='anchor'?'<span>'+esc(o.label)+'</span>':'<span class="label">'+esc(o.label)+'</span>')}
  else {assert(false,'unhandled renderer '+slot.renderer)}
- return '<div id="obj-'+o.id+'" class="object '+theme(o)+' '+cls+'" data-role="'+o.role+'" data-renderer="'+slot.renderer+'" aria-label="'+esc(o.label)+'" style="'+initialStyle(o,ts[o.id]??zero)+'"'+(visible.has(o.id)?'':' hidden')+'>'+inner+'</div>';
+ return '<div id="obj-'+o.id+'" class="object '+theme(o)+' '+cls+((objectHighlights[staticScene.id]??[]).includes(o.id)?' state-emphasis':'')+'" data-role="'+o.role+'" data-renderer="'+slot.renderer+'" aria-label="'+esc(o.label)+'" style="'+initialStyle(o,ts[o.id]??zero)+'"'+(visible.has(o.id)?'':' hidden')+'>'+inner+'</div>';
  }).join('');
  assert(!warnings.some(w=>w.severity==='blocking')||options.allowDegraded===true,'essential fidelity unmet; explicit preview required');
  const lines=planLinks(plan,ts,ratio).map(l=>{const spec=plan.links.find(x=>x.id===l.id),from=plan.objects.find(o=>o.id===spec.from.object),coords='x1="'+l.from[0]*plan.source.width+'" y1="'+l.from[1]*plan.source.height+'" x2="'+l.to[0]*plan.source.width+'" y2="'+l.to[1]*plan.source.height+'"';

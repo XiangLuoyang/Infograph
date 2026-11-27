@@ -22,3 +22,21 @@ For budget scenarios test zero, below need, exact need, above need. If benefits 
 
 ## Boundaries
 V0.1 is a deterministic engine over authored evidence, not automatic metric extraction, general mathematical proof, runtime instrumentation, exhaustive per-slice coverage, independent reviewer authentication or semantic interpretation of arbitrary pixels. Coverage/ref declarations remain inspectable claims. Use existing critique rubric for unsupported qualitative assertions, accessibility, and all unimplemented check types. Never claim factual completeness merely because checks pass. Use synthetic fixtures only for regression, not live production answers.
+
+## Runtime probes (V0.2)
+Add optional semanticProbes arrays to individual browser-plan cases. The existing click/select/fill steps establish state; use separate cases for baseline, changed filters, missing-data scenarios, budget boundaries and reset. Each probe runs at each declared viewport. Expected values must be derived independently from the source/definition, not copied from current HTML. Use precise selectors targeting actual visible output, not hidden shadow metrics. Example for a hypothetical independently calculated ratio:
+
+```json
+{"id":"growth","kind":"number","selector":"#growth-value","unit":"ratio","sourceRef":"source:prior-year aligned calculation","expected":0.5429,"suffix":"%","scale":0.01,"tolerance":0.00005}
+```
+
+- number: one unique visible DOM target; strict full decimal text, optional explicit prefix/suffix, positive scale, absolute tolerance (default zero). Supports comma thousands separators and Unicode minus; no guessing locale, units, embedded prose or multi-value labels. E.g. yuan displayed in 万 uses suffix 万 and scale 10000.
+- count: count matched elements with nonzero layout bounds and visible ancestors; compare expected nonnegative integer. Use a separate essential check for clipping or offscreen readability. Zero matches is valid for an independently expected absence.
+- missing: one unique visible target and explicit allowed tokens array (e.g. ["—","数据不足"]); does not treat numeric zero as missing.
+- Each probe has id, selector, kind, unit and sourceRef. Max 30 probes per case. No authored JS/eval, network, API calls or arbitrary function execution; only bounded read-only DOM observations. Trusted HTML still executes its own scripts; offline Chromium is not a security sandbox.
+
+Browser reports retain raw observed text/counts and deterministic results; failure fails the case, even when textIncludes passes. A passing case must cover every planned probe. Receipt verification replays comparisons, not fresh browser execution or signed provenance.
+
+After browser review, semantic-task lists runtimeProbes. A value-parity, count-parity or period-growth check may supply observationProbe {viewportId,caseId,probeId,reportSha256}; omit observedValue and observationRef because the engine hydrates them from verified evidence. The sourceRef must match; parity checks also match unit and expectedValue. Conflicting authored observedValue, stale hash, failed probe and incompatible check kind reject submission. For period growth, still supply independently aligned current/baseline data; the runtime observation is compared against the independently computed growth.
+
+Coverage is authored, not inferred: choose probes across material claims and boundary states; explicitly document unsupported observations (Canvas pixels, complex geometry, calculations without visible output, asynchronous states, model relation semantics). Do not create hidden values simply to pass tests. No automatic discovery of arbitrary business logic, complete data extraction, proof of causality or independent evidence authentication.

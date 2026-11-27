@@ -101,6 +101,9 @@ previewFixture.design.colors={surface:'#ffffff',metal:'#778899',accent:'#446688'
 Object.assign(previewFixture.design.colors,{background:'#f5f3ee',ink:'#222222',muted:'#555555'});
 Object.assign(previewFixture.design,{font:'serif',radius:8});
 previewFixture.scene.title='Bridge fixture';
+previewFixture.scene.states=[{id:'base',label:'Base',explanation:'Normal supply',highlight:[]},{id:'pressure',label:'Pressure',explanation:'Supply constraint',highlight:['b']}];
+previewFixture.scene.initialState='pressure';
+
 previewFixture.scene.objects[0].shapes=[{type:'circle',cx:50,cy:50,r:30,fill:'accent',stroke:'none',sw:0}];
 previewFixture.scene.objects[1].shapes=[{type:'rect',x:10,y:10,w:80,h:80,rx:4,fill:'metal',stroke:'line',sw:1}];
 for(const viewport of ['desktop','mobile']){
@@ -142,3 +145,14 @@ assert.throws(()=>referenceDesignCSS({...previewFixture.design,radius:100}));
 assert.throws(()=>referenceDesignCSS({...previewFixture.design,colors:{...previewFixture.design.colors,background:'red;display:none'}}));
 assert.ok(renderVmiReferencePreview(previewFixture).html.includes(inheritedCSS));
 console.log('Reference design inheritance regression passed');
+
+const statePreview=renderVmiReferencePreview(previewFixture);
+assert.equal(statePreview.bridge.previewManifest.staticScene,'state-2');
+assert.ok(statePreview.html.includes('data-scene="state-2"'));
+assert.match(statePreview.html,/id="obj-object-2" class="[^"]*state-emphasis/);
+assert.ok(statePreview.html.includes('Pressure — Supply constraint'));
+const badState=structuredClone(previewFixture);badState.scene.states[1].highlight=['unknown'];
+assert.throws(()=>renderVmiReferencePreview(badState));
+badState.scene.initialState='missing';
+assert.throws(()=>renderVmiReferencePreview(badState));
+console.log('State mapping static HTML regression passed');

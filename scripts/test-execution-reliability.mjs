@@ -232,3 +232,22 @@ assert.ok(spatialPreview.html.includes('<canvas'));
 assert.throws(()=>renderVmiReferencePreview(previewFixture,{...spatialOptions,webgl:false}));
 assert.equal(formatFixture(routeVisualFidelity(spatialOptions.visualRequirements,{webgl:true}),spatialOptions.productionRecords[0],{...spatialAsset,geometry:{preset:'assembly',parts:[]}}).formatVerified,false);
 console.log('WebGL bridge contract regression passed');
+
+const fourScene=structuredClone(previewFixture);
+fourScene.scene.title='Allocation mechanism — mixed backend fixture';
+for(const [i,id] of ['c','d'].entries()){
+ fourScene.semantic.objects.push({id,label:i?'Allocation indicator':'Distribution assembly'});
+ fourScene.scene.objects.push({id,desktop:[80+i*320,264,160,88],mobile:[216,62+i*248,72,124],shapes:structuredClone(previewFixture.scene.objects[0].shapes)});
+ fourScene.semantic.mappings.push({id:'edge-'+id,from:'b',to:id,relation:'transfer'});
+}
+const fourOptions={webgl:true,visualRequirements:[...mixedRequirements,{...fidelityFixture[3],objectId:'c'},{...fidelityFixture[0],objectId:'d'}],productionRecords:[...mixedRecords,{...spatialOptions.productionRecords[0],objectId:'c'}],artifacts:new Map([...mixedAssets,...spatialOptions.artifacts])};
+for(const viewport of ['desktop','mobile']){
+ const p=renderVmiReferencePreview(fourScene,{...fourOptions,viewport});
+ assert.equal(p.bridge.production.formatVerified,true);
+ assert.deepEqual(p.bridge.previewManifest.objects.map(o=>o.fidelity),['surface','photoreal','spatial','flat']);
+ assert.ok(p.html.includes('<canvas'));
+ assert.ok(p.html.includes('data:image/png;base64,'+png));
+ assert.ok(p.html.includes('<circle cx="50"'));
+ assert.equal(p.releaseAuthorized,false);
+}
+console.log('Four-backend responsive scene HTML regression passed');

@@ -282,3 +282,22 @@ for(const assets of [altered,embedded.slice(1)]){
  assert.throws(()=>renderVmiReferencePreview(fourScene,{...fourOptions,artifacts:d.artifacts,productionRecords:d.records}),/visual production incomplete/);
 }
 console.log('Formal packet asset decoder and bridge negative controls passed');
+
+import {evaluatePacket} from '../skills/infograph-master/visual-metaphor-intelligence/engine/pipeline.mjs';
+import {readFileSync as readPacketFixture} from 'node:fs';
+const loadVmiFixture=p=>JSON.parse(readPacketFixture(new URL('../skills/infograph-master/visual-metaphor-intelligence/'+p,import.meta.url),'utf8'));
+const studioPacket=loadVmiFixture('benchmark/studio-packet.json'),studioObjects=loadVmiFixture('ontology/objects.json'),studioOntology=loadVmiFixture('ontology/mechanisms.json');
+const studioAssetOptions={viewport:'desktop',styleIndex:0,webgl:true,visualRequirements:fourOptions.visualRequirements.map((r,i)=>({...r,objectId:studioPacket.scene.objects[i].id})),productionRecords:fourOptions.productionRecords.map(r=>({...r,objectId:studioPacket.scene.objects[fourOptions.visualRequirements.findIndex(v=>v.objectId===r.objectId)].id})),assets:embedded};
+for(const viewport of ['desktop','mobile']){
+ const result=evaluatePacket({...studioPacket,referencePreview:{...studioAssetOptions,viewport}},studioObjects,studioOntology);
+ assert.ok(result.html,JSON.stringify(result.issues));
+ assert.equal(result.referencePreviews[0].production.formatVerified,true);
+ assert.equal(result.referencePreviews[0].viewport,viewport);
+ assert.ok(result.html.includes('<canvas'));
+ assert.equal(result.releaseAuthorized,false);
+}
+for(const referencePreview of [{...studioAssetOptions,assets:altered},{...studioAssetOptions,assets:embedded.slice(1)},{...studioAssetOptions,styleIndex:99}]){
+ const result=evaluatePacket({...studioPacket,referencePreview},studioObjects,studioOntology);
+ assert.equal(result.html,null);assert.ok(result.issues.length);assert.deepEqual(result.referencePreviews,[]);
+}
+console.log('Full studio packet mixed renderer and negative controls passed');

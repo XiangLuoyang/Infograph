@@ -156,3 +156,16 @@ assert.throws(()=>renderVmiReferencePreview(badState));
 badState.scene.initialState='missing';
 assert.throws(()=>renderVmiReferencePreview(badState));
 console.log('State mapping static HTML regression passed');
+
+import {routeVisualFidelity} from '../skills/infograph-master/engine/visual-fidelity-router.mjs';
+const fidelityFixture=['flat','surface','photoreal','spatial'].map((fidelity,i)=>({objectId:'f-'+i,fidelity,dynamic:false,reason:'fixture requirement',evidenceRef:'fixture#design'}));
+const routed=routeVisualFidelity(fidelityFixture);
+assert.deepEqual(routed.map(r=>r.renderer),['svg','css','raster','webgl']);
+assert.deepEqual(routed.map(r=>r.status),['route-ready','production-required','production-required','production-required']);
+assert.ok(routed[2].workOrders.some(w=>w.kind==='renderer-capability'));
+assert.ok(routeVisualFidelity([fidelityFixture[2]],{raster:true})[0].workOrders.some(w=>w.kind==='verified-raster-asset'));
+assert.equal(routeVisualFidelity([{...fidelityFixture[2],dynamic:true}])[0].renderer,'webgl');
+assert.ok(routed.every(r=>!r.rendered&&!r.releaseAuthorized));
+assert.throws(()=>routeVisualFidelity([fidelityFixture[0],fidelityFixture[0]]));
+assert.throws(()=>routeVisualFidelity([{...fidelityFixture[0],reason:''}]));
+console.log('Visual fidelity routing regression passed');

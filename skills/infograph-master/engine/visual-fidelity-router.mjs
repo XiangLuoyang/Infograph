@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 // Routing is a production decision, not a claim of visual quality.
 export function routeVisualFidelity(requirements,capabilities={}){
  const available={svg:true,css:true,raster:false,webgl:false,...capabilities};
@@ -32,4 +33,18 @@ export function auditVisualProduction(routes,records=[]){
  }
  const ledger=[...required].map(([key,order])=>({...order,record:accepted.get(key)??null,status:accepted.get(key)?.status??'missing'}));
  return {ledger,missing:ledger.filter(x=>x.status==='missing'),blocked:ledger.filter(x=>x.status==='blocked'),declaredComplete:ledger.every(x=>x.status==='produced'),verified:false,rendered:false,releaseAuthorized:false};
+}
+
+ // Caller supplies actual bytes; no implicit filesystem or network access.
+export function verifyVisualProduction(audit,artifacts){
+ if(!(artifacts instanceof Map)||!Array.isArray(audit?.ledger))throw Error('production ledger and artifact byte map required');
+ const ledger=audit.ledger.map(entry=>{
+  const r=entry.record;
+  if(entry.status!=='produced'||!r)return {...entry,verification:'not-produced'};
+  const bytes=artifacts.get(r.artifactRef);
+  if(!(bytes instanceof Uint8Array)||bytes.byteLength===0)return {...entry,verification:'missing-bytes'};
+  const actualSha256=createHash('sha256').update(bytes).digest('hex');
+  return {...entry,actualSha256,verification:actualSha256===r.sha256?'digest-match':'digest-mismatch'};
+ });
+ return {ledger,verified:ledger.every(x=>x.verification==='digest-match'),formatVerified:false,rendered:false,releaseAuthorized:false};
 }

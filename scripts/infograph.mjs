@@ -239,7 +239,7 @@ async function main(){
   const design=await verifiedDesign(resolve(args[0])),template=read(resolve(args[1])).toString('utf8'),file=resolve(args[2]);
   assert(/\.html?$/i.test(file),'assembled output must be HTML');
   writeFileSync(file,assembleArtifact(template,design.integration),{flag:'wx'});
-  console.log(JSON.stringify({status:'engine-fragments-assembled',file,...integrationTask(design.integration),releaseAuthorized:false},null,2));return;
+  console.log(JSON.stringify({...integrationTask(design.integration),status:'engine-fragments-assembled',file,releaseAuthorized:false},null,2));return;
  }
  if(cmd==='bind-artifact'&&args.length===3){
   const dir=resolve(args[0]),design=await verifiedDesign(dir);

@@ -34,8 +34,8 @@ export function bridgeVmiReference(plan,{viewport='desktop'}={}){
 export function renderVmiReferencePreview(plan,{viewport='desktop'}={}){
  const bridge=bridgeVmiReference(plan,{viewport});
  const primitiveAssets=Object.fromEntries(bridge.primitiveAssets.map(a=>[a.referenceId,{shapes:a.shapes,colors:bridge.design.colors}]));
- const result=buildReferenceHTML(bridge.manifest,{primitiveAssets,title:plan.scene.title,description:plan.scene.staticSummary});
- return {...result,bridge,limitations:[...bridge.limitations.filter(x=>!x.startsWith('SVG primitives retained')),'reference shell palette and state runtime not yet adapted'],releaseAuthorized:false};
+ const result=buildReferenceHTML(bridge.manifest,{primitiveAssets,designDNA:bridge.design,title:plan.scene.title,description:plan.scene.staticSummary});
+ return {...result,bridge,limitations:[...bridge.limitations.filter(x=>!x.startsWith('SVG primitives retained')),'state runtime and advanced material styling not yet adapted'],releaseAuthorized:false};
 }
 
 export function boundaryPort(a,b){

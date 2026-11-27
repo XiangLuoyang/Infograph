@@ -1,5 +1,6 @@
 // Trusted standalone HTML only; offline browser is not a hostile-code sandbox.
 import {chromium} from 'playwright';
+import {evaluateSemanticProbe} from './runtime-semantic-probes.mjs';
 import {readFile,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -41,7 +42,7 @@ export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
   for(const viewport of plan.viewports)for(const c of plan.cases){
    const context=await browser.newContext({offline:true,serviceWorkers:'block',acceptDownloads:false,viewport:{width:viewport.width,height:viewport.height},reducedMotion:'reduce'});
    const page=await context.newPage(),issues=[],observations=[],errors=[],blocked=[];
-   const r={viewportId:viewport.id,caseId:c.id,sliceId:c.sliceId,status:'fail',issues,observations};
+   const r={viewportId:viewport.id,caseId:c.id,sliceId:c.sliceId,status:'fail',issues,observations,semanticProbes:[]};
    try{
     await context.route('**/*',async route=>{if(blocked.length<30)blocked.push(route.request().resourceType());await route.abort()});
     page.setDefaultTimeout(2500);page.on('pageerror',e=>{if(errors.length<20)errors.push(String(e).slice(0,500))});page.on('dialog',d=>d.dismiss().catch(()=>{}));context.on('page',p=>{if(p!==page)p.close().catch(()=>{})});
@@ -57,6 +58,27 @@ export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
      for(const kind of observed.issues)issues.push({kind,selector:k.selector});
      if(k.textIncludes!==undefined&&!observed.text.includes(k.textIncludes))issues.push({kind:'outcome-mismatch',selector:k.selector});
     }
+    // Read actual DOM in the same state as the screenshot, never execute authored JS.
+    for(const p of c.semanticProbes??[]){
+     let observation;
+     try{
+      observation=await page.locator(p.selector).evaluateAll(els=>{
+       const visible=els.filter(e=>{
+        const rect=e.getBoundingClientRect();
+        if(!e.getClientRects().length||rect.width<=0||rect.height<=0)return false;
+        for(let a=e;a;a=a.parentElement){
+         const s=getComputedStyle(a);
+         if(s.display==='none'||s.visibility!=='visible'||Number(s.opacity)===0)return false;
+        }
+        return true;
+       });
+       return {matchCount:els.length,visibleCount:visible.length,text:visible.length===1?String(visible[0].innerText??visible[0].textContent??'').slice(0,201):null};
+      });
+     }catch(e){observation={error:'probe observation unavailable: '+String(e.message??e).slice(0,300)}}
+     const result=evaluateSemanticProbe(p,observation);
+     r.semanticProbes.push({observation,result});
+     if(result.status!=='pass')issues.push({kind:'semantic-probe-failed',probeId:p.id,selector:p.selector,reason:result.reason});
+    }
     await page.evaluate(()=>document.fonts.ready);
     issues.push(...await page.evaluate(layoutAudit));
     const filename=viewport.id+'--'+c.id+'.png';
@@ -71,6 +93,6 @@ export async function auditProductionHTML(file,plan,dir,{trusted=false}={}){
     r.status=issues.length===0&&r.capture?'pass':'fail';cases.push(r);await context.close();
    }
   }
-  return {version:1,status:cases.every(c=>c.status==='pass')?'observed-pass':'observed-fail',browser:browser.version(),platform:process.platform,sourceSha256:hash(bytes),cases,scope:'bounded authored standalone HTML cases, reduced-motion; no automatic aesthetics, semantic parity, general accessibility or full animation review',releaseAuthorized:false};
+  return {version:1,status:cases.every(c=>c.status==='pass')?'observed-pass':'observed-fail',browser:browser.version(),platform:process.platform,sourceSha256:hash(bytes),cases,scope:'bounded authored standalone HTML cases, reduced-motion; optional bounded DOM semantic probes; no automatic aesthetics, comprehensive semantic parity, general accessibility or full animation review',releaseAuthorized:false};
  }finally{await browser.close()}
 }

@@ -1,0 +1,17 @@
+name: Execution reliability regression
+on:
+  push:
+    branches: ['engineering/v1.3.1-execution-reliability']
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/test-execution-reliability.mjs

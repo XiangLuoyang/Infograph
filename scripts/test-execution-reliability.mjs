@@ -221,3 +221,14 @@ assert.equal(mixedPreview.releaseAuthorized,false);
 assert.throws(()=>renderVmiReferencePreview(previewFixture,{...mixedOptions,artifacts:new Map()}));
 assert.throws(()=>renderVmiReferencePreview(previewFixture,{visualRequirements:[{...fidelityFixture[0],objectId:'unknown'}]}));
 console.log('Mixed backend asset bridge regression passed');
+
+const spatialAsset={id:'a',fidelity:'spatial',material:{...matte,family:'metal',metalness:.7},geometry:{preset:'assembly',parts:[{id:'base',type:'box',center:[0,0,0],size:[1,.2,1],color:[.3,.4,.5],metalness:.7,roughness:.4}]}};
+const spatialBytes=new TextEncoder().encode(JSON.stringify(spatialAsset));
+const spatialOptions={webgl:true,visualRequirements:[{...fidelityFixture[3],objectId:'a'}],productionRecords:[{...productionRecord,objectId:'a',kind:'validated-geometry-material',artifactRef:'spatial:a',sha256:productionHash('sha256').update(spatialBytes).digest('hex')}],artifacts:new Map([['spatial:a',spatialBytes]])};
+const spatialPreview=renderVmiReferencePreview(previewFixture,spatialOptions);
+assert.equal(spatialPreview.bridge.production.formatVerified,true);
+assert.equal(spatialPreview.bridge.previewManifest.objects[0].fidelity,'spatial');
+assert.ok(spatialPreview.html.includes('<canvas'));
+assert.throws(()=>renderVmiReferencePreview(previewFixture,{...spatialOptions,webgl:false}));
+assert.equal(formatFixture(routeVisualFidelity(spatialOptions.visualRequirements,{webgl:true}),spatialOptions.productionRecords[0],{...spatialAsset,geometry:{preset:'assembly',parts:[]}}).formatVerified,false);
+console.log('WebGL bridge contract regression passed');

@@ -8,7 +8,7 @@ import {evaluateSceneBatch,hasVmiPreview} from './execution-vmi.mjs';
 import {checkDelivery,prepareHandoff,verifyHandoff} from './execution-delivery.mjs';
 import {critiqueTask,submitCritique,critiqueStatus} from './execution-critique.mjs';
 import {dispatchReviewer} from './execution-reviewer.mjs';
-import {proposeCompositions} from '../skills/infograph-master/engine/composition-candidates.mjs';
+import {proposeCompositions,compositionPreview} from '../skills/infograph-master/engine/composition-candidates.mjs';
 import {semanticTask,submitSemantic,semanticStatus} from './execution-semantic.mjs';
 import {bindArtifact,browserReview,artifactStatus} from './execution-artifact.mjs';
 import {authoringTask,hydrateInput} from './execution-authoring.mjs';
@@ -185,6 +185,11 @@ async function forkArtifact(dir,dest){
 }
 async function main(){
  const [cmd,...args]=process.argv.slice(2);
+ if(cmd==='composition-preview'&&args.length===2){
+  const file=resolve(args[1]);assert(/\.html?$/i.test(file),'preview requires HTML output');
+  writeFileSync(file,compositionPreview(json(resolve(args[0]))),{flag:'wx'});
+  console.log(JSON.stringify({status:'wireframe-preview-written',file,renderedDashboard:false,releaseAuthorized:false},null,2));return;
+ }
  if(cmd==='composition-propose'&&args.length===1){
   const result=proposeCompositions(json(resolve(args[0])));console.log(JSON.stringify(result,null,2));return;
  }
@@ -263,6 +268,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: composition-propose <input.json> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
+ throw Error('usage: composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

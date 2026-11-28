@@ -67,3 +67,40 @@ export function evaluateSceneBatch(stage,input,selected,objects,ontology,activat
  return {scenes:results,previewAvailable:stage==='vmi-packet'&&results.every(r=>Boolean(r.output.html)),issues:results.flatMap(r=>(r.output.issues??[]).map(x=>r.sliceId+': '+x)),openDiscoveryRequired:results.some(r=>r.output.openDiscoveryRequired),releaseAuthorized:false,scope:'separate scene engines; local source evidence is authored, not independently verified; no combined render'};
 }
 export function hasVmiPreview(output){return Array.isArray(output?.scenes)?output.previewAvailable===true:Boolean(output?.html)}
+
+const retryFields=new Set(['targetId','concepts','reviews','selectedConceptId','scene','styles','activation']);
+const stable=v=>Array.isArray(v)?v.map(stable):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,stable(v[k])])):v;
+const equivalent=(a,b)=>JSON.stringify(stable(a))===JSON.stringify(stable(b));
+export function vmiRetryStatus(input,output,selected){
+ const rows=sceneInputs(input,selected);
+ const result=Array.isArray(output?.scenes)?output.scenes:[{sliceId:output?.sliceId,output}];
+ ensure(result.length===rows.length&&result.every((r,i)=>r.sliceId===rows[i].sliceId),'retry output/scene coverage mismatch');
+ const scenes=result.map(r=>{
+  const o=r.output,issues=Array.isArray(o?.issues)?o.issues:[],openDiscovery=o?.openDiscoveryRequired===true,preview=Boolean(o?.html);
+  const ready=preview&&!issues.length&&!openDiscovery;
+  return {sliceId:r.sliceId,ready,preview,openDiscovery,issues,action:ready?'preserve':openDiscovery?'retry-vmi-explore':'repair-packet'};
+ });
+ return {scenes,preserved:scenes.filter(s=>s.ready).map(s=>s.sliceId),repairable:scenes.filter(s=>s.action==='repair-packet').map(s=>s.sliceId),rediscover:scenes.filter(s=>s.openDiscovery).map(s=>s.sliceId),signature:JSON.stringify(stable(scenes.filter(s=>!s.ready).map(({sliceId,preview,openDiscovery,issues})=>({sliceId,preview,openDiscovery,issues:[...issues].sort()}))))};
+}
+export function prepareVmiRetry(input,output,selected,patch){
+ const status=vmiRetryStatus(input,output,selected);
+ ensure(status.rediscover.length===0,'open discovery requires retry vmi-explore; packet patch cannot change sources');
+ ensure(status.repairable.length>0,'no failed packet scenes to repair');
+ ensure(patch&&typeof patch==='object'&&!Array.isArray(patch)&&Object.keys(patch).length===1&&Array.isArray(patch.scenes)&&patch.scenes.length>0,'retry patch must be {scenes:[{sliceId,changes}]}');
+ const map=new Map();
+ for(const row of patch.scenes){
+  ensure(row&&Object.keys(row).length===2&&status.repairable.includes(row.sliceId)&&!map.has(row.sliceId),'patch only failed scene IDs, once each');
+  const changes=row.changes;
+  ensure(changes&&typeof changes==='object'&&!Array.isArray(changes)&&Object.keys(changes).length>0&&Object.keys(changes).every(k=>retryFields.has(k)),'patch only authored packet fields; upstream fields are locked');
+  map.set(row.sliceId,changes);
+ }
+ const rows=sceneInputs(input,selected);
+ const changed=[];
+ const next=rows.map(row=>{
+  const changes=map.get(row.sliceId);if(!changes)return structuredClone(row);
+  const updated={...structuredClone(row),...structuredClone(changes)};
+  ensure(!equivalent(row,updated),'retry patch makes no effective change: '+row.sliceId);
+  changed.push(row.sliceId);return updated;
+ });
+ return {packet:Object.hasOwn(input,'scenes')?{...structuredClone(input),scenes:next}:next[0],changed,preserved:status.preserved,remaining:status.repairable.filter(id=>!map.has(id)),signature:status.signature};
+}

@@ -50,7 +50,7 @@ export function integrationContract(stages){
    const embedded=embedVerifiedScene(s.output.html,art?.selected);
    // Separate documents isolate SVG IDs and JS/CSS. No same-origin permission.
    slots.push({id,kind:'vmi',sliceId:s.sliceId,fragment:'<iframe data-ig-engine="'+id+'" title="'+esc(title)+'" sandbox="allow-scripts" style="display:block;width:100%;height:clamp(540px,75vh,820px);border:0" srcdoc="'+esc(embedded.html)+'"></iframe>'});
-   runtime.vmi.push({id,sliceId:s.sliceId,design:embedded.design,objects:s.output.plans[0].semantic.objects.map(o=>o.id),edges:s.output.plans[0].semantic.mappings.map(m=>m.id)});
+   runtime.vmi.push({id,sliceId:s.sliceId,design:embedded.design,geometry:(s.output.plans[0].geometryManifest??[]).map(g=>({id:g.objectId,kind:g.kind})),objects:s.output.plans[0].semantic.objects.map(o=>o.id),edges:s.output.plans[0].semantic.mappings.map(m=>m.id)});
   }
  }
  return {slots,runtime};

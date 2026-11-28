@@ -104,3 +104,43 @@ export function prepareVmiRetry(input,output,selected,patch){
  });
  return {packet:Object.hasOwn(input,'scenes')?{...structuredClone(input),scenes:next}:next[0],changed,preserved:status.preserved,remaining:status.repairable.filter(id=>!map.has(id)),signature:status.signature};
 }
+
+ // Explicit replacement of failed static scenes only; source evidence and successful scenes stay intact.
+export function prepareVmiFallback(previousPlan,exploreInput,packetInput,packetOutput,selected,spec){
+ const status=vmiRetryStatus(packetInput,packetOutput,selected);
+ const exact=(x,ks)=>x&&typeof x==='object'&&!Array.isArray(x)&&Object.keys(x).length===ks.length&&ks.every(k=>Object.hasOwn(x,k));
+ ensure(exact(spec,['revision','replacements','quality','execution','globalReviews']),'fallback requires revision, replacements, re-authored quality/execution and globalReviews');
+ ensure(Number.isInteger(spec.revision)&&spec.revision===previousPlan.revision+1,'fallback requires next plan revision');
+ ensure(Array.isArray(spec.replacements)&&spec.replacements.length>0,'explicit fallback replacements required');
+ ensure(Array.isArray(spec.globalReviews),'reassess global representation reviews');
+ ensure(spec.quality?.revision===spec.revision&&spec.execution?.revision===spec.revision,'re-author quality and execution at new revision');
+ const oldSlices=previousPlan.opportunities.slices,rows=sceneInputs(packetInput,selected),explored=sceneInputs(exploreInput,selected);
+ const outputById=new Map((Array.isArray(packetOutput.scenes)?packetOutput.scenes:[{sliceId:packetOutput.sliceId,output:packetOutput}]).map(r=>[r.sliceId,r.output]));
+ const choices=new Map(),records=[];
+ for(const d of spec.replacements){
+  ensure(exact(d,['sliceId','family','rendererPlan','reason','evidenceRef','semanticPreservation','limitations']),'fallback replacement requires family, renderer, reason, evidence, semantic preservation and limitations');
+  ensure(status.repairable.includes(d.sliceId)&&!choices.has(d.sliceId),'fallback only failed packet scenes with resolved discovery');
+  const old=oldSlices.find(s=>s.id===d.sliceId),p=rows.find(s=>s.sliceId===d.sliceId);
+  ensure(old?.mechanism==='selected'&&old.candidates.includes(d.family)&&d.family!==old.selectedFamily&&!['mechanism','vmi'].includes(d.family.toLowerCase()),'fallback must select a previously compared non-VMI family');
+  ensure(['family','rendererPlan','reason','evidenceRef','semanticPreservation','limitations'].every(k=>text(d[k])),'fallback requires authored rationale, evidence and limits');
+  ensure(p.activation?.sourceInteraction?.status==='none'&&text(p.activation.sourceInteraction.ref)&&text(p.activation.sourceInteraction.reason),'scoped fallback supports only scenes with explicit no-source-interaction disposition; dynamic or unknown cases require full replanning');
+  const candidate=p.concepts?.find(c=>c.id===p.selectedConceptId);
+  ensure(text(candidate?.plainAlternative),'selected concept must have an authored plain alternative');
+  choices.set(d.sliceId,d);
+  records.push({...d,previousFamily:old.selectedFamily,plainAlternative:candidate.plainAlternative,sourceRef:old.ref,evidenceBoundary:old.evidenceBoundary,failedIssues:outputById.get(d.sliceId).issues});
+ }
+ ensure(status.scenes.filter(s=>!s.ready).every(s=>choices.has(s.sliceId)),'resolve every remaining failed scene before fallback fork');
+ const plan=structuredClone(previousPlan);plan.revision=spec.revision;plan.opportunities.revision=spec.revision;
+ plan.opportunities.slices=plan.opportunities.slices.map(s=>{
+  const d=choices.get(s.id),next={...s,revision:spec.revision};
+  if(!d)return next;
+  next.selectedFamily=d.family;next.mechanism='reviewed';next.rationale=d.reason;next.rendererPlan=d.rendererPlan;
+  return next;
+ });
+ plan.opportunities.globalReviews=structuredClone(spec.globalReviews);
+ delete plan.opportunities.renderReview;
+ plan.quality=structuredClone(spec.quality);plan.execution=structuredClone(spec.execution);
+ plan.fallbacks=[...(previousPlan.fallbacks??[]),...records];
+ const retained=selected.filter(id=>!choices.has(id));
+ return {plan,retained,replacements:records,explore:retained.length?{scenes:explored.filter(s=>retained.includes(s.sliceId))}:null,packet:retained.length?{scenes:rows.filter(s=>retained.includes(s.sliceId))}:null};
+}

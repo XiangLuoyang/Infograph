@@ -65,9 +65,12 @@ async function inspectIntegration(page,viewport,c,rt){
   if(await loc.count()!==1||!await loc.isVisible())return {ok:false,reason:'visible unique VMI frame required'};
   const handle=await loc.elementHandle(),frame=await handle.contentFrame();
   if(!frame)return {ok:false,reason:'frame unavailable'};
-  const actual=await frame.evaluate(()=>{const s=[...document.querySelectorAll('svg.scene')].find(e=>getComputedStyle(e).display!=='none');return s?{objects:[...s.querySelectorAll('[data-object]')].map(e=>e.dataset.object),edges:[...s.querySelectorAll('[data-edge]')].map(e=>e.dataset.edge),visible:s.getBoundingClientRect().width>0&&s.getBoundingClientRect().height>0,controls:[...document.querySelectorAll('[data-state]')].every(e=>!e.disabled)}:null});
+  const actual=await frame.evaluate(()=>{const s=[...document.querySelectorAll('svg.scene')].find(e=>getComputedStyle(e).display!=='none');return s?{objects:[...s.querySelectorAll('[data-object]')].map(e=>e.dataset.object),edges:[...s.querySelectorAll('[data-edge]')].map(e=>e.dataset.edge),visible:s.getBoundingClientRect().width>0&&s.getBoundingClientRect().height>0,controls:[...document.querySelectorAll('[data-state]')].every(e=>!e.disabled),design:(()=>{const body=getComputedStyle(document.body),h=getComputedStyle(document.querySelector('h1')),panel=getComputedStyle(document.querySelector('.panel')),style=document.querySelector('style[data-ig-inherited]');return {id:style?.dataset.igInherited??null,css:style?.textContent??null,active:Boolean(style?.sheet&&!style.sheet.disabled),background:body.backgroundColor,color:body.color,fontSize:body.fontSize,headingSize:h.fontSize,radius:panel.borderTopLeftRadius,bodyFont:body.fontFamily,headingFont:h.fontFamily}})()}:null});
   const same=(a,b)=>JSON.stringify([...a].sort())===JSON.stringify([...b].sort());
-  return {ok:Boolean(actual?.visible&&actual.controls&&same(actual.objects,scene.objects)&&same(actual.edges,scene.edges)),actual};
+  const d=scene.design,observed=actual?.design;
+  const fonts=s=>s.replace(/["'\s]/g,'').toLowerCase();
+  const inherited=!d||Boolean(observed?.active&&observed.id===d.id&&observed.css===d.css&&observed.background===rgb(d.colors.background)&&observed.color===rgb(d.colors.ink)&&observed.fontSize===d.bodyPx+'px'&&observed.headingSize===d.headingPx+'px'&&observed.radius===d.radius+'px'&&fonts(observed.bodyFont)===fonts(d.bodyFont)&&fonts(observed.headingFont)===fonts(d.headingFont));
+  return {ok:Boolean(actual?.visible&&actual.controls&&same(actual.objects,scene.objects)&&same(actual.edges,scene.edges)&&inherited),actual,inherited};
  });
  return results;
 }

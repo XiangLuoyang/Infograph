@@ -32,7 +32,7 @@ try{
  const run=join(dir,'run');call(['start-workflow','create',source,run]);call(['run',run,'production-plan',save('plan.json',plan)]);
  assert.equal(call(['task',run,'vmi-explore']).template.scenes.length,2);
  call(['run',run,'vmi-explore',save('explore.json',exploration)]);
- const task=call(['task',run,'vmi-packet']);assert.equal(task.template.scenes[0].sourceAdditions.length,1);
+ const task=call(['task',run,'vmi-packet']);assert.equal(task.template.scenes[0].sourceAdditions.length,1);assert.equal(task.designOpportunities.length,2);assert.ok(task.designOpportunities.every(s=>s.perspectives.length>0));
  const receipt=call(['run',run,'vmi-packet',save('packet.json',minimal)]);assert.equal(receipt.previewAvailable,true);
  assert.equal(call(['verify-vmi',run]).previewAvailable,true);
  const result=JSON.parse(readFileSync(join(run,'vmi-packet','output.json'),'utf8'));

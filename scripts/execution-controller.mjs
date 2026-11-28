@@ -56,6 +56,14 @@ export function evaluateProduction(stage,input,run,prior){
   const depth=auditQualityDepth(quality);
   const gates=auditExecution(execution,rules);
   const selectedMechanisms=opportunities.slices.filter(s=>s.mechanism==='selected').map(s=>s.id);
+  const fallbacks=input.fallbacks??[];
+  ensure(Array.isArray(fallbacks)&&new Set(fallbacks.map(f=>f?.sliceId)).size===fallbacks.length,'invalid or duplicate fallback record');
+  for(const f of fallbacks){
+   const slice=opportunities.slices.find(s=>s.id===f.sliceId);
+   ensure(slice?.mechanism==='reviewed'&&slice.selectedFamily===f.family&&slice.ref===f.sourceRef,'fallback record conflicts with current representation');
+   ensure(['reason','evidenceRef','semanticPreservation','limitations','plainAlternative','previousFamily'].every(k=>typeof f[k]==='string'&&f[k].trim()),'incomplete fallback disclosure');
+   ensure(Array.isArray(f.failedIssues),'fallback failure evidence required');
+  }
   let artDirection=null;
   if(input.artDirection!==undefined&&input.artDirection!==null){
    ensure(input.artDirection.brief?.purpose===purpose,'art direction purpose mismatch');
@@ -69,7 +77,7 @@ export function evaluateProduction(stage,input,run,prior){
   if(!gates.buildEligible)blockers.push('execution-gates');
   if(new Set(opportunities.inventory.map(s=>s.page)).size>1&&!quality.multiRoute)blockers.push('multi-route quality context required');
   if(selectedMechanisms.length>MAX_SCENES)blockers.push('VMI batch exceeds eight scenes; split scope');
-  return {revision,purpose,selectedMechanisms,specialists:specialistRequirements(quality,opportunities),opportunity,depth,gates,...(artDirection?{artDirection}:{}),blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
+  return {revision,purpose,selectedMechanisms,...(fallbacks.length?{fallbacks}:{}),specialists:specialistRequirements(quality,opportunities),opportunity,depth,gates,...(artDirection?{artDirection}:{}),blockers,designEligible:blockers.length===0,releaseAuthorized:false,scope:'structural audit of authored inputs, not factual or aesthetic verification'};
  }
  throw Error('unknown production stage');
 }

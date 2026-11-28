@@ -1,11 +1,12 @@
 // Blank authoring scaffolds, never benchmark answers or invented pass records.
+import {activationTemplate} from '../skills/infograph-master/engine/vmi-capability-activation.mjs';
 import {bindScenes,sceneInputs} from './execution-vmi.mjs';
 const refs={
  'reconstruction-prepare':['references/reconstruction-entry.md','references/runtime-intent-recovery.md'],
  'reconstruction-plan':['references/reconstruction-entry.md','references/system-level-refactoring.md'],
  'production-plan':['references/visual-opportunity-discovery.md','references/quality-depth.md','references/execution-gates.md','references/art-direction-production.md'],
  'vmi-explore':['visual-metaphor-intelligence/GUIDE.md','visual-metaphor-intelligence/references/open-discovery.md'],
- 'vmi-packet':['visual-metaphor-intelligence/references/creative-critique.md','visual-metaphor-intelligence/references/scene-compilation.md'],
+ 'vmi-packet':['visual-metaphor-intelligence/references/creative-critique.md','visual-metaphor-intelligence/references/scene-compilation.md','references/vmi-capability-activation.md','references/vmi-surface-rendering.md'],
  'specialist-plan':['references/quality-depth.md']
 };
 const specialistRefs={QD01:'references/narrative-director.md',QD02:'references/interaction-choreography.md',QD03:'references/concept-art-pipeline.md',QD04:'references/motion-completeness.md',QD05:'references/global-spatial-composition.md'};
@@ -36,8 +37,8 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   {const scenes=p.selectedMechanisms.map(sliceId=>({sliceId,perspectives:[blankPerspective(),blankPerspective()],sourceAdditions:[]}));template=scenes.length===1?scenes[0]:{scenes};locked=['sliceId (per scene)'];}break;
  case 'vmi-packet':{
   const explore=required(prior['vmi-explore'],'vmi-explore');
-  assignment='Inspect exploration output; author contrasting concepts, explicit reviews, chosen scene and styles. Do not claim source verification or comparison that did not occur.';
-  {const scenes=sceneInputs(explore.input,p.selectedMechanisms).map(s=>({sliceId:s.sliceId,perspectives:s.perspectives,...(s.sourceAdditions!==undefined?{sourceAdditions:s.sourceAdditions}:{}),targetId:'',concepts:[],reviews:[],selectedConceptId:'',scene:null,styles:[]}));template=Object.hasOwn(explore.input,'scenes')?{scenes}:scenes[0];}
+  assignment='Inspect exploration output; author contrasting concepts, explicit reviews, chosen scene and styles. Complete capability activation decisions and compare the plain alternative. Do not claim source verification or comparison that did not occur.';
+  {const scenes=sceneInputs(explore.input,p.selectedMechanisms).map(s=>({sliceId:s.sliceId,perspectives:s.perspectives,...(s.sourceAdditions!==undefined?{sourceAdditions:s.sourceAdditions}:{}),targetId:'',concepts:[],reviews:[],selectedConceptId:'',scene:null,styles:[],activation:activationTemplate()}));template=Object.hasOwn(explore.input,'scenes')?{scenes}:scenes[0];}
   locked=['sliceId','perspectives','sourceAdditions (per scene)'];break;
  }
  case 'specialist-plan':

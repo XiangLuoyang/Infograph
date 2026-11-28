@@ -5,18 +5,11 @@ import {compilePhysicalGeometry} from "./physical-geometry.mjs";
 import {compilePhysicalTopology} from "./physical-topology.mjs";
 import {applySceneComposition} from "./scene-composition.mjs";
 
+import {styleIssues,sceneDimensions,validSceneBox} from './scene-contract.mjs';
+
 export function adaptDesignDNA(style,concept){
- const txt=x=>typeof x==="string"&&x.trim().length>0;
- const hex=x=>typeof x==="string"&&/^#[0-9a-f]{6}$/i.test(x);
- function luminance(x){const a=x.slice(1).match(/../g).map(s=>parseInt(s,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*a[0]+.7152*a[1]+.0722*a[2]}
- const contrast=(a,b)=>{const l=[luminance(a),luminance(b)].sort((x,y)=>y-x);return (l[0]+.05)/(l[1]+.05)};
- if(!style||style.baselineRef!==concept.designDNARef||!(typeof style.id==="string"&&/^[\p{L}\p{N}_-]{1,40}$/u.test(style.id))||!txt(style.rationale)||!["inherit","variant"].includes(style.mode)||!txt(style.sampleRef))throw Error("style provenance required");
- if(!["editorial","industrial"].includes(style.material)||!["sans","serif","mono"].includes(style.font)||!["none","soft"].includes(style.depth)||!Number.isInteger(style.radius)||style.radius<0||style.radius>24||!Number.isInteger(style.motionMs)||style.motionMs<0||style.motionMs>400)throw Error("unsupported style token");
- const colors=["background","surface","ink","muted","accent","warning","line","metal","highlight"];
- if(!style.colors||Object.keys(style.colors).length!==colors.length||Object.keys(style.colors).some(k=>!colors.includes(k)))throw Error("unexpected color token");
- for(const k of colors)if(!hex(style.colors?.[k]))throw Error("invalid color "+k);
- for(const fg of ["ink","muted"])for(const bg of ["background","surface"])if(contrast(style.colors[fg],style.colors[bg])<4.5)throw Error("text contrast "+fg+"/"+bg);
- for(const fg of ["accent","warning","line"])if(contrast(style.colors[fg],style.colors.surface)<3)throw Error("nontext contrast "+fg);
+ const issues=styleIssues(style,concept);
+ if(issues.length)throw Error(issues[0].message);
  return {...style,contrastScope:"declared solid tokens only; actual composited render requires inspection"};
 }
 
@@ -38,12 +31,11 @@ export function compileScene({target,concept,review,objects,ontology,style,scene
  const byId=new Map(concept.sceneObjects.map(x=>[x.id,x])),tn=new Map(target.nodes.map(x=>[x.id,x])),seen=new Set();
  if(!Array.isArray(scene.objects)||scene.objects.length!==byId.size)throw Error("scene object coverage");
  const checkNum=(v,min,max)=>typeof v==="number"&&Number.isFinite(v)&&v>=min&&v<=max;
- const dims={desktop:[800,440],mobile:[360,620]};
- function boxOK(b,d){return Array.isArray(b)&&b.length===4&&b.every((v,i)=>checkNum(v,i>=2?36:0,d[i%2]))&&b[0]+b[2]<=d[0]&&b[1]+b[3]<=d[1]-28}
+ const dims=sceneDimensions;
  for(const o of scene.objects){
   if(!byId.has(o.id)||seen.has(o.id)||!layerIds.has(o.layer)||!txt(o.caption)||!txt(o.detail)||!Array.isArray(o.shapes)||!o.shapes.length||o.shapes.length>80)throw Error("invalid scene object");
   seen.add(o.id);
-  for(const k of Object.keys(dims))if(!boxOK(o[k],dims[k])){const [W,H]=dims[k];throw Error(`invalid ${k} box: scene.objects[${scene.objects.indexOf(o)}].${k} (id=${o.id}); received ${JSON.stringify(o[k])??"missing"}; expected [x,y,w,h], x/y>=0, w/h>=36, x+w<=${W}, y+h<=${H-28} (28px label reserve). For 2–6 objects with no authored waypoints, consider scene.composition={version:1,mode:"auto",focalObject,ref,intent} and remove both tiers of authored coordinates from every object.`)}
+  for(const k of Object.keys(dims))if(!validSceneBox(o[k],dims[k])){const [W,H]=dims[k];throw Error(`invalid ${k} box: scene.objects[${scene.objects.indexOf(o)}].${k} (id=${o.id}); received ${JSON.stringify(o[k])??"missing"}; expected [x,y,w,h], x/y>=0, w/h>=36, x+w<=${W}, y+h<=${H-28} (28px label reserve). For 2–6 objects with no authored waypoints, consider scene.composition={version:1,mode:"auto",focalObject,ref,intent} and remove both tiers of authored coordinates from every object.`)}
   for(const s of o.shapes){
    if(!shapeRoles.has(s.fill)||!shapeRoles.has(s.stroke)||!checkNum(s.sw,0,8))throw Error("invalid primitive style");
    if(s.type==="circle"){if(![s.cx,s.cy].every(v=>checkNum(v,0,100))||!checkNum(s.r,1,50))throw Error("invalid circle")}

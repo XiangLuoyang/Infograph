@@ -28,7 +28,7 @@ if(process.argv.includes('--browser')){
  const {auditProductionHTML}=await import('../skills/infograph-master/engine/production-browser-audit.mjs');
  const dir=mkdtempSync(join(tmpdir(),'ig-integration-'));
  try{
-  const file=join(dir,'test.html'),plan={viewports:[{id:'desktop',width:1440,height:900},{id:'mobile',width:390,height:844}],cases:[{id:'overview',sliceId:'overview',kind:'baseline',steps:[],checks:[{selector:'#metric',textIncludes:'Fixture'}]}]};
+  const file=join(dir,'test.html'),plan={vmiLifecycle:{'VMI-1':{heightMode:'scroll',navigation:{caseIds:[],reason:'Single slice synthetic integration fixture'},controls:{caseIds:[],reason:'No host controls in synthetic fixture'}}},viewports:[{id:'desktop',width:1440,height:900},{id:'mobile',width:390,height:844}],cases:[{id:'overview',sliceId:'overview',kind:'baseline',steps:[],checks:[{selector:'#metric',textIncludes:'Fixture'}]}]};
   // This fixture isolates application checks; it is not a full artifact/delivery acceptance.
   writeFileSync(file,html);
   const out=await auditProductionHTML(file,plan,dir,{trusted:true,integration:contract.runtime});

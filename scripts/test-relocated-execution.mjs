@@ -15,6 +15,9 @@ try{
  for(const test of ['execution','production','specialists','authoring','vmi-batch','delivery','integration']){
   console.log(run(copied,['scripts/test-infograph-'+test+'.mjs']).trim());
  }
+ for(const name of ['vmi-runtime-qa','vmi-capability-activation','vmi-capability-advisor'])console.log(run(copied,['--test','skills/infograph-master/engine/'+name+'.test.mjs']).trim());
+ for(const name of ['physical-geometry-production','physical-topology','scene-composition','dynamic-binding-pipeline'])console.log(run(copied,['--test','skills/infograph-master/visual-metaphor-intelligence/engine/'+name+'.test.mjs']).trim());
+ console.log(run(copied,['scripts/extract-vmi-shared-scene.mjs']).trim());
  console.log(run(copied,['skills/infograph-master/engine/business-semantic-qa.test.mjs']).trim());
  console.log(run(copied,['skills/infograph-master/engine/runtime-semantic-probes.test.mjs']).trim());
  console.log(run(copied,['skills/infograph-master/engine/composition-candidates.test.mjs']).trim());

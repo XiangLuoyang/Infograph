@@ -49,6 +49,7 @@ try{
  const selected={...plan,opportunities:{...opp,slices:[{...opp.slices[0],mechanism:'selected',mechanismRef:'fixture:mechanism',evidenceBoundary:'qualitative'}]}};
  call(['run',prep,'production-plan',save('selected.json',selected)]);assert.equal(call(['status',prep]).next,'vmi-explore');
  const vmi=load('../skills/infograph-master/visual-metaphor-intelligence/benchmark/studio-packet.json');
+ vmi.activation={version:1,plainComparison:{ref:'synthetic fixture comparison',advantage:'exercise compiled scene route',tradeoff:'no actual user evaluation'},sourceInteraction:{status:'none',ref:'synthetic fixture source',reason:'no source host controls'},decisions:Object.fromEntries(['geometry','materials','topology','composition','dynamic','art'].map(k=>[k,{mode:'omit',ref:'synthetic legacy fixture',reason:'exercise baseline primitives only',alternative:'canonical optional compiler route'}]))};
  call(['run',prep,'vmi-explore',save('perspectives.json',{sliceId:'s',perspectives:vmi.perspectives})]);assert.equal(call(['status',prep]).next,'vmi-packet');
  call(['run',prep,'vmi-packet',save('packet.json',{...vmi,sliceId:'s'})]);
  assert.equal(call(['status',prep],false).status,'blocked'); // synthetic fixture retains open-discovery warning

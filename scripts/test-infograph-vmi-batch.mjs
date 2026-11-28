@@ -39,6 +39,33 @@ try{
  assert.equal(result.scenes.length,2);assert.equal(result.scenes[0].corpusSize,objects.length+1);assert.equal(result.scenes[1].corpusSize,objects.length);
  const failed=evaluateSceneBatch('vmi-packet',bindScenes('vmi-packet',{scenes:[minimal.scenes[0],{...minimal.scenes[1],reviews:[]}]},selected,exploration),selected,objects,ontology);
  assert.equal(failed.previewAvailable,false);assert.ok(failed.issues.some(x=>x.startsWith('s2:')));
+ // Scoped retry reuses verified upstream and preserves successful authored scene inputs.
+ const broken=join(dir,'broken');call(['retry',run,'vmi-packet',broken]);
+ const faulty=structuredClone(minimal);faulty.scenes[1].reviews=[];
+ call(['run',broken,'vmi-packet',save('faulty.json',faulty)]);
+ const taskRetry=call(['vmi-retry-task',broken]);assert.deepEqual(taskRetry.preserved,['s1']);assert.deepEqual(taskRetry.repairable,['s2']);
+ assert.equal(taskRetry.previousSameFailureCount,0);
+ const patch=(sliceId,changes)=>({scenes:[{sliceId,changes}]});
+ const badDest=join(dir,'bad-dest');
+ call(['retry-vmi',broken,save('protected.json',patch('s1',{reviews:[]})),badDest],false);
+ call(['retry-vmi',broken,save('locked.json',patch('s2',{perspectives:[]})),badDest],false);
+ call(['retry-vmi',broken,save('noop.json',patch('s2',{reviews:[]})),badDest],false);
+ // Repeated equivalent failure is surfaced, without bypassing verification.
+ const stillBroken=join(dir,'still-broken');
+ const retryBad=call(['retry-vmi',broken,save('still-broken.json',patch('s2',{scene:{...faulty.scenes[1].scene,title:'changed but still fails P3'}})),stillBroken]);
+ call(['run',stillBroken,'vmi-packet',retryBad.packetFile]);
+ assert.equal(call(['vmi-retry-task',stillBroken]).previousSameFailureCount,1);
+ const fixed=join(dir,'fixed');
+ const retryGood=call(['retry-vmi',broken,save('fix.json',patch('s2',{reviews:minimal.scenes[1].reviews})),fixed]);
+ assert.deepEqual(retryGood.changed,['s2']);assert.deepEqual(retryGood.preserved,['s1']);assert.deepEqual(retryGood.inherited,['production-plan','vmi-explore']);
+ const fixedInput=JSON.parse(readFileSync(retryGood.packetFile,'utf8'));
+ const expected=bindScenes('vmi-packet',minimal,selected,exploration);
+ assert.deepEqual(fixedInput,expected);
+ call(['run',fixed,'vmi-packet',retryGood.packetFile]);assert.equal(call(['verify-vmi',fixed]).previewAvailable,true);
+ const fixedOutput=JSON.parse(readFileSync(join(fixed,'vmi-packet','output.json'),'utf8'));
+ assert.deepEqual(fixedOutput,result);
+ assert.deepEqual(call(['vmi-retry-task',fixed]).repairable,[]);
+ call(['retry-vmi',fixed,save('already-good.json',patch('s2',{reviews:[]})),badDest],false);
  const retry=join(dir,'retry');call(['retry',run,'vmi-explore',retry]);assert.equal(call(['status',retry]).next,'vmi-explore');
  const plain=join(dir,'plain');call(['retry',run,'production-plan',plain]);
  const revised=structuredClone(plan);revised.opportunities.slices.forEach(s=>{s.mechanism='reviewed';s.selectedFamily='bar';s.rationale='synthetic plain alternative preferred'});

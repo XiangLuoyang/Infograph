@@ -18,3 +18,18 @@ test('diamond exposes graph-layer alternatives; cycles never use layered layout'
 test('graph families preserve determinism, focal hierarchy and canvas bounds',()=>{const {scene,m}=graphFixture(['a','b','focus','c','d'],[['a','focus'],['b','focus'],['focus','c'],['focus','d']],'focus');const p=proposeSceneComposition(scene,m);assert.deepEqual(p,proposeSceneComposition(scene,m));for(const candidate of p.candidates.filter(x=>x.status==='feasible'&&(x.id.includes('hub')||x.id.includes('layered')))){for(const [k,W,H] of [['desktop',800,440],['mobile',360,620]]){const boxes=candidate[k].boxes;for(const [id,[x,y,w,h]] of Object.entries(boxes)){assert.ok(x>=0&&y>=0&&x+w<=W&&y+h+24<=H);if(id!=='focus')assert.ok(boxes.focus[2]>w)}}}});
 
 test('label-aware paths selected and persisted in candidate',()=>{const {scene,m}=graphFixture(['source','a','b','c','d'],[['source','a'],['source','b'],['source','c'],['source','d']],'source');const p=applySceneComposition(scene,m,{source:'核心机制',a:'分支甲',b:'分支乙',c:'分支丙',d:'分支丁'}).manifest;const best=p.candidates.find(x=>x.id===p.selectedId);for(const k of ['desktop','mobile']){assert.equal(best.symbolic[k].length,4);assert.ok(best.symbolic[k].every(r=>r.points.length>=2&&r.d.startsWith('M')));assert.ok(Number.isFinite(best[k].metrics.sharedLength))}});
+
+test('run-013 failure class: manual mobile overflow names object and auto composition recovers',()=>{
+ const packet=json('../benchmark/studio-packet.json'),objects=json('../ontology/objects.json'),ontology=json('../ontology/mechanisms.json');
+ const original=evaluatePacket(packet,objects,ontology);assert.ok(original.html,original.issues.join(';'));
+ const p=structuredClone(packet);const id=p.scene.objects[0].id;p.scene.objects[0].mobile=[0,580,100,100];
+ const blocked=evaluatePacket(p,objects,ontology);assert.equal(blocked.html,null);
+ assert.ok(blocked.issues.some(x=>x.includes('invalid mobile box')&&x.includes('id='+id)&&x.includes('y+h<=592')&&x.includes('scene.composition')));
+ delete p.scene.waypoints;
+ for(const o of p.scene.objects){delete o.desktop;delete o.mobile}
+ p.scene.composition={version:1,mode:'auto',focalObject:'b',intent:'synthetic focus',ref:'synthetic'};
+ const repaired=evaluatePacket(p,objects,ontology);
+ assert.ok(repaired.html,repaired.issues.join(';'));
+ assert.deepEqual(repaired.plans[0].semantic,original.plans[0].semantic);
+ assert.ok(repaired.plans[0].scene.objects.every(o=>o.mobile[1]+o.mobile[3]<=592));
+});

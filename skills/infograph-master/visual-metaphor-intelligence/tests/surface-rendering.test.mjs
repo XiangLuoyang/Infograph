@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {geometryLibrary,geometryTemplate} from '../engine/physical-geometry.mjs';
 import {surfaceGradient} from '../engine/surface-rendering.mjs';
 const lib=geometryLibrary();
-assert.equal(lib.length,3);
+assert.deepEqual(lib.map(t=>t.kind).sort(),['dial-indicator','handwheel-valve','manifold-four','reservoir','rotor','tank','valve']);
 for(const t of lib){
  assert.ok(t.shapes.length>=8);
  assert.ok(t.parts.every(([i,m])=>t.shapes[i]&&typeof m==='string'));

@@ -1,0 +1,31 @@
+name: Dynamic binding regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [p0-vmi-integration-regression, p0-vmi-runtime-gates]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  dynamic-binding:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: New P0 engine regression suites
+        run: |
+          node --test skills/infograph-master/engine/vmi-runtime-qa.test.mjs skills/infograph-master/engine/vmi-capability-activation.test.mjs skills/infograph-master/engine/vmi-capability-advisor.test.mjs
+          node --test scripts/execution-integration-context.test.mjs scripts/execution-design-inheritance.test.mjs
+          node --test skills/infograph-master/visual-metaphor-intelligence/engine/physical-geometry-production.test.mjs skills/infograph-master/visual-metaphor-intelligence/engine/physical-topology.test.mjs skills/infograph-master/visual-metaphor-intelligence/engine/scene-composition.test.mjs
+      - name: Install browser test dependency
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Compile and browser regression
+        run: |
+          node --test skills/infograph-master/visual-metaphor-intelligence/engine/dynamic-binding-pipeline.test.mjs
+          node --test skills/infograph-master/visual-metaphor-intelligence/engine/dynamic-binding-browser.test.mjs

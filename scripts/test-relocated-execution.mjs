@@ -12,9 +12,19 @@ try{
  run(copied,['scripts/audit-skill-discovery.mjs','.']);
  const env=JSON.parse(run(copied,['scripts/infograph.mjs','preflight']));
  assert.equal(env.status,'available');assert.equal(env.revision,manifest.revision);
- for(const test of ['execution','production','specialists','authoring','vmi-batch','delivery']){
+ for(const test of ['execution','production','specialists','authoring','vmi-batch','delivery','integration']){
   console.log(run(copied,['scripts/test-infograph-'+test+'.mjs']).trim());
  }
+ for(const name of ['vmi-runtime-qa','vmi-capability-activation','vmi-capability-advisor'])console.log(run(copied,['--test','skills/infograph-master/engine/'+name+'.test.mjs']).trim());
+ for(const name of ['physical-geometry-production','physical-topology','scene-composition','dynamic-binding-pipeline'])console.log(run(copied,['--test','skills/infograph-master/visual-metaphor-intelligence/engine/'+name+'.test.mjs']).trim());
+ console.log(run(copied,['scripts/extract-vmi-shared-scene.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/engine/business-semantic-qa.test.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/engine/runtime-semantic-probes.test.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/engine/composition-candidates.test.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/engine/art-direction-production.test.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/visual-metaphor-intelligence/tests/scene.test.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/visual-metaphor-intelligence/tests/surface-rendering.test.mjs']).trim());
+ console.log(run(copied,['skills/infograph-master/engine/test-global-spatial-composition.mjs']).trim());
  run(copied,['scripts/verify-portable-skill.mjs','.']);
  console.log('Portable execution candidate verified after relocation; browser dependency not installed or tested here');
 }finally{rmSync(temp,{recursive:true,force:true})}

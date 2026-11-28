@@ -4,11 +4,19 @@ import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-import {evaluateSceneBatch,hasVmiPreview} from './execution-vmi.mjs';
+import {evaluateSceneBatch,hasVmiPreview,vmiRetryStatus,prepareVmiRetry,prepareVmiFallback} from './execution-vmi.mjs';
 import {checkDelivery,prepareHandoff,verifyHandoff} from './execution-delivery.mjs';
 import {critiqueTask,submitCritique,critiqueStatus} from './execution-critique.mjs';
+import {dispatchReviewer} from './execution-reviewer.mjs';
+import {integrationContract,integrationTask,assembleArtifact} from './execution-integration.mjs';
+import {geometryTemplate,geometryLibrary} from '../skills/infograph-master/visual-metaphor-intelligence/engine/physical-geometry.mjs';
+import {proposeCompositions,compositionPreview} from '../skills/infograph-master/engine/composition-candidates.mjs';
+import {compileArtDirections,selectArtDirection,artDirectionCSS,artDirectionPreview} from '../skills/infograph-master/engine/art-direction-production.mjs';
+import {semanticTask,submitSemantic,semanticStatus} from './execution-semantic.mjs';
 import {bindArtifact,browserReview,artifactStatus} from './execution-artifact.mjs';
 import {authoringTask,hydrateInput} from './execution-authoring.mjs';
+import {constructVmiPacket} from '../skills/infograph-master/engine/vmi-authoring.mjs';
+import {lintVmiPacket} from '../skills/infograph-master/engine/vmi-lint.mjs';
 import {productionStages,productionEngines,dependencies,additionalDependencies,checkDependencies,evaluateProduction,productionStatus} from './execution-controller.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
@@ -25,7 +33,7 @@ const stageNames=['reconstruction-prepare','reconstruction-plan','production-pla
 const rules=()=>json(join(root,'skills/infograph-master/references/execution-gates.json'));
 const engineNames={'vmi-explore':'exploration.mjs','vmi-packet':'pipeline.mjs',...productionEngines};
 function fingerprints(){
- const paths=['skills/infograph-master/SKILL.md','skills/visual-metaphor-intelligence/SKILL.md','skills/narrative-design/SKILL.md','docs/EXECUTION-ARCHITECTURE.md','scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','skills/manifest.json'];
+ const paths=['skills/infograph-master/SKILL.md','skills/visual-metaphor-intelligence/SKILL.md','skills/narrative-design/SKILL.md','docs/EXECUTION-ARCHITECTURE.md','scripts/infograph.mjs','scripts/execution-controller.mjs','scripts/execution-specialists.mjs','scripts/execution-authoring.mjs','scripts/execution-vmi.mjs','scripts/execution-artifact.mjs','scripts/execution-critique.mjs','scripts/execution-delivery.mjs','scripts/execution-semantic.mjs','scripts/execution-reviewer.mjs','scripts/execution-integration.mjs','skills/manifest.json'];
  for(const sub of ['engine','references'])for(const name of readdirSync(join(root,'skills/infograph-master',sub)).sort())if(/\.(mjs|json|md)$/.test(name))paths.push('skills/infograph-master/'+sub+'/'+name);
  for(const sub of ['engine','ontology']){
   for(const name of readdirSync(join(vmi,sub)).sort()){
@@ -55,7 +63,7 @@ async function preflight(){
 async function evaluate(stage,input,run,prior){
  if(productionStages.includes(stage))return evaluateProduction(stage,input,run,prior);
  const objects=json(join(vmi,'ontology/objects.json')),ontology=json(join(vmi,'ontology/mechanisms.json'));
- if(run.workflow==='production')return evaluateSceneBatch(stage,input,prior['production-plan'].output.selectedMechanisms,objects,ontology);
+ if(run.workflow==='production')return evaluateSceneBatch(stage,input,prior['production-plan'].output.selectedMechanisms,objects,ontology,{art:prior['production-plan'].output.artDirection});
  if(stage==='vmi-explore'){
   assert(Array.isArray(input.perspectives)&&input.perspectives.length>0&&input.perspectives.length<=8,'supply 1–8 authored perspectives');
   const {explorePerspectives}=await import('../skills/infograph-master/visual-metaphor-intelligence/engine/exploration.mjs');
@@ -79,6 +87,8 @@ async function checkStage(dir,stage,run){
  const sd=join(dir,stage),r=json(join(sd,'receipt.json')),input=read(join(sd,'input.json')),output=read(join(sd,'output.json'));
  assert(r.schema===1&&r.stage===stage&&r.engine===engineNames[stage]&&r.status==='executed'&&r.sourceSha256===run.source.sha256,'invalid stage receipt');
  assert(hash(input)===r.inputSha256&&hash(output)===r.outputSha256,'stage bytes changed');
+ if(stage==='vmi-packet'&&run.vmiRetry?.inputSha256)assert(r.inputSha256===run.vmiRetry.inputSha256,'scoped retry input changed; use the generated retry packet');
+ if(run.vmiFallback?.inputs?.[stage])assert(r.inputSha256===run.vmiFallback.inputs[stage],'fallback input changed; use generated stage input');
  let parsed=JSON.parse(input.toString('utf8'));
  if(stage==='vmi-packet'&&run.workflow!=='production'){
   const prior=await checkStage(dir,'vmi-explore',run);
@@ -102,6 +112,8 @@ async function runStage(dir,stage,inputPath){
  writeFileSync(join(sd,'input.json'),input,{flag:'wx'});
  const receipt={schema:1,stage,engine:engineNames[stage],sourceSha256:run.source.sha256,inputSha256:hash(input),status:'blocked',releaseAuthorized:false};
  try{
+  if(stage==='vmi-packet'&&run.vmiRetry?.inputSha256)assert(hash(input)===run.vmiRetry.inputSha256,'scoped retry input changed; use the generated retry packet');
+  if(run.vmiFallback?.inputs?.[stage])assert(hash(input)===run.vmiFallback.inputs[stage],'fallback input changed; use generated stage input');
   let parsed=JSON.parse(input.toString('utf8'));
   if(stage==='vmi-packet'&&run.workflow!=='production'){
    const prior=await checkStage(dir,'vmi-explore',run);
@@ -131,7 +143,7 @@ async function collectPrior(dir,stage,run){
  for(const dep of additionalDependencies(stage,run,prior))prior[dep]=await checkStage(dir,dep,run);
  return prior;
 }
-async function forkRun(dir,stage,dest){
+async function forkRun(dir,stage,dest,{quiet=false,vmiRetry=null,vmiFallback=null}={}){
  const run=await context(dir);
  assert(run.workflow==='production','retry only for production');
  assert(stageNames.includes(stage),'unknown retry stage');
@@ -151,11 +163,27 @@ async function forkRun(dir,stage,dest){
  assert(!existsSync(dest),'retry destination already exists');
  mkdirSync(dest);
  const record={...run,parentRun:{path:realpathSync(dir),retryStage:stage,inherited:[...copied],sourceSha256:run.source.sha256}};
+ if(stage==='production-plan')delete record.vmiFallback;
+ if(vmiFallback)record.vmiFallback=vmiFallback;
+ else if(record.vmiFallback){record.vmiFallback={...record.vmiFallback,inputs:Object.fromEntries(Object.entries(record.vmiFallback.inputs??{}).filter(([key])=>copied.has(key)))};}
+ if(stage!=='vmi-packet')delete record.vmiRetry;
+ else if(vmiRetry)record.vmiRetry=vmiRetry;
+ else if(record.vmiRetry)record.vmiRetry={history:record.vmiRetry.history??[]};
  write(join(dest,'run.json'),record);
  for(const s of copied)cpSync(join(dir,s),join(dest,s),{recursive:true,errorOnExist:true,force:false});
  for(const s of copied)await checkStage(dest,s,record);
  const result={status:'forked',runDir:dest,retryStage:stage,inherited:[...copied],invalidated:stageNames.filter(s=>existsSync(join(dir,s))&&!copied.has(s)),releaseAuthorized:false};
- console.log(JSON.stringify(result,null,2));
+ if(!quiet)console.log(JSON.stringify(result,null,2));
+ return result;
+}
+async function retryContext(dir){
+ const run=await context(dir);assert(run.workflow==='production','VMI retry requires production workflow');
+ const plan=await checkStage(dir,'production-plan',run),packet=await checkStage(dir,'vmi-packet',run);
+ const selected=plan.output.selectedMechanisms,status=vmiRetryStatus(packet.input,packet.output,selected);
+ const signature=hash(Buffer.from(status.signature));
+ const history=Array.isArray(run.vmiRetry?.history)?run.vmiRetry.history.slice(-8):[];
+ const repeated=history.filter(h=>h.signature===signature).length;
+ return {run,packet,selected,status,signature,history,repeated};
 }
 async function verifiedDesign(dir){
  const run=await context(dir),stages={},fingerprints={};
@@ -163,7 +191,7 @@ async function verifiedDesign(dir){
  for(const stage of stageNames)if(existsSync(join(dir,stage))){const v=await checkStage(dir,stage,run);stages[stage]=v.output;fingerprints[stage]=v.receipt.outputSha256}
  const status=productionStatus(run,stages);
  assert(status.buildEligible===true,'pre-build eligibility required');
- return {status,stages:fingerprints,sourceSha256:run.source.sha256,inventory:stages['production-plan'].specialists.inventory,revision:stages['production-plan'].revision};
+ return {status,stages:fingerprints,sourceSha256:run.source.sha256,inventory:stages['production-plan'].specialists.inventory,revision:stages['production-plan'].revision,...(stages['production-plan'].fallbacks?.length?{fallbacks:stages['production-plan'].fallbacks}:{}),integration:integrationContract(stages)};
 }
 async function forkArtifact(dir,dest){
  const design=await verifiedDesign(dir),run=await context(dir),browser=artifactStatus(dir,design);
@@ -178,10 +206,47 @@ async function forkArtifact(dir,dest){
  write(join(dest,'run.json'),record);
  for(const stage of inherited)cpSync(join(dir,stage),join(dest,stage),{recursive:true,errorOnExist:true,force:false});
  await verifiedDesign(dest);
- console.log(JSON.stringify({status:'artifact-forked',runDir:dest,inherited,attempt,invalidated:['artifact','browser','critique'],releaseAuthorized:false},null,2));
+ console.log(JSON.stringify({status:'artifact-forked',runDir:dest,inherited,attempt,invalidated:['artifact','browser','critique','semantic','reviewer-dispatch'],releaseAuthorized:false},null,2));
 }
 async function main(){
  const [cmd,...args]=process.argv.slice(2);
+ if(cmd==='vmi-lint'&&(args.length===1||args.length===2)){
+  const result=lintVmiPacket(json(resolve(args[0])),{apply:args.length===2});
+  if(args.length===2&&result.report.status==='checked'){
+   const file=resolve(args[1]);assert(/\.json$/i.test(file),'vmi-lint requires a new JSON output');
+   write(file,result.packet);result.report.file=file;
+  }
+  console.log(JSON.stringify(result.report,null,2));if(result.report.status==='blocked')process.exitCode=1;return;
+ }
+ if(cmd==='vmi-author'&&args.length===2){
+  const file=resolve(args[1]);assert(/\.json$/i.test(file),'vmi-author requires a new JSON output');
+  const packet=constructVmiPacket(json(resolve(args[0])));
+  write(file,packet);
+  console.log(JSON.stringify({status:'packet-constructed',file,compiled:false,releaseAuthorized:false},null,2));return;
+ }
+ if(cmd==='vmi-geometry'&&args.length<=1){
+  console.log(JSON.stringify(args.length?geometryTemplate(args[0]):geometryLibrary(),null,2));return;
+ }
+ if(['art-direction-propose','art-direction-preview','art-direction-css'].includes(cmd)){
+  assert(args.length===(cmd==='art-direction-propose'?1:cmd==='art-direction-preview'?2:4),'invalid art-direction command arguments');
+  const plan=compileArtDirections(json(resolve(args[0])),json(join(root,'skills/infograph-master/engine/art-directions.json')),json(join(root,'skills/infograph-master/engine/styles.json')));
+  if(cmd==='art-direction-propose'){console.log(JSON.stringify(plan,null,2));return}
+  if(cmd==='art-direction-preview'){
+   const file=resolve(args[1]);assert(/\.html?$/i.test(file),'preview requires HTML output');
+   writeFileSync(file,artDirectionPreview(plan),{flag:'wx'});console.log(JSON.stringify({status:'art-direction-preview-written',file,renderedDashboard:false,releaseAuthorized:false},null,2));return;
+  }
+  const file=resolve(args[3]);assert(/\.css$/i.test(file),'CSS output required');
+  const selected=selectArtDirection(plan,args[1],args[2]);writeFileSync(file,artDirectionCSS(selected),{flag:'wx'});
+  console.log(JSON.stringify({status:'art-direction-css-written',file,selected,releaseAuthorized:false},null,2));return;
+ }
+ if(cmd==='composition-preview'&&args.length===2){
+  const file=resolve(args[1]);assert(/\.html?$/i.test(file),'preview requires HTML output');
+  writeFileSync(file,compositionPreview(json(resolve(args[0]))),{flag:'wx'});
+  console.log(JSON.stringify({status:'wireframe-preview-written',file,renderedDashboard:false,releaseAuthorized:false},null,2));return;
+ }
+ if(cmd==='composition-propose'&&args.length===1){
+  const result=proposeCompositions(json(resolve(args[0])));console.log(JSON.stringify(result,null,2));return;
+ }
  if(cmd==='preflight'&&!args.length){
   const result=await preflight();console.log(JSON.stringify(result,null,2));if(result.status!=='available')process.exitCode=1;return;
  }
@@ -201,7 +266,40 @@ async function main(){
   const result=authoringTask(stage,run,prior,rules(),previous);
   console.log(JSON.stringify(result,null,2));return;
  }
+ if(cmd==='vmi-retry-task'&&args.length===1){
+  const r=await retryContext(resolve(args[0]));
+  const {signature,...status}=r.status;
+  console.log(JSON.stringify({...status,signature:r.signature,previousSameFailureCount:r.repeated,advisory:r.repeated>=2?'Repeated failure: change repair strategy or revisit representation; do not blindly resubmit.':null,patchTemplate:{scenes:status.repairable.map(sliceId=>({sliceId,changes:{}}))},releaseAuthorized:false},null,2));return;
+ }
+ if(cmd==='fallback-vmi'&&args.length===3){
+  const dir=resolve(args[0]),dest=resolve(args[2]),r=await retryContext(dir);
+  const priorPlan=await checkStage(dir,'production-plan',r.run),explore=await checkStage(dir,'vmi-explore',r.run);
+  const result=prepareVmiFallback(priorPlan.input,explore.input,r.packet.input,r.packet.output,r.selected,json(resolve(args[1])));
+  const inputs={'production-plan':result.plan,...(result.explore?{'vmi-explore':result.explore,'vmi-packet':result.packet}:{})};
+  const pinned=Object.fromEntries(Object.entries(inputs).map(([stage,value])=>[stage,hash(encode(value))]));
+  const fork=await forkRun(dir,'production-plan',dest,{quiet:true,vmiFallback:{inputs:pinned,parentPacketSha256:r.packet.receipt.outputSha256,replacements:result.replacements}});
+  const files=Object.fromEntries(Object.entries(inputs).map(([stage,value])=>{const file=join(dest,'fallback-'+stage+'.json');write(file,value);return [stage,file]}));
+  console.log(JSON.stringify({...fork,files,retained:result.retained,replacements:result.replacements,compiled:false,releaseAuthorized:false},null,2));return;
+ }
+ if(cmd==='retry-vmi'&&args.length===3){
+  const dir=resolve(args[0]),dest=resolve(args[2]),r=await retryContext(dir);
+  const plan=prepareVmiRetry(r.packet.input,r.packet.output,r.selected,json(resolve(args[1])));
+  const history=[...r.history,{signature:r.signature,changed:plan.changed}].slice(-8);
+  const fork=await forkRun(dir,'vmi-packet',dest,{quiet:true,vmiRetry:{history,changed:plan.changed,preserved:plan.preserved,inputSha256:hash(encode(plan.packet))}});
+  const file=join(dest,'retry-input.json');write(file,plan.packet);
+  console.log(JSON.stringify({...fork,packetFile:file,changed:plan.changed,preserved:plan.preserved,remaining:plan.remaining,previousSameFailureCount:r.repeated,compiled:false,releaseAuthorized:false},null,2));return;
+ }
  if(cmd==='retry'&&args.length===3){await forkRun(resolve(args[0]),args[1],resolve(args[2]));return}
+ if(cmd==='integration-task'&&args.length===1){
+  const design=await verifiedDesign(resolve(args[0]));
+  console.log(JSON.stringify(integrationTask(design.integration),null,2));return;
+ }
+ if(cmd==='assemble-artifact'&&args.length===3){
+  const design=await verifiedDesign(resolve(args[0])),template=read(resolve(args[1])).toString('utf8'),file=resolve(args[2]);
+  assert(/\.html?$/i.test(file),'assembled output must be HTML');
+  writeFileSync(file,assembleArtifact(template,design.integration),{flag:'wx'});
+  console.log(JSON.stringify({...integrationTask(design.integration),status:'engine-fragments-assembled',file,releaseAuthorized:false},null,2));return;
+ }
  if(cmd==='bind-artifact'&&args.length===3){
   const dir=resolve(args[0]),design=await verifiedDesign(dir);
   const r=bindArtifact(dir,args[1],args[2],design);console.log(JSON.stringify(r,null,2));return;
@@ -213,6 +311,19 @@ async function main(){
  if(cmd==='artifact-status'&&args.length===1){
   const dir=resolve(args[0]),design=await verifiedDesign(dir),r=artifactStatus(dir,design);
   console.log(JSON.stringify(r,null,2));if(r.status!=='browser-observed-pass')process.exitCode=1;return;
+ }
+ if(cmd==='semantic-task'&&args.length===1){
+  const dir=resolve(args[0]);console.log(JSON.stringify(semanticTask(dir,await verifiedDesign(dir)),null,2));return;
+ }
+ if(cmd==='semantic-submit'&&args.length===2){
+  const dir=resolve(args[0]),r=submitSemantic(dir,await verifiedDesign(dir),resolve(args[1]));console.log(JSON.stringify(r,null,2));if(r.status!=='declared-semantic-checks-pass')process.exitCode=1;return;
+ }
+ if(cmd==='semantic-status'&&args.length===1){
+  const dir=resolve(args[0]),r=semanticStatus(dir,await verifiedDesign(dir));console.log(JSON.stringify(r,null,2));if(r.status!=='declared-semantic-checks-pass')process.exitCode=1;return;
+ }
+ if(cmd==='reviewer-run'&&args.length===3&&args[0]==='--trusted-adapter'){
+  const dir=resolve(args[1]),r=dispatchReviewer(dir,await verifiedDesign(dir),args[2],{trusted:true});
+  console.log(JSON.stringify(r,null,2));if(r.status!=='review-dispatched'||r.critique.status!=='declared-design-review-complete')process.exitCode=1;return;
  }
  if(cmd==='critique-task'&&args.length===1){
   const dir=resolve(args[0]);console.log(JSON.stringify(critiqueTask(dir,await verifiedDesign(dir)),null,2));return;
@@ -244,6 +355,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
+ throw Error('usage: fallback-vmi <run-dir> <spec.json> <new-run-dir> | vmi-retry-task <run-dir> | retry-vmi <run-dir> <patch.json> <new-run-dir> | vmi-lint <packet.json> [new-packet.json] | vmi-author <draft.json> <new-packet.json> | integration-task <run-dir> | assemble-artifact <run-dir> <template.html> <new.html> | vmi-geometry [rotor|reservoir|valve|tank|handwheel-valve|manifold-four|dial-indicator] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

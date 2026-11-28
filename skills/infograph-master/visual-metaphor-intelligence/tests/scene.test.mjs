@@ -26,3 +26,22 @@ function test(check,api,input,styles){
 }
 test((ok,msg)=>assert.ok(ok,msg),api,input,styles);
 console.log("23 VMI scene assertions passed");
+
+const rich=structuredClone(scene);
+rich.surfaceRendering={version:1,rationale:'synthetic material and qualitative pose test',parts:rich.objects.flatMap(o=>o.shapes.map((s,i)=>s.fill==='metal'?{objectId:o.id,shapeIndex:i,material:'brushed-metal',encoding:'decorative-only',ref:'synthetic fixture'}:null).filter(Boolean)),motions:[{objectId:'s',shapeIndex:4,kind:'rotation',encoding:'qualitative',pivot:[50,50],angles:{normal:0,relief:-70},ref:'illustrative transition only'}]};
+const richPlan=api.compileScene({...input,scene:rich,style:styles[0]});
+const richHTML=api.renderSceneHTML([richPlan,api.compileScene({...input,scene:rich,style:styles[1]})]);
+assert.match(richHTML,/linearGradient id="vmi-material-desktop-/);
+assert.match(richHTML,/linearGradient id="vmi-material-mobile-/);
+assert.match(richHTML,/data-motion-object="s" data-motion-index="4" transform="rotate\(0 50 50\)"/);
+assert.deepEqual(richPlan.semantic,api.compileScene({...input,style:styles[0]}).semantic);
+const bad=fn=>{const sc=structuredClone(rich);fn(sc.surfaceRendering);assert.throws(()=>api.compileScene({...input,scene:sc,style:styles[0]}))};
+bad(c=>c.parts[0].encoding='quantitative');
+bad(c=>c.parts[0].material='unknown');
+bad(c=>c.parts[0].shapeIndex=999);
+bad(c=>c.parts.push(c.parts[0]));
+bad(c=>c.motions[0].objectId='b');
+bad(c=>delete c.motions[0].angles.relief);
+bad(c=>c.motions[0].encoding='calibrated');
+bad(c=>c.motions[0].pivot=[-1,0]);
+console.log('VMI surface rendering: 12 integration assertions passed');

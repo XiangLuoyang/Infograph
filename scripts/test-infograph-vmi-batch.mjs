@@ -55,6 +55,10 @@ try{
  const retryBad=call(['retry-vmi',broken,save('still-broken.json',patch('s2',{scene:{...faulty.scenes[1].scene,title:'changed but still fails P3'}})),stillBroken]);
  call(['run',stillBroken,'vmi-packet',retryBad.packetFile]);
  assert.equal(call(['vmi-retry-task',stillBroken]).previousSameFailureCount,1);
+ const pinned=join(dir,'pinned');
+ call(['retry-vmi',broken,save('pin-patch.json',patch('s2',{reviews:minimal.scenes[1].reviews})),pinned]);
+ const mismatch=call(['run',pinned,'vmi-packet',save('different-packet.json',minimal)],false);
+ assert.equal(mismatch.status,'blocked');assert.match(mismatch.error,/scoped retry input changed/);
  const fixed=join(dir,'fixed');
  const retryGood=call(['retry-vmi',broken,save('fix.json',patch('s2',{reviews:minimal.scenes[1].reviews})),fixed]);
  assert.deepEqual(retryGood.changed,['s2']);assert.deepEqual(retryGood.preserved,['s1']);assert.deepEqual(retryGood.inherited,['production-plan','vmi-explore']);

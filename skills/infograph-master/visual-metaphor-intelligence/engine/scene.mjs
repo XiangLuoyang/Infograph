@@ -27,7 +27,8 @@ export function compileScene({target,concept,review,objects,ontology,style,scene
  if(concept.panels.length!==1||!["direct","transform","substitute","combine"].includes(concept.operation))throw Error("unsupported scene scope: route to reference reconstruction or specialist");
  scene=compilePhysicalGeometry(scene,concept,objects);
  const mappings=concept.bindings.map(b=>({id:b.targetEdge,from:b.fromObject,to:b.toObject,relation:target.edges.find(e=>e.id===b.targetEdge).predicate,meaning:b.interpretation,sourceId:b.sourceId,sourceEdge:b.sourceEdge}));
- const composition=applySceneComposition(scene,mappings);
+ const nodeLabels=new Map(target.nodes.map(n=>[n.id,n.label]));
+ const composition=applySceneComposition(scene,mappings,Object.fromEntries(concept.sceneObjects.map(o=>[o.id,nodeLabels.get(o.targetNode)])));
  scene=composition.scene;
  if(!Array.isArray(scene.layers)||!scene.layers.length||new Set(scene.layers.map(l=>l.id)).size!==scene.layers.length)throw Error("scene layers required");
  const supported=scene.layers.every(l=>l.renderer==="svg"&&l.essential===true);
@@ -81,6 +82,8 @@ export function renderSceneHTML(plans){
   const connections=sem.mappings.map(m=>{
    const pipe=first.topology?.find(t=>t.edgeId===m.id);
    if(pipe){const route=pipe.routes[k];return `<g data-edge="${e(m.id)}" data-pipe="true" data-from-port="${e(pipe.fromPort)}" data-to-port="${e(pipe.toPort)}"><path data-pipe-path="true" class="pipe-body" d="${e(route.d)}"/><path class="pipe-core" d="${e(route.d)}"/><path class="pipe-direction" d="${e(route.arrow)}" marker-end="url(#arrow-${k})"/></g>`}
+   const compiled=first.compositionManifest?.candidates.find(x=>x.id===first.compositionManifest.selectedId)?.symbolic?.[k]?.find(x=>x.id===m.id);
+   if(compiled)return `<path class="link" data-edge="${e(m.id)}" data-symbolic-route="true" d="${e(compiled.d)}" marker-end="url(#arrow-${k})"/>`;
    const a=loc.get(m.from),b=loc.get(m.to),ax=a[0]+a[2]/2,ay=a[1]+a[3]/2,bx=b[0]+b[2]/2,by=b[1]+b[3]/2,dx=bx-ax,dy=by-ay;
    const pts=c.waypoints?.[k]?.[m.id]??[],q=pts[0]??[bx,by],z=pts.at(-1)??[ax,ay];const ray=(x,y,box,other,pad)=>{const vx=other[0]-x,vy=other[1]-y,scale=1/Math.max(Math.abs(vx)/(box[2]/2+pad),Math.abs(vy)/(box[3]/2+pad));if(!Number.isFinite(scale))throw Error("degenerate connector");return [x+vx*scale,y+vy*scale]};const points=[ray(ax,ay,a,q,7),...pts,ray(bx,by,b,z,9)];
    return `<path class="link" data-edge="${e(m.id)}" d="${points.map((q,i)=>(i?"L":"M")+q.join(" ")).join(" ")}" marker-end="url(#arrow-${k})"/>`}).join("");

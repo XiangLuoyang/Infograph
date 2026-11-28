@@ -34,5 +34,31 @@ export function compileDynamicBindings(spec,scene){
   bindingIds.add(b.id);targets.add(key)
  }
  const initial=evaluateBindings(spec);
- return {spec,initial,scope:'bounded numeric illustration; no physical simulation or formula correctness certification'};
+ const domainVerification=verifyBindingDomain(spec);
+ return {spec,initial,domainVerification,scope:'bounded numeric illustration; no physical simulation or formula correctness certification'};
+}
+
+// Conservative interval proof over the entire declared input box, not just sampled corners.
+export function verifyBindingDomain(spec){
+ const env=Object.create(null);
+ const bounded=(lo,hi)=>{if(!Number.isFinite(lo)||!Number.isFinite(hi))throw Error('unbounded formula interval');return [lo,hi]};
+ for(const i of spec.inputs)env[i.id]=[i.min,i.max];
+ function interval(x,depth=0){
+  if(depth>12)throw Error('expression depth');
+  if(typeof x==='number')return bounded(x,x);
+  if(Object.hasOwn(x,'ref')){if(!Object.hasOwn(env,x.ref))throw Error('unknown interval reference');return env[x.ref]}
+  const [[a,b],[c,d]]=x.args.map(v=>interval(v,depth+1));
+  switch(x.op){
+   case 'add':return bounded(a+c,b+d);
+   case 'sub':return bounded(a-d,b-c);
+   case 'mul':{const p=[a*c,a*d,b*c,b*d];return bounded(Math.min(...p),Math.max(...p))}
+   case 'div':{if(c<=0&&d>=0)throw Error('possible division by zero in input domain');const p=[a/c,a/d,b/c,b/d];return bounded(Math.min(...p),Math.max(...p))}
+   case 'min':return bounded(Math.min(a,c),Math.min(b,d));
+   case 'max':return bounded(Math.max(a,c),Math.max(b,d));
+   default:throw Error('unsupported interval operation')
+  }
+ }
+ for(const d of spec.derived)env[d.id]=interval(d.expr);
+ for(const b of spec.bindings){const [lo,hi]=env[b.source];if(lo<b.domain[0]||hi>b.domain[1])throw Error('possible binding domain violation: '+b.id)}
+ return {method:'conservative-interval-v1',intervals:{...env}};
 }

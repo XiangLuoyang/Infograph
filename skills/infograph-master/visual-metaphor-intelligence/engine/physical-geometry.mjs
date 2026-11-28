@@ -770,6 +770,7 @@ export function geometryTemplate(kind){
 export function geometryLibrary(){return Object.keys(templates).map(geometryTemplate)}
 
 export function compilePhysicalGeometry(input,concept,corpus){
+ if(Object.hasOwn(input,'geometryManifest'))throw Error('geometryManifest is compiler-owned');
  if(!input.objects?.some(o=>o.geometry!==undefined))return input;
  const scene=JSON.parse(JSON.stringify(input)),parts=[],manifest=[],seen=new Set();
  for(const o of scene.objects){

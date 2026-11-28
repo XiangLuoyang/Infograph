@@ -20,7 +20,14 @@ const plan={revision:rev,purpose:'monitor',quality,opportunities:opp,execution};
 try{
  const run=join(dir,'create');call(['start-workflow','create',source,run]);
  assert.equal(call(['status',run]).next,'production-plan');
- call(['run',run,'production-plan',save('plan.json',plan)]);
+ const brief={purpose:'monitor',theme:'Synthetic capacity',readerTask:'Inspect constraints',density:'dense',evidenceRef:'fixture only'};
+ const briefFile=save('art-brief.json',brief);
+ const proposed=call(['art-direction-propose',briefFile]);assert.equal(proposed.candidates.length,3);
+ const preview=join(dir,'directions.html');call(['art-direction-preview',briefFile,preview]);assert.match(readFileSync(preview,'utf8'),/Art direction comparison/);
+ const css=join(dir,'direction.css');call(['art-direction-css',briefFile,'technical','fixture choice',css]);assert.match(readFileSync(css,'utf8'),/data-ig-art="technical"/);
+ call(['run',run,'production-plan',save('plan.json',{...plan,artDirection:{brief,selectedId:'technical',selectionReason:'fixture comparison'}})]);
+ const art=JSON.parse(readFileSync(join(run,'production-plan','output.json'),'utf8')).artDirection;
+ assert.equal(art.selected.id,'technical');assert.equal(art.css,readFileSync(css,'utf8'));
  assert.equal(call(['status',run]).status,'build-eligible');
  assert.equal(call(['status',run]).releaseAuthorized,false);
  const blocked=join(dir,'blocked');call(['start-workflow','create',source,blocked]);

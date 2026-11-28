@@ -29,3 +29,12 @@ function tests(atlas,spec,compileSpatialComposition,selectSpatialTier,spatialCSS
  return pass;
 }
 for(const name of tests(atlas,spec,compileSpatialComposition,selectSpatialTier,spatialCSS,auditSpatialReview))console.log('PASS',name);
+
+const generated=structuredClone(spec),slice=generated.slices[0];
+slice.composition={ref:'synthetic layout evidence',regions:[{id:'hero',priority:5,minWidth:320,minHeight:180,ref:'fixture'},{id:'facts',priority:3,minWidth:180,minHeight:120,ref:'fixture'}],pairs:[['hero','facts']]};
+for(const v of slice.variants){delete v.columns;delete v.rows;delete v.rowSizes;v.candidateId=v.id==='desktop'?'lead-split':'stack';}
+const gp=compileSpatialComposition(atlas,generated);
+if(!gp.planningReady||gp.layouts.find(l=>l.sliceId==='overview'&&l.tierId==='desktop').composition.selected!=='lead-split'||!spatialCSS(gp).includes('grid-template-columns:minmax(0,2fr) minmax(0,1fr)'))throw Error('generated composition did not compile to CSS');
+let bad=structuredClone(generated);bad.slices[0].variants[2].candidateId='balanced';let caught=false;try{compileSpatialComposition(atlas,bad)}catch{caught=true}if(!caught)throw Error('mobile minimum width violation accepted');
+bad=structuredClone(generated);bad.slices[0].variants[0].columns=[1];caught=false;try{compileSpatialComposition(atlas,bad)}catch{caught=true}if(!caught)throw Error('candidate geometry override accepted');
+console.log('PASS generated composition selection, CSS and rejection paths');

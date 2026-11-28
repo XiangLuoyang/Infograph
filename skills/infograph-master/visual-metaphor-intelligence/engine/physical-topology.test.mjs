@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {compilePhysicalTopology} from './physical-topology.mjs';
+const obj=(id,kind,desktop,mobile)=>({id,geometry:{kind},desktop,mobile});
+const scene={objects:[obj('a','tank',[40,110,110,110],[30,20,100,100]),obj('b','handwheel-valve',[260,110,110,110],[195,180,100,100]),obj('c','manifold-four',[490,110,110,110],[30,340,100,100])],physicalTopology:{version:1,links:[{edgeId:'e1',kind:'pipe',fromPort:'out',toPort:'in',ref:'synthetic',reason:'illustrative'},{edgeId:'e2',kind:'pipe',fromPort:'out',toPort:'in',ref:'synthetic',reason:'illustrative'}]}};
+const mappings=[{id:'e1',from:'a',to:'b'},{id:'e2',from:'b',to:'c'}];
+test('ports connect to actual normalized SVG geometry in both layouts',()=>{const out=compilePhysicalTopology(scene,mappings);assert.equal(out.length,2);assert.deepEqual(out[0].routes.desktop.points[0],[146.7,184.25]);assert.deepEqual(out[0].routes.desktop.points.at(-1),[263.3,180.4]);assert.deepEqual(out[1].routes.mobile.points.at(-1),[36,390]);for(const r of out)for(const v of Object.values(r.routes)){assert.ok(v.d.startsWith('M'));assert.ok(v.points.slice(1).every((p,i)=>p[0]===v.points[i][0]||p[1]===v.points[i][1]))}});
+test('legacy symbolic edges unchanged',()=>assert.deepEqual(compilePhysicalTopology({objects:[]},[]),[]));
+test('invalid edge, port, evidence, repeated link, overlapping layout and diagonal route rejected',()=>{for(const mut of [s=>s.physicalTopology.links[0].fromPort='in',s=>s.physicalTopology.links[0].edgeId='unknown',s=>s.physicalTopology.links[0].ref='',s=>s.physicalTopology.links.push({...s.physicalTopology.links[0]}),s=>s.objects[1].desktop=[50,110,110,110],s=>s.physicalTopology.links[0].waypoints={desktop:[[200,200]]}]){const x=structuredClone(scene);mut(x);assert.throws(()=>compilePhysicalTopology(x,mappings))}});
+test('letterbox compensation',()=>{const x=structuredClone(scene);x.objects[0].desktop=[40,110,140,100];const r=compilePhysicalTopology(x,mappings);assert.deepEqual(r[0].routes.desktop.points[0],[157,177.5])});

@@ -87,6 +87,7 @@ async function checkStage(dir,stage,run){
  const sd=join(dir,stage),r=json(join(sd,'receipt.json')),input=read(join(sd,'input.json')),output=read(join(sd,'output.json'));
  assert(r.schema===1&&r.stage===stage&&r.engine===engineNames[stage]&&r.status==='executed'&&r.sourceSha256===run.source.sha256,'invalid stage receipt');
  assert(hash(input)===r.inputSha256&&hash(output)===r.outputSha256,'stage bytes changed');
+ if(stage==='vmi-packet'&&run.vmiRetry?.inputSha256)assert(r.inputSha256===run.vmiRetry.inputSha256,'scoped retry input changed; use the generated retry packet');
  let parsed=JSON.parse(input.toString('utf8'));
  if(stage==='vmi-packet'&&run.workflow!=='production'){
   const prior=await checkStage(dir,'vmi-explore',run);
@@ -110,6 +111,7 @@ async function runStage(dir,stage,inputPath){
  writeFileSync(join(sd,'input.json'),input,{flag:'wx'});
  const receipt={schema:1,stage,engine:engineNames[stage],sourceSha256:run.source.sha256,inputSha256:hash(input),status:'blocked',releaseAuthorized:false};
  try{
+  if(stage==='vmi-packet'&&run.vmiRetry?.inputSha256)assert(hash(input)===run.vmiRetry.inputSha256,'scoped retry input changed; use the generated retry packet');
   let parsed=JSON.parse(input.toString('utf8'));
   if(stage==='vmi-packet'&&run.workflow!=='production'){
    const prior=await checkStage(dir,'vmi-explore',run);
@@ -161,6 +163,7 @@ async function forkRun(dir,stage,dest,{quiet=false,vmiRetry=null}={}){
  const record={...run,parentRun:{path:realpathSync(dir),retryStage:stage,inherited:[...copied],sourceSha256:run.source.sha256}};
  if(stage!=='vmi-packet')delete record.vmiRetry;
  else if(vmiRetry)record.vmiRetry=vmiRetry;
+ else if(record.vmiRetry)record.vmiRetry={history:record.vmiRetry.history??[]};
  write(join(dest,'run.json'),record);
  for(const s of copied)cpSync(join(dir,s),join(dest,s),{recursive:true,errorOnExist:true,force:false});
  for(const s of copied)await checkStage(dest,s,record);
@@ -267,7 +270,7 @@ async function main(){
   const dir=resolve(args[0]),dest=resolve(args[2]),r=await retryContext(dir);
   const plan=prepareVmiRetry(r.packet.input,r.packet.output,r.selected,json(resolve(args[1])));
   const history=[...r.history,{signature:r.signature,changed:plan.changed}].slice(-8);
-  const fork=await forkRun(dir,'vmi-packet',dest,{quiet:true,vmiRetry:{history,changed:plan.changed,preserved:plan.preserved}});
+  const fork=await forkRun(dir,'vmi-packet',dest,{quiet:true,vmiRetry:{history,changed:plan.changed,preserved:plan.preserved,inputSha256:hash(encode(plan.packet))}});
   const file=join(dest,'retry-input.json');write(file,plan.packet);
   console.log(JSON.stringify({...fork,packetFile:file,changed:plan.changed,preserved:plan.preserved,remaining:plan.remaining,previousSameFailureCount:r.repeated,compiled:false,releaseAuthorized:false},null,2));return;
  }

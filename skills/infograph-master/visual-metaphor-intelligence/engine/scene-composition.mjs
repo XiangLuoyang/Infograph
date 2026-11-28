@@ -1,6 +1,6 @@
 // Candidate-based scene layout; structural preferences are not aesthetic or semantic scoring.
 import {compilePhysicalTopology} from "./physical-topology.mjs";
-import {routeSymbolicEdges} from "./symbolic-routing.mjs";
+import {routeSymbolicEdges,sharedSegmentLength} from "./symbolic-routing.mjs";
 export function proposeSceneComposition(scene,mappings,labels={}){
  const c=scene.composition;if(c===undefined)return null;
  const ok=(v,m)=>{if(!v)throw Error(m)},txt=x=>typeof x==='string'&&x.trim().length>0;
@@ -91,14 +91,14 @@ export function proposeSceneComposition(scene,mappings,labels={}){
   const physical=new Map(topology.map(t=>[t.edgeId,t.routes[k].points]));
   const symbolicById=new Map(symbolic.map(t=>[t.id,t.points]));
   const lines=mappings.map(m=>({m,physical:physical.has(m.id),segments:segments(physical.get(m.id)??symbolicById.get(m.id))}));
-  let crossings=0,obstructions=0,wireLength=0;
+  let crossings=0,obstructions=0,wireLength=0,sharedLength=0;
   for(const [i,line] of lines.entries()){
    wireLength+=line.segments.reduce((sum,s)=>sum+dist(s),0);
    if(!line.physical)for(const id of ids)if(id!==line.m.from&&id!==line.m.to&&line.segments.some(s=>hitsBox(s,boxes[id])))obstructions++;
-   for(const other of lines.slice(i+1))if(line.segments.some(s=>other.segments.some(t=>strictCross(s,t))))crossings++;
+   for(const other of lines.slice(i+1)){if(line.segments.some(s=>other.segments.some(t=>strictCross(s,t))))crossings++;for(const s of line.segments)for(const t of other.segments)sharedLength+=sharedSegmentLength(s,t)}
   }
   const area=ids.reduce((sum,id)=>sum+boxes[id][2]*boxes[id][3],0)/(dims[k][0]*dims[k][1]);
-  return {crossings,obstructions,wireLength:round(wireLength),objectAreaRatio:Math.round(area*10000)/10000};
+  return {crossings,obstructions,sharedLength:round(sharedLength),wireLength:round(wireLength),objectAreaRatio:Math.round(area*10000)/10000};
  };
  const candidates=[];
  for(const a of local.desktop)for(const b of local.mobile){
@@ -107,7 +107,7 @@ export function proposeSceneComposition(scene,mappings,labels={}){
   let topology,symbolic;try{topology=compilePhysicalTopology(positioned,mappings);symbolic={desktop:routeSymbolicEdges('desktop',a.boxes,mappings,topology,labels),mobile:routeSymbolicEdges('mobile',b.boxes,mappings,topology,labels)}}catch(e){candidates.push({id,status:'blocked',reason:String(e.message??e)});continue}
   const desktop=metrics('desktop',a.boxes,topology,symbolic.desktop),mobile=metrics('mobile',b.boxes,topology,symbolic.mobile);
   // Engineering preference: prioritize clear relations, then object scale and compact wiring.
-  const cost=(desktop.obstructions+mobile.obstructions)*1000+(desktop.crossings+mobile.crossings)*150+(desktop.wireLength+mobile.wireLength)/100-(a.base+b.base)/4;
+  const cost=(desktop.obstructions+mobile.obstructions)*1000+(desktop.crossings+mobile.crossings)*150+(desktop.sharedLength+mobile.sharedLength)*2+(desktop.wireLength+mobile.wireLength)/100-(a.base+b.base)/4;
   candidates.push({id,status:'feasible',desktop:{...a,metrics:desktop},mobile:{...b,metrics:mobile},cost:round(cost),physicalRoutes:topology.length,symbolic});
  }
  const feasible=candidates.filter(x=>x.status==='feasible').sort((a,b)=>a.cost-b.cost||a.id.localeCompare(b.id));

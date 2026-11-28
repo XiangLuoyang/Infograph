@@ -23,9 +23,13 @@ try{
  const exploration=call(['task',run,'vmi-explore']);assert.equal(exploration.template.sliceId,'s');
  call(['run',run,'vmi-explore',save('perspectives.json',{perspectives:packet.perspectives})]);
  const draft=call(['task',run,'vmi-packet']);assert.deepEqual(draft.template.perspectives,packet.perspectives);
+ assert.equal(draft.designOpportunities.length,1);assert.ok(draft.designOpportunities[0].perspectives.length>0);
+ assert.equal(draft.template.activation.version,1);
  const {perspectives,...minimal}=packet;
+ minimal.activation={version:1,plainComparison:{ref:'synthetic fixture comparison',advantage:'exercise compiled scene route',tradeoff:'no actual user evaluation'},sourceInteraction:{status:'none',ref:'synthetic fixture source',reason:'no source host controls'},decisions:Object.fromEntries(['geometry','materials','topology','composition','dynamic','art'].map(k=>[k,{mode:'omit',ref:'synthetic legacy fixture',reason:'exercise baseline primitives only',alternative:'canonical optional compiler route'}]))};
  call(['run',run,'vmi-packet',save('packet.json',minimal)]);
  assert.equal(call(['verify-vmi',run]).status,'replayed');
+ const evaluated=JSON.parse(readFileSync(join(run,'vmi-packet','output.json'),'utf8'));assert.equal(evaluated.activation.status,'declared-activation-checked');assert.deepEqual(evaluated.issues,[]);
  const fork=join(dir,'fork');
  const result=call(['retry',run,'vmi-packet',fork]);assert.deepEqual(result.inherited,['production-plan','vmi-explore']);assert.deepEqual(result.invalidated,['vmi-packet']);
  assert.equal(call(['status',fork]).next,'vmi-packet');assert.ok(existsSync(join(run,'vmi-packet','receipt.json')));

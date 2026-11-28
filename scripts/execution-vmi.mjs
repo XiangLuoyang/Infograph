@@ -1,5 +1,6 @@
 import {explorePerspectives} from '../skills/infograph-master/visual-metaphor-intelligence/engine/exploration.mjs';
 import {evaluatePacket} from '../skills/infograph-master/visual-metaphor-intelligence/engine/pipeline.mjs';
+import {auditActivation} from '../skills/infograph-master/engine/vmi-capability-activation.mjs';
 const ensure=(ok,msg)=>{if(!ok)throw Error(msg)};
 const text=v=>typeof v==='string'&&v.trim().length>0;
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
@@ -44,11 +45,16 @@ export function extendedCorpus(base,additions=[]){
  }
  return [...base,...graphs];
 }
-export function evaluateSceneBatch(stage,input,selected,objects,ontology){
+export function evaluateSceneBatch(stage,input,selected,objects,ontology,activationContext=null){
  const rows=sceneInputs(input,selected);
  const results=rows.map(s=>{
   const corpus=extendedCorpus(objects,s.sourceAdditions);
   const output=stage==='vmi-explore'?explorePerspectives(s.perspectives,corpus,ontology,{shortlist:8,budget:4000}):evaluatePacket(s,corpus,ontology);
+  if(stage==='vmi-packet'&&activationContext){
+   const activation=auditActivation(s.activation,output,activationContext.art);
+   output.activation=activation;
+   if(activation.issues.length)output.issues.push(...activation.issues.map(x=>'activation: '+x));
+  }
   return {sliceId:s.sliceId,corpusSize:corpus.length,localSources:(s.sourceAdditions??[]).map(a=>({id:a.graph.id,domain:a.graph.domain,query:a.query,evidenceRef:a.evidenceRef,url:a.graph.source.url,verificationNotes:a.verificationNotes})),output};
  });
  // Preserve the old single-scene output shape; the batch never fabricates a combined HTML preview.

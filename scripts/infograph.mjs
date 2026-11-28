@@ -191,7 +191,7 @@ async function verifiedDesign(dir){
  for(const stage of stageNames)if(existsSync(join(dir,stage))){const v=await checkStage(dir,stage,run);stages[stage]=v.output;fingerprints[stage]=v.receipt.outputSha256}
  const status=productionStatus(run,stages);
  assert(status.buildEligible===true,'pre-build eligibility required');
- return {status,stages:fingerprints,sourceSha256:run.source.sha256,inventory:stages['production-plan'].specialists.inventory,revision:stages['production-plan'].revision,integration:integrationContract(stages)};
+ return {status,stages:fingerprints,sourceSha256:run.source.sha256,inventory:stages['production-plan'].specialists.inventory,revision:stages['production-plan'].revision,...(stages['production-plan'].fallbacks?.length?{fallbacks:stages['production-plan'].fallbacks}:{}),integration:integrationContract(stages)};
 }
 async function forkArtifact(dir,dest){
  const design=await verifiedDesign(dir),run=await context(dir),browser=artifactStatus(dir,design);

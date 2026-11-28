@@ -19,3 +19,17 @@ For each scene:
 Use means the relevant compiler output must actually exist; omit/custom means it must not be claimed as compiled. Custom routes need separate artifact verification. No generic pipe or liquid encodings solely to increase feature use. Material or geometry counts do not prove aesthetic quality.
 
 Activation is replayed with the packet and bound upstream production plan. Missing or contradictory declarations become packet issues and block production build eligibility. It does not independently validate evidence references, know whether a rationale is truthful, measure comprehension, or guarantee the author selected the best form. Continue through normal integration, browser, semantic and independent visual review. Existing production packet inputs need migration and rerun; no release authorization is implied.
+
+## L2 — advisory design opportunities
+
+Production vmi-explore now records `designOpportunities` per perspective, using its existing verified graph mappings, actual extended corpus and geometry catalog. The vmi-packet authoring task exposes these results beside (not inside) the blank packet template. Inspect them before choosing scene and completing activation. No extra stage or required input field.
+
+- Up to four existing ranked sources per perspective, with mapped target/source node identities, source refs, limitations, coverage and review requirements. Partial and truncated candidates are not approved analogies.
+- Geometry hints require an existing typed source role compatible with a canonical template. A narrow physical-name check and, for a four-way manifold, four distinct essential target branches are additional advisory screens. `inspect-physical-fit` is permission to investigate, not approval to bind. `role-only-not-recommended` explicitly warns against substituting a mechanically different object merely because it shares a role. Missing role yields no rich-template suggestion. Custom geometry or a plain form remain legitimate.
+- Suggested composition families reflect target graph size, cycles, fan-out and hubs. They are not selected scene layouts or aesthetic scores.
+- Material recipes come from actual templates. Do not infer fluid connections, quantitative motion, units, ranges or business formulas from role, name, or branch counts.
+- Upstream ART selection is surfaced when present. Otherwise review the preserved design DNA or revisit production-plan; no automatic inheritance claim.
+
+The recommendation uses a deliberately narrow lexical screen, not open-domain visual recognition or a semantic image search. A real physical form may be missed (especially untyped or differently named sources), and a matching label does not prove physical compatibility. Validate the actual concept anchors and compiler contract. No automatic packet authoring, no recommendation acceptance gate and no feature-count target. Retain alternative exploration.
+
+Initial synthetic unit coverage includes role-only false matches, explicit physical names, four-branch count, cycle rejection of layered hints, missing roles and missing source mapping. A replay of the repository buffer benchmark in an isolated JS evaluator exposed reaction-wheel/tank role compatibility but no approved physical match; do not substitute a water tank for a reaction wheel. This is a diagnostic, not measured recommendation precision/recall.

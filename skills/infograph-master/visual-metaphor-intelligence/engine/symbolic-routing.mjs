@@ -1,5 +1,14 @@
 // Label-aware symbolic routing for auto-composed scenes; estimates are checked against rendered text separately.
 const limits={"desktop":[800,440],"mobile":[360,620]};
+export function sharedSegmentLength([a,b],[c,d]){
+ const dx=b[0]-a[0],dy=b[1]-a[1],len=Math.hypot(dx,dy);
+ if(len<1e-6)return 0;
+ const cross=p=>Math.abs(dx*(p[1]-a[1])-dy*(p[0]-a[0]))/len;
+ if(cross(c)>0.002||cross(d)>0.002)return 0;
+ const dot=p=>((p[0]-a[0])*dx+(p[1]-a[1])*dy)/len;
+ const x=dot(c),y=dot(d);
+ return Math.max(0,Math.min(len,Math.max(x,y))-Math.max(0,Math.min(x,y)));
+}
 export function routeSymbolicEdges(tier,boxes,mappings,physical=[],labels={}){
  const [W,H]=limits[tier],ids=Object.keys(boxes),phys=new Map(physical.map(t=>[t.edgeId,t.routes[tier].points]));
  const round=x=>Math.round(x*1000)/1000,center=b=>[b[0]+b[2]/2,b[1]+b[3]/2];
@@ -15,7 +24,7 @@ export function routeSymbolicEdges(tier,boxes,mappings,physical=[],labels={}){
  const ray=(box,other,pad)=>{const p=center(box),dx=other[0]-p[0],dy=other[1]-p[1],s=1/Math.max(Math.abs(dx)/(box[2]/2+pad),Math.abs(dy)/(box[3]/2+pad));return [p[0]+dx*s,p[1]+dy*s]};
  const anchors=(b,p)=>[[b[0]-p,b[1]+b[3]/2],[b[0]+b[2]+p,b[1]+b[3]/2],[b[0]+b[2]/2,b[1]-p]];
  const valid=p=>p.length>=2&&p.every(q=>q.every((v,i)=>Number.isFinite(v)&&v>=3&&v<=[W,H][i]-3))&&segs(p).every(s=>!rects.some(o=>hit(s,o.r)));
- const routes=[];
+ const routes=[],occupied=[...phys.values()].flatMap(segs);
  for(const m of mappings){
   if(phys.has(m.id)){
    const p=phys.get(m.id);if(segs(p).some(s=>rects.some(o=>o.kind==='label'&&hit(s,o.r))))throw Error('physical route crosses label: '+m.id);
@@ -29,10 +38,11 @@ export function routeSymbolicEdges(tier,boxes,mappings,physical=[],labels={}){
    for(const x of xs)candidates.push([s,[x,s[1]],[x,t[1]],t]);
    for(const y of ys)candidates.push([s,[s[0],y],[t[0],y],t]);
   }
-  const cost=p=>segs(p).reduce((n,s)=>n+dist(s),0)+6*Math.max(0,p.length-2);
+  const cost=p=>segs(p).reduce((n,s)=>n+dist(s)+occupied.reduce((v,t)=>v+8*sharedSegmentLength(s,t),0),0)+6*Math.max(0,p.length-2);
   const best=candidates.map(clean).filter(valid).sort((a,b)=>cost(a)-cost(b)||a.length-b.length)[0];
   if(!best)throw Error('no label-safe symbolic route: '+m.id+' / '+tier);
   routes.push({id:m.id,points:best,d:best.map((p,i)=>(i?'L':'M')+p.join(' ')).join(' ')});
+  occupied.push(...segs(best));
  }
  return routes;
 }

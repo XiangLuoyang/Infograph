@@ -16,3 +16,10 @@ The constructor removes repeated mechanical fields, not design judgment. Use the
 - Style baselineRef and activation version are bound mechanically.
 - Conflicting sections, unknown compact fields and inconsistent object IDs/focal object are rejected.
 - Constructor output is not proof of semantic fidelity, valid styles, actual fit or aesthetic quality. The canonical compiler and subsequent reviews decide those.
+
+## Deterministic lint and bounded repair
+Run `node scripts/infograph.mjs vmi-lint packet.json` before compilation for field-level diagnostics. It uses the same style and box checks as the canonical compiler. Output contains issues, exact paths, expected ranges or enumerations, actual contrast ratios, and eligible repair proposals. Exit 1 means unresolved lint issues. This is a partial check, not a substitute for compilation.
+To explicitly apply bounded repairs, run `node scripts/infograph.mjs vmi-lint packet.json repaired.json`. It never overwrites. It writes a new packet only when lint has no unresolved issues. Keep the JSON report with before/after changes in the private run trail; on blocked output, reported changes were attempted in memory only.
+- Variant style: only an isolated line/surface contrast failure is eligible. Search toward black/white, max 48 per RGB channel, nearest candidate among those found, actual ratio >=3. Inherit mode, text, accent, warning and other roles are never auto-modified. Re-evaluate actual rendered composition.
+- Manual geometry: only explicitly qualitative scenes without symbolic waypoints, physical topology or dynamic bindings; at most 0.1px origin correction, unchanged dimensions, no increased overlap (including label reserve). Large errors require authored decisions or the existing auto layout route.
+- Enum/range errors are diagnosed, never guessed. No semantic, source, capability or review fields are fabricated. Automatic layout candidate feasibility is checked by the compiler, not lint. Keep the original canonical route and full verification.

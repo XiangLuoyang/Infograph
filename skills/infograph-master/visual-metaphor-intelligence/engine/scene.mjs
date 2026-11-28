@@ -1,5 +1,6 @@
 import {compareConcepts} from "./creative.mjs";
 import {validateSurfaceScene,surfaceGradient} from "./surface-rendering.mjs";
+import {compilePhysicalGeometry} from "./physical-geometry.mjs";
 
 export function adaptDesignDNA(style,concept){
  const txt=x=>typeof x==="string"&&x.trim().length>0;
@@ -22,6 +23,7 @@ export function compileScene({target,concept,review,objects,ontology,style,scene
  const design=adaptDesignDNA(style,concept),txt=x=>typeof x==="string"&&x.trim().length>0;
  if(!scene||scene.conceptId!==concept.id||scene.revision!==concept.revision||!txt(scene.title)||!txt(scene.subtitle)||!txt(scene.staticSummary))throw Error("scene provenance");
  if(concept.panels.length!==1||!["direct","transform","substitute","combine"].includes(concept.operation))throw Error("unsupported scene scope: route to reference reconstruction or specialist");
+ scene=compilePhysicalGeometry(scene,concept,objects);
  if(!Array.isArray(scene.layers)||!scene.layers.length||new Set(scene.layers.map(l=>l.id)).size!==scene.layers.length)throw Error("scene layers required");
  const supported=scene.layers.every(l=>l.renderer==="svg"&&l.essential===true);
  if(!supported)throw Error("unsupported renderer or optional degradation: route to reference reconstruction; no silent fallback");
@@ -53,7 +55,7 @@ export function compileScene({target,concept,review,objects,ontology,style,scene
  const mappings=concept.bindings.map(b=>({id:b.targetEdge,from:b.fromObject,to:b.toObject,relation:target.edges.find(e=>e.id===b.targetEdge).predicate,meaning:b.interpretation,sourceId:b.sourceId,sourceEdge:b.sourceEdge}));
  const semantic={conceptId:concept.id,revision:concept.revision,targetId:target.id,evidenceKind:concept.evidenceKind,evidenceRef:concept.evidenceRef,boundary:concept.boundary,objects:concept.sceneObjects.map(o=>({id:o.id,targetNode:o.targetNode,anchors:o.anchors,label:tn.get(o.targetNode).label})),mappings,states:states.map(s=>({id:s.id,evidenceKind:s.evidenceKind,evidenceRef:s.evidenceRef})),transitions:concept.transitions??[]};
  const surfaceRendering=validateSurfaceScene(scene,concept);
- return {design,scene,semantic,surfaceRendering,plainAlternative:concept.plainAlternative,reviewRef:review.ref,capabilities:{svg:"implemented",html:"implemented",raster:"route-existing-reference-renderer",webgl:"route-existing-reference-webgl",canvas:"specialist-not-implemented"},releaseAuthorized:false,scope:"one-panel authored SVG primitives with optional vector materials and qualitative part poses; no physical simulation or independent visual approval"};
+ return {design,scene,semantic,surfaceRendering,geometryManifest:scene.geometryManifest??[],plainAlternative:concept.plainAlternative,reviewRef:review.ref,capabilities:{svg:"implemented",html:"implemented",raster:"route-existing-reference-renderer",webgl:"route-existing-reference-webgl",canvas:"specialist-not-implemented"},releaseAuthorized:false,scope:"one-panel authored SVG primitives with optional vector materials and qualitative part poses; no physical simulation or independent visual approval"};
 }
 
 export function renderSceneHTML(plans){
@@ -83,7 +85,7 @@ export function renderSceneHTML(plans){
    const angle=motion.angles[c.initialState],pivot=motion.pivot;
    return '<g data-motion-object="'+e(o.id)+'" data-motion-index="'+i+'" transform="rotate('+angle+' '+pivot.join(' ')+')" style="transform-box:view-box;transform-origin:'+pivot[0]+'px '+pivot[1]+'px;transform:rotate('+angle+'deg)">'+markup+'</g>';
   }
-  const obs=c.objects.map(o=>{const [x,y,w,h]=o[k],label=sem.objects.find(a=>a.id===o.id).label;return `<g data-object="${e(o.id)}" class="object"><rect class="halo" x="${x-4}" y="${y-4}" width="${w+8}" height="${h+8}" rx="10"/><svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 100 100">${o.shapes.map((s,i)=>renderPart(o,s,i)).join("")}</svg><text x="${x+w/2}" y="${y+h+19}" class="object-label">${e(label)}</text></g>`}).join("");
+  const obs=c.objects.map(o=>{const [x,y,w,h]=o[k],label=sem.objects.find(a=>a.id===o.id).label;return `<g data-object="${e(o.id)}"${o.geometry?` data-geometry="${e(o.geometry.kind)}"`:""} class="object"><rect class="halo" x="${x-4}" y="${y-4}" width="${w+8}" height="${h+8}" rx="10"/><svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 100 100">${o.shapes.map((s,i)=>renderPart(o,s,i)).join("")}</svg><text x="${x+w/2}" y="${y+h+19}" class="object-label">${e(label)}</text></g>`}).join("");
   return `<svg class="scene ${k}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${e(c.staticSummary)}"><defs><marker id="arrow-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="var(--line)"/></marker>${gradients.join("")}</defs>${connections}${obs}</svg>`;
  }
  const stateData=c.states.map(s=>({id:s.id,label:s.label,explanation:s.explanation,highlight:s.highlight}));

@@ -3,6 +3,7 @@ import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {verifyIntegratedHTML} from './execution-integration.mjs';
 import {validateSemanticProbes,evaluateSemanticProbe} from '../skills/infograph-master/engine/runtime-semantic-probes.mjs';
+import {validateVmiRuntimePlan,evaluateVmiRuntime} from '../skills/infograph-master/engine/vmi-runtime-qa.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const read=p=>readFileSync(p);
 const json=p=>JSON.parse(read(p).toString('utf8'));
@@ -37,6 +38,7 @@ export function bindArtifact(dir,file,planFile,design){
  ensure(bytes.length>0&&bytes.length<=8*1024*1024,'HTML size limit');
  ensure(/\.html?$/i.test(file),'standalone HTML required');
  validateBrowserPlan(plan,design.inventory);
+ validateVmiRuntimePlan(plan,design.integration?.runtime);
  const integration=verifyIntegratedHTML(bytes.toString('utf8'),design.integration??{slots:[]});
  const folder=join(dir,'artifact');mkdirSync(folder);
  const receipt={version:1,sourceSha256:design.sourceSha256,designStages:design.stages,outputPath:resolve(file),outputSha256:hash(bytes),planSha256:hash(planBytes),inventory:design.inventory,integration,releaseAuthorized:false};
@@ -50,6 +52,7 @@ export function verifyBinding(dir,design){
  ensure(eq(r.integration,verifyIntegratedHTML(read(join(folder,'output.html')).toString('utf8'),design.integration??{slots:[]})),'engine fragment binding mismatch');
  const planBytes=read(join(folder,'plan.json'));ensure(hash(planBytes)===r.planSha256,'browser plan changed');
  const plan=validateBrowserPlan(JSON.parse(planBytes.toString('utf8')),design.inventory);
+ validateVmiRuntimePlan(plan,design.integration?.runtime);
  return {folder,receipt:r,plan};
 }
 export async function browserReview(dir,design){
@@ -95,6 +98,10 @@ export function artifactStatus(dir,design){
    if(rt?.spatial?.layouts.some(l=>l.tierId===tier?.id&&l.sliceId===plannedCase.sliceId&&l.generated))expectedIntegration.push('SPATIAL');
    expectedIntegration.push(...(rt?.vmi??[]).filter(s=>s.sliceId===plannedCase.sliceId).map(s=>s.id));
    ensure(eq((c.integration??[]).map(x=>x.id),expectedIntegration)&&(c.integration??[]).every(x=>x.status==='pass'),'passing case missing engine application evidence');
+   for(const s of (rt?.vmi??[]).filter(s=>s.sliceId===plannedCase.sliceId)){
+    const runtimeQA=c.integration.find(x=>x.id===s.id)?.observed?.runtimeQA;
+    ensure(runtimeQA?.ok===true&&evaluateVmiRuntime(s,plan.vmiLifecycle[s.id],plannedCase.vmiRuntime?.[s.id],runtimeQA.actual).ok,'passing case missing valid VMI runtime evidence');
+   }
   }
   if(c.capture){ensure(c.capture.filename===key+'.png'&&hash(read(join(qa,c.capture.filename)))===c.capture.sha256,'screenshot bytes changed')}
   else ensure(c.status!=='pass','passing case lacks screenshot');

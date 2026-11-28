@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {geometryTemplate,geometryLibrary,compilePhysicalGeometry} from './physical-geometry.mjs';
+const concept={sceneObjects:[{id:'a',anchors:[{sourceId:'s',nodeId:'n'}]}]};
+const corpus=role=>[{id:'s',nodes:[{id:'n',role}]}];
+const q={kind:'tank',anchor:{sourceId:'s',nodeId:'n'},ref:'synthetic:geometry',reason:'synthetic role match'};
+const input=geometry=>({objects:[{id:'a',geometry}]});
+test('four rich templates are independently available',()=>{for(const k of ['tank','handwheel-valve','manifold-four','dial-indicator']){const t=geometryTemplate(k);assert.ok(t.shapes.length>=10);assert.ok(t.parts.every(([i])=>t.shapes[i]&&t.shapes[i].fill!=='none'));assert.ok(geometryLibrary().some(o=>o.kind===k))}});
+test('expands geometry without mutating author input',()=>{const raw=input(q),s=compilePhysicalGeometry(raw,concept,corpus('buffer'));assert.equal(raw.objects[0].shapes,undefined);assert.deepEqual(s.objects[0].shapes,geometryTemplate('tank').shapes);assert.equal(s.geometryManifest[0].sourceRole,'buffer');assert.ok(s.surfaceRendering.parts.every(p=>p.encoding==='decorative-only'));assert.deepEqual(s.surfaceRendering.motions,[])});
+test('requires verified anchor and compatible role',()=>{assert.throws(()=>compilePhysicalGeometry(input({...q,anchor:{sourceId:'s',nodeId:'missing'}}),concept,corpus('buffer')));assert.throws(()=>compilePhysicalGeometry(input(q),concept,corpus('state')));assert.throws(()=>compilePhysicalGeometry(input({...q,ref:''}),concept,corpus('buffer')));assert.throws(()=>compilePhysicalGeometry({objects:[{id:'a',geometry:q,shapes:[]}]},concept,corpus('buffer')))});
+test('four branches require explicit evidence',()=>{const geometry={...q,kind:'manifold-four'};assert.throws(()=>compilePhysicalGeometry(input(geometry),concept,corpus('distribution')));assert.throws(()=>compilePhysicalGeometry(input({...geometry,branchCount:3,branchEvidence:'synthetic'}),concept,corpus('distribution')));assert.equal(compilePhysicalGeometry(input({...geometry,branchCount:4,branchEvidence:'synthetic:four'}),concept,corpus('distribution')).geometryManifest[0].branchCount,4)});
+test('reject duplicate explicit material; preserve legacy input',()=>{assert.throws(()=>compilePhysicalGeometry({...input(q),surfaceRendering:{version:1,parts:[{objectId:'a',shapeIndex:0}]}},concept,corpus('buffer')));const legacy={objects:[{id:'a',shapes:[]}]};assert.equal(compilePhysicalGeometry(legacy,concept,corpus('buffer')),legacy)});

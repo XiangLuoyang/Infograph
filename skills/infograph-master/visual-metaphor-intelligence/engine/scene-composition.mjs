@@ -1,6 +1,7 @@
 // Candidate-based scene layout; structural preferences are not aesthetic or semantic scoring.
 import {compilePhysicalTopology} from "./physical-topology.mjs";
-export function proposeSceneComposition(scene,mappings){
+import {routeSymbolicEdges} from "./symbolic-routing.mjs";
+export function proposeSceneComposition(scene,mappings,labels={}){
  const c=scene.composition;if(c===undefined)return null;
  const ok=(v,m)=>{if(!v)throw Error(m)},txt=x=>typeof x==='string'&&x.trim().length>0;
  const dims={desktop:[800,440],mobile:[360,620]},items=scene.objects;
@@ -86,11 +87,10 @@ export function proposeSceneComposition(scene,mappings){
  const cross=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
  const strictCross=([a,b],[c,d])=>cross(a,b,c)*cross(a,b,d)<0&&cross(c,d,a)*cross(c,d,b)<0;
  const hitsBox=([a,b],box)=>{const [x,y,w,h]=box,vs=[[x-3,y-3],[x+w+3,y-3],[x+w+3,y+h+25],[x-3,y+h+25]];return vs.some((v,i)=>strictCross([a,b],[v,vs[(i+1)%4]]))||[a,b].some(p=>p[0]>x-3&&p[0]<x+w+3&&p[1]>y-3&&p[1]<y+h+25)};
- const metrics=(k,boxes,topology)=>{
+ const metrics=(k,boxes,topology,symbolic)=>{
   const physical=new Map(topology.map(t=>[t.edgeId,t.routes[k].points]));
-  const center=b=>[b[0]+b[2]/2,b[1]+b[3]/2];
-  const ray=(box,other,pad)=>{const p=center(box),dx=other[0]-p[0],dy=other[1]-p[1],s=1/Math.max(Math.abs(dx)/(box[2]/2+pad),Math.abs(dy)/(box[3]/2+pad));return [p[0]+dx*s,p[1]+dy*s]};
-  const lines=mappings.map(m=>{const a=boxes[m.from],b=boxes[m.to];return {m,physical:physical.has(m.id),segments:segments(physical.get(m.id)??[ray(a,center(b),7),ray(b,center(a),9)])}});
+  const symbolicById=new Map(symbolic.map(t=>[t.id,t.points]));
+  const lines=mappings.map(m=>({m,physical:physical.has(m.id),segments:segments(physical.get(m.id)??symbolicById.get(m.id))}));
   let crossings=0,obstructions=0,wireLength=0;
   for(const [i,line] of lines.entries()){
    wireLength+=line.segments.reduce((sum,s)=>sum+dist(s),0);
@@ -104,18 +104,18 @@ export function proposeSceneComposition(scene,mappings){
  for(const a of local.desktop)for(const b of local.mobile){
   const id=a.family+'-'+b.family;
   const positioned={...scene,objects:items.map(o=>({...o,desktop:a.boxes[o.id],mobile:b.boxes[o.id]}))};
-  let topology;try{topology=compilePhysicalTopology(positioned,mappings)}catch(e){candidates.push({id,status:'blocked',reason:String(e.message??e)});continue}
-  const desktop=metrics('desktop',a.boxes,topology),mobile=metrics('mobile',b.boxes,topology);
+  let topology,symbolic;try{topology=compilePhysicalTopology(positioned,mappings);symbolic={desktop:routeSymbolicEdges('desktop',a.boxes,mappings,topology,labels),mobile:routeSymbolicEdges('mobile',b.boxes,mappings,topology,labels)}}catch(e){candidates.push({id,status:'blocked',reason:String(e.message??e)});continue}
+  const desktop=metrics('desktop',a.boxes,topology,symbolic.desktop),mobile=metrics('mobile',b.boxes,topology,symbolic.mobile);
   // Engineering preference: prioritize clear relations, then object scale and compact wiring.
   const cost=(desktop.obstructions+mobile.obstructions)*1000+(desktop.crossings+mobile.crossings)*150+(desktop.wireLength+mobile.wireLength)/100-(a.base+b.base)/4;
-  candidates.push({id,status:'feasible',desktop:{...a,metrics:desktop},mobile:{...b,metrics:mobile},cost:round(cost),physicalRoutes:topology.length});
+  candidates.push({id,status:'feasible',desktop:{...a,metrics:desktop},mobile:{...b,metrics:mobile},cost:round(cost),physicalRoutes:topology.length,symbolic});
  }
  const feasible=candidates.filter(x=>x.status==='feasible').sort((a,b)=>a.cost-b.cost||a.id.localeCompare(b.id));
  return {version:1,ref:c.ref,intent:c.intent,focalObject:c.focalObject,order,candidates,recommendedId:feasible[0]?.id??null,scope:'bounded 2D structural heuristic; no aesthetic ranking or measured meaning of size'};
 }
-export function applySceneComposition(scene,mappings){
+export function applySceneComposition(scene,mappings,labels={}){
  if(Object.hasOwn(scene,'compositionManifest'))throw Error('compositionManifest is compiler-owned');
- const plan=proposeSceneComposition(scene,mappings);if(!plan)return {scene,manifest:null};
+ const plan=proposeSceneComposition(scene,mappings,labels);if(!plan)return {scene,manifest:null};
  const c=scene.composition,id=c.mode==='auto'?plan.recommendedId:c.candidateId;
  const selected=plan.candidates.find(x=>x.id===id&&x.status==='feasible');
  if(!selected)throw Error('no selected feasible scene composition');

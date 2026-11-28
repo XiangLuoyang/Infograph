@@ -38,8 +38,49 @@ export function proposeSceneComposition(scene,mappings){
   }
   return {family,boxes,base,focal:z.get(c.focalObject)};
  };
- const families={desktop:['row','grid2','grid3','stagger'],mobile:['stack','stagger','grid2']};
- const local=Object.fromEntries(Object.keys(dims).map(k=>[k,families[k].map(f=>make(k,f)).filter(Boolean)]));
+ // Graph-layer layouts preserve fan-in/fan-out structure; cycles stay on other families.
+ const dag=(()=>{const indegree=new Map(ids.map(id=>[id,0])),depth=new Map(ids.map(id=>[id,0]));for(const m of mappings)indegree.set(m.to,indegree.get(m.to)+1);const q=ids.filter(id=>indegree.get(id)===0);let seen=0;while(q.length){const id=q.shift();seen++;for(const m of mappings)if(m.from===id){depth.set(m.to,Math.max(depth.get(m.to),depth.get(id)+1));indegree.set(m.to,indegree.get(m.to)-1);if(indegree.get(m.to)===0)q.push(m.to)}}if(seen!==ids.length)return null;const levels=[];for(const id of order){const d=depth.get(id);(levels[d]??=[]).push(id)}return levels})();
+ const focalNeighbors=new Set(mappings.flatMap(m=>m.from===c.focalObject?[m.to]:m.to===c.focalObject?[m.from]:[]));
+ const graphLayout=(tier,family)=>{
+  const [W,H]=dims[tier],pad=18,gap=24,label=28;
+  if(family==='layered'&&(!dag||dag.length<2||!dag.some(l=>l.length>1)))return null;
+  if(family==='hub'&&(ids.length<3||focalNeighbors.size!==ids.length-1))return null;
+  const sizes=b=>new Map(order.map(id=>[id,round(b*(id===c.focalObject?focalScale:1))]));
+  const build=b=>{
+   const z=sizes(b),boxes=Object.create(null);
+   const set=(id,cx,cy)=>{const s=z.get(id);boxes[id]=[round(cx-s/2),round(cy-s/2),s,s]};
+   if(family==='layered'){
+    const horizontal=tier==='desktop',layers=dag;
+    const main=horizontal?W:H,cross=horizontal?H:W;
+    const mainSize=layers.map(l=>Math.max(...l.map(id=>z.get(id)))+(horizontal?0:label));
+    const total=mainSize.reduce((a,b)=>a+b,0)+(layers.length-1)*gap;
+    if(total>main-2*pad)return null;
+    let cursor=(main-total)/2;
+    for(let j=0;j<layers.length;j++){
+     const layer=layers[j],widths=layer.map(id=>z.get(id)+(horizontal?label:0)),crossTotal=widths.reduce((a,b)=>a+b,0)+(layer.length-1)*gap;
+     if(crossTotal>cross-2*pad)return null;
+     let other=(cross-crossTotal)/2;
+     for(let t=0;t<layer.length;t++){const id=layer[t],s=z.get(id);if(horizontal)set(id,cursor+mainSize[j]/2,other+s/2);else set(id,other+s/2,cursor+(mainSize[j]-label)/2);other+=widths[t]+gap}
+     cursor+=mainSize[j]+gap;
+    }
+   }else{
+    // Separate central emphasis from surrounding peers, with fixed readable label strips.
+    const others=order.filter(id=>id!==c.focalObject),f=z.get(c.focalObject),cx=W/2,cy=(H-label)/2;
+    set(c.focalObject,cx,cy);
+    const angles=others.map((_,i)=>-Math.PI/2+2*Math.PI*i/others.length);
+    const rx=(W-2*pad-b)/2,ry=(H-2*pad-label-b)/2;
+    others.forEach((id,i)=>set(id,cx+rx*Math.cos(angles[i]),cy+ry*Math.sin(angles[i])));
+   }
+   const rects=ids.map(id=>{const [x,y,w,h]=boxes[id];return [x-4,y-4,x+w+4,y+h+label]});
+   if(rects.some(r=>r[0]<0||r[1]<0||r[2]>W||r[3]>H))return null;
+   for(let i=0;i<rects.length;i++)for(let j=i+1;j<rects.length;j++){const a=rects[i],b=rects[j];if(a[0]<b[2]&&a[2]>b[0]&&a[1]<b[3]&&a[3]>b[1])return null}
+   return {family,boxes,base:b,focal:z.get(c.focalObject)};
+  };
+  let best=null;for(let b=min;b<=(tier==='desktop'?190:132);b++){const p=build(b);if(p)best=p}
+  return best;
+ };
+ const families={desktop:['row','grid2','grid3','stagger','layered','hub'],mobile:['stack','stagger','grid2','layered','hub']};
+ const local=Object.fromEntries(Object.keys(dims).map(k=>[k,families[k].map(f=>['layered','hub'].includes(f)?graphLayout(k,f):make(k,f)).filter(Boolean)]));
  const segments=(pts)=>pts.slice(1).map((p,i)=>[pts[i],p]);
  const dist=([a,b])=>Math.hypot(a[0]-b[0],a[1]-b[1]);
  const cross=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);

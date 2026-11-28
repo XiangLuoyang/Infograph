@@ -1,5 +1,7 @@
 import {explorePerspectives} from '../skills/infograph-master/visual-metaphor-intelligence/engine/exploration.mjs';
 import {evaluatePacket} from '../skills/infograph-master/visual-metaphor-intelligence/engine/pipeline.mjs';
+import {recommendCapabilities} from '../skills/infograph-master/engine/vmi-capability-advisor.mjs';
+import {geometryLibrary} from '../skills/infograph-master/visual-metaphor-intelligence/engine/physical-geometry.mjs';
 import {auditActivation} from '../skills/infograph-master/engine/vmi-capability-activation.mjs';
 const ensure=(ok,msg)=>{if(!ok)throw Error(msg)};
 const text=v=>typeof v==='string'&&v.trim().length>0;
@@ -50,6 +52,7 @@ export function evaluateSceneBatch(stage,input,selected,objects,ontology,activat
  const results=rows.map(s=>{
   const corpus=extendedCorpus(objects,s.sourceAdditions);
   const output=stage==='vmi-explore'?explorePerspectives(s.perspectives,corpus,ontology,{shortlist:8,budget:4000}):evaluatePacket(s,corpus,ontology);
+  if(stage==='vmi-explore'&&activationContext)output.designOpportunities=recommendCapabilities(s.perspectives,output,corpus,geometryLibrary(),activationContext.art);
   if(stage==='vmi-packet'&&activationContext){
    const activation=auditActivation(s.activation,output,activationContext.art);
    output.activation=activation;

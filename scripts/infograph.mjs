@@ -61,7 +61,7 @@ async function preflight(){
 async function evaluate(stage,input,run,prior){
  if(productionStages.includes(stage))return evaluateProduction(stage,input,run,prior);
  const objects=json(join(vmi,'ontology/objects.json')),ontology=json(join(vmi,'ontology/mechanisms.json'));
- if(run.workflow==='production')return evaluateSceneBatch(stage,input,prior['production-plan'].output.selectedMechanisms,objects,ontology);
+ if(run.workflow==='production')return evaluateSceneBatch(stage,input,prior['production-plan'].output.selectedMechanisms,objects,ontology,{art:prior['production-plan'].output.artDirection});
  if(stage==='vmi-explore'){
   assert(Array.isArray(input.perspectives)&&input.perspectives.length>0&&input.perspectives.length<=8,'supply 1–8 authored perspectives');
   const {explorePerspectives}=await import('../skills/infograph-master/visual-metaphor-intelligence/engine/exploration.mjs');

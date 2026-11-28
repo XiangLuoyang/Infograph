@@ -4,7 +4,7 @@ import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-import {evaluateSceneBatch,hasVmiPreview,vmiRetryStatus,prepareVmiRetry} from './execution-vmi.mjs';
+import {evaluateSceneBatch,hasVmiPreview,vmiRetryStatus,prepareVmiRetry,prepareVmiFallback} from './execution-vmi.mjs';
 import {checkDelivery,prepareHandoff,verifyHandoff} from './execution-delivery.mjs';
 import {critiqueTask,submitCritique,critiqueStatus} from './execution-critique.mjs';
 import {dispatchReviewer} from './execution-reviewer.mjs';
@@ -88,6 +88,7 @@ async function checkStage(dir,stage,run){
  assert(r.schema===1&&r.stage===stage&&r.engine===engineNames[stage]&&r.status==='executed'&&r.sourceSha256===run.source.sha256,'invalid stage receipt');
  assert(hash(input)===r.inputSha256&&hash(output)===r.outputSha256,'stage bytes changed');
  if(stage==='vmi-packet'&&run.vmiRetry?.inputSha256)assert(r.inputSha256===run.vmiRetry.inputSha256,'scoped retry input changed; use the generated retry packet');
+ if(run.vmiFallback?.inputs?.[stage])assert(r.inputSha256===run.vmiFallback.inputs[stage],'fallback input changed; use generated stage input');
  let parsed=JSON.parse(input.toString('utf8'));
  if(stage==='vmi-packet'&&run.workflow!=='production'){
   const prior=await checkStage(dir,'vmi-explore',run);
@@ -112,6 +113,7 @@ async function runStage(dir,stage,inputPath){
  const receipt={schema:1,stage,engine:engineNames[stage],sourceSha256:run.source.sha256,inputSha256:hash(input),status:'blocked',releaseAuthorized:false};
  try{
   if(stage==='vmi-packet'&&run.vmiRetry?.inputSha256)assert(hash(input)===run.vmiRetry.inputSha256,'scoped retry input changed; use the generated retry packet');
+  if(run.vmiFallback?.inputs?.[stage])assert(hash(input)===run.vmiFallback.inputs[stage],'fallback input changed; use generated stage input');
   let parsed=JSON.parse(input.toString('utf8'));
   if(stage==='vmi-packet'&&run.workflow!=='production'){
    const prior=await checkStage(dir,'vmi-explore',run);
@@ -141,7 +143,7 @@ async function collectPrior(dir,stage,run){
  for(const dep of additionalDependencies(stage,run,prior))prior[dep]=await checkStage(dir,dep,run);
  return prior;
 }
-async function forkRun(dir,stage,dest,{quiet=false,vmiRetry=null}={}){
+async function forkRun(dir,stage,dest,{quiet=false,vmiRetry=null,vmiFallback=null}={}){
  const run=await context(dir);
  assert(run.workflow==='production','retry only for production');
  assert(stageNames.includes(stage),'unknown retry stage');
@@ -161,6 +163,9 @@ async function forkRun(dir,stage,dest,{quiet=false,vmiRetry=null}={}){
  assert(!existsSync(dest),'retry destination already exists');
  mkdirSync(dest);
  const record={...run,parentRun:{path:realpathSync(dir),retryStage:stage,inherited:[...copied],sourceSha256:run.source.sha256}};
+ if(stage==='production-plan')delete record.vmiFallback;
+ if(vmiFallback)record.vmiFallback=vmiFallback;
+ else if(record.vmiFallback){record.vmiFallback={...record.vmiFallback,inputs:Object.fromEntries(Object.entries(record.vmiFallback.inputs??{}).filter(([key])=>copied.has(key)))};}
  if(stage!=='vmi-packet')delete record.vmiRetry;
  else if(vmiRetry)record.vmiRetry=vmiRetry;
  else if(record.vmiRetry)record.vmiRetry={history:record.vmiRetry.history??[]};
@@ -266,6 +271,16 @@ async function main(){
   const {signature,...status}=r.status;
   console.log(JSON.stringify({...status,signature:r.signature,previousSameFailureCount:r.repeated,advisory:r.repeated>=2?'Repeated failure: change repair strategy or revisit representation; do not blindly resubmit.':null,patchTemplate:{scenes:status.repairable.map(sliceId=>({sliceId,changes:{}}))},releaseAuthorized:false},null,2));return;
  }
+ if(cmd==='fallback-vmi'&&args.length===3){
+  const dir=resolve(args[0]),dest=resolve(args[2]),r=await retryContext(dir);
+  const priorPlan=await checkStage(dir,'production-plan',r.run),explore=await checkStage(dir,'vmi-explore',r.run);
+  const result=prepareVmiFallback(priorPlan.input,explore.input,r.packet.input,r.packet.output,r.selected,json(resolve(args[1])));
+  const inputs={'production-plan':result.plan,...(result.explore?{'vmi-explore':result.explore,'vmi-packet':result.packet}:{})};
+  const pinned=Object.fromEntries(Object.entries(inputs).map(([stage,value])=>[stage,hash(encode(value))]));
+  const fork=await forkRun(dir,'production-plan',dest,{quiet:true,vmiFallback:{inputs:pinned,parentPacketSha256:r.packet.receipt.outputSha256,replacements:result.replacements}});
+  const files=Object.fromEntries(Object.entries(inputs).map(([stage,value])=>{const file=join(dest,'fallback-'+stage+'.json');write(file,value);return [stage,file]}));
+  console.log(JSON.stringify({...fork,files,retained:result.retained,replacements:result.replacements,compiled:false,releaseAuthorized:false},null,2));return;
+ }
  if(cmd==='retry-vmi'&&args.length===3){
   const dir=resolve(args[0]),dest=resolve(args[2]),r=await retryContext(dir);
   const plan=prepareVmiRetry(r.packet.input,r.packet.output,r.selected,json(resolve(args[1])));
@@ -340,6 +355,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: vmi-retry-task <run-dir> | retry-vmi <run-dir> <patch.json> <new-run-dir> | vmi-lint <packet.json> [new-packet.json] | vmi-author <draft.json> <new-packet.json> | integration-task <run-dir> | assemble-artifact <run-dir> <template.html> <new.html> | vmi-geometry [rotor|reservoir|valve|tank|handwheel-valve|manifold-four|dial-indicator] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
+ throw Error('usage: fallback-vmi <run-dir> <spec.json> <new-run-dir> | vmi-retry-task <run-dir> | retry-vmi <run-dir> <patch.json> <new-run-dir> | vmi-lint <packet.json> [new-packet.json] | vmi-author <draft.json> <new-packet.json> | integration-task <run-dir> | assemble-artifact <run-dir> <template.html> <new.html> | vmi-geometry [rotor|reservoir|valve|tank|handwheel-valve|manifold-four|dial-indicator] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}

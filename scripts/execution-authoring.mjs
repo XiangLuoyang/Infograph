@@ -18,7 +18,7 @@ export function authoringTask(stage,run,prior,rules,previous=null){
  const p=prior['production-plan']?.output;
  const revision=p?.revision??previous?.revision??1;
  const references=[...(refs[stage]??[])];
- let template,assignment,locked=[];
+ let template,assignment,locked=[],designOpportunities;
  switch(stage){
  case 'reconstruction-prepare':
   assignment='Recover actual source observations and optional runtime states; do not invent the source IR.';
@@ -37,7 +37,8 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   {const scenes=p.selectedMechanisms.map(sliceId=>({sliceId,perspectives:[blankPerspective(),blankPerspective()],sourceAdditions:[]}));template=scenes.length===1?scenes[0]:{scenes};locked=['sliceId (per scene)'];}break;
  case 'vmi-packet':{
   const explore=required(prior['vmi-explore'],'vmi-explore');
-  assignment='Inspect exploration output; author contrasting concepts, explicit reviews, chosen scene and styles. Complete capability activation decisions and compare the plain alternative. Do not claim source verification or comparison that did not occur.';
+  designOpportunities=Array.isArray(explore.output.scenes)?explore.output.scenes.map(s=>({sliceId:s.sliceId,perspectives:s.output.designOpportunities??[]})):[{sliceId:explore.output.sliceId,perspectives:explore.output.designOpportunities??[]}];
+  assignment='Inspect exploration output and the compiler-backed capability opportunities; author contrasting concepts, explicit reviews, chosen scene and styles. Complete capability activation decisions and compare the plain alternative. Do not claim source verification or comparison that did not occur.';
   {const scenes=sceneInputs(explore.input,p.selectedMechanisms).map(s=>({sliceId:s.sliceId,perspectives:s.perspectives,...(s.sourceAdditions!==undefined?{sourceAdditions:s.sourceAdditions}:{}),targetId:'',concepts:[],reviews:[],selectedConceptId:'',scene:null,styles:[],activation:activationTemplate()}));template=Object.hasOwn(explore.input,'scenes')?{scenes}:scenes[0];}
   locked=['sliceId','perspectives','sourceAdditions (per scene)'];break;
  }
@@ -51,7 +52,7 @@ export function authoringTask(stage,run,prior,rules,previous=null){
   locked.push('revision');break;
  default:throw Error('no authoring scaffold for '+stage);
  }
- return {stage,assignment,references:[...new Set(references)].map(x=>'skills/infograph-master/'+x),locked,template,previousInput:previous,verifiedUpstream:Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,{outputSha256:v.receipt.outputSha256,outputFile:k+'/output.json'}])),scope:'Blank scaffold; null/empty/not-run are intentionally incomplete. Author actual evidence before execution.'};
+ return {stage,assignment,references:[...new Set(references)].map(x=>'skills/infograph-master/'+x),locked,template,...(designOpportunities?{designOpportunities}:{}),previousInput:previous,verifiedUpstream:Object.fromEntries(Object.entries(prior).map(([k,v])=>[k,{outputSha256:v.receipt.outputSha256,outputFile:k+'/output.json'}])),scope:'Blank scaffold; null/empty/not-run are intentionally incomplete. Author actual evidence before execution.'};
 }
 export function hydrateInput(stage,input,run,prior){
  if(run.workflow!=='production')return input;

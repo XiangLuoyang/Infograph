@@ -70,6 +70,31 @@ try{
  assert.deepEqual(fixedOutput,result);
  assert.deepEqual(call(['vmi-retry-task',fixed]).repairable,[]);
  call(['retry-vmi',fixed,save('already-good.json',patch('s2',{reviews:[]})),badDest],false);
+ // Explicit fallback replans only failed static scenes; successful scene and inventory survive.
+ const replacement={sliceId:'s2',family:'bar',rendererPlan:'host SVG chart',reason:'synthetic compiler failure, previously compared plain representation',evidenceRef:'fixture:plain-comparison',semanticPreservation:'retain source constraint and comparison in the replacement',limitations:'qualitative mechanism detail lost; no claim of physical simulation'};
+ const fallbackSpec={revision:2,replacements:[replacement],quality:structuredClone(plan.quality),execution:structuredClone(plan.execution),globalReviews:[]};
+ fallbackSpec.quality.revision=2;fallbackSpec.quality.areas.forEach(a=>a.design.revision=2);
+ fallbackSpec.execution.revision=2;fallbackSpec.execution.records.forEach(r=>{r.revision=2;r.ref='synthetic reassessment'});
+ const fallbackDir=join(dir,'fallback');
+ const fallback=call(['fallback-vmi',broken,save('fallback-spec.json',fallbackSpec),fallbackDir]);
+ assert.deepEqual(fallback.retained,['s1']);assert.equal(fallback.replacements[0].sliceId,'s2');assert.equal(fallback.compiled,false);
+ const revisedPlan=JSON.parse(readFileSync(fallback.files['production-plan'],'utf8'));
+ assert.deepEqual(revisedPlan.opportunities.inventory,plan.opportunities.inventory);
+ assert.equal(revisedPlan.opportunities.slices[1].mechanism,'reviewed');assert.equal(revisedPlan.opportunities.slices[1].selectedFamily,'bar');
+ assert.deepEqual(revisedPlan.opportunities.slices[0],{...plan.opportunities.slices[0],revision:2});
+ assert.deepEqual(JSON.parse(readFileSync(fallback.files['vmi-explore'],'utf8')).scenes,[exploration.scenes[0]]);
+ assert.deepEqual(JSON.parse(readFileSync(fallback.files['vmi-packet'],'utf8')).scenes,[expected.scenes[0]]);
+ call(['run',fallbackDir,'production-plan',fallback.files['production-plan']]);
+ call(['run',fallbackDir,'vmi-explore',fallback.files['vmi-explore']]);
+ call(['run',fallbackDir,'vmi-packet',fallback.files['vmi-packet']]);
+ assert.equal(call(['status',fallbackDir]).buildEligible,true);
+ const integration=call(['integration-task',fallbackDir]);
+ assert.deepEqual(integration.slots.filter(s=>s.kind==='vmi').map(s=>s.sliceId),['s1']);
+ assert.equal(integration.fallbacks[0].sliceId,'s2');
+ for(const [name,mutate] of [['good-scene',s=>s.replacements[0].sliceId='s1'],['new-family',s=>s.replacements[0].family='uncompared'],['missing-limits',s=>s.replacements[0].limitations=''],['stale-revision',s=>s.revision=1]]){
+  const spec=structuredClone(fallbackSpec);mutate(spec);
+  call(['fallback-vmi',broken,save(name+'.json',spec),join(dir,name)],false);
+ }
  const retry=join(dir,'retry');call(['retry',run,'vmi-explore',retry]);assert.equal(call(['status',retry]).next,'vmi-explore');
  const plain=join(dir,'plain');call(['retry',run,'production-plan',plain]);
  const revised=structuredClone(plan);revised.opportunities.slices.forEach(s=>{s.mechanism='reviewed';s.selectedFamily='bar';s.rationale='synthetic plain alternative preferred'});

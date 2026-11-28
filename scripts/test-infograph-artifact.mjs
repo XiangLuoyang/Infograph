@@ -102,7 +102,7 @@ try{
  const artBrief={purpose:'monitor',theme:'Synthetic metric',readerTask:'Inspect metric',density:'normal',evidenceRef:'fixture only'};
  call(['run',integrated,'production-plan',save('integrated-plan.json',{...production,artDirection:{brief:artBrief,selectedId:'technical',selectionReason:'synthetic comparison'}})]);
  assert.deepEqual(call(['integration-task',integrated]).slots.map(x=>x.id),['ART']);
- const raw=save('integrated-template.html',html.replace('<meta name="viewport" content="width=device-width,initial-scale=1">','<meta name="viewport" content="width=device-width,initial-scale=1"><!--IG:ART--><body data-ig-art="technical">'));
+ const raw=save('integrated-template.html',html.replace('<!doctype html>','<!doctype html><html><head>').replace('<meta name="viewport" content="width=device-width,initial-scale=1">','<meta name="viewport" content="width=device-width,initial-scale=1"><!--IG:ART--></head><body data-ig-art="technical">')+'</body></html>');
  call(['bind-artifact',integrated,raw,planFile],false);
  const assembled=join(dir,'integrated.html');assert.equal(call(['assemble-artifact',integrated,raw,assembled]).status,'engine-fragments-assembled');
  assert.equal(call(['bind-artifact',integrated,assembled,planFile]).integration.slots.length,1);

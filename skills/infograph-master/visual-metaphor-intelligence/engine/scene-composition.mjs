@@ -20,7 +20,7 @@ export function proposeSceneComposition(scene,mappings){
  while(pending.size){const available=[...pending].filter(id=>degree.get(id)===0).sort((a,b)=>rank.get(a)-rank.get(b));const id=available[0]??[...pending][0];order.push(id);pending.delete(id);for(const m of mappings)if(m.from===id)degree.set(m.to,degree.get(m.to)-1)}
  const round=n=>Math.round(n*10)/10;
  const make=(tier,family)=>{
-  const [W,H]=dims[tier],pad=18,gapX=tier==='desktop'?26:24,gapY=18,label=26;
+  const [W,H]=dims[tier],pad=18,gapX=tier==='desktop'?26:24,gapY=18,label=28;
   const n=order.length,cols=family==='row'?n:family==='stack'||family==='stagger'?1:family==='grid2'?2:3;
   const rows=[];for(let j=0;j<n;j+=cols)rows.push(order.slice(j,j+cols));
   const sizes=b=>new Map(order.map(id=>[id,round(b*(id===c.focalObject?focalScale:1))]));
@@ -29,7 +29,7 @@ export function proposeSceneComposition(scene,mappings){
   const fit=z=>rows.every(row=>rowWidth(row,z)<=W-2*pad-(family==='stagger'?72:0))&&rows.reduce((sum,row)=>sum+rowHeight(row,z),0)+(rows.length-1)*gapY<=H-2*pad;
   let base=min;if(!fit(sizes(base)))return null;
   for(let b=min+1;b<=(tier==='desktop'?190:132)&&fit(sizes(b));b++)base=b;
-  const z=sizes(base),h=rows.reduce((sum,row)=>sum+rowHeight(row,z),0)+(rows.length-1)*gapY,boxes={};let y=(H-h)/2;
+  const z=sizes(base),h=rows.reduce((sum,row)=>sum+rowHeight(row,z),0)+(rows.length-1)*gapY,boxes=Object.create(null);let y=(H-h)/2;
   for(const [ri,row] of rows.entries()){
    const max=Math.max(...row.map(id=>z.get(id))),rw=rowWidth(row,z);
    let x=family==='stagger'?(ri%2===0?pad+16:W-pad-16-rw):(W-rw)/2;

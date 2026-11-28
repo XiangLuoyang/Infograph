@@ -56,7 +56,35 @@ try{
  const batchFile=join(dir,'batch-constructed.json');
  call(['vmi-author',save('batch.json',{scenes:[{...compact,sliceId:'s'}]}),batchFile]);
  assert.deepEqual(JSON.parse(readFileSync(batchFile,'utf8')).scenes[0],{...canonical,sliceId:'s'});
- call(['run',second,'vmi-packet',constructed]);assert.equal(call(['verify-vmi',second]).status,'replayed');
+ // Diagnose and explicitly repair only bounded defects before canonical compilation.
+ const low=structuredClone(canonical);low.styles[0].colors.line='#aaaaaa';
+ const lowFile=save('low-contrast.json',low),linted=join(dir,'linted.json');
+ const diagnosis=call(['vmi-lint',lowFile],false);
+ assert.equal(diagnosis.issues[0].code,'style.contrast');assert.equal(diagnosis.issues[0].path,'styles[0].colors.line');
+ assert.ok(diagnosis.issues[0].proposal.contrastAfter>=3);assert.deepEqual(diagnosis.changes,[]);
+ const fix=call(['vmi-lint',lowFile,linted]);assert.equal(fix.status,'checked');assert.equal(fix.compiled,false);assert.equal(fix.changes.length,1);
+ const fixed=JSON.parse(readFileSync(linted,'utf8'));assert.equal(fixed.styles[0].colors.line,fix.changes[0].after);
+ assert.equal(JSON.parse(readFileSync(lowFile,'utf8')).styles[0].colors.line,'#aaaaaa');
+ assert.deepEqual(fixed.scene,canonical.scene);assert.deepEqual(fixed.activation,canonical.activation);
+ assert.deepEqual(call(['vmi-lint',linted]).issues,[]);
+ call(['vmi-lint',lowFile,linted],false); // no overwrite
+ const inherited=structuredClone(low);inherited.styles[0].mode='inherit';
+ const refused=join(dir,'refused.json');
+ assert.equal(call(['vmi-lint',save('inherit.json',inherited),refused],false).status,'blocked');assert.equal(existsSync(refused),false);
+ const invalid=structuredClone(canonical);invalid.styles[0].material='wood';invalid.styles[0].motionMs=900;
+ const invalidReport=call(['vmi-lint',save('invalid-style.json',invalid)],false);
+ assert.ok(invalidReport.issues.some(i=>i.code==='style.enum'&&i.path==='styles[0].material'));
+ assert.ok(invalidReport.issues.some(i=>i.code==='style.range'&&i.path==='styles[0].motionMs'));
+ const rounded=structuredClone(minimal);delete rounded.scene.waypoints;rounded.scene.objects[1].desktop[0]=-0.05;
+ const roundedFile=join(dir,'rounded.json');
+ const rounding=call(['vmi-lint',save('rounding.json',rounded),roundedFile]);assert.equal(rounding.changes.length,1);assert.equal(rounding.changes[0].after[0],0);
+ const routed=structuredClone(minimal);routed.scene.objects[1].desktop[0]=-0.05;
+ assert.equal(call(['vmi-lint',save('routed.json',routed),refused],false).status,'blocked');assert.equal(existsSync(refused),false);
+ const large=structuredClone(rounded);large.scene.objects[1].desktop[0]=-30;
+ assert.equal(call(['vmi-lint',save('large.json',large),refused],false).status,'blocked');
+ const overlap=structuredClone(minimal);delete overlap.scene.waypoints;overlap.scene.objects[0].desktop[0]=-0.05;
+ assert.equal(call(['vmi-lint',save('overlap.json',overlap),refused],false).status,'blocked');
+ call(['run',second,'vmi-packet',linted]);assert.equal(call(['verify-vmi',second]).status,'replayed');
  const repaired=JSON.parse(readFileSync(join(second,'vmi-packet','output.json'),'utf8'));
  assert.deepEqual(repaired.issues,[]);assert.equal(repaired.activation.status,'declared-activation-checked');
  assert.deepEqual(repaired.plans[0].semantic,evaluated.plans[0].semantic);

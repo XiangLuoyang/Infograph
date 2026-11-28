@@ -1,5 +1,6 @@
 // Trusted standalone HTML only; offline browser is not a hostile-code sandbox.
 import {chromium} from 'playwright';
+import {inspectVmiRuntime,validateVmiRuntimePlan} from './vmi-runtime-qa.mjs';
 import {evaluateSemanticProbe} from './runtime-semantic-probes.mjs';
 import {readFile,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -33,7 +34,7 @@ function inspectEssential(el){
  }
  return {issues:[...new Set(issues)],text:String(el.innerText??el.textContent??'').slice(0,4000),bounds:[r.x,r.y,r.width,r.height]};
 }
-async function inspectIntegration(page,viewport,c,rt){
+async function inspectIntegration(page,viewport,c,rt,lifecycle){
  const results=[];
  const check=async(id,fn)=>{try{const observed=await fn();results.push({id,status:observed.ok?'pass':'fail',observed})}catch(e){results.push({id,status:'fail',observed:{reason:String(e.message??e).slice(0,300)}})}};
  const activeCSS=async(id,css)=>{const s=page.locator('style[data-ig-engine='+JSON.stringify(id)+']');return await s.count()===1&&await s.evaluate((e,css)=>e.textContent===css&&Boolean(e.sheet)&&!e.sheet.disabled,css)};
@@ -65,6 +66,12 @@ async function inspectIntegration(page,viewport,c,rt){
   if(await loc.count()!==1||!await loc.isVisible())return {ok:false,reason:'visible unique VMI frame required'};
   const handle=await loc.elementHandle(),frame=await handle.contentFrame();
   if(!frame)return {ok:false,reason:'frame unavailable'};
+  let runtimeQA;
+  for(let attempt=0;attempt<20;attempt++){
+   runtimeQA=await inspectVmiRuntime(frame,scene,lifecycle[scene.id],c.vmiRuntime?.[scene.id]);
+   if(runtimeQA.ok)break;
+   await page.waitForTimeout(100);
+  }
   const actual=await frame.evaluate(()=>{const s=[...document.querySelectorAll('svg.scene')].find(e=>getComputedStyle(e).display!=='none');return s?{objects:[...s.querySelectorAll('[data-object]')].map(e=>e.dataset.object),edges:[...s.querySelectorAll('[data-edge]')].map(e=>e.dataset.edge),layout:s.classList.contains('mobile')?'mobile':'desktop',compositionId:s.dataset.composition??null,symbolic:[...s.querySelectorAll('[data-symbolic-route]')].map(p=>({id:p.dataset.edge,d:p.getAttribute('d')})),labelCollisions:(()=>{if(!s.dataset.composition)return [];const out=[],labels=[...s.querySelectorAll('.object-label')].map(t=>({id:t.closest('[data-object]')?.dataset.object,rect:t.getBBox()}));const hit=([a,b],r)=>{let lo=0,hi=1;const bounds=[r.x-1,r.y-1,r.x+r.width+1,r.y+r.height+1];for(let i=0;i<2;i++){const d=b[i]-a[i];if(Math.abs(d)<1e-9){if(a[i]<bounds[i]||a[i]>bounds[i+2])return false;continue}let t=(bounds[i]-a[i])/d,u=(bounds[i+2]-a[i])/d;if(t>u)[t,u]=[u,t];lo=Math.max(lo,t);hi=Math.min(hi,u);if(lo>hi)return false}return true};for(const t of labels){const r=t.rect,v=s.viewBox.baseVal;if(r.x<v.x||r.y<v.y||r.x+r.width>v.x+v.width||r.y+r.height>v.y+v.height)out.push({kind:'label-outside',objectId:t.id});for(const other of labels){if(t.id<other.id&&r.x<other.rect.x+other.rect.width&&r.x+r.width>other.rect.x&&r.y<other.rect.y+other.rect.height&&r.y+r.height>other.rect.y)out.push({kind:'label-overlap',objectId:t.id,otherId:other.id})}for(const o of s.querySelectorAll('[data-object]')){if(o.dataset.object===t.id)continue;const q=o.querySelector('svg');if(!q)continue;const x=Number(q.getAttribute('x')),y=Number(q.getAttribute('y')),w=Number(q.getAttribute('width')),h=Number(q.getAttribute('height'));if(r.x<x+w&&r.x+r.width>x&&r.y<y+h&&r.y+r.height>y)out.push({kind:'label-object-overlap',objectId:t.id,otherId:o.dataset.object})}}for(const p of s.querySelectorAll('[data-symbolic-route],[data-pipe-path]')){const raw=p.getAttribute('d')??'',pts=[...raw.matchAll(/[ML]\s*(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g)].map(m=>[Number(m[1]),Number(m[2])]);for(const t of labels)if(pts.slice(1).some((q,j)=>hit([pts[j],q],t.rect)))out.push({kind:'route-label-overlap',edgeId:p.closest('[data-edge]')?.dataset.edge,objectId:t.id})}return out})(),compositionBoxes:[...s.querySelectorAll('[data-object]')].map(e=>({id:e.dataset.object,box:['x','y','width','height'].map(k=>Number(e.querySelector('svg')?.getAttribute(k)))})),topology:[...s.querySelectorAll('[data-pipe]')].map(e=>{const p=e.querySelector('[data-pipe-path]'),cs=p&&getComputedStyle(p);return {id:e.dataset.edge,fromPort:e.dataset.fromPort,toPort:e.dataset.toPort,d:p?.getAttribute('d'),visible:Boolean(p&&p.getClientRects().length&&cs.visibility==='visible'&&cs.stroke!=='none'&&parseFloat(cs.strokeWidth)>0)}}),geometry:[...s.querySelectorAll('[data-geometry]')].map(e=>({id:e.dataset.object,kind:e.dataset.geometry,primitives:e.querySelectorAll('rect,circle,path').length})),visible:s.getBoundingClientRect().width>0&&s.getBoundingClientRect().height>0,controls:[...document.querySelectorAll('[data-state]')].every(e=>!e.disabled),design:(()=>{const body=getComputedStyle(document.body),h=getComputedStyle(document.querySelector('h1')),panel=getComputedStyle(document.querySelector('.panel')),style=document.querySelector('style[data-ig-inherited]');return {id:style?.dataset.igInherited??null,css:style?.textContent??null,active:Boolean(style?.sheet&&!style.sheet.disabled),background:body.backgroundColor,color:body.color,fontSize:body.fontSize,headingSize:h.fontSize,radius:panel.borderTopLeftRadius,bodyFont:body.fontFamily,headingFont:h.fontFamily}})()}:null});
   const same=(a,b)=>JSON.stringify([...a].sort())===JSON.stringify([...b].sort());
   const d=scene.design,observed=actual?.design;
@@ -78,12 +85,13 @@ async function inspectIntegration(page,viewport,c,rt){
   const compositionApplied=!comp||Boolean(actual?.compositionId===comp.id&&expectedBoxes&&actual.compositionBoxes.length===Object.keys(expectedBoxes).length&&actual.compositionBoxes.every(o=>JSON.stringify(o.box)===JSON.stringify(expectedBoxes[o.id])));
   const expectedSymbolic=comp?.symbolic?.[actual?.layout]??[],observedSymbolic=actual?.symbolic??[];
   const symbolicApplied=!comp||Boolean(actual&&expectedSymbolic.length===observedSymbolic.length&&expectedSymbolic.every(t=>observedSymbolic.some(o=>o.id===t.id&&o.d===t.d))&&actual.labelCollisions.length===0);
-  return {ok:Boolean(actual?.visible&&actual.controls&&same(actual.objects,scene.objects)&&same(actual.edges,scene.edges)&&inherited&&geometryApplied&&topologyApplied&&compositionApplied&&symbolicApplied),actual,inherited,geometryApplied,topologyApplied,compositionApplied,symbolicApplied};
+  return {ok:Boolean(actual?.visible&&actual.controls&&same(actual.objects,scene.objects)&&same(actual.edges,scene.edges)&&inherited&&geometryApplied&&topologyApplied&&compositionApplied&&symbolicApplied&&runtimeQA.ok),actual,inherited,geometryApplied,topologyApplied,compositionApplied,symbolicApplied,runtimeQA};
  });
  return results;
 }
 export async function auditProductionHTML(file,plan,dir,{trusted=false,integration=null}={}){
  if(!trusted)throw Error('explicit trusted standalone HTML required');
+ validateVmiRuntimePlan(plan,integration);
  const bytes=await readFile(file);if(bytes.length>8*1024*1024)throw Error('HTML too large');
  let browser;try{browser=await chromium.launch()}catch(e){throw Object.assign(new Error('Chromium launch failed: '+String(e.message??e)),{code:'BROWSER_LAUNCH_FAILED'})}
  const cases=[];
@@ -128,7 +136,7 @@ export async function auditProductionHTML(file,plan,dir,{trusted=false,integrati
      r.semanticProbes.push({observation,result});
      if(result.status!=='pass')issues.push({kind:'semantic-probe-failed',probeId:p.id,selector:p.selector,reason:result.reason});
     }
-    r.integration=await inspectIntegration(page,viewport,c,integration);
+    r.integration=await inspectIntegration(page,viewport,c,integration,plan.vmiLifecycle);
     for(const item of r.integration)if(item.status!=='pass')issues.push({kind:'engine-application-failed',id:item.id,observation:item.observed});
     await page.evaluate(()=>document.fonts.ready);
     issues.push(...await page.evaluate(layoutAudit));

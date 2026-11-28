@@ -6,7 +6,7 @@ const refs={
  'reconstruction-plan':['references/reconstruction-entry.md','references/system-level-refactoring.md'],
  'production-plan':['references/visual-opportunity-discovery.md','references/quality-depth.md','references/execution-gates.md','references/art-direction-production.md'],
  'vmi-explore':['visual-metaphor-intelligence/GUIDE.md','visual-metaphor-intelligence/references/open-discovery.md'],
- 'vmi-packet':['visual-metaphor-intelligence/references/creative-critique.md','visual-metaphor-intelligence/references/scene-compilation.md','references/vmi-capability-activation.md','references/vmi-surface-rendering.md'],
+ 'vmi-packet':['visual-metaphor-intelligence/references/creative-critique.md','visual-metaphor-intelligence/references/scene-compilation.md','references/vmi-capability-activation.md','references/vmi-surface-rendering.md','references/scene-art-direction.md'],
  'specialist-plan':['references/quality-depth.md']
 };
 const specialistRefs={QD01:'references/narrative-director.md',QD02:'references/interaction-choreography.md',QD03:'references/concept-art-pipeline.md',QD04:'references/motion-completeness.md',QD05:'references/global-spatial-composition.md'};
@@ -38,7 +38,7 @@ export function authoringTask(stage,run,prior,rules,previous=null){
  case 'vmi-packet':{
   const explore=required(prior['vmi-explore'],'vmi-explore');
   designOpportunities=Array.isArray(explore.output.scenes)?explore.output.scenes.map(s=>({sliceId:s.sliceId,perspectives:s.output.designOpportunities??[]})):[{sliceId:explore.output.sliceId,perspectives:explore.output.designOpportunities??[]}];
-  assignment='Inspect exploration output and the compiler-backed capability opportunities; author contrasting concepts, explicit reviews, chosen scene and styles. Complete capability activation decisions and compare the plain alternative. Do not claim source verification or comparison that did not occur.';
+  assignment='Inspect exploration output and the compiler-backed capability opportunities; compare scene grammars before choosing the rendering route; author contrasting concepts, explicit reviews, chosen scene and styles. Complete capability activation decisions and compare the plain alternative. Do not claim source verification or comparison that did not occur.';
   {const scenes=sceneInputs(explore.input,p.selectedMechanisms).map(s=>({sliceId:s.sliceId,perspectives:s.perspectives,...(s.sourceAdditions!==undefined?{sourceAdditions:s.sourceAdditions}:{}),targetId:'',concepts:[],reviews:[],selectedConceptId:'',scene:null,styles:[],activation:activationTemplate()}));template=Object.hasOwn(explore.input,'scenes')?{scenes}:scenes[0];}
   locked=['sliceId','perspectives','sourceAdditions (per scene)'];break;
  }

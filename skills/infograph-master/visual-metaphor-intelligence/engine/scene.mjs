@@ -43,7 +43,7 @@ export function compileScene({target,concept,review,objects,ontology,style,scene
  for(const o of scene.objects){
   if(!byId.has(o.id)||seen.has(o.id)||!layerIds.has(o.layer)||!txt(o.caption)||!txt(o.detail)||!Array.isArray(o.shapes)||!o.shapes.length||o.shapes.length>80)throw Error("invalid scene object");
   seen.add(o.id);
-  for(const k of Object.keys(dims))if(!boxOK(o[k],dims[k]))throw Error("invalid "+k+" box");
+  for(const k of Object.keys(dims))if(!boxOK(o[k],dims[k])){const [W,H]=dims[k];throw Error(`invalid ${k} box: scene.objects[${scene.objects.indexOf(o)}].${k} (id=${o.id}); received ${JSON.stringify(o[k])??"missing"}; expected [x,y,w,h], x/y>=0, w/h>=36, x+w<=${W}, y+h<=${H-28} (28px label reserve). For 2–6 objects with no authored waypoints, consider scene.composition={version:1,mode:"auto",focalObject,ref,intent} and remove both tiers of authored coordinates from every object.`)}
   for(const s of o.shapes){
    if(!shapeRoles.has(s.fill)||!shapeRoles.has(s.stroke)||!checkNum(s.sw,0,8))throw Error("invalid primitive style");
    if(s.type==="circle"){if(![s.cx,s.cy].every(v=>checkNum(v,0,100))||!checkNum(s.r,1,50))throw Error("invalid circle")}

@@ -35,7 +35,32 @@ try{
  assert.equal(call(['status',fork]).next,'vmi-packet');assert.ok(existsSync(join(run,'vmi-packet','receipt.json')));
  assert.equal(call(['run',fork,'vmi-packet',save('bad.json',{...minimal,sliceId:'wrong'})],false).status,'blocked');
  const second=join(dir,'second');call(['retry',fork,'vmi-packet',second]);
- call(['run',second,'vmi-packet',save('retry.json',minimal)]);assert.equal(call(['verify-vmi',second]).status,'replayed');
+ // Opt-in construction from authored intent: no copied coordinates, layer IDs or baseline references.
+ const compact=structuredClone(minimal),{conceptId,revision,layers,waypoints,objects,...sceneFields}=compact.scene;
+ compact.sceneDraft={...sceneFields,objects:objects.map(({layer,desktop,mobile,...o})=>o),layout:{focalObject:'b',intent:'synthetic focus',ref:'synthetic fixture'}};
+ delete compact.scene;
+ compact.styleDrafts=compact.styles.map(({baselineRef,...style})=>style);delete compact.styles;
+ const {version,...activationDraft}=compact.activation;
+ activationDraft.decisions.composition.mode='use';compact.activationDraft=activationDraft;delete compact.activation;
+ const draftPath=save('compact.json',compact),constructed=join(dir,'constructed.json');
+ const constructedReceipt=call(['vmi-author',draftPath,constructed]);
+ assert.equal(constructedReceipt.compiled,false);assert.equal(constructedReceipt.releaseAuthorized,false);
+ const canonical=JSON.parse(readFileSync(constructed,'utf8'));
+ assert.equal(canonical.scene.conceptId,conceptId);assert.equal(canonical.scene.revision,revision);
+ assert.ok(canonical.scene.objects.every(o=>o.layer==='main'&&!Object.hasOwn(o,'mobile')));
+ assert.deepEqual(canonical.styles,minimal.styles);assert.equal(canonical.activation.version,1);
+ call(['vmi-author',draftPath,constructed],false); // no overwrite
+ call(['vmi-author',save('conflict.json',{...compact,scene:minimal.scene}),join(dir,'conflict-out.json')],false);
+ const badFocus=structuredClone(compact);badFocus.sceneDraft.layout.focalObject='unknown';
+ call(['vmi-author',save('bad-focus.json',badFocus),join(dir,'bad-focus-out.json')],false);
+ const batchFile=join(dir,'batch-constructed.json');
+ call(['vmi-author',save('batch.json',{scenes:[{...compact,sliceId:'s'}]}),batchFile]);
+ assert.deepEqual(JSON.parse(readFileSync(batchFile,'utf8')).scenes[0],{...canonical,sliceId:'s'});
+ call(['run',second,'vmi-packet',constructed]);assert.equal(call(['verify-vmi',second]).status,'replayed');
+ const repaired=JSON.parse(readFileSync(join(second,'vmi-packet','output.json'),'utf8'));
+ assert.deepEqual(repaired.issues,[]);assert.equal(repaired.activation.status,'declared-activation-checked');
+ assert.deepEqual(repaired.plans[0].semantic,evaluated.plans[0].semantic);
+ assert.ok(repaired.plans[0].compositionManifest.selectedId);
  const reset=join(dir,'reset');const resetResult=call(['retry',run,'production-plan',reset]);assert.equal(resetResult.inherited.length,0);assert.equal(call(['status',reset]).next,'production-plan');
  writeFileSync(join(run,'vmi-explore','output.json'),'{}');call(['retry',run,'vmi-packet',join(dir,'tampered')],false);
  console.log('P2a authoring, handoff and immutable retry tests passed');

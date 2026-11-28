@@ -30,3 +30,24 @@ test('source interaction cannot be silently replaced by static output',()=>{
  assert.equal(auditActivation(r,fixture(),null).status,'declared-activation-checked');
  assert.equal(auditActivation(r,fixture(),null).rows.find(x=>x.capability==='dynamic').compiled,false);
 });
+
+test('run-013 failure class: absent compiler output defers dependent assertions, but cannot pass',()=>{
+ const r=review();for(const k of activationKeys)r.decisions[k].mode='use';
+ r.sourceInteraction.status='preserve';
+ const blocked=auditActivation(r,{html:null,plans:[]},null);
+ assert.equal(blocked.status,'blocked');
+ assert.deepEqual(blocked.issues,['compiled scene required']);
+ assert.equal(blocked.compilerEvidenceStatus,'deferred-until-scene-compiles');
+ assert.ok(blocked.rows.every(x=>x.compiled===null));
+ const compiled=auditActivation(r,fixture(),null);
+ assert.equal(compiled.compilerEvidenceStatus,'available');
+ assert.equal(compiled.status,'blocked');
+ assert.equal(compiled.issues.filter(x=>x.includes('absent')).length,6);
+});
+test('authoring defects remain visible before compiler output exists',()=>{
+ const r=review();r.plainComparison.tradeoff='';delete r.decisions.geometry;
+ const blocked=auditActivation(r,{html:null,plans:[]},null);
+ assert.ok(blocked.issues.includes('plain representation comparison required'));
+ assert.ok(blocked.issues.includes('exact six capability decisions required'));
+ assert.ok(blocked.issues.includes('geometry: concrete choice, evidence and alternative required'));
+});

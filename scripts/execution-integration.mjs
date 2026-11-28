@@ -53,10 +53,10 @@ export function integrationContract(stages){
    runtime.vmi.push({id,sliceId:s.sliceId,design:embedded.design,dynamic:s.output.plans[0].dynamic?{inputs:s.output.plans[0].dynamic.spec.inputs.map(({id,min,max,initial,step})=>({id,min,max,initial,step})),bindings:s.output.plans[0].dynamic.spec.bindings.map(({id,property})=>({id,property}))}:null,composition:s.output.plans[0].compositionManifest?{id:s.output.plans[0].compositionManifest.selectedId,boxes:Object.fromEntries(["desktop","mobile"].map(k=>[k,s.output.plans[0].compositionManifest.candidates.find(c=>c.id===s.output.plans[0].compositionManifest.selectedId)[k].boxes])),symbolic:Object.fromEntries(["desktop","mobile"].map(k=>[k,s.output.plans[0].compositionManifest.candidates.find(c=>c.id===s.output.plans[0].compositionManifest.selectedId).symbolic[k].map(r=>({id:r.id,d:r.d}))]))}:null,geometry:(s.output.plans[0].geometryManifest??[]).map(g=>({id:g.objectId,kind:g.kind})),topology:(s.output.plans[0].topology??[]).map(t=>({id:t.edgeId,fromPort:t.fromPort,toPort:t.toPort,routes:Object.fromEntries(Object.entries(t.routes).map(([k,v])=>[k,v.d]))})),objects:s.output.plans[0].semantic.objects.map(o=>o.id),edges:s.output.plans[0].semantic.mappings.map(m=>m.id)});
   }
  }
- return {slots,runtime};
+ return {slots,runtime,...(stages['production-plan']?.fallbacks?.length?{fallbacks:stages['production-plan'].fallbacks}:{})};
 }
 export function integrationTask(contract){
- return {status:contract.slots.length?'engine-integration-required':'no-engine-slots',slots:contract.slots.map(s=>({id:s.id,kind:s.kind,sliceId:s.sliceId,marker:marker(s.id),sha256:hash(s.fragment)})),runtime:contract.runtime,scope:'selected engine bytes plus bounded runtime checks; no aesthetic or complete host integration guarantee',releaseAuthorized:false};
+ return {status:contract.slots.length?'engine-integration-required':'no-engine-slots',slots:contract.slots.map(s=>({id:s.id,kind:s.kind,sliceId:s.sliceId,marker:marker(s.id),sha256:hash(s.fragment)})),runtime:contract.runtime,...(contract.fallbacks?.length?{fallbacks:contract.fallbacks,fallbackInstruction:'Implement each authored replacement in its original inventory slice; retain evidence and disclose limitations. Review actual replacement in semantic and visual QA.'}:{}),scope:'selected engine bytes plus bounded runtime checks; no aesthetic or complete host integration guarantee',releaseAuthorized:false};
 }
 // Conservative static-slot lexer; explicit head/body markup required.
 export function validateSlotContexts(html,slots){

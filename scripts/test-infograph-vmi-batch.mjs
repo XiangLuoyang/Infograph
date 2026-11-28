@@ -4,7 +4,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
-import {extendedCorpus,bindScenes,evaluateSceneBatch} from './execution-vmi.mjs';
+import {extendedCorpus,bindScenes,evaluateSceneBatch,vmiRetryStatus,prepareVmiRetry,prepareVmiFallback} from './execution-vmi.mjs';
 const load=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
 const base='../skills/infograph-master/visual-metaphor-intelligence/';
 const packet=load(base+'benchmark/studio-packet.json'),objects=load(base+'ontology/objects.json'),ontology=load(base+'ontology/mechanisms.json');
@@ -17,7 +17,14 @@ const save=(name,v)=>{const p=join(dir,name);writeFileSync(p,JSON.stringify(v));
 const selected=['s1','s2'],revision=1;
 const plan={revision,purpose:'monitor',opportunities:{revision,inventory:selected.map(id=>({id,page:'p',ref:'fixture'})),slices:selected.map(id=>({id,revision,task:'compare',relation:'constraint',ref:'fixture',selectedFamily:'mechanism',rationale:'synthetic',rendererPlan:'SVG',candidates:['bar','mechanism'],mechanism:'selected',mechanismRef:'fixture',evidenceBoundary:'qualitative',expression:'none'}))},quality:{revision,purpose:'monitor',substantial:true,multiRoute:false,mixedModes:false,semanticInteraction:false,richScene:false,areas:Array.from({length:6},(_,i)=>({id:'QD0'+(i+1),applicable:i===5,reason:'synthetic',design:{revision,status:'pass',ref:'fixture'}}))},execution:{revision,purpose:'monitor',substantial:true,records:[...new Set(rules.flatMap(g=>g.requires))].map(key=>({key,revision,status:'pass',ref:'fixture'}))}};
 const addition={query:'synthetic provenance fixture',evidenceRef:'fixture:existing-source',verificationNotes:'test clone, not new real-world research',graph:{...structuredClone(objects[0]),id:'synthetic-local-object'}};
-const exploration={scenes:selected.map(sliceId=>({sliceId,perspectives:packet.perspectives,...(sliceId==='s1'?{sourceAdditions:[addition]}:{})}))};
+// The studio fixture alone deliberately leaves open discovery unresolved. Add two
+// explicitly synthetic exact-match graphs in distinct domains for ready-scene tests.
+const perspective=packet.perspectives[0];
+const exactAdditions=['control','computing'].map((domain,i)=>({
+ query:'synthetic exact-match regression fixture',evidenceRef:'fixture:exact-'+i,verificationNotes:'synthetic graph only, not real-world research',
+ graph:{id:'fixture-exact-'+i,name:'Synthetic graph '+i,domain,source:{url:'https://example.invalid/fixture-'+i,claim:'Synthetic exact-match graph for regression only',review:'Not real-world evidence'},nodes:structuredClone(perspective.nodes),edges:structuredClone(perspective.edges),limits:['Test fixture, not a verified physical analogy']}
+}));
+const exploration={scenes:selected.map(sliceId=>({sliceId,perspectives:packet.perspectives,sourceAdditions:[...exactAdditions,...(sliceId==='s1'?[addition]:[])]}))};
 packet.activation={version:1,plainComparison:{ref:'synthetic fixture comparison',advantage:'exercise compiled scene route',tradeoff:'no actual user evaluation'},sourceInteraction:{status:'none',ref:'synthetic fixture source',reason:'no source host controls'},decisions:Object.fromEntries(['geometry','materials','topology','composition','dynamic','art'].map(k=>[k,{mode:'omit',ref:'synthetic legacy fixture',reason:'exercise baseline primitives only',alternative:'canonical optional compiler route'}]))};
 const {perspectives,...rest}=packet;
 const minimal={scenes:selected.map(sliceId=>({sliceId,...rest}))};
@@ -28,17 +35,80 @@ try{
  assert.throws(()=>bindScenes('vmi-explore',{scenes:[exploration.scenes[0],exploration.scenes[0]]},selected),/duplicate/);
  assert.throws(()=>bindScenes('vmi-packet',{scenes:[{...minimal.scenes[0],sourceAdditions:[]},minimal.scenes[1]]},selected,exploration),/conflicts/);
  const direct=evaluateSceneBatch('vmi-explore',exploration,selected,objects,ontology);
- assert.equal(direct.scenes[0].corpusSize,objects.length+1);assert.equal(direct.scenes[1].corpusSize,objects.length);
+ assert.equal(direct.scenes[0].corpusSize,objects.length+3);assert.equal(direct.scenes[1].corpusSize,objects.length+2);assert.equal(direct.openDiscoveryRequired,false);
+ const unresolved=evaluateSceneBatch('vmi-explore',{scenes:selected.map(sliceId=>({sliceId,perspectives:packet.perspectives}))},selected,objects,ontology);
+ assert.equal(unresolved.openDiscoveryRequired,true);
  const run=join(dir,'run');call(['start-workflow','create',source,run]);call(['run',run,'production-plan',save('plan.json',plan)]);
  assert.equal(call(['task',run,'vmi-explore']).template.scenes.length,2);
  call(['run',run,'vmi-explore',save('explore.json',exploration)]);
- const task=call(['task',run,'vmi-packet']);assert.equal(task.template.scenes[0].sourceAdditions.length,1);assert.equal(task.designOpportunities.length,2);assert.ok(task.designOpportunities.every(s=>s.perspectives.length>0));
+ const task=call(['task',run,'vmi-packet']);assert.equal(task.template.scenes[0].sourceAdditions.length,3);assert.equal(task.designOpportunities.length,2);assert.ok(task.designOpportunities.every(s=>s.perspectives.length>0));
  const receipt=call(['run',run,'vmi-packet',save('packet.json',minimal)]);assert.equal(receipt.previewAvailable,true);
  assert.equal(call(['verify-vmi',run]).previewAvailable,true);
  const result=JSON.parse(readFileSync(join(run,'vmi-packet','output.json'),'utf8'));
- assert.equal(result.scenes.length,2);assert.equal(result.scenes[0].corpusSize,objects.length+1);assert.equal(result.scenes[1].corpusSize,objects.length);
+ assert.equal(result.scenes.length,2);assert.equal(result.scenes[0].corpusSize,objects.length+3);assert.equal(result.scenes[1].corpusSize,objects.length+2);assert.equal(result.openDiscoveryRequired,false);
  const failed=evaluateSceneBatch('vmi-packet',bindScenes('vmi-packet',{scenes:[minimal.scenes[0],{...minimal.scenes[1],reviews:[]}]},selected,exploration),selected,objects,ontology);
  assert.equal(failed.previewAvailable,false);assert.ok(failed.issues.some(x=>x.startsWith('s2:')));
+ // Scoped retry reuses verified upstream and preserves successful authored scene inputs.
+ const broken=join(dir,'broken');call(['retry',run,'vmi-packet',broken]);
+ const faulty=structuredClone(minimal);faulty.scenes[1].reviews=[];
+ call(['run',broken,'vmi-packet',save('faulty.json',faulty)]);
+ const taskRetry=call(['vmi-retry-task',broken]);assert.deepEqual(taskRetry.preserved,['s1']);assert.deepEqual(taskRetry.repairable,['s2']);
+ assert.equal(taskRetry.previousSameFailureCount,0);
+ const patch=(sliceId,changes)=>({scenes:[{sliceId,changes}]});
+ const open=structuredClone(failed);open.scenes[1].output.openDiscoveryRequired=true;
+ const lockedInput=bindScenes('vmi-packet',faulty,selected,exploration);
+ assert.deepEqual(vmiRetryStatus(lockedInput,open,selected).rediscover,['s2']);
+ assert.throws(()=>prepareVmiRetry(lockedInput,open,selected,patch('s2',{reviews:packet.reviews})),/open discovery/);
+ const badDest=join(dir,'bad-dest');
+ call(['retry-vmi',broken,save('protected.json',patch('s1',{reviews:[]})),badDest],false);
+ call(['retry-vmi',broken,save('locked.json',patch('s2',{perspectives:[]})),badDest],false);
+ call(['retry-vmi',broken,save('noop.json',patch('s2',{reviews:[]})),badDest],false);
+ // Repeated equivalent failure is surfaced, without bypassing verification.
+ const stillBroken=join(dir,'still-broken');
+ const retryBad=call(['retry-vmi',broken,save('still-broken.json',patch('s2',{scene:{...faulty.scenes[1].scene,title:'changed but still fails P3'}})),stillBroken]);
+ call(['run',stillBroken,'vmi-packet',retryBad.packetFile]);
+ assert.equal(call(['vmi-retry-task',stillBroken]).previousSameFailureCount,1);
+ const pinned=join(dir,'pinned');
+ call(['retry-vmi',broken,save('pin-patch.json',patch('s2',{reviews:minimal.scenes[1].reviews})),pinned]);
+ const mismatch=call(['run',pinned,'vmi-packet',save('different-packet.json',minimal)],false);
+ assert.equal(mismatch.status,'blocked');assert.match(mismatch.error,/scoped retry input changed/);
+ const fixed=join(dir,'fixed');
+ const retryGood=call(['retry-vmi',broken,save('fix.json',patch('s2',{reviews:minimal.scenes[1].reviews})),fixed]);
+ assert.deepEqual(retryGood.changed,['s2']);assert.deepEqual(retryGood.preserved,['s1']);assert.deepEqual(retryGood.inherited,['production-plan','vmi-explore']);
+ const fixedInput=JSON.parse(readFileSync(retryGood.packetFile,'utf8'));
+ const expected=bindScenes('vmi-packet',minimal,selected,exploration);
+ assert.deepEqual(fixedInput,expected);
+ call(['run',fixed,'vmi-packet',retryGood.packetFile]);assert.equal(call(['verify-vmi',fixed]).previewAvailable,true);
+ const fixedOutput=JSON.parse(readFileSync(join(fixed,'vmi-packet','output.json'),'utf8'));
+ assert.deepEqual(fixedOutput,result);
+ assert.deepEqual(call(['vmi-retry-task',fixed]).repairable,[]);
+ call(['retry-vmi',fixed,save('already-good.json',patch('s2',{reviews:[]})),badDest],false);
+ // Explicit fallback replans only failed static scenes; successful scene and inventory survive.
+ const replacement={sliceId:'s2',family:'bar',rendererPlan:'host SVG chart',reason:'synthetic compiler failure, previously compared plain representation',evidenceRef:'fixture:plain-comparison',semanticPreservation:'retain source constraint and comparison in the replacement',limitations:'qualitative mechanism detail lost; no claim of physical simulation'};
+ const fallbackSpec={revision:2,replacements:[replacement],quality:structuredClone(plan.quality),execution:structuredClone(plan.execution),globalReviews:[]};
+ fallbackSpec.quality.revision=2;fallbackSpec.quality.areas.forEach(a=>a.design.revision=2);
+ fallbackSpec.execution.revision=2;fallbackSpec.execution.records.forEach(r=>{r.revision=2;r.ref='synthetic reassessment'});
+ assert.throws(()=>prepareVmiFallback(plan,exploration,lockedInput,open,selected,fallbackSpec),/resolved discovery/);
+ const fallbackDir=join(dir,'fallback');
+ const fallback=call(['fallback-vmi',broken,save('fallback-spec.json',fallbackSpec),fallbackDir]);
+ assert.deepEqual(fallback.retained,['s1']);assert.equal(fallback.replacements[0].sliceId,'s2');assert.equal(fallback.compiled,false);
+ const revisedPlan=JSON.parse(readFileSync(fallback.files['production-plan'],'utf8'));
+ assert.deepEqual(revisedPlan.opportunities.inventory,plan.opportunities.inventory);
+ assert.equal(revisedPlan.opportunities.slices[1].mechanism,'reviewed');assert.equal(revisedPlan.opportunities.slices[1].selectedFamily,'bar');
+ assert.deepEqual(revisedPlan.opportunities.slices[0],{...plan.opportunities.slices[0],revision:2});
+ assert.deepEqual(JSON.parse(readFileSync(fallback.files['vmi-explore'],'utf8')).scenes,[exploration.scenes[0]]);
+ assert.deepEqual(JSON.parse(readFileSync(fallback.files['vmi-packet'],'utf8')).scenes,[expected.scenes[0]]);
+ call(['run',fallbackDir,'production-plan',fallback.files['production-plan']]);
+ call(['run',fallbackDir,'vmi-explore',fallback.files['vmi-explore']]);
+ call(['run',fallbackDir,'vmi-packet',fallback.files['vmi-packet']]);
+ assert.equal(call(['status',fallbackDir]).buildEligible,true);
+ const integration=call(['integration-task',fallbackDir]);
+ assert.deepEqual(integration.slots.filter(s=>s.kind==='vmi').map(s=>s.sliceId),['s1']);
+ assert.equal(integration.fallbacks[0].sliceId,'s2');
+ for(const [name,mutate] of [['good-scene',s=>s.replacements[0].sliceId='s1'],['new-family',s=>s.replacements[0].family='uncompared'],['missing-limits',s=>s.replacements[0].limitations=''],['stale-revision',s=>s.revision=1]]){
+  const spec=structuredClone(fallbackSpec);mutate(spec);
+  call(['fallback-vmi',broken,save(name+'.json',spec),join(dir,name)],false);
+ }
  const retry=join(dir,'retry');call(['retry',run,'vmi-explore',retry]);assert.equal(call(['status',retry]).next,'vmi-explore');
  const plain=join(dir,'plain');call(['retry',run,'production-plan',plain]);
  const revised=structuredClone(plan);revised.opportunities.slices.forEach(s=>{s.mechanism='reviewed';s.selectedFamily='bar';s.rationale='synthetic plain alternative preferred'});

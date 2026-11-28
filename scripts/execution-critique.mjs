@@ -22,7 +22,7 @@ function context(dir,design){
 export function critiqueTask(dir,design){
  const c=context(dir,design);
  return {assignment:'Open every screenshot, inspect real HTML and business evidence. Record specific observations, not generic pass claims. Browser checks do not establish aesthetics or semantic correctness.',
- captures:c.captures,reportPath:'artifact/browser/report.json',browserStatus:c.browser.status,
+ ...(design.fallbacks?.length?{fallbacks:design.fallbacks,fallbackReviewInstruction:'Inspect the actual substitute in each affected slice; verify representation, limitations and consistency. Do not treat a fallback record as rendered evidence.'}:{}),captures:c.captures,reportPath:'artifact/browser/report.json',browserStatus:c.browser.status,
  template:{outputSha256:c.receipt.outputSha256,reportSha256:c.browser.reportSha256,revision:c.revision,reviewer:'',reviewerKind:null,captureReviews:c.captures.map(x=>({id:x.id,sha256:x.sha256,observation:''})),reviews:rubric.dimensions.flatMap(d=>d.checks.map(check=>({dimension:d.id,check,revision:c.revision,status:'not-run',ref:'',observation:'',captureIds:[]})))},
  scope:'authored critique, not automated aesthetic judgment or verified independent approval'};
 }

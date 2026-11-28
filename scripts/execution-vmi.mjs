@@ -67,3 +67,80 @@ export function evaluateSceneBatch(stage,input,selected,objects,ontology,activat
  return {scenes:results,previewAvailable:stage==='vmi-packet'&&results.every(r=>Boolean(r.output.html)),issues:results.flatMap(r=>(r.output.issues??[]).map(x=>r.sliceId+': '+x)),openDiscoveryRequired:results.some(r=>r.output.openDiscoveryRequired),releaseAuthorized:false,scope:'separate scene engines; local source evidence is authored, not independently verified; no combined render'};
 }
 export function hasVmiPreview(output){return Array.isArray(output?.scenes)?output.previewAvailable===true:Boolean(output?.html)}
+
+const retryFields=new Set(['targetId','concepts','reviews','selectedConceptId','scene','styles','activation']);
+const stable=v=>Array.isArray(v)?v.map(stable):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,stable(v[k])])):v;
+const equivalent=(a,b)=>JSON.stringify(stable(a))===JSON.stringify(stable(b));
+export function vmiRetryStatus(input,output,selected){
+ const rows=sceneInputs(input,selected);
+ const result=Array.isArray(output?.scenes)?output.scenes:[{sliceId:output?.sliceId,output}];
+ ensure(result.length===rows.length&&result.every((r,i)=>r.sliceId===rows[i].sliceId),'retry output/scene coverage mismatch');
+ const scenes=result.map(r=>{
+  const o=r.output,issues=Array.isArray(o?.issues)?o.issues:[],openDiscovery=o?.openDiscoveryRequired===true,preview=Boolean(o?.html);
+  const ready=preview&&!issues.length&&!openDiscovery;
+  return {sliceId:r.sliceId,ready,preview,openDiscovery,issues,action:ready?'preserve':openDiscovery?'retry-vmi-explore':'repair-packet'};
+ });
+ return {scenes,preserved:scenes.filter(s=>s.ready).map(s=>s.sliceId),repairable:scenes.filter(s=>s.action==='repair-packet').map(s=>s.sliceId),rediscover:scenes.filter(s=>s.openDiscovery).map(s=>s.sliceId),signature:JSON.stringify(stable(scenes.filter(s=>!s.ready).map(({sliceId,preview,openDiscovery,issues})=>({sliceId,preview,openDiscovery,issues:[...issues].sort()}))))};
+}
+export function prepareVmiRetry(input,output,selected,patch){
+ const status=vmiRetryStatus(input,output,selected);
+ ensure(status.rediscover.length===0,'open discovery requires retry vmi-explore; packet patch cannot change sources');
+ ensure(status.repairable.length>0,'no failed packet scenes to repair');
+ ensure(patch&&typeof patch==='object'&&!Array.isArray(patch)&&Object.keys(patch).length===1&&Array.isArray(patch.scenes)&&patch.scenes.length>0,'retry patch must be {scenes:[{sliceId,changes}]}');
+ const map=new Map();
+ for(const row of patch.scenes){
+  ensure(row&&Object.keys(row).length===2&&status.repairable.includes(row.sliceId)&&!map.has(row.sliceId),'patch only failed scene IDs, once each');
+  const changes=row.changes;
+  ensure(changes&&typeof changes==='object'&&!Array.isArray(changes)&&Object.keys(changes).length>0&&Object.keys(changes).every(k=>retryFields.has(k)),'patch only authored packet fields; upstream fields are locked');
+  map.set(row.sliceId,changes);
+ }
+ const rows=sceneInputs(input,selected);
+ const changed=[];
+ const next=rows.map(row=>{
+  const changes=map.get(row.sliceId);if(!changes)return structuredClone(row);
+  const updated={...structuredClone(row),...structuredClone(changes)};
+  ensure(!equivalent(row,updated),'retry patch makes no effective change: '+row.sliceId);
+  changed.push(row.sliceId);return updated;
+ });
+ return {packet:Object.hasOwn(input,'scenes')?{...structuredClone(input),scenes:next}:next[0],changed,preserved:status.preserved,remaining:status.repairable.filter(id=>!map.has(id)),signature:status.signature};
+}
+
+ // Explicit replacement of failed static scenes only; source evidence and successful scenes stay intact.
+export function prepareVmiFallback(previousPlan,exploreInput,packetInput,packetOutput,selected,spec){
+ const status=vmiRetryStatus(packetInput,packetOutput,selected);
+ const exact=(x,ks)=>x&&typeof x==='object'&&!Array.isArray(x)&&Object.keys(x).length===ks.length&&ks.every(k=>Object.hasOwn(x,k));
+ ensure(exact(spec,['revision','replacements','quality','execution','globalReviews']),'fallback requires revision, replacements, re-authored quality/execution and globalReviews');
+ ensure(Number.isInteger(spec.revision)&&spec.revision===previousPlan.revision+1,'fallback requires next plan revision');
+ ensure(Array.isArray(spec.replacements)&&spec.replacements.length>0,'explicit fallback replacements required');
+ ensure(Array.isArray(spec.globalReviews),'reassess global representation reviews');
+ ensure(spec.quality?.revision===spec.revision&&spec.execution?.revision===spec.revision,'re-author quality and execution at new revision');
+ const oldSlices=previousPlan.opportunities.slices,rows=sceneInputs(packetInput,selected),explored=sceneInputs(exploreInput,selected);
+ const outputById=new Map((Array.isArray(packetOutput.scenes)?packetOutput.scenes:[{sliceId:packetOutput.sliceId,output:packetOutput}]).map(r=>[r.sliceId,r.output]));
+ const choices=new Map(),records=[];
+ for(const d of spec.replacements){
+  ensure(exact(d,['sliceId','family','rendererPlan','reason','evidenceRef','semanticPreservation','limitations']),'fallback replacement requires family, renderer, reason, evidence, semantic preservation and limitations');
+  ensure(status.repairable.includes(d.sliceId)&&!choices.has(d.sliceId),'fallback only failed packet scenes with resolved discovery');
+  const old=oldSlices.find(s=>s.id===d.sliceId),p=rows.find(s=>s.sliceId===d.sliceId);
+  ensure(old?.mechanism==='selected'&&old.candidates.includes(d.family)&&d.family!==old.selectedFamily&&!['mechanism','vmi'].includes(d.family.toLowerCase()),'fallback must select a previously compared non-VMI family');
+  ensure(['family','rendererPlan','reason','evidenceRef','semanticPreservation','limitations'].every(k=>text(d[k])),'fallback requires authored rationale, evidence and limits');
+  ensure(p.activation?.sourceInteraction?.status==='none'&&text(p.activation.sourceInteraction.ref)&&text(p.activation.sourceInteraction.reason),'scoped fallback supports only scenes with explicit no-source-interaction disposition; dynamic or unknown cases require full replanning');
+  const candidate=p.concepts?.find(c=>c.id===p.selectedConceptId);
+  ensure(text(candidate?.plainAlternative),'selected concept must have an authored plain alternative');
+  choices.set(d.sliceId,d);
+  records.push({...d,previousFamily:old.selectedFamily,plainAlternative:candidate.plainAlternative,sourceRef:old.ref,evidenceBoundary:old.evidenceBoundary,failedIssues:outputById.get(d.sliceId).issues});
+ }
+ ensure(status.scenes.filter(s=>!s.ready).every(s=>choices.has(s.sliceId)),'resolve every remaining failed scene before fallback fork');
+ const plan=structuredClone(previousPlan);plan.revision=spec.revision;plan.opportunities.revision=spec.revision;
+ plan.opportunities.slices=plan.opportunities.slices.map(s=>{
+  const d=choices.get(s.id),next={...s,revision:spec.revision};
+  if(!d)return next;
+  next.selectedFamily=d.family;next.mechanism='reviewed';next.rationale=d.reason;next.rendererPlan=d.rendererPlan;
+  return next;
+ });
+ plan.opportunities.globalReviews=structuredClone(spec.globalReviews);
+ delete plan.opportunities.renderReview;
+ plan.quality=structuredClone(spec.quality);plan.execution=structuredClone(spec.execution);
+ plan.fallbacks=[...(previousPlan.fallbacks??[]),...records];
+ const retained=selected.filter(id=>!choices.has(id));
+ return {plan,retained,replacements:records,explore:retained.length?{scenes:explored.filter(s=>retained.includes(s.sliceId))}:null,packet:retained.length?{scenes:rows.filter(s=>retained.includes(s.sliceId))}:null};
+}

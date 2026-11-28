@@ -16,6 +16,7 @@ import {semanticTask,submitSemantic,semanticStatus} from './execution-semantic.m
 import {bindArtifact,browserReview,artifactStatus} from './execution-artifact.mjs';
 import {authoringTask,hydrateInput} from './execution-authoring.mjs';
 import {constructVmiPacket} from '../skills/infograph-master/engine/vmi-authoring.mjs';
+import {lintVmiPacket} from '../skills/infograph-master/engine/vmi-lint.mjs';
 import {productionStages,productionEngines,dependencies,additionalDependencies,checkDependencies,evaluateProduction,productionStatus} from './execution-controller.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
@@ -189,6 +190,14 @@ async function forkArtifact(dir,dest){
 }
 async function main(){
  const [cmd,...args]=process.argv.slice(2);
+ if(cmd==='vmi-lint'&&(args.length===1||args.length===2)){
+  const result=lintVmiPacket(json(resolve(args[0])),{apply:args.length===2});
+  if(args.length===2&&result.report.status==='checked'){
+   const file=resolve(args[1]);assert(/\.json$/i.test(file),'vmi-lint requires a new JSON output');
+   write(file,result.packet);result.report.file=file;
+  }
+  console.log(JSON.stringify(result.report,null,2));if(result.report.status==='blocked')process.exitCode=1;return;
+ }
  if(cmd==='vmi-author'&&args.length===2){
   const file=resolve(args[1]);assert(/\.json$/i.test(file),'vmi-author requires a new JSON output');
   const packet=constructVmiPacket(json(resolve(args[0])));
@@ -303,6 +312,6 @@ async function main(){
   const result={status:'replayed',stages:[discovery.receipt,packet.receipt],previewAvailable:hasVmiPreview(packet.output),openDiscoveryRequired:packet.output.openDiscoveryRequired,issues:packet.output.issues,releaseAuthorized:false,scope:'Execution replay only. Not proof of quality, final artifact integration or independent approval.'};
   console.log(JSON.stringify(result,null,2));return;
  }
- throw Error('usage: vmi-author <draft.json> <new-packet.json> | integration-task <run-dir> | assemble-artifact <run-dir> <template.html> <new.html> | vmi-geometry [rotor|reservoir|valve|tank|handwheel-valve|manifold-four|dial-indicator] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
+ throw Error('usage: vmi-lint <packet.json> [new-packet.json] | vmi-author <draft.json> <new-packet.json> | integration-task <run-dir> | assemble-artifact <run-dir> <template.html> <new.html> | vmi-geometry [rotor|reservoir|valve|tank|handwheel-valve|manifold-four|dial-indicator] | art-direction-propose <input.json> | art-direction-preview <input.json> <new.html> | art-direction-css <input.json> <id> <reason> <new.css> | composition-propose <input.json> | composition-preview <input.json> <new.html> | preflight | start|start-workflow <redesign|create|critique> <source> <new-run-dir> | run <run-dir> <stage> <input.json> | status <run-dir> | task <run-dir> <stage> | retry <run-dir> <stage> <new-run-dir> | bind-artifact <run-dir> <output.html> <browser-plan.json> | browser-review --trusted <run-dir> | artifact-status <run-dir> | semantic-task <run-dir> | semantic-submit <run-dir> <input.json> | semantic-status <run-dir> | reviewer-run --trusted-adapter <run-dir> <operator-config.json> | critique-task <run-dir> | critique-submit <run-dir> <review.json> | critique-status <run-dir> | retry-artifact <run-dir> <new-run-dir> | delivery-check <run-dir> <file> [reviewed-candidate|unverified-draft] | prepare-handoff <run-dir> <file> <new-dir> <mode> | verify-handoff <run-dir> <handoff-dir> | verify-vmi <run-dir>');
 }
 try{await main()}catch(e){console.error(e.message);process.exitCode=1}
